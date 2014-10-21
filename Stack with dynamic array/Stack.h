@@ -31,7 +31,7 @@ public:
 	}
 
 	// Operator '=' .
-	Stack& operator(const Stack& other)
+	Stack& operator=(const Stack& other)
 	{
 		if (this != &other)
 		{
