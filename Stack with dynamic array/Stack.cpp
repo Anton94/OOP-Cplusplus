@@ -11,9 +11,18 @@ int main()
 			stack.push(i * 2.14);
 		}
 
+		Stack <double> copy(stack);
+
 		while (!stack.isEmpty())
 		{
-			std::cout << stack.pop() << std::endl;
+			std::cout << "From stack: " << stack.pop() << std::endl;
+		}
+
+		copy.push(666.66);
+
+		while (!copy.isEmpty())
+		{
+			std::cout << "From copy: " << copy.pop() << std::endl;
 		}
 	}
 	catch (const char* msg)

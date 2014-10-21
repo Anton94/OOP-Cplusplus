@@ -19,16 +19,35 @@ public:
 	// Copy constructor.
 	Stack(const Stack& other)
 	{
-		delete[] arr;
 		arr = new T[other.size];
 
-		for (size_t i = 0; i < other.size(); ++i)
+		for (size_t i = 0; i < other.size; ++i)
 		{
 			arr[i] = other.arr[i];
 		}
 		
 		top = other.top;
 		size = other.size;
+	}
+
+	// Operator '=' .
+	Stack& operator(const Stack& other)
+	{
+		if (this != &other)
+		{
+			delete[] arr;
+			arr = new T[other.size];
+
+			for (size_t i = 0; i < other.size; ++i)
+			{
+				arr[i] = other.arr[i];
+			}
+
+			top = other.top;
+			size = other.size;
+		}
+
+		return *this;
 	}
 
 	// Insert new element into the stack.
@@ -53,7 +72,8 @@ public:
 		return arr[--top];
 	}
 
-	T top() const
+	// Returns the top element of the stack.
+	T peek() const
 	{
 		if (isEmpty())
 		{
