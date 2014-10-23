@@ -10,6 +10,19 @@ struct elem
 	T data;
 	elem<T>* next;
 	elem(const T& x, elem<T>* p = NULL) : data(x), next(p) {}
+	elem(const elem & other)
+	{
+		
+		data = other.data;
+		if (other.next)
+		{
+			next = new elem<T>(*other.next);
+		}
+		else
+		{
+			next = NULL;
+		}
+	}
 	~elem()
 	{
 		if (next)
@@ -24,6 +37,11 @@ class Stack
 {
 public:
 	Stack() : tos(NULL) {}
+	Stack(const Stack& other)
+	{
+		if (other.tos)
+			tos = new elem<T>(*other.tos);
+	}
 
 	const T& peek() const
 	{
