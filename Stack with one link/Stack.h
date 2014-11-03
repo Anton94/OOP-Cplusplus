@@ -175,6 +175,8 @@ void  Stack<T>::copyFrom(const Stack& other)
 {
 	if (other.tos)
 		tos = new elem<T>(*other.tos);
+	else
+		tos = NULL;
 }
 
 #endif

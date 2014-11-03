@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stack with dynamic array", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stack with one link", "Stack with one link\Stack with one link.vcxproj", "{6BF4CC15-C817-4C2B-96C6-23A7C1E10AE1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pyramid", "Pyramid\Pyramid.vcxproj", "{15DD755E-9ABB-412F-A7A0-6F0517E73EF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{6BF4CC15-C817-4C2B-96C6-23A7C1E10AE1}.Debug|Win32.Build.0 = Debug|Win32
 		{6BF4CC15-C817-4C2B-96C6-23A7C1E10AE1}.Release|Win32.ActiveCfg = Release|Win32
 		{6BF4CC15-C817-4C2B-96C6-23A7C1E10AE1}.Release|Win32.Build.0 = Release|Win32
+		{15DD755E-9ABB-412F-A7A0-6F0517E73EF3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{15DD755E-9ABB-412F-A7A0-6F0517E73EF3}.Debug|Win32.Build.0 = Debug|Win32
+		{15DD755E-9ABB-412F-A7A0-6F0517E73EF3}.Release|Win32.ActiveCfg = Release|Win32
+		{15DD755E-9ABB-412F-A7A0-6F0517E73EF3}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
