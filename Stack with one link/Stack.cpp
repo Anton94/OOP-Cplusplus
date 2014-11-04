@@ -45,5 +45,9 @@ int main()
 	{
 		std::cerr << "Error: " << msg << std::endl;
 	}
+	catch (std::bad_alloc e)
+	{
+		std::cerr << "Memory can`t allocate: " << e.what() << std::endl;
+	}
 	return 0;
 }
