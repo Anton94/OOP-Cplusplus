@@ -71,7 +71,7 @@ T Tail<T>::peek() const
 	if (isEmpty())
 		throw "The tail is empty and called peek()!";
 
-	return arr[head];
+	return arr[tail];
 }
 
 template <class T>
