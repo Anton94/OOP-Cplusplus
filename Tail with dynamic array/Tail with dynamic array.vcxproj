@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7DC63DE8-D63E-4EE0-9B85-7051E335E1DD}</ProjectGuid>
+    <ProjectGuid>{EEE58863-F83C-45AD-ABA1-82C55EA2691D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Homeworkone</RootNamespace>
+    <RootNamespace>Tailwithdynamicarray</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -76,15 +76,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Calculator.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Operations.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Calculator.h" />
-    <ClInclude Include="Operations.h" />
-    <ClInclude Include="Stack.h" />
-    <ClInclude Include="Vector.h" />
+    <ClInclude Include="Tail.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

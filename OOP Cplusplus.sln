@@ -9,6 +9,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stack with one link", "Stac
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pyramid", "Pyramid\Pyramid.vcxproj", "{15DD755E-9ABB-412F-A7A0-6F0517E73EF3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Homework one", "Homework one\Homework one.vcxproj", "{7DC63DE8-D63E-4EE0-9B85-7051E335E1DD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tail with dynamic array", "Tail with dynamic array\Tail with dynamic array.vcxproj", "{EEE58863-F83C-45AD-ABA1-82C55EA2691D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +31,14 @@ Global
 		{15DD755E-9ABB-412F-A7A0-6F0517E73EF3}.Debug|Win32.Build.0 = Debug|Win32
 		{15DD755E-9ABB-412F-A7A0-6F0517E73EF3}.Release|Win32.ActiveCfg = Release|Win32
 		{15DD755E-9ABB-412F-A7A0-6F0517E73EF3}.Release|Win32.Build.0 = Release|Win32
+		{7DC63DE8-D63E-4EE0-9B85-7051E335E1DD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7DC63DE8-D63E-4EE0-9B85-7051E335E1DD}.Debug|Win32.Build.0 = Debug|Win32
+		{7DC63DE8-D63E-4EE0-9B85-7051E335E1DD}.Release|Win32.ActiveCfg = Release|Win32
+		{7DC63DE8-D63E-4EE0-9B85-7051E335E1DD}.Release|Win32.Build.0 = Release|Win32
+		{EEE58863-F83C-45AD-ABA1-82C55EA2691D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EEE58863-F83C-45AD-ABA1-82C55EA2691D}.Debug|Win32.Build.0 = Debug|Win32
+		{EEE58863-F83C-45AD-ABA1-82C55EA2691D}.Release|Win32.ActiveCfg = Release|Win32
+		{EEE58863-F83C-45AD-ABA1-82C55EA2691D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
