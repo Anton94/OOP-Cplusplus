@@ -2,11 +2,11 @@
 
 /*
 	Tail:
-		If some allocations fail, throws exeption
-		the size of the tail is minimum 1. (the resize is size*2..)
-		The tail -> element
-		The head -> one after the element
-
+		One element buffer.
+		If some allocations fail, throws exeption.
+		The size of the tail is minimum 1. (the resize is size*2..).
+		The tail -> element.
+		The head -> one after the element.
 */
 
 template <class T>
@@ -105,7 +105,7 @@ bool Tail<T>::isEmpty() const
 template <class T>
 size_t Tail<T>::getSize() const
 {
-	if (head < tail)
+	if (head < tail) 
 		return size - tail + head;
 	else
 		return head - tail;
@@ -152,6 +152,8 @@ void Tail<T>::copyFrom(const Tail& other)
 	tail = other.tail;
 }
 
+// The resize makes the array two times bigger every call.
+
 template <class T>
 void Tail<T>::resize()
 {
@@ -169,7 +171,7 @@ void Tail<T>::resize()
 	size *= 2;
 }
 
-// One buffer item so the tail and the haid don`t stuck together when the tail is full
+// One buffer item so the tail and the head don`t stuck together when the tail is full.
 
 template <class T>
 bool Tail<T>::isFull() const
