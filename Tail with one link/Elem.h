@@ -41,7 +41,7 @@ Elem<T>& Elem<T>::operator=(const Elem<T> & other)
 // cascade destructor, till next is NULL.
 
 template <class T>
-Elme<T>::~Elem()
+Elem<T>::~Elem()
 {
 	free();
 }
@@ -53,7 +53,7 @@ void Elem<T>::copyFrom(const Elem<T>& other)
 
 	if (other.next)
 	{
-		next = new elem<T>(*other.next);
+		next = new Elem<T>(*other.next);
 	}
 	else
 	{

@@ -97,7 +97,7 @@ void Tail<T>::enqueue(const T& other)
 }
 
 template <class T>
-bool Elem<T>::isEmpty() const
+bool Tail<T>::isEmpty() const
 {
 	return tail == NULL;
 }
@@ -108,7 +108,7 @@ void Tail<T>::copyFrom(const Tail<T>& other)
 	if (!other.isEmpty())
 	{
 		// let`s set the tail pointer
-		tail = new Elem<T>(other.tail);
+		tail = new Elem<T>(*other.tail);
 
 		// and now let`s set the head pointer
 		// to set the head pointer it had to go thru all elements of the tail...
