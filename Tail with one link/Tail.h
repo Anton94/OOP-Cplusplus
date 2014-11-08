@@ -1,5 +1,10 @@
 #pragma once
 
+/*
+	If some memory allocations failed- throws exeption.
+	If the peek() or dequeue() is called with empty tail- throws exeption.
+*/
+
 #include "Elem.h"
 
 template <class T>
@@ -11,9 +16,9 @@ public:
 	Tail<T>& operator=(const Tail<T>& other);
 	~Tail();
 public:
-	T peek();
-	void enqueue(const T& el);
+	T peek() const;
 	T dequeue();
+	void enqueue(const T& el);
 	bool isEmpty() const;
 private:
 	void copyFrom(const Tail<T>& other);
@@ -52,6 +57,45 @@ Tail<T>::~Tail()
 	free();
 }
 
+// returns a copy of the value of the next item in the tail.
+
+template <class T>
+T Tail<T>::peek() const
+{
+	if (isEmpty())
+		throw "The list is empty and called peek()!";
+
+	return tail->data;
+}
+
+template <class T>
+T Tail<T>::dequeue()
+{
+	if (isEmpty())
+		throw "The list is empty and called dequeue()!";
+
+	Elem<T> * x = tail;
+	tail = tail->next;	// if the element was last one, the next will be NULL, so the tail will be NULL->empty tail
+	T val = x->data;
+	x->next = NULL;		// to break the cascade destructor of the Elem class
+	delete x;
+	return val;
+}
+
+template <class T>
+void Tail<T>::enqueue(const T& other)
+{
+	Elem<T> * p = new Elem<T>(other); // creates new cell with value- 'other' and next pointer- 'NULL'
+	
+	// if the list is empty- makes the tail and the head pointing the created element
+	if (isEmpty())
+		tail = p;
+	else
+		head->next = p;
+
+	head = p;
+}
+
 template <class T>
 bool Elem<T>::isEmpty() const
 {
@@ -82,7 +126,7 @@ void Tail<T>::copyFrom(const Tail<T>& other)
 	}
 }
 
-// the destructor of the elem type is cascade, so he will delete the rest of the elements in the tail
+// the destructor of the Elem class is cascade, so he will delete the rest of the elements in the tail
 
 template <class T>
 void Tail<T>::free()
