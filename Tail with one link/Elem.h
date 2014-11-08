@@ -64,6 +64,6 @@ void Elem<T>::copyFrom(const Elem<T>& other)
 template <class T>
 void Elem<T>::free()
 {
-	if (next)		  // if next is NULL it will do , anyway..
+	if (next)		  // if next is NULL it will work with delete , anyway..
 		delete next;  // deletes the memory and calls the destructor of the element, pointed by the 'next' and etc...
 }
