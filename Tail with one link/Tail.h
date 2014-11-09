@@ -66,7 +66,7 @@ template <class T>
 T Tail<T>::peek() const
 {
 	if (isEmpty())
-		throw "The list is empty and called peek()!";
+		throw "The tail is empty and called peek()!";
 
 	return tail->data;
 }
@@ -75,7 +75,7 @@ template <class T>
 T Tail<T>::dequeue()
 {
 	if (isEmpty())
-		throw "The list is empty and called dequeue()!";
+		throw "The tail is empty and called dequeue()!";
 
 	Elem<T> * x = tail;
 	tail = tail->next;	// if the element was last one, the next will be NULL, so the tail will be NULL->empty tail

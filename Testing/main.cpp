@@ -12,7 +12,7 @@ macro ## -> concatenates two arguments with no blank space between them.
 #include "../Tail with one link/Tail.h"
 
 #define BEGIN(FNAME) bool FNAME(){ \
-	std::cout << "Running test function: \n\t" << #FNAME << "() . . . ";
+	std::cout << "Running test: " << #FNAME << "() . . . \n\t";
 
 #define END() }
 
@@ -36,101 +36,155 @@ void Testing::executeTheTests()
 	for (size_t i = 0; i < size; ++i)
 	{
 		if (functions[i]())
-			std::cout << "succsess!\n" << std::endl;
+			std::cout << "Succsess!\n" << std::endl;
 		else
-			std::cout << "fail!\n" << std::endl;
+			std::cout << "Fail!\n" << std::endl;
 	}
 }
 
 BEGIN(checkPeekAndEnqueAndDequeSequence)
-Tail<int> tail;
+	Tail<int> tail;
 
-for (int i = 0; i < 30; ++i)
-{
-	tail.enqueue(i);
-}
+	for (int i = 0; i < 30; ++i)
+	{
+		tail.enqueue(i);
+	}
 
-for (int i = 0; i < 30; ++i)
-{
-	if (i != tail.peek())
-		return false;
+	for (int i = 0; i < 30; ++i)
+	{
+		if (i != tail.peek())
+			return false;
 
-	if (i != tail.dequeue())
-		return false;	
-}
+		if (i != tail.dequeue())
+			return false;	
+	}
 
-return true;
+	return true;
 END()
 
 
 
 BEGIN(checkCopyConstructorAndTheOperator)
-Tail<int> tail1;
-for (int i = 0; i < 30; ++i)
-{
-	tail1.enqueue(i);
-}
+	Tail<int> tail1;
+	for (int i = 0; i < 30; ++i)
+	{
+		tail1.enqueue(i);
+	}
 
-Tail<int> tail2 = tail1;
-Tail<int> tail3;
-tail3 = tail1;
+	Tail<int> tail2 = tail1;
+	Tail<int> tail3;
+	tail3 = tail1;
 
-for (int i = 0; i < 30; ++i)
-{
-	tail1.dequeue();
-}
+	for (int i = 0; i < 30; ++i)
+	{
+		tail1.dequeue();
+	}
 
-for (int i = 0; i < 30; ++i)
-{
-	if (i != tail2.peek())
-		return false;
+	for (int i = 0; i < 30; ++i)
+	{
+		if (i != tail2.peek())
+			return false;
+		
+		if (tail2.getSize() != 30 - i)
+			return false;
 
-	if (i != tail2.dequeue())
-		return false;
-}
+		if (i != tail2.dequeue())
+			return false;
+	}
 
-for (int i = 0; i < 30; ++i)
-{
-	if (i != tail3.peek())
-		return false;
+	for (int i = 0; i < 30; ++i)
+	{
+		if (i != tail3.peek())
+			return false;
 
-	if (i != tail3.dequeue())
-		return false;
-}
+		if (tail3.getSize() != 30 - i)
+			return false;
 
-return true;
+		if (i != tail3.dequeue())
+			return false;
+	}
+
+	return true;
 
 END()
-
 
 
 BEGIN(checkTailSize)
-Tail<int> tail;
+	Tail<int> tail;
 
-for (int i = 0; i < 30; ++i)
-{
-	tail.enqueue(i);
-}
+	for (int i = 0; i < 30; ++i)
+	{
+		tail.enqueue(i);
+	}
 
-if (tail.getSize() != 30)
-	return false;
-
-for (int i = 29; i >= 0; --i)
-{
-	tail.dequeue();
-
-	if (tail.getSize() != i)
+	if (tail.getSize() != 30)
 		return false;
-}
 
+	for (int i = 29; i >= 0; --i)
+	{
+		tail.dequeue();
+
+		if (tail.getSize() != i)
+			return false;
+	}
+	return true;
 END()
 
+
+BEGIN(checkWith1mElements)
+	Tail<int> tail;
+	for (int i = 0; i < 1000000; ++i)
+	{
+		tail.enqueue(i);
+	}
+
+	for (int i = 0; i < 1000000; ++i)
+	{
+		if (i != tail.dequeue())
+			return false;
+	}
+
+	return true;
+END()
+
+BEGIN(checkPeekFromEmptyTail)
+	Tail<int> tail;
+	try
+	{
+		tail.peek();
+	}
+	catch (const char* msg)
+	{
+		std::cout << "Error catched: [" << msg << "] \n\t";
+		return true;
+	}
+
+	return false;
+END()
+
+BEGIN(checkDequeueFromEmptyTail)
+	Tail<int> tail;
+	try
+	{
+		tail.dequeue();
+	}
+	catch (const char* msg)
+	{
+		std::cout << "Error catched: [" << msg << "] \n\t";
+		return true;
+	}
+
+	return false;
+END()
 
 int main()
 {
 	ADD(checkPeekAndEnqueAndDequeSequence);
 	ADD(checkCopyConstructorAndTheOperator);
 	ADD(checkTailSize);
+	ADD(checkWith1mElements);
+	ADD(checkPeekFromEmptyTail);
+	ADD(checkDequeueFromEmptyTail);
 
 	Testing::executeTheTests();
 	return 0;
