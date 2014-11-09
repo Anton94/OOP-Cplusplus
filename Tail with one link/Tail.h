@@ -20,17 +20,20 @@ public:
 	T dequeue();
 	void enqueue(const T& el);
 	bool isEmpty() const;
+	size_t getSize() const;
 private:
 	void copyFrom(const Tail<T>& other);
 	void free();
+	void init();
 private:
 	Elem<T> *head, *tail;
+	size_t size;
 };
 
 template <class T>
 Tail<T>::Tail()
 {
-	head = tail = NULL;
+	init();
 }
 
 template <class T>
@@ -54,7 +57,7 @@ Tail<T>& Tail<T>::operator=(const Tail<T>& other)
 template <class T>
 Tail<T>::~Tail()
 {
-	free();
+	delete tail;
 }
 
 // returns a copy of the value of the next item in the tail.
@@ -79,6 +82,7 @@ T Tail<T>::dequeue()
 	T val = x->data;
 	x->next = NULL;		// to break the cascade destructor of the Elem class
 	delete x;
+	--size;
 	return val;
 }
 
@@ -94,12 +98,19 @@ void Tail<T>::enqueue(const T& other)
 		head->next = p;
 
 	head = p;
+	++size;
 }
 
 template <class T>
 bool Tail<T>::isEmpty() const
 {
-	return tail == NULL;
+	return tail == NULL; // size == 0
+}
+
+template <class T>
+size_t Tail<T>::getSize() const
+{
+	return size;
 }
 
 template <class T>
@@ -119,10 +130,12 @@ void Tail<T>::copyFrom(const Tail<T>& other)
 		}
 
 		head = p;
+
+		size = other.size;
 	}
 	else
 	{
-		tail = head = NULL;
+		init();
 	}
 }
 
@@ -132,4 +145,12 @@ template <class T>
 void Tail<T>::free()
 {
 	delete tail; // If the tail is empty(tail == NULL), the delete won't do anything..
+	init();
+}
+
+template <class T>
+void Tail<T>::init()
+{
+	tail = head = NULL;
+	size = 0;
 }
