@@ -7,6 +7,8 @@ template <class T>
 class DLList
 {
 public:
+	class Iterator;
+public:
 	DLList();
 	DLList(const DLList<T>& other);
 	DLList<T>& operator=(const DLList<T>& other);
@@ -19,6 +21,14 @@ public:
 	void push_front(const T& x);
 	void push_back(const T& x);
 	bool isEmpty() const;
+	Iterator begin()
+	{
+		return Iterator(head->next, this);
+	}
+	Iterator end()
+	{
+		return Iterator(head->prev, this);
+	}
 private:
 	void init();
 	void free();
@@ -185,4 +195,56 @@ void DLList<T>::copyFrom(const DLList<T>& other)
 		push_back(n->next->data);
 		n = n->next;
 	}
+}
+
+
+template<class T>
+class DLList<T>::Iterator
+{
+	friend class DLList;
+public:
+	Iterator(Elem<T>* pElement, DLList<T>* pOwner);
+	operator bool() const;
+	T& operator*();
+	const T& operator*() const;
+	Iterator& operator++()
+	{
+		element = element->next;
+		return *this;
+	}
+	const Iterator& operator++() const
+	{
+		element = element->next;
+		return *this;
+	}
+private:
+	DLList<T>* owner;
+	Elem<T>* element;
+};
+
+template <class T>
+DLList<T>::Iterator::Iterator(Elem<T>* pElement, DLList<T>* pOwner) : element(pElement), owner(pOwner) {}
+
+template <class T>
+DLList<T>::Iterator::operator bool() const
+{
+	return element != owner->head;
+}
+
+template <class T>
+T& DLList<T>::Iterator::operator*()
+{
+	if (element == owner->head)
+		throw "Invalid possition for the iterator!";
+
+	return element->data;
+}
+
+template <class T>
+const T& DLList<T>::Iterator::operator*() const
+{
+	if (element == owner->head)
+		throw "Invalid possition for the iterator!";
+
+	return element->data;
 }
