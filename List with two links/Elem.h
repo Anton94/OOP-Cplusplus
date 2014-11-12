@@ -13,6 +13,7 @@ struct Elem
 public:
 	Elem(const T& x = 0, Elem<T>* pNext = NULL, Elem<T>* pPrev = NULL);
 	Elem(const Elem<T>& other);
+	Elem<T>& operator=(const Elem<T>& other);
 	~Elem();
 private:
 	void copFrom(const Elem<T>& other);
@@ -23,12 +24,7 @@ public:
 
 
 template <class T>
-Elem<T>::Elem(const T& x = 0, Elem<T>* pNext = NULL, Elem<T>* pPrev = NULL) {
-//	std::cout << "Created object at @" << this << std::endl;
-	data = x;
-	next = pNext;
-	prev = pPrev;
-}
+Elem<T>::Elem(const T& x = 0, Elem<T>* pNext = NULL, Elem<T>* pPrev = NULL) : data(x), next(pNext), prev(pPrev) {}
 
 template <class T>
 Elem<T>::Elem(const Elem<T>& other)
@@ -37,9 +33,19 @@ Elem<T>::Elem(const Elem<T>& other)
 }
 
 template <class T>
+Elem<T>& Elem<T>::operator=(const Elem<T>& other)
+{
+	if (this != &other)
+	{
+		copFrom();
+	}
+
+	return *this;
+}
+
+template <class T>
 Elem<T>::~Elem()
 {
-//	std::cout << "Delete object elem at @" << this << std::endl;
 	delete next; // delete next cell
 }
 

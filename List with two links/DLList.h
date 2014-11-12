@@ -8,8 +8,10 @@ class DLList
 {
 public:
 	DLList();
-	/*DLList(const DLList<T>& other);
-	DLList<T>& operator=(const DLList<T>& other);*/
+	DLList(const DLList<T>& other);
+	DLList<T>& operator=(const DLList<T>& other);
+	~DLList();
+public:
 	T peek_front() const;
 	T peek_back() const;
 	T pop_front();
@@ -17,7 +19,10 @@ public:
 	void push_front(const T& x);
 	void push_back(const T& x);
 	bool isEmpty() const;
-	~DLList();
+private:
+	void init();
+	void free();
+	void copyFrom(const DLList<T>& other);
 private:
 	Elem<T> * head;
 };
@@ -25,9 +30,31 @@ private:
 template <class T>
 DLList<T>::DLList()
 {
-	head = new Elem<T>();
-	head->next = head;
-	head->prev = head;
+	init();
+}
+
+template <class T>
+DLList<T>::DLList(const DLList<T>& other)
+{
+	copyFrom(other);
+}
+
+template <class T>
+DLList<T>& DLList<T>::operator=(const DLList<T>& other)
+{
+	if (this != &other)
+	{
+		free();
+		copyFrom(other);
+	}
+
+	return *this;
+}
+
+template <class T>
+DLList<T>::~DLList()
+{
+	free();
 }
 
 template <class T>
@@ -120,18 +147,42 @@ void DLList<T>::push_back(const T& x)
 	head->prev = newElem;
 }
 
-// It will delete the memory for the head cell and calls it`s cascade destructor.
+template <class T>
+bool DLList<T>::isEmpty() const
+{
+	return head->next == head;
+}
 
 template <class T>
-DLList<T>::~DLList()
+void DLList<T>::init()
+{
+	head = new Elem<T>();
+	head->next = head;
+	head->prev = head;
+}
+
+// It will delete the memory for the head cell and calls it`s cascade destructor.
+// Does not reset the data after it! (doesn`t call init function)
+
+template <class T>
+void DLList<T>::free()
 {
 	Elem<T> * n = head->next;
 	head->next = NULL;
 	delete n;  // with the next pointer it will start from the first element and go thru all and delete the head element (head->next is null where it will stop)
 }
 
+
 template <class T>
-bool DLList<T>::isEmpty() const
+void DLList<T>::copyFrom(const DLList<T>& other)
 {
-	return head->next == head;
+	init();
+
+	Elem<T>* n = other.head;
+
+	while (n->next != other.head)
+	{
+		push_back(n->next->data);
+		n = n->next;
+	}
 }

@@ -12,6 +12,9 @@ int main()
 	list.push_back(25);
 	list.push_back(30);
 
+	DLList<int> list2;
+	list2 = list;
+
 	std::cout << "List is empty? = " << list.isEmpty() << std::endl;
 	while (!list.isEmpty())
 	{
@@ -20,6 +23,17 @@ int main()
 	}
 	std::cout << "List is empty? = " << list.isEmpty() << std::endl;
 	std::cout << std::endl;
+
+	
+	std::cout << "List2 is empty? = " << list2.isEmpty() << std::endl;
+	while (!list2.isEmpty())
+	{
+		std::cout << "list2.peek_front() = " << list2.peek_front() << std::endl;
+		std::cout << "list2.pop_front() = " << list2.pop_front() << std::endl;
+	}
+	std::cout << "List2 is empty? = " << list2.isEmpty() << std::endl;
+	std::cout << std::endl;
+
 
 	list.push_front(10);
 	list.push_front(15);
@@ -34,5 +48,6 @@ int main()
 		std::cout << "list.pop_back() = " << list.pop_back() << std::endl;
 	}
 	std::cout << "List is empty? = " << list.isEmpty() << std::endl;
+
 	return 0;
 }
