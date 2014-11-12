@@ -205,6 +205,8 @@ class DLList<T>::Iterator
 public:
 	Iterator(Elem<T>* pElement, DLList<T>* pOwner);
 	operator bool() const;
+	bool operator==(const Iterator& other)const;
+	bool operator!=(const Iterator& other)const;
 	T& operator*();
 	const T& operator*() const;
 	Iterator& operator++()
@@ -229,6 +231,18 @@ template <class T>
 DLList<T>::Iterator::operator bool() const
 {
 	return element != owner->head;
+}
+
+template <class T>
+bool DLList<T>::Iterator::operator==(const Iterator& other) const
+{
+	return element == other.element;
+}
+
+template <class T>
+bool DLList<T>::Iterator::operator!=(const Iterator& other) const
+{
+	return !operator==(other);
 }
 
 template <class T>
