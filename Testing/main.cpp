@@ -1,15 +1,13 @@
 #include <iostream>
+#include <iomanip>
 #include <vector>
+#include "../Tail with one link/Tail.h"
 
 /*
 All the testing functions are in the vector of functions and all of them return a bool value and has no arguments.
 macro #  -> makes the parameter to string.
 macro ## -> concatenates two arguments with no blank space between them.
 */
-
-#include <iostream>
-#include <vector>
-#include "../Tail with one link/Tail.h"
 
 #define BEGIN(FNAME) bool FNAME(){ \
 	std::cout << "Running test: " << #FNAME << "() . . . \n\t";
@@ -177,6 +175,7 @@ BEGIN(checkDequeueFromEmptyTail)
 	return false;
 END()
 
+
 int main()
 {
 	ADD(checkPeekAndEnqueAndDequeSequence);
@@ -185,7 +184,27 @@ int main()
 	ADD(checkWith1mElements);
 	ADD(checkPeekFromEmptyTail);
 	ADD(checkDequeueFromEmptyTail);
+	/*
+	//Testing::executeTheTests();
+	using namespace std;
+	const size_t rows = 9;
 
-	Testing::executeTheTests();
+	//set first row
+	for (int i = 0; i < rows * 2; ++i)
+	{
+		cout << ((i % 2 == 0) ? "*" : " ");
+	}
+	cout << endl;
+
+	for (int i = 2; i < rows; ++i)
+	{
+		cout << setw(i)  << "*" << setw(rows * 2 - i * 2) << "*" << endl;
+	}
+
+	// set last row
+	cout << setw(rows) << "*" << endl;
+	*/
+
+
 	return 0;
 }
