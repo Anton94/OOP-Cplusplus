@@ -28,6 +28,25 @@ private:
 private:
 	Elem<T> *head, *tail;
 	size_t size;
+public:
+	class Iterator
+	{
+	public:
+		Iterator(Elem<T>* pElement, Tail<T>* pOwner);
+		operator bool() const;
+		bool operator==(const Iterator& other) const;
+		bool operator!=(const Iterator& other) const;
+		Iterator& operator++();
+		const Iterator& operator++() const;
+		T& operator*();
+		const T& operator*() const;
+	private:
+		Tail<T>* owner;
+		Elem<T>* element;
+	};
+
+	Iterator begin();
+	Iterator end();
 };
 
 template <class T>
@@ -153,4 +172,87 @@ void Tail<T>::init()
 {
 	tail = head = NULL;
 	size = 0;
+}
+
+// begins with the tail and ends at the head
+
+template <class T>
+typename Tail<T>::Iterator Tail<T>::begin()
+{
+	return Iterator(tail, this);
+}
+
+template <class T>
+typename Tail<T>::Iterator Tail<T>::end()
+{
+	return Iterator(head, this);
+}
+
+/*
+
+///
+/// class Iterator
+///
+
+*/
+
+template <class T>
+Tail<T>::Iterator::Iterator(Elem<T>* pElement, Tail<T>* pOwner) : element(pElement), owner(pOwner) {}
+
+template <class T>
+Tail<T>::Iterator::operator bool() const
+{
+	return element; // element != NULL
+}
+
+// compare the two pointers (if they point to the same object)
+
+template <class T>
+bool Tail<T>::Iterator::operator==(const Iterator& other) const
+{
+	return element == other.element;
+}
+
+template <class T>
+bool Tail<T>::Iterator::operator!=(const Iterator& other) const
+{
+	return !operator==(other);
+}
+
+// if the iterator points to some valid object->it translate the iterator to the next object
+
+template <class T>
+typename Tail<T>::Iterator& Tail<T>::Iterator::operator++()
+{
+	if (element)
+		element = element->next;
+
+	return *this;
+}
+
+template <class T>
+typename const Tail<T>::Iterator& Tail<T>::Iterator::operator++() const
+{
+	if (element)
+		element = element->next;
+
+	return *this;
+}
+
+template <class T>
+T& Tail<T>::Iterator::operator*()
+{
+	if (!element)
+		throw "Invalid possition for the Tail iterator and called operator*()!";
+
+	return element->data;
+}
+
+template <class T>
+const T& Tail<T>::Iterator::operator*() const
+{
+	if (!element)
+		throw "Invalid possition for the Tail iterator and called operator*()!";
+
+	return element->data;
 }

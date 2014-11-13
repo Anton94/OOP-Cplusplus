@@ -6,7 +6,6 @@
 template <class T>
 class DLList
 {
-	friend class Iterator;
 public:
 	DLList();
 	DLList(const DLList<T>& other);
@@ -191,7 +190,6 @@ typename DLList<T>::Iterator DLList<T>::end()
 template <class T>
 void DLList<T>::removeAt(Iterator& iter)
 {
-	iter.element;
 	if (iter) // iter doesn`t points to the head
 	{
 		Elem<T> * n = iter.element;
@@ -273,7 +271,7 @@ template <class T>
 T& DLList<T>::Iterator::operator*()
 {
 	if (element == owner->head)
-		throw "Invalid possition for the iterator!";
+		throw "Invalid possition for the DLList iterator and called operator*()!";
 
 	return element->data;
 }
@@ -282,7 +280,7 @@ template <class T>
 const T& DLList<T>::Iterator::operator*() const
 {
 	if (element == owner->head)
-		throw "Invalid possition for the iterator!";
+		throw "Invalid possition for the DLList iterator and called operator*()!";
 
 	return element->data;
 }

@@ -175,6 +175,24 @@ BEGIN(checkDequeueFromEmptyTail)
 	return false;
 END()
 
+BEGIN(checkIterator)
+Tail<int> tail;
+for (int k = 0; k < 10; ++k)
+{
+	tail.enqueue(k);
+}
+
+int i = 0;
+
+for (Tail<int>::Iterator it = tail.begin(); it; ++it, ++i)
+{
+	if (i != *it)
+		return false;
+}
+
+return true;
+END()
+
 
 int main()
 {
@@ -184,8 +202,11 @@ int main()
 	ADD(checkWith1mElements);
 	ADD(checkPeekFromEmptyTail);
 	ADD(checkDequeueFromEmptyTail);
+	ADD(checkIterator);
+
+	Testing::executeTheTests();
+	
 	/*
-	//Testing::executeTheTests();
 	using namespace std;
 	const size_t rows = 9;
 
