@@ -5,16 +5,16 @@
 	If the peek() or dequeue() is called with empty tail- throws exeption.
 */
 
-#include "Elem.h"
+#include "ElemQueue.h"
 
 template <class T>
-class Tail
+class Queue
 {
 public:
-	Tail();
-	Tail(const Tail<T>& other);
-	Tail<T>& operator=(const Tail<T>& other);
-	~Tail();
+	Queue();
+	Queue(const Queue<T>& other);
+	Queue<T>& operator=(const Queue<T>& other);
+	~Queue();
 public:
 	T peek() const;
 	T dequeue();
@@ -22,17 +22,17 @@ public:
 	bool isEmpty() const;
 	size_t getSize() const;
 private:
-	void copyFrom(const Tail<T>& other);
+	void copyFrom(const Queue<T>& other);
 	void free();
 	void init();
 private:
-	Elem<T> *head, *tail;
+	ElemQueue<T> *head, *tail;
 	size_t size;
 public:
 	class Iterator
 	{
 	public:
-		Iterator(Elem<T>* pElement, Tail<T>* pOwner);
+		Iterator(ElemQueue<T>* pElement, Queue<T>* pOwner);
 		operator bool() const;
 		bool operator==(const Iterator& other) const;
 		bool operator!=(const Iterator& other) const;
@@ -41,8 +41,8 @@ public:
 		T& operator*();
 		const T& operator*() const;
 	private:
-		Tail<T>* owner;
-		Elem<T>* element;
+		Queue<T>* owner;
+		ElemQueue<T>* element;
 	};
 
 	Iterator begin();
@@ -50,19 +50,19 @@ public:
 };
 
 template <class T>
-Tail<T>::Tail()
+Queue<T>::Queue()
 {
 	init();
 }
 
 template <class T>
-Tail<T>::Tail(const Tail<T>& other)
+Queue<T>::Queue(const Queue<T>& other)
 {
 	copyFrom(other);
 }
 
 template <class T>
-Tail<T>& Tail<T>::operator=(const Tail<T>& other)
+Queue<T>& Queue<T>::operator=(const Queue<T>& other)
 {
 	if (this != &other)
 	{
@@ -74,7 +74,7 @@ Tail<T>& Tail<T>::operator=(const Tail<T>& other)
 }
 
 template <class T>
-Tail<T>::~Tail()
+Queue<T>::~Queue()
 {
 	delete tail;
 }
@@ -82,33 +82,33 @@ Tail<T>::~Tail()
 // returns a copy of the value of the next item in the tail.
 
 template <class T>
-T Tail<T>::peek() const
+T Queue<T>::peek() const
 {
 	if (isEmpty())
-		throw "The tail is empty and called peek()!";
+		throw "The queue is empty and called peek()!";
 
 	return tail->data;
 }
 
 template <class T>
-T Tail<T>::dequeue()
+T Queue<T>::dequeue()
 {
 	if (isEmpty())
-		throw "The tail is empty and called dequeue()!";
+		throw "The queue is empty and called dequeue()!";
 
-	Elem<T> * x = tail;
+	ElemQueue<T> * x = tail;
 	tail = tail->next;	// if the element was last one, the next will be NULL, so the tail will be NULL->empty tail
 	T val = x->data;
-	x->next = NULL;		// to break the cascade destructor of the Elem class
+	x->next = NULL;		// to break the cascade destructor of the ElemQueue class
 	delete x;
 	--size;
 	return val;
 }
 
 template <class T>
-void Tail<T>::enqueue(const T& other)
+void Queue<T>::enqueue(const T& other)
 {
-	Elem<T> * p = new Elem<T>(other); // creates new cell with value- 'other' and next pointer- 'NULL'
+	ElemQueue<T> * p = new ElemQueue<T>(other); // creates new cell with value- 'other' and next pointer- 'NULL'
 	
 	// if the list is empty- makes the tail and the head pointing the created element
 	if (isEmpty())
@@ -121,28 +121,28 @@ void Tail<T>::enqueue(const T& other)
 }
 
 template <class T>
-bool Tail<T>::isEmpty() const
+bool Queue<T>::isEmpty() const
 {
 	return tail == NULL; // size == 0
 }
 
 template <class T>
-size_t Tail<T>::getSize() const
+size_t Queue<T>::getSize() const
 {
 	return size;
 }
 
 template <class T>
-void Tail<T>::copyFrom(const Tail<T>& other)
+void Queue<T>::copyFrom(const Queue<T>& other)
 {
 	if (!other.isEmpty())
 	{
 		// let`s set the tail pointer
-		tail = new Elem<T>(*other.tail);
+		tail = new ElemQueue<T>(*other.tail);
 
 		// and now let`s set the head pointer
 		// to set the head pointer it had to go thru all elements of the tail...
-		Elem<T> * p = tail;
+		ElemQueue<T> * p = tail;
 		while (p->next != NULL)
 		{
 			p = p->next;
@@ -158,32 +158,32 @@ void Tail<T>::copyFrom(const Tail<T>& other)
 	}
 }
 
-// the destructor of the Elem class is cascade, so he will delete the rest of the elements in the tail
+// the destructor of the ElemQueue class is cascade, so he will delete the rest of the elements in the tail
 
 template <class T>
-void Tail<T>::free()
+void Queue<T>::free()
 {
 	delete tail; // If the tail is empty(tail == NULL), the delete won't do anything..
 	init();
 }
 
 template <class T>
-void Tail<T>::init()
+void Queue<T>::init()
 {
 	tail = head = NULL;
 	size = 0;
 }
 
-// begins with the tail and ends at the head
+// begins with the tail element and ends at the head element
 
 template <class T>
-typename Tail<T>::Iterator Tail<T>::begin()
+typename Queue<T>::Iterator Queue<T>::begin()
 {
 	return Iterator(tail, this);
 }
 
 template <class T>
-typename Tail<T>::Iterator Tail<T>::end()
+typename Queue<T>::Iterator Queue<T>::end()
 {
 	return Iterator(head, this);
 }
@@ -197,10 +197,10 @@ typename Tail<T>::Iterator Tail<T>::end()
 */
 
 template <class T>
-Tail<T>::Iterator::Iterator(Elem<T>* pElement, Tail<T>* pOwner) : element(pElement), owner(pOwner) {}
+Queue<T>::Iterator::Iterator(ElemQueue<T>* pElement, Queue<T>* pOwner) : element(pElement), owner(pOwner) {}
 
 template <class T>
-Tail<T>::Iterator::operator bool() const
+Queue<T>::Iterator::operator bool() const
 {
 	return element; // element != NULL
 }
@@ -208,13 +208,13 @@ Tail<T>::Iterator::operator bool() const
 // compare the two pointers (if they point to the same object)
 
 template <class T>
-bool Tail<T>::Iterator::operator==(const Iterator& other) const
+bool Queue<T>::Iterator::operator==(const Iterator& other) const
 {
 	return element == other.element;
 }
 
 template <class T>
-bool Tail<T>::Iterator::operator!=(const Iterator& other) const
+bool Queue<T>::Iterator::operator!=(const Iterator& other) const
 {
 	return !operator==(other);
 }
@@ -222,7 +222,7 @@ bool Tail<T>::Iterator::operator!=(const Iterator& other) const
 // if the iterator points to some valid object->it translate the iterator to the next object
 
 template <class T>
-typename Tail<T>::Iterator& Tail<T>::Iterator::operator++()
+typename Queue<T>::Iterator& Queue<T>::Iterator::operator++()
 {
 	if (element)
 		element = element->next;
@@ -231,7 +231,7 @@ typename Tail<T>::Iterator& Tail<T>::Iterator::operator++()
 }
 
 template <class T>
-typename const Tail<T>::Iterator& Tail<T>::Iterator::operator++() const
+typename const Queue<T>::Iterator& Queue<T>::Iterator::operator++() const
 {
 	if (element)
 		element = element->next;
@@ -240,19 +240,19 @@ typename const Tail<T>::Iterator& Tail<T>::Iterator::operator++() const
 }
 
 template <class T>
-T& Tail<T>::Iterator::operator*()
+T& Queue<T>::Iterator::operator*()
 {
 	if (!element)
-		throw "Invalid possition for the Tail iterator and called operator*()!";
+		throw "Invalid possition for the Queue iterator and called operator*()!";
 
 	return element->data;
 }
 
 template <class T>
-const T& Tail<T>::Iterator::operator*() const
+const T& Queue<T>::Iterator::operator*() const
 {
 	if (!element)
-		throw "Invalid possition for the Tail iterator and called operator*()!";
+		throw "Invalid possition for the Queue iterator and called operator*()!";
 
 	return element->data;
 }

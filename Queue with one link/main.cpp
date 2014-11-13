@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Tail.h"
+#include "Queue.h"
 
 int main()
 {

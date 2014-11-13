@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
-#include "../Tail with one link/Tail.h"
+#include "../Queue with one link/Queue.h"
 
 /*
 All the testing functions are in the vector of functions and all of them return a bool value and has no arguments.
@@ -41,7 +41,7 @@ void Testing::executeTheTests()
 }
 
 BEGIN(checkPeekAndEnqueAndDequeSequence)
-	Tail<int> tail;
+	Queue<int> tail;
 
 	for (int i = 0; i < 30; ++i)
 	{
@@ -63,14 +63,14 @@ END()
 
 
 BEGIN(checkCopyConstructorAndTheOperator)
-	Tail<int> tail1;
+	Queue<int> tail1;
 	for (int i = 0; i < 30; ++i)
 	{
 		tail1.enqueue(i);
 	}
 
-	Tail<int> tail2 = tail1;
-	Tail<int> tail3;
+	Queue<int> tail2 = tail1;
+	Queue<int> tail3;
 	tail3 = tail1;
 
 	for (int i = 0; i < 30; ++i)
@@ -107,8 +107,8 @@ BEGIN(checkCopyConstructorAndTheOperator)
 END()
 
 
-BEGIN(checkTailSize)
-	Tail<int> tail;
+BEGIN(checkQueueSize)
+	Queue<int> tail;
 
 	for (int i = 0; i < 30; ++i)
 	{
@@ -130,7 +130,7 @@ END()
 
 
 BEGIN(checkWith1mElements)
-	Tail<int> tail;
+	Queue<int> tail;
 	for (int i = 0; i < 1000000; ++i)
 	{
 		tail.enqueue(i);
@@ -145,8 +145,8 @@ BEGIN(checkWith1mElements)
 	return true;
 END()
 
-BEGIN(checkPeekFromEmptyTail)
-	Tail<int> tail;
+BEGIN(checkPeekFromEmptyQueue)
+	Queue<int> tail;
 	try
 	{
 		tail.peek();
@@ -160,8 +160,8 @@ BEGIN(checkPeekFromEmptyTail)
 	return false;
 END()
 
-BEGIN(checkDequeueFromEmptyTail)
-	Tail<int> tail;
+BEGIN(checkDequeueFromEmptyQueue)
+	Queue<int> tail;
 	try
 	{
 		tail.dequeue();
@@ -176,21 +176,21 @@ BEGIN(checkDequeueFromEmptyTail)
 END()
 
 BEGIN(checkIterator)
-Tail<int> tail;
-for (int k = 0; k < 10; ++k)
-{
-	tail.enqueue(k);
-}
+	Queue<int> tail;
+	for (int k = 0; k < 10; ++k)
+	{
+		tail.enqueue(k);
+	}
 
-int i = 0;
+	int i = 0;
 
-for (Tail<int>::Iterator it = tail.begin(); it; ++it, ++i)
-{
-	if (i != *it)
-		return false;
-}
+	for (Queue<int>::Iterator it = tail.begin(); it; ++it, ++i)
+	{
+		if (i != *it)
+			return false;
+	}
 
-return true;
+	return true;
 END()
 
 
@@ -198,10 +198,10 @@ int main()
 {
 	ADD(checkPeekAndEnqueAndDequeSequence);
 	ADD(checkCopyConstructorAndTheOperator);
-	ADD(checkTailSize);
+	ADD(checkQueueSize);
 	ADD(checkWith1mElements);
-	ADD(checkPeekFromEmptyTail);
-	ADD(checkDequeueFromEmptyTail);
+	ADD(checkPeekFromEmptyQueue);
+	ADD(checkDequeueFromEmptyQueue);
 	ADD(checkIterator);
 
 	Testing::executeTheTests();

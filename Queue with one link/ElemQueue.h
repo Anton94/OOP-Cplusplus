@@ -1,32 +1,32 @@
 #pragma once
 
 template <class T>
-struct Elem
+struct ElemQueue
 {
 public:
-	Elem(const T& x, Elem<T>* p = NULL);
-	Elem(const Elem<T> & other);
-	Elem<T>& operator=(const Elem<T> & other);
-	~Elem();
+	ElemQueue(const T& x, ElemQueue<T>* p = NULL);
+	ElemQueue(const ElemQueue<T> & other);
+	ElemQueue<T>& operator=(const ElemQueue<T> & other);
+	~ElemQueue();
 private:
-	void copyFrom(const Elem<T>& other);
+	void copyFrom(const ElemQueue<T>& other);
 	void free();
 public:
-	Elem<T> * next;
+	ElemQueue<T> * next;
 	T data;
 };
 
 template <class T>
-Elem<T>::Elem(const T& x, Elem<T>* p = NULL) : data(x), next(p) {}
+ElemQueue<T>::ElemQueue(const T& x, ElemQueue<T>* p = NULL) : data(x), next(p) {}
 
 template <class T>
-Elem<T>::Elem(const Elem<T> & other)
+ElemQueue<T>::ElemQueue(const ElemQueue<T> & other)
 {
 	copyFrom(other);
 }
 
 template <class T>
-Elem<T>& Elem<T>::operator=(const Elem<T> & other)
+ElemQueue<T>& ElemQueue<T>::operator=(const ElemQueue<T> & other)
 {
 	if (this != &other)
 	{
@@ -41,19 +41,19 @@ Elem<T>& Elem<T>::operator=(const Elem<T> & other)
 // cascade destructor, till next is NULL.
 
 template <class T>
-Elem<T>::~Elem()
+ElemQueue<T>::~ElemQueue()
 {
 	free();
 }
 
 template <class T>
-void Elem<T>::copyFrom(const Elem<T>& other)
+void ElemQueue<T>::copyFrom(const ElemQueue<T>& other)
 {
 	data = other.data;
 
 	if (other.next)
 	{
-		next = new Elem<T>(*other.next);
+		next = new ElemQueue<T>(*other.next);
 	}
 	else
 	{
@@ -62,7 +62,7 @@ void Elem<T>::copyFrom(const Elem<T>& other)
 }
 
 template <class T>
-void Elem<T>::free()
+void ElemQueue<T>::free()
 {
 	if (next)		  // if next is NULL it will work with delete , anyway..
 		delete next;  // deletes the memory and calls the destructor of the element, pointed by the 'next' and etc...

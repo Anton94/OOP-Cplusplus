@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Testing", "Testing\Testing.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "List with two links", "List with two links\List with two links.vcxproj", "{457447D5-8D7F-4389-8F0D-D714E5067A88}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Homework two", "Homework two\Homework two.vcxproj", "{EA2AC07D-5E8E-4524-B508-E54B53FA06B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -57,6 +59,10 @@ Global
 		{457447D5-8D7F-4389-8F0D-D714E5067A88}.Debug|Win32.Build.0 = Debug|Win32
 		{457447D5-8D7F-4389-8F0D-D714E5067A88}.Release|Win32.ActiveCfg = Release|Win32
 		{457447D5-8D7F-4389-8F0D-D714E5067A88}.Release|Win32.Build.0 = Release|Win32
+		{EA2AC07D-5E8E-4524-B508-E54B53FA06B8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EA2AC07D-5E8E-4524-B508-E54B53FA06B8}.Debug|Win32.Build.0 = Debug|Win32
+		{EA2AC07D-5E8E-4524-B508-E54B53FA06B8}.Release|Win32.ActiveCfg = Release|Win32
+		{EA2AC07D-5E8E-4524-B508-E54B53FA06B8}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
