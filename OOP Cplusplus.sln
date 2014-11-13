@@ -21,7 +21,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Homework two", "Homework tw
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Double linked list", "Double linked list\Double linked list.vcxproj", "{E6DBC0C9-FE33-4165-965D-F566A9B64113}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Queue with one link", "Queue with one link\Tail with one link.vcxproj", "{971EAA30-13FE-410E-839B-62766A6E37A0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Queue with one link", "Queue with one link\Queue with one link.vcxproj", "{971EAA30-13FE-410E-839B-62766A6E37A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
