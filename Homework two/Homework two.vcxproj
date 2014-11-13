@@ -10,17 +10,8 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Double linked list\DLList.h" />
-    <ClInclude Include="..\Double linked list\ElemDLList.h" />
-    <ClInclude Include="..\Queue with one link\ElemQueue.h" />
-    <ClInclude Include="..\Queue with one link\Queue.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{EA2AC07D-5E8E-4524-B508-E54B53FA06B8}</ProjectGuid>
+    <ProjectGuid>{99A22D2E-E4AC-4928-9A47-8E1B64AA4923}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Homeworktwo</RootNamespace>
   </PropertyGroup>
@@ -84,6 +75,15 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Double linked list\DLList.h" />
+    <ClInclude Include="..\Double linked list\ElemDLList.h" />
+    <ClInclude Include="..\Queue with one link\ElemQueue.h" />
+    <ClInclude Include="..\Queue with one link\Queue.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

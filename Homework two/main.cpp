@@ -4,6 +4,6 @@
 
 int main()
 {
-	std::cout << "Here we starsts..." << std::endl;
+	std::cout << "Here we go..." << std::endl;
 	return 0;
 }
