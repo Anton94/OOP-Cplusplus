@@ -56,6 +56,15 @@ int main()
 	list.push_back(25);
 	list.push_back(30);
 
+
+	for (DLList<int>::Iterator it = list.begin(); it; ++it)
+	{
+		if (*it == 10)
+			list.removeAt(it);
+	}
+
+	
+
 	for (DLList<int>::Iterator it = list.begin(); it; ++it)
 	{
 		std::cout << "El = " << *it << std::endl;
