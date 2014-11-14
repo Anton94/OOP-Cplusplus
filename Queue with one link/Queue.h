@@ -28,25 +28,6 @@ private:
 private:
 	ElemQueue<T> *head, *tail;
 	size_t size;
-public:
-	class Iterator
-	{
-	public:
-		Iterator(ElemQueue<T>* pElement, Queue<T>* pOwner);
-		operator bool() const;
-		bool operator==(const Iterator& other) const;
-		bool operator!=(const Iterator& other) const;
-		Iterator& operator++();
-		const Iterator& operator++() const;
-		T& operator*();
-		const T& operator*() const;
-	private:
-		Queue<T>* owner;
-		ElemQueue<T>* element;
-	};
-
-	Iterator begin();
-	Iterator end();
 };
 
 template <class T>
@@ -172,87 +153,4 @@ void Queue<T>::init()
 {
 	tail = head = NULL;
 	size = 0;
-}
-
-// begins with the tail element and ends at the head element
-
-template <class T>
-typename Queue<T>::Iterator Queue<T>::begin()
-{
-	return Iterator(tail, this);
-}
-
-template <class T>
-typename Queue<T>::Iterator Queue<T>::end()
-{
-	return Iterator(head, this);
-}
-
-/*
-
-///
-/// class Iterator
-///
-
-*/
-
-template <class T>
-Queue<T>::Iterator::Iterator(ElemQueue<T>* pElement, Queue<T>* pOwner) : element(pElement), owner(pOwner) {}
-
-template <class T>
-Queue<T>::Iterator::operator bool() const
-{
-	return element; // element != NULL
-}
-
-// compare the two pointers (if they point to the same object)
-
-template <class T>
-bool Queue<T>::Iterator::operator==(const Iterator& other) const
-{
-	return element == other.element;
-}
-
-template <class T>
-bool Queue<T>::Iterator::operator!=(const Iterator& other) const
-{
-	return !operator==(other);
-}
-
-// if the iterator points to some valid object->it translate the iterator to the next object
-
-template <class T>
-typename Queue<T>::Iterator& Queue<T>::Iterator::operator++()
-{
-	if (element)
-		element = element->next;
-
-	return *this;
-}
-
-template <class T>
-typename const Queue<T>::Iterator& Queue<T>::Iterator::operator++() const
-{
-	if (element)
-		element = element->next;
-
-	return *this;
-}
-
-template <class T>
-T& Queue<T>::Iterator::operator*()
-{
-	if (!element)
-		throw "Invalid possition for the Queue iterator and called operator*()!";
-
-	return element->data;
-}
-
-template <class T>
-const T& Queue<T>::Iterator::operator*() const
-{
-	if (!element)
-		throw "Invalid possition for the Queue iterator and called operator*()!";
-
-	return element->data;
 }
