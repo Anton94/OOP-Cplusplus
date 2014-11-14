@@ -82,9 +82,12 @@
     <ClInclude Include="..\Queue with one link\Queue.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Market.h" />
+    <ClInclude Include="MarketState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Market.cpp" />
+    <ClCompile Include="MarketState.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

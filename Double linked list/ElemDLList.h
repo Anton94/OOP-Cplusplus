@@ -11,7 +11,8 @@ template <class T>
 struct ElemDLList
 { 
 public:
-	ElemDLList(const T& x = 0, ElemDLList<T>* pNext = NULL, ElemDLList<T>* pPrev = NULL);
+	ElemDLList();
+	ElemDLList(const T& x, ElemDLList<T>* pNext = NULL, ElemDLList<T>* pPrev = NULL);
 	ElemDLList(const ElemDLList<T>& other);
 	ElemDLList<T>& operator=(const ElemDLList<T>& other);
 	~ElemDLList();
@@ -22,9 +23,14 @@ public:
 	ElemDLList<T> *next, *prev;
 };
 
+template <class T>
+ElemDLList<T>::ElemDLList()
+{
+	next = prev = NULL;
+}
 
 template <class T>
-ElemDLList<T>::ElemDLList(const T& x = 0, ElemDLList<T>* pNext = NULL, ElemDLList<T>* pPrev = NULL) : data(x), next(pNext), prev(pPrev) {}
+ElemDLList<T>::ElemDLList(const T& x, ElemDLList<T>* pNext = NULL, ElemDLList<T>* pPrev = NULL) : data(x), next(pNext), prev(pPrev) {}
 
 template <class T>
 ElemDLList<T>::ElemDLList(const ElemDLList<T>& other)
