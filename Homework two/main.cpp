@@ -56,5 +56,13 @@ int main()
 	Market m(10);
 	printMarketState(m.getMarketState());
 
+	DLList<int> list;
+	list.push_back(*new int(5));
+	list.push_back(*new int(15));
+	list.push_back(*new int(25));
+
+	delete & list.pop_back();
+
+
 	return 0;
 }
