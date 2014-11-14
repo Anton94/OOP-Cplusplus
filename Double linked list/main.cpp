@@ -52,6 +52,17 @@ void testing()
 	}
 	std::cout << "List is empty? = " << list.isEmpty() << std::endl;
 
+	std::cout << "Try to removeAt with iterator from empty list!" << std::endl;
+
+	try
+	{
+		DLList<int>::Iterator it = list.begin();
+		list.removeAt(it);
+	}
+	catch (const char* msg)
+	{
+		std::cout << "Catched error: " << msg << std::endl;
+	}
 
 	list.push_front(10);
 	list.push_front(15);
@@ -67,11 +78,21 @@ void testing()
 		std::cout << "list.getSize() = " << list.getSize() << std::endl;
 	}
 
-
-
 	for (DLList<int>::Iterator it = list.begin(); it; ++it)
 	{
 		std::cout << "El = " << *it << std::endl;
+	}
+
+	std::cout << "Try to removeAt with iterator from other list!" << std::endl;
+
+	try
+	{
+		DLList<int>::Iterator it = list.begin();
+		list2.removeAt(it);
+	}
+	catch (const char* msg)
+	{
+		std::cout << "Catched error: " << msg << std::endl;
 	}
 
 }
