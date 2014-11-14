@@ -61,7 +61,6 @@ int main()
 	list.push_back(*new int(15));
 	list.push_back(*new int(25));
 
-	delete & list.pop_back();
 
 
 	return 0;
