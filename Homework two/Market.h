@@ -15,7 +15,12 @@ public:
 private:
 	void processOneProduct();
 	void addNewClients(Client * clients, int number);
+	void findPlaceForClient(Client* client);
 	void addNewClientsIDs(Client * clients, int number);
+	bool checkIfNeedToCloseDeck (DLList<Queue<Client*>>::Iterator& itMaxDeck);
+	bool checkIfNeedToRelocateClients(DLList<Queue<Client*>>::Iterator& itMaxDeck);
+	bool checkIfNeedToRelocateWaitingClients() const;
+	bool checkIfNeedToOpenNewDeck(DLList<Queue<Client*>>::Iterator& itFullDeck);
 private:
 	DLList<Queue<Client*>> decks;
 	Queue<Client*> expressDeck;
