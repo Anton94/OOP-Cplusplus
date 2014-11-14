@@ -27,6 +27,12 @@
     <ClInclude Include="..\Queue with one link\Queue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Market.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

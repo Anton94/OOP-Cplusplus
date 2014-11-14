@@ -80,6 +80,8 @@
     <ClInclude Include="..\Double linked list\ElemDLList.h" />
     <ClInclude Include="..\Queue with one link\ElemQueue.h" />
     <ClInclude Include="..\Queue with one link\Queue.h" />
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="Market.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

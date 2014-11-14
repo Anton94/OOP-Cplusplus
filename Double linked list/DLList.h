@@ -19,13 +19,14 @@ public:
 	void push_front(const T& x);
 	void push_back(const T& x);
 	bool isEmpty() const;
+	size_t getSize() const;
 private:
 	void init();
 	void free();
 	void copyFrom(const DLList<T>& other);
 private:
 	ElemDLList<T> * head;
-
+	size_t size;
 public:
 	class Iterator
 	{
@@ -111,6 +112,7 @@ T DLList<T>::pop_front()
 	n->prev = n->next = NULL;
 	T val = n->data;
 	delete n;
+	--size;
 	return val;
 }
 
@@ -128,6 +130,7 @@ T DLList<T>::pop_back()
 	n->next = n->prev = NULL;
 	T val = n->data;
 	delete n;
+	--size;
 	return val;
 }
 
@@ -148,6 +151,7 @@ void DLList<T>::push_front(const T& x)
 	}
 
 	head->next = newElem;
+	++size;
 }
 
 template <class T>
@@ -167,12 +171,19 @@ void DLList<T>::push_back(const T& x)
 	}
 
 	head->prev = newElem;
+	++size;
 }
 
 template <class T>
 bool DLList<T>::isEmpty() const
 {
-	return head->next == head;
+	return head->next == head; // size == 0
+}
+
+template <class T>
+size_t DLList<T>::getSize() const
+{
+	return size;
 }
 
 template <class T>
@@ -190,7 +201,16 @@ typename DLList<T>::Iterator DLList<T>::end()
 template <class T>
 void DLList<T>::removeAt(Iterator& iter)
 {
-	if (iter) // iter doesn`t points to the head
+	if (iter.owner != this)
+	{
+		throw "Invalid iterator for the list, the iterator is from other list!";
+	}
+
+	if (!iter) // iter doesn`t points to the head
+	{
+		throw "Invalid possition for the DLList iterator and called removeAt()!";
+	}
+	else
 	{
 		ElemDLList<T> * n = iter.element;
 		++iter;
@@ -200,6 +220,7 @@ void DLList<T>::removeAt(Iterator& iter)
 
 		n->next = n->prev = NULL;
 		delete n;
+		--size;
 	}
 }
 
@@ -209,6 +230,7 @@ void DLList<T>::init()
 	head = new ElemDLList<T>();
 	head->next = head;
 	head->prev = head;
+	size = 0;
 }
 
 // It will delete the memory for the head cell and calls it`s cascade destructor.
