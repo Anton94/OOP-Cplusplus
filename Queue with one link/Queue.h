@@ -16,7 +16,8 @@ public:
 	Queue<T>& operator=(const Queue<T>& other);
 	~Queue();
 public:
-	T peek() const;
+	const T& peek() const;
+	T& peek();
 	T dequeue();
 	void enqueue(const T& el);
 	bool isEmpty() const;
@@ -60,10 +61,21 @@ Queue<T>::~Queue()
 	delete tail;
 }
 
-// returns a copy of the value of the next item in the tail.
+// returns a the value of the next item in the tail.
 
 template <class T>
-T Queue<T>::peek() const
+const T& Queue<T>::peek() const
+{
+	if (isEmpty())
+		throw "The queue is empty and called peek()!";
+
+	return tail->data;
+}
+
+// returns a the value of the next item in the tail.
+
+template <class T>
+T& Queue<T>::peek()
 {
 	if (isEmpty())
 		throw "The queue is empty and called peek()!";
