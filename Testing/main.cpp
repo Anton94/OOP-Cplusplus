@@ -175,24 +175,6 @@ BEGIN(checkDequeueFromEmptyQueue)
 	return false;
 END()
 
-BEGIN(checkIterator)
-	Queue<int> tail;
-	for (int k = 0; k < 10; ++k)
-	{
-		tail.enqueue(k);
-	}
-
-	int i = 0;
-
-	for (Queue<int>::Iterator it = tail.begin(); it; ++it, ++i)
-	{
-		if (i != *it)
-			return false;
-	}
-
-	return true;
-END()
-
 
 int main()
 {
@@ -202,7 +184,6 @@ int main()
 	ADD(checkWith1mElements);
 	ADD(checkPeekFromEmptyQueue);
 	ADD(checkDequeueFromEmptyQueue);
-	ADD(checkIterator);
 
 	Testing::executeTheTests();
 	
