@@ -20,4 +20,5 @@ struct ClientState
 struct ClientExtended : Client
 {
 	int additionalWaiting;
+	ClientExtended(const Client& other);
 };

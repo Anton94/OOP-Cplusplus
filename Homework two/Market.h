@@ -8,21 +8,22 @@
 class Market
 {
 public:
-	Market(int NumberOfAllCashDecks); // max number of Decks (without the express one)
+	Market(int NumberOfAllCashDesks); // max number of Desks (without the express one)
 	void AddClient(Client * clients, int number); // add clients in the store (number - how many clients)
 	struct MarketState getMarketState(); 
 	// TO DO ClientState getClientState(int ID);
 private:
-	void processOneProduct(DLList<Queue<Client*>> & list);
+	void processOneProduct(DLList<Queue<ClientExtended*>> & list);
 	void addNewClients(Client * clients, int number);
-	void findPlaceForClient(Client* client, DLList<Queue<Client*>>::Iterator & itSkip);
+	void findPlaceForClient(ClientExtended* client, DLList<Queue<ClientExtended*>>::Iterator & itSkip);
 	void addNewClientsIDs(Client * clients, int number);
-	bool checkIfNeedToCloseDeck (DLList<Queue<Client*>>::Iterator& itCloseDeck);
-	bool checkIfNeedToRelocateClients(DLList<Queue<Client*>>::Iterator& itMaxDeck);
-	bool checkIfNeedToOpenNewDeck(DLList<Queue<Client*>>::Iterator& itFullDeck);
+	bool checkIfNeedToCloseDesk(DLList<Queue<ClientExtended*>>::Iterator& itCloseDesk);
+	bool checkIfNeedToRelocateClients(DLList<Queue<ClientExtended*>>::Iterator& itMaxDesk);
+	bool checkIfNeedToOpenNewDesk(DLList<Queue<ClientExtended*>>::Iterator& itFullDesk);
+	void cleanEmptyDesks();
 private:
-	DLList<Queue<Client*>> decks;
-	DLList<Queue<Client*>> expressDecks;
-	size_t numberOfAllCashDecks;
+	DLList<Queue<ClientExtended*>> desks;
+	DLList<Queue<ClientExtended*>> expressDesks;
+	size_t numberOfAllCashDesks;
 	static int id;
 }; 
