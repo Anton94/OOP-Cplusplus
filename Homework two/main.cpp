@@ -238,7 +238,7 @@ void test_creditCard()
 
 void test_ClientState()
 {
-	std::cout << "Start test clientState()" << std::endl;
+	std::cout << "Start test clientState" << std::endl;
 	Market m(2);
 	Client c{ -1, 40, 0 };
 	Client c1{ -1, 3, 0 };
@@ -282,7 +282,7 @@ void test_ClientState()
 		return;
 	}
 
-	std::cout << "test creditCard is OK" << std::endl;
+	std::cout << "test clientState is OK" << std::endl;
 }
 
 int main()
