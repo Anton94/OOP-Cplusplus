@@ -3,8 +3,10 @@
 
 /*
 Github project: https://github.com/Anton94/OOP-Cplusplus
+				Homework two (folder name)
 
 Sorry for my english... 
+
 	1) Process one product from each desk
 	2) Add the new clients
 	3) One of the folloing:
@@ -37,7 +39,6 @@ Market::Market(int NumberOfAllCashDesks)
 	desks.push_back(queue);
 }
 
-
 void Market::AddClient(Client * clients, int number)
 {
 	// Process one product from the first client of every Queue in the list of expressDesks
@@ -65,6 +66,95 @@ void Market::AddClient(Client * clients, int number)
 	}
 
 	cleanEmptyDesks();
+}
+
+// Process one product from the first client of every Queue in the list of desks(queues) which is given as parameter.
+
+void Market::processOneProduct(DLList<Queue<ClientExtended*>> & list)
+{
+	for (DLList<Queue<ClientExtended*>>::Iterator it = list.begin(); it; ++it)
+	{
+		if ((*it).getSize() > 0) // in any case ...
+		{
+			if ((*it).peek()->numberOfGoods <= 0)
+			{
+				if ((*it).peek()->additionalWaiting > 0)
+					--((*it).peek()->additionalWaiting);
+				else
+					delete (*it).dequeue(); // TO DO make check for credit card 
+			}
+			else
+			{
+				--((*it).peek()->numberOfGoods);
+			}
+		}
+	}
+}
+
+void Market::addNewClients(Client * clients, int number)
+{
+	// Make ID for every client
+	addNewClientsIDs(clients, number);
+
+	// There is no need to skip some queue when the clients are new
+	DLList<Queue<ClientExtended*>>::Iterator it = desks.end();
+	for (int i = 0; i < number; ++i)
+	{
+		ClientExtended* newClient = new ClientExtended(clients[i]);
+
+		findPlaceForClient(newClient, it);
+	}
+}
+
+// Makes ID for every client
+
+void Market::addNewClientsIDs(Client * clients, int number)
+{
+	for (int i = 0; i < number; ++i)
+	{
+		clients[i].ID = id++;
+	}
+}
+
+// Find place for the client , the client is passed to the function by it`s pointer (the copy of the client have to be made and argument -> it`s pointer)
+
+void Market::findPlaceForClient(ClientExtended*client, DLList<Queue<ClientExtended*>>::Iterator & itSkip)
+{
+	// check if the client is with empty basket
+	// don`t do anything if the client has no goodies
+	if (client->numberOfGoods <= 0)
+	{
+		delete client;
+		return; 
+	}
+
+	if (client->numberOfGoods <= 3)
+	{
+		// find place for the client on some express desk
+		for (DLList<Queue<ClientExtended*>>::Iterator it = expressDesks.begin(); it; ++it)
+		{
+			if ((*it).getSize() < 2 * numberOfAllCashDesks)
+			{
+				(*it).enqueue(client);
+				return;
+			}
+		}
+	}
+
+	// If the client has more than 3 goodies or the express desks are full...
+	// Find the queue with least ammount of clients. minIt will points to that Queue.
+	DLList<Queue<ClientExtended*>>::Iterator minIt = desks.begin();
+
+	// If the first Queue had to be skiped ->move it to next queue, if there is only one, the client wont be add ...
+	if (minIt == itSkip)
+		++minIt;
+	for (DLList<Queue<ClientExtended*>>::Iterator it = desks.begin(); it; ++it)
+	{
+		if (it != itSkip && (*it).getSize() < (*minIt).getSize())
+			minIt = it;
+	}
+
+	(*minIt).enqueue(client);
 }
 
 // Close desk and relocate the clients from it
@@ -107,7 +197,6 @@ void Market::rotateFirstHalfOfTheQueueWithSecond(DLList<Queue<ClientExtended*>>:
 	{
 		(*itHelper).enqueue((*itHelper).dequeue());
 	}
-
 }
 
 // Open new desk and with start clients- the half of other desk
@@ -137,94 +226,6 @@ void Market::cleanEmptyDesks()
 		if ((*it).getSize() == 0 && desks.getSize() > 1)
 			desks.removeAt(it);
 	}
-}
-
-// Process one product from the first client of every Queue in the list of desks(queues) which is given as parameter.
-
-void Market::processOneProduct(DLList<Queue<ClientExtended*>> & list)
-{
-	for (DLList<Queue<ClientExtended*>>::Iterator it = list.begin(); it; ++it)
-	{
-		if ((*it).getSize() > 0) // in any case ...
-		{
-			if ((*it).peek()->numberOfGoods <= 0)
-			{
-				if ((*it).peek()->additionalWaiting > 0)
-					--((*it).peek()->additionalWaiting);
-				else				
-					delete (*it).dequeue(); // TO DO make check for credit card 
-			}
-			else
-			{
-				--((*it).peek()->numberOfGoods);
-			}
-		}
-	}
-}
-
-void Market::addNewClients(Client * clients, int number)
-{
-	// Make ID for every client
-	addNewClientsIDs(clients, number);
-	
-	// There is no need to skip some queue when the clients are new
-	DLList<Queue<ClientExtended*>>::Iterator it = desks.end();
-	for (int i = 0; i < number; ++i)
-	{
-		ClientExtended* newClient = new ClientExtended(clients[i]);
-
-		findPlaceForClient(newClient, it);
-	}
-}
-
-// Makes ID for every client
-
-void Market::addNewClientsIDs(Client * clients, int number)
-{
-	for (int i = 0; i < number; ++i)
-	{
-		clients[i].ID = id++;
-	}
-}
-
-// Find place for the client , the client is passed to the function by it`s pointer (the copy of the client have to be made and argument -> it`s pointer)
-
-void Market::findPlaceForClient(ClientExtended*client, DLList<Queue<ClientExtended*>>::Iterator & itSkip)
-{
-	// check if the client is with empty basket
-	if (client->numberOfGoods <= 0)
-	{
-		delete client;
-		return; // don`t do anything if the client has no goodies
-	}
-	
-	if (client->numberOfGoods <= 3)
-	{
-		// find place for the client on some express desk
-		for (DLList<Queue<ClientExtended*>>::Iterator it = expressDesks.begin(); it; ++it)
-		{
-			if ((*it).getSize() < 2 * numberOfAllCashDesks)
-			{
-				(*it).enqueue(client);
-				return; 
-			}
-		}
-	}
-	
-	// If the client has more than 3 goodies or the express desks are full...
-	// Find the queue with least ammount of clients. minIt will points to that Queue.
-	DLList<Queue<ClientExtended*>>::Iterator minIt = desks.begin();
-	
-	// If the first Queue had to be skiped ->move it to next queue, if there is only one, the client wont be add ...
-	if (minIt == itSkip)
-		++minIt;
-	for (DLList<Queue<ClientExtended*>>::Iterator it = desks.begin(); it; ++it)
-	{
-		if (it != itSkip && (*it).getSize() < (*minIt).getSize())
-			minIt = it;
-	}
-
-	(*minIt).enqueue(client);
 }
 
 // If the clients in the queue are least than 'numberOfAllCashDesks' / 10
@@ -369,21 +370,21 @@ bool Market::searchForClientAtListOfQueues(DLList<Queue<ClientExtended*>> & list
 	return false;
 }
 
+// Free the memory , allocated for the ClientExtended at the list of queues
+
+void Market::deleteListOfQueues(DLList<Queue<ClientExtended*>> & list)
+{
+	for (DLList<Queue<ClientExtended*>>::Iterator it = list.begin(); it; ++it)
+	{
+		while (!(*it).isEmpty())
+		{
+			delete (*it).dequeue();
+		}
+	}
+}
+
 Market::~Market()
 {
-	for (DLList<Queue<ClientExtended*>>::Iterator it = expressDesks.begin(); it; ++it)
-	{
-		while (!(*it).isEmpty())
-		{
-			delete (*it).dequeue();
-		}
-	}
-
-	for (DLList<Queue<ClientExtended*>>::Iterator it = desks.begin(); it; ++it)
-	{
-		while (!(*it).isEmpty())
-		{
-			delete (*it).dequeue();
-		}
-	}
+	deleteListOfQueues(desks);
+	deleteListOfQueues(expressDesks);
 }

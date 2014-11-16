@@ -21,12 +21,13 @@ private:
 	bool checkIfNeedToCloseDesk(DLList<Queue<ClientExtended*>>::Iterator& itCloseDesk);
 	bool checkIfNeedToRelocateClients(DLList<Queue<ClientExtended*>>::Iterator& itMaxDesk);
 	bool checkIfNeedToOpenNewDesk(DLList<Queue<ClientExtended*>>::Iterator& itFullDesk);
-	void cleanEmptyDesks();
-	bool searchForClientAtListOfQueues(DLList<Queue<ClientExtended*>> & list, ClientState& clientState, int& ID, size_t& deskPosition);
 	void rotateFirstHalfOfTheQueueWithSecond(DLList<Queue<ClientExtended*>>::Iterator &itHelper, size_t &secondHalfOfTheQueue);
 	void closeDesk(DLList<Queue<ClientExtended*>>::Iterator &itHelper);
 	void relocateClientsFromDesk(DLList<Queue<ClientExtended*>>::Iterator &itHelper);
 	void openNewDesk(DLList<Queue<ClientExtended*>>::Iterator &itHelper);
+	void cleanEmptyDesks();
+	bool searchForClientAtListOfQueues(DLList<Queue<ClientExtended*>> & list, ClientState& clientState, int& ID, size_t& deskPosition);
+	void deleteListOfQueues(DLList<Queue<ClientExtended*>> & list);
 private:
 	DLList<Queue<ClientExtended*>> desks;
 	DLList<Queue<ClientExtended*>> expressDesks;
