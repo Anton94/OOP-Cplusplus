@@ -1,6 +1,5 @@
 #include "Client.h"
 
-
 ClientExtended::ClientExtended(const Client& other)
 {
 	ID = other.ID;

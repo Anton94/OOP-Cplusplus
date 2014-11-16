@@ -284,3 +284,59 @@ struct MarketState Market::getMarketState()
 	
 	return marketState;
 }
+
+// Returns a structure with: the number of position at cash desk (express once are before the regular once), the number of position at the queue,
+// and a pointer to the client.
+// If there is no client with that ID - returns ClientState with invalid information (positions -1 and client* NULL).
+
+struct ClientState Market::getClientState(int ID)
+{
+	ClientState clientState;
+	size_t deskPosition = 0;
+
+	if (searchForClientAtListOfQueues(expressDesks, clientState, ID))
+		return clientState;
+	
+	deskPosition += expressDesks.getSize();
+	
+	if (searchForClientAtListOfQueues(expressDesks, clientState, ID))
+		return clientState;
+	
+
+	clientState.CashDeskPosition = -1;
+	clientState.QueuePosition = -1;
+	clientState.client = NULL;
+
+	return clientState;
+}
+
+bool Market::searchForClientAtListOfQueues(DLList<Queue<ClientExtended*>> & list, ClientState& clientState, int& ID)
+{
+	bool found = false;
+	size_t deskPosition = 0;
+
+	for (DLList<Queue<ClientExtended*>>::Iterator it = expressDesks.begin(); it; ++it)
+	{
+		size_t sizeOfQueue = (*it).getSize();
+		for (size_t i = 0; i < sizeOfQueue; ++i)
+		{
+			if ((*it).peek()->ID == ID)
+			{
+				clientState.CashDeskPosition = deskPosition;
+				clientState.QueuePosition = i;
+				clientState.client = (*it).peek();
+			}
+
+			(*it).enqueue((*it).dequeue());
+		}
+
+		if (found)
+		{
+			return true;
+		}
+
+		++deskPosition;
+	}
+
+	return false;
+}

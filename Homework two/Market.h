@@ -11,7 +11,7 @@ public:
 	Market(int NumberOfAllCashDesks); // max number of Desks (without the express one)
 	void AddClient(Client * clients, int number); // add clients in the store (number - how many clients)
 	struct MarketState getMarketState(); 
-	// TO DO ClientState getClientState(int ID);
+	struct ClientState getClientState(int ID);
 private:
 	void processOneProduct(DLList<Queue<ClientExtended*>> & list);
 	void addNewClients(Client * clients, int number);
@@ -21,6 +21,7 @@ private:
 	bool checkIfNeedToRelocateClients(DLList<Queue<ClientExtended*>>::Iterator& itMaxDesk);
 	bool checkIfNeedToOpenNewDesk(DLList<Queue<ClientExtended*>>::Iterator& itFullDesk);
 	void cleanEmptyDesks();
+	bool searchForClientAtListOfQueues(DLList<Queue<ClientExtended*>> & list, ClientState& clientState, int& ID);
 private:
 	DLList<Queue<ClientExtended*>> desks;
 	DLList<Queue<ClientExtended*>> expressDesks;
