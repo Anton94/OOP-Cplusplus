@@ -195,7 +195,7 @@ typename DLList<T>::Iterator DLList<T>::begin()
 template <class T>
 typename DLList<T>::Iterator DLList<T>::end()
 {
-	return Iterator(head->prev, this);
+	return Iterator(head, this);
 }
 
 template <class T>

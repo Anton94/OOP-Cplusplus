@@ -24,9 +24,14 @@ Sorry for my english...
 
 int Market::id = 0;
 
+// The market starts with one express and one normal decks
+
 Market::Market(int NumberOfAllCashDecks)
 {
 	numberOfAllCashDecks = NumberOfAllCashDecks;
+	Queue<Client*> queue;
+	expressDecks.push_back(queue);
+	decks.push_back(queue);
 }
 
 
