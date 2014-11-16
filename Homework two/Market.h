@@ -15,7 +15,7 @@ public:
 private:
 	void processOneProduct(DLList<Queue<Client*>> & list);
 	void addNewClients(Client * clients, int number);
-	void findPlaceForClient(Client* client);
+	void findPlaceForClient(Client* client, DLList<Queue<Client*>>::Iterator & itSkip);
 	void addNewClientsIDs(Client * clients, int number);
 	bool checkIfNeedToCloseDeck (DLList<Queue<Client*>>::Iterator& itCloseDeck);
 	bool checkIfNeedToRelocateClients(DLList<Queue<Client*>>::Iterator& itMaxDeck);

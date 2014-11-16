@@ -49,11 +49,51 @@ void Market::AddClient(Client * clients, int number)
 	DLList<Queue<Client*>>::Iterator itHelper = decks.begin();
 
 	if (checkIfNeedToCloseDeck(itHelper))
-		;
+	{
+		while (!(*itHelper).isEmpty())
+		{
+			findPlaceForClient((*itHelper).dequeue(), itHelper); // find place for the client and skip the queue where he is comming from
+		}
+
+		decks.removeAt(itHelper); // remove the empty queue
+	}
 	else if (checkIfNeedToRelocateClients(itHelper))
-		;
+	{
+		size_t firstHalfOfTheQueue = ((*itHelper).getSize() % 2 == 0) ? (*itHelper).getSize() / 2 : (*itHelper).getSize() / 2 + 1; // if the number is odd->the first half will be + 1 bigger than the second one
+		size_t secondHalfOfTheQueue = (*itHelper).getSize() / 2; // example 7/2 = 3 (and 4 for first half)
+
+		// Rotate the first half to become second
+		for (size_t i = 0; i < firstHalfOfTheQueue; ++i)
+		{
+			(*itHelper).enqueue((*itHelper).dequeue());
+		}
+
+		// Find new places for the clients from the second half
+		for (size_t i = 0; i < secondHalfOfTheQueue; ++i)
+		{
+			findPlaceForClient((*itHelper).dequeue(), itHelper);
+		}
+	}
 	else if (checkIfNeedToOpenNewDeck(itHelper))
-		;
+	{
+		size_t firstHalfOfTheQueue = ((*itHelper).getSize() % 2 == 0) ? (*itHelper).getSize() / 2 : (*itHelper).getSize() / 2 + 1; // if the number is odd->the first half will be + 1 bigger than the second one
+		size_t secondHalfOfTheQueue = (*itHelper).getSize() / 2; // example 7/2 = 3 (and 4 for first half)
+
+		// Rotate the first half to become second
+		for (size_t i = 0; i < firstHalfOfTheQueue; ++i)
+		{
+			(*itHelper).enqueue((*itHelper).dequeue());
+		}
+
+		// Add the rest of the queue (originaly second half of the queue) to the new queue
+		Queue<Client*> newQueue;
+		for (size_t i = 0; i < secondHalfOfTheQueue; ++i)
+		{
+			newQueue.enqueue((*itHelper).dequeue());
+		}
+
+		decks.push_back(newQueue);
+	}
 }
 
 // Process one product from the first client of every Queue in the list of decks(queues) which is given as parameter.
@@ -81,9 +121,11 @@ void Market::addNewClients(Client * clients, int number)
 	// Make ID for every client
 	addNewClientsIDs(clients, number);
 	
+	// There is no need to skip some queue when the clients are new
+	DLList<Queue<Client*>>::Iterator it = decks.end();
 	for (int i = 0; i < number; ++i)
 	{
-		findPlaceForClient(new Client(clients[i]));
+		findPlaceForClient(new Client(clients[i]), it);
 	}
 }
 
@@ -99,7 +141,7 @@ void Market::addNewClientsIDs(Client * clients, int number)
 
 // Find place for the client , the client is passed to the function by it`s pointer (the copy of the client have to be made and argument -> it`s pointer)
 
-void Market::findPlaceForClient(Client* client)
+void Market::findPlaceForClient(Client* client, DLList<Queue<Client*>>::Iterator & itSkip)
 {
 	// check if the client is with empty basket
 	if (client->numberOfGoods <= 0)
@@ -123,9 +165,13 @@ void Market::findPlaceForClient(Client* client)
 	// If the client has more than 3 goodies or the express decks are full...
 	// Find the queue with least ammount of clients. minIt will points to that Queue.
 	DLList<Queue<Client*>>::Iterator minIt = decks.begin();
+	
+	// If the first Queue had to be skiped ->move it to next queue, if there is only one, the client wont be add ...
+	if (minIt == itSkip)
+		++minIt;
 	for (DLList<Queue<Client*>>::Iterator it = decks.begin(); it; ++it)
 	{
-		if ((*it).getSize() < (*minIt).getSize())
+		if (it != itSkip && (*it).getSize() < (*minIt).getSize())
 			minIt = it;
 	}
 
