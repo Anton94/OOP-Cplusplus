@@ -15,3 +15,9 @@ struct ClientState
 	int QueuePosition;		// number of possition in the queue
 	Client * client;
 };
+
+
+struct ClientExtended : Client
+{
+	int additionalWaiting;
+};

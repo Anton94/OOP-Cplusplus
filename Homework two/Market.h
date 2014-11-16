@@ -13,18 +13,16 @@ public:
 	struct MarketState getMarketState(); 
 	// TO DO ClientState getClientState(int ID);
 private:
-	void processOneProduct();
+	void processOneProduct(DLList<Queue<Client*>> & list);
 	void addNewClients(Client * clients, int number);
 	void findPlaceForClient(Client* client);
 	void addNewClientsIDs(Client * clients, int number);
-	bool checkIfNeedToCloseDeck (DLList<Queue<Client*>>::Iterator& itMaxDeck);
+	bool checkIfNeedToCloseDeck (DLList<Queue<Client*>>::Iterator& itCloseDeck);
 	bool checkIfNeedToRelocateClients(DLList<Queue<Client*>>::Iterator& itMaxDeck);
-	bool checkIfNeedToRelocateWaitingClients() const;
 	bool checkIfNeedToOpenNewDeck(DLList<Queue<Client*>>::Iterator& itFullDeck);
 private:
 	DLList<Queue<Client*>> decks;
-	Queue<Client*> expressDeck;
+	DLList<Queue<Client*>> expressDecks;
 	size_t numberOfAllCashDecks;
-	Queue<Client *> pendingQueue;
 	static int id;
 }; 
