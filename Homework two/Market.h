@@ -23,6 +23,10 @@ private:
 	bool checkIfNeedToOpenNewDesk(DLList<Queue<ClientExtended*>>::Iterator& itFullDesk);
 	void cleanEmptyDesks();
 	bool searchForClientAtListOfQueues(DLList<Queue<ClientExtended*>> & list, ClientState& clientState, int& ID, size_t& deskPosition);
+	void rotateFirstHalfOfTheQueueWithSecond(DLList<Queue<ClientExtended*>>::Iterator &itHelper, size_t &secondHalfOfTheQueue);
+	void closeDesk(DLList<Queue<ClientExtended*>>::Iterator &itHelper);
+	void relocateClientsFromDesk(DLList<Queue<ClientExtended*>>::Iterator &itHelper);
+	void openNewDesk(DLList<Queue<ClientExtended*>>::Iterator &itHelper);
 private:
 	DLList<Queue<ClientExtended*>> desks;
 	DLList<Queue<ClientExtended*>> expressDesks;
