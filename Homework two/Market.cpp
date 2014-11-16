@@ -294,14 +294,11 @@ struct ClientState Market::getClientState(int ID)
 	ClientState clientState;
 	size_t deskPosition = 0;
 
-	if (searchForClientAtListOfQueues(expressDesks, clientState, ID))
+	if (searchForClientAtListOfQueues(expressDesks, clientState, ID, deskPosition))
 		return clientState;
 	
-	deskPosition += expressDesks.getSize();
-	
-	if (searchForClientAtListOfQueues(expressDesks, clientState, ID))
+	if (searchForClientAtListOfQueues(desks, clientState, ID, deskPosition))
 		return clientState;
-	
 
 	clientState.CashDeskPosition = -1;
 	clientState.QueuePosition = -1;
@@ -310,18 +307,18 @@ struct ClientState Market::getClientState(int ID)
 	return clientState;
 }
 
-bool Market::searchForClientAtListOfQueues(DLList<Queue<ClientExtended*>> & list, ClientState& clientState, int& ID)
+bool Market::searchForClientAtListOfQueues(DLList<Queue<ClientExtended*>> & list, ClientState& clientState, int& ID, size_t& deskPosition)
 {
 	bool found = false;
-	size_t deskPosition = 0;
 
-	for (DLList<Queue<ClientExtended*>>::Iterator it = expressDesks.begin(); it; ++it)
+	for (DLList<Queue<ClientExtended*>>::Iterator it = list.begin(); it; ++it)
 	{
 		size_t sizeOfQueue = (*it).getSize();
 		for (size_t i = 0; i < sizeOfQueue; ++i)
 		{
 			if ((*it).peek()->ID == ID)
 			{
+				found = true;
 				clientState.CashDeskPosition = deskPosition;
 				clientState.QueuePosition = i;
 				clientState.client = (*it).peek();

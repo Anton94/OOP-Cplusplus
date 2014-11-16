@@ -21,7 +21,7 @@ private:
 	bool checkIfNeedToRelocateClients(DLList<Queue<ClientExtended*>>::Iterator& itMaxDesk);
 	bool checkIfNeedToOpenNewDesk(DLList<Queue<ClientExtended*>>::Iterator& itFullDesk);
 	void cleanEmptyDesks();
-	bool searchForClientAtListOfQueues(DLList<Queue<ClientExtended*>> & list, ClientState& clientState, int& ID);
+	bool searchForClientAtListOfQueues(DLList<Queue<ClientExtended*>> & list, ClientState& clientState, int& ID, size_t& deskPosition);
 private:
 	DLList<Queue<ClientExtended*>> desks;
 	DLList<Queue<ClientExtended*>> expressDesks;

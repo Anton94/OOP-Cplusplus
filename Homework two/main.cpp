@@ -236,6 +236,55 @@ void test_creditCard()
 	std::cout << "test creditCard is OK" << std::endl;
 }
 
+void test_ClientState()
+{
+	std::cout << "Start test clientState()" << std::endl;
+	Market m(2);
+	Client c{ -1, 40, 0 };
+	Client c1{ -1, 3, 0 };
+
+	for (int i = 0; i < 10; i++)
+	{
+		m.AddClient(&c, 1);
+	}
+
+	m.AddClient(&c1, 1);
+	m.AddClient(&c1, 1);
+
+	ClientState clientState = m.getClientState(61);
+
+	if (clientState.CashDeskPosition != 0)
+	{
+		std::cout << "getClientState(61) and we expected CashDeskPosition = 0 but found :" << clientState.CashDeskPosition << std::endl;
+		return;
+	}
+	if (clientState.QueuePosition != 1)
+	{
+		std::cout << "getClientState(61) and we expected QueuePosition = 1 but found :" << clientState.QueuePosition << std::endl;
+		return;
+	}
+
+	clientState = m.getClientState(6121);
+
+	if (clientState.CashDeskPosition != -1)
+	{
+		std::cout << "getClientState(6121) and we expected CashDeskPosition = -1 but found :" << clientState.CashDeskPosition << std::endl;
+		return;
+	}
+	if (clientState.QueuePosition != -1)
+	{
+		std::cout << "getClientState(6121) and we expected QueuePosition = -1 but found :" << clientState.QueuePosition << std::endl;
+		return;
+	}
+	if (clientState.client != NULL)
+	{
+		std::cout << "getClientState(6121) and we expected QueuePosition = NULL but found :" << clientState.QueuePosition << std::endl;
+		return;
+	}
+
+	std::cout << "test creditCard is OK" << std::endl;
+}
+
 int main()
 {
 	std::cout << "Here we go..." << std::endl;
@@ -253,6 +302,8 @@ int main()
 	test_unloadMarket();
 	std::cout << std::endl;
 	test_creditCard();
+	std::cout << std::endl;
+	test_ClientState();
 	std::cout << std::endl;
 
 	return 0;
