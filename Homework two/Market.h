@@ -12,6 +12,7 @@ public:
 	void AddClient(Client * clients, int number); // add clients in the store (number - how many clients)
 	struct MarketState getMarketState(); 
 	struct ClientState getClientState(int ID);
+	~Market();
 private:
 	void processOneProduct(DLList<Queue<ClientExtended*>> & list);
 	void addNewClients(Client * clients, int number);

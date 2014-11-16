@@ -287,24 +287,36 @@ void test_ClientState()
 
 int main()
 {
-	std::cout << "Here we go..." << std::endl;
+	_CrtMemState s1,s2,s3;
+	_CrtMemCheckpoint(&s1);
 
-	testMarketState();
-	std::cout << std::endl;
+		std::cout << "Here we go..." << std::endl;
 
-	std::cout << std::endl;
-	test_addOneByOne();
-	std::cout << std::endl;
-	test_expresCashDesk();
-	std::cout << std::endl;
-	test_manyClientsInOneTick();
-	std::cout << std::endl;
-	test_unloadMarket();
-	std::cout << std::endl;
-	test_creditCard();
-	std::cout << std::endl;
-	test_ClientState();
-	std::cout << std::endl;
+		testMarketState();
+		std::cout << std::endl;
+
+		std::cout << std::endl;
+		test_addOneByOne();
+		std::cout << std::endl;
+		test_expresCashDesk();
+		std::cout << std::endl;
+		test_manyClientsInOneTick();
+		std::cout << std::endl;
+		test_unloadMarket();
+		std::cout << std::endl;
+		test_creditCard();
+		std::cout << std::endl;
+		test_ClientState();
+		std::cout << std::endl;
+
+
+	_CrtMemCheckpoint(&s2);
+
+	if (_CrtMemDifference(&s3, &s1, &s2))
+	{
+		std::cout << "Memory leak detected!" << std::endl;
+		_CrtMemDumpStatistics(&s3);
+	}
 
 	return 0;
 }

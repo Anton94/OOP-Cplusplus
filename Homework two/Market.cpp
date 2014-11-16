@@ -164,6 +164,7 @@ void Market::findPlaceForClient(ClientExtended*client, DLList<Queue<ClientExtend
 	// check if the client is with empty basket
 	if (client->numberOfGoods <= 0)
 	{
+		delete client;
 		return; // don`t do anything if the client has no goodies
 	}
 	
@@ -336,4 +337,23 @@ bool Market::searchForClientAtListOfQueues(DLList<Queue<ClientExtended*>> & list
 	}
 
 	return false;
+}
+
+Market::~Market()
+{
+	for (DLList<Queue<ClientExtended*>>::Iterator it = expressDesks.begin(); it; ++it)
+	{
+		while (!(*it).isEmpty())
+		{
+			delete (*it).dequeue();
+		}
+	}
+
+	for (DLList<Queue<ClientExtended*>>::Iterator it = desks.begin(); it; ++it)
+	{
+		while (!(*it).isEmpty())
+		{
+			delete (*it).dequeue();
+		}
+	}
 }
