@@ -292,7 +292,7 @@ int main()
 
 		std::cout << "Here we go..." << std::endl;
 
-		testMarketState();
+	//	testMarketState();
 		std::cout << std::endl;
 
 		std::cout << std::endl;

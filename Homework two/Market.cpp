@@ -68,6 +68,59 @@ void Market::AddClient(Client * clients, int number)
 	cleanEmptyDesks();
 }
 
+
+// Calculate the market state and returns a copy of MarketState..
+
+struct MarketState Market::getMarketState()
+{
+	MarketState marketState;
+	marketState.numberOfCashDesk = desks.getSize();
+	marketState.numberOfClientsAtCashDecsk = new int[marketState.numberOfCashDesk];
+
+	int counter = 0;
+	for (DLList<Queue<ClientExtended*>>::Iterator it = desks.begin(); it; ++it)
+	{
+		marketState.numberOfClientsAtCashDecsk[counter++] = (*it).getSize();
+	}
+
+	marketState.numberOfClientsAtExpressCashDeck = 0;
+
+	for (DLList<Queue<ClientExtended*>>::Iterator it = expressDesks.begin(); it; ++it)
+	{
+		marketState.numberOfClientsAtExpressCashDeck += (*it).getSize();
+	}
+
+	return marketState;
+}
+
+// Returns a structure with: the number of position at cash desk (express once are before the regular once), the number of position at the queue,
+// and a pointer to the client.
+// If there is no client with that ID - returns ClientState with invalid information (positions -1 and client* NULL).
+
+struct ClientState Market::getClientState(int ID)
+{
+	ClientState clientState;
+	size_t deskPosition = 0;
+
+	if (searchForClientAtListOfQueues(expressDesks, clientState, ID, deskPosition))
+		return clientState;
+
+	if (searchForClientAtListOfQueues(desks, clientState, ID, deskPosition))
+		return clientState;
+
+	clientState.CashDeskPosition = -1;
+	clientState.QueuePosition = -1;
+	clientState.client = NULL;
+
+	return clientState;
+}
+
+Market::~Market()
+{
+	deleteListOfQueues(desks);
+	deleteListOfQueues(expressDesks);
+}
+
 // Process one product from the first client of every Queue in the list of desks(queues) which is given as parameter.
 
 void Market::processOneProduct(DLList<Queue<ClientExtended*>> & list)
@@ -293,52 +346,6 @@ bool Market::checkIfNeedToOpenNewDesk(DLList<Queue<ClientExtended*>>::Iterator& 
 	return false;
 }
 
-// Calculate the market state and returns a copy of MarketState..
-
-struct MarketState Market::getMarketState()
-{
-	MarketState marketState;
-	marketState.numberOfCashDesk = desks.getSize();
-	marketState.numberOfClientsAtCashDecsk = new int[marketState.numberOfCashDesk];
-
-	int counter = 0;
-	for (DLList<Queue<ClientExtended*>>::Iterator it = desks.begin(); it; ++it)
-	{
-		marketState.numberOfClientsAtCashDecsk[counter++] = (*it).getSize();
-	}
-
-	marketState.numberOfClientsAtExpressCashDeck = 0;
-
-	for (DLList<Queue<ClientExtended*>>::Iterator it = expressDesks.begin(); it; ++it)
-	{
-		marketState.numberOfClientsAtExpressCashDeck += (*it).getSize();
-	}
-	
-	return marketState;
-}
-
-// Returns a structure with: the number of position at cash desk (express once are before the regular once), the number of position at the queue,
-// and a pointer to the client.
-// If there is no client with that ID - returns ClientState with invalid information (positions -1 and client* NULL).
-
-struct ClientState Market::getClientState(int ID)
-{
-	ClientState clientState;
-	size_t deskPosition = 0;
-
-	if (searchForClientAtListOfQueues(expressDesks, clientState, ID, deskPosition))
-		return clientState;
-	
-	if (searchForClientAtListOfQueues(desks, clientState, ID, deskPosition))
-		return clientState;
-
-	clientState.CashDeskPosition = -1;
-	clientState.QueuePosition = -1;
-	clientState.client = NULL;
-
-	return clientState;
-}
-
 bool Market::searchForClientAtListOfQueues(DLList<Queue<ClientExtended*>> & list, ClientState& clientState, int& ID, size_t& deskPosition)
 {
 	bool found = false;
@@ -381,10 +388,4 @@ void Market::deleteListOfQueues(DLList<Queue<ClientExtended*>> & list)
 			delete (*it).dequeue();
 		}
 	}
-}
-
-Market::~Market()
-{
-	deleteListOfQueues(desks);
-	deleteListOfQueues(expressDesks);
 }
