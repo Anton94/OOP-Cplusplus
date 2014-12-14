@@ -20,8 +20,11 @@
 #define PRINT_STATUS(arr, size)						\
 	if (Utility<T>::checkForSortedArray(arr, size))	\
 		out << "    Test status: Passed!\n";		\
-		else											\
-		out << "    Test status: Failed!\n"
+	else											\
+		out << "    Test status: Failed!\n"			
+
+#define PRINT_TIME(val) \
+	out << "    Sorting time: " << val << "!\n"
 
 #define PRINT_DESCR(msg) out << "  " << msg << ":\n"
 #define PRINT_SORT_DESCRIPTION(sort)						\
@@ -29,10 +32,7 @@
 	if (mySorter = dynamic_cast<MySorter<T>*>(sort))		\
 		PRINT_DESCR(mySorter->description());				\
 	else													\
-		PRINT_DESCR("Unknown sorting algorithm")
-
-#define FOREACH_SORT \
-	 
+		PRINT_DESCR("Unknown sorting algorithm")	 
 
 #define EXECUTE_FOR_ALL_SORTS						\
 	for (int i = 0; i < count; ++i)					\
@@ -43,6 +43,7 @@
 		sorters[i]->sort(arr, size);				\
 		PRINT_ARRAY(arr, size, "Array after  sort");\
 		PRINT_STATUS(arr, size);					\
+		PRINT_TIME(sorters[i]->getSortTime());		\
 	}
 
 
@@ -66,6 +67,7 @@ protected:
 	void testWithSortedArray(std::ostream & out) const;
 	void testWithInvertedSortedArray(std::ostream & out) const;
 	void testWithFewTypesOfElements(std::ostream & out) const;
+	void testWith20000Elements(std::ostream & out) const;
 protected:
 	Sorter<T> ** sorters;
 	int count;
@@ -177,7 +179,24 @@ START_TEST(testWithFewTypesOfElements, "Test with few types of elements!");
 
 	for (int i = 0; i < size; ++i)
 	{
-		originalArr[i] = i % 3;
+		originalArr[i] = i % 3; // [0,2]
+	}
+
+	int * arr = new int[size];
+
+	EXECUTE_FOR_ALL_SORTS;
+
+	END_TEST;
+}
+
+START_TEST(testWith20000Elements, "Test with 20 000 elements!");
+{
+	size_t size = 20000;
+	int * originalArr = new int[size];
+
+	for (int i = 0; i < size; ++i)
+	{
+		originalArr[i] = rand() % 1000; // [0,999]
 	}
 
 	int * arr = new int[size];
@@ -197,4 +216,5 @@ inline void Test<T>::getSummary(std::ostream & out)
 	testWithSortedArray(out);
 	testWithInvertedSortedArray(out);
 	testWithFewTypesOfElements(out);
+	// testWith20000Elements(out);
 }

@@ -16,21 +16,12 @@ inline void InsertionSort<T>::sort(T * data, size_t count)
 {
 	START_TIME;
 
-	///**/
-	//std::cout << "Sorting with 'Insertion sort...'" << std::endl;
-	//MySorter<T>::printArray(data, count, std::cout);
-	///**/
-
 	for (size_t i = 1; i < count; ++i)
 	{
-		for (int j = i - 1; j >= 0 && data[j] < data[j + 1]; --j)
+		for (size_t j = i; j > 0 && data[j - 1] < data[j]; --j)
 		{
-			std::swap(data[j], data[j + 1]);
+			std::swap(data[j], data[j - 1]);
 		}
-
-		///**/
-		//MySorter<T>::printArray(data, count, std::cout);
-		///**/
 	}
 
 	CALC_TIME;

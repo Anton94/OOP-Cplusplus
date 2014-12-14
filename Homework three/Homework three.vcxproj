@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="InsertionSort.h" />
+    <ClInclude Include="MergeSort.h" />
     <ClInclude Include="MySorter.h" />
     <ClInclude Include="Sorter.h" />
     <ClInclude Include="SortTester.h" />
