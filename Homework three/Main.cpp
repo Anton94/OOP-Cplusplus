@@ -9,7 +9,8 @@ int main()
 	Sorter<int> ** sorters = new Sorter<int>*[3];
 
 	sorters[0] = &insertionSort;
-	Test<int> test(sorters, 1);
+	sorters[1] = &insertionSort;
+	Test<int> test(sorters, 2);
 	test.getSummary(std::cout);
 
 	delete [] sorters;
