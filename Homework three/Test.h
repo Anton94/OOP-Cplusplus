@@ -65,6 +65,7 @@ protected:
 	void testWithOnyTypeOfElements(std::ostream & out) const;
 	void testWithSortedArray(std::ostream & out) const;
 	void testWithInvertedSortedArray(std::ostream & out) const;
+	void testWithFewTypesOfElements(std::ostream & out) const;
 protected:
 	Sorter<T> ** sorters;
 	int count;
@@ -152,16 +153,31 @@ START_TEST(testWithSortedArray, "Test with sorted array!");
 	END_TEST;
 }
 
-
-
-START_TEST(testWithInvertedSortedArray, "Test with sorted array!");
+START_TEST(testWithInvertedSortedArray, "Test with inverted sorted array!");
 {
-	size_t size = 11;
+	size_t size = 15;
 	int * originalArr = new int[size];
 
 	for (int i = 0; i < size; ++i)
 	{
 		originalArr[i] = i;
+	}
+
+	int * arr = new int[size];
+
+	EXECUTE_FOR_ALL_SORTS;
+
+	END_TEST;
+}
+
+START_TEST(testWithFewTypesOfElements, "Test with few types of elements!");
+{
+	size_t size = 20;
+	int * originalArr = new int[size];
+
+	for (int i = 0; i < size; ++i)
+	{
+		originalArr[i] = i % 3;
 	}
 
 	int * arr = new int[size];
@@ -180,4 +196,5 @@ inline void Test<T>::getSummary(std::ostream & out)
 	testWithOnyTypeOfElements(out);
 	testWithSortedArray(out);
 	testWithInvertedSortedArray(out);
+	testWithFewTypesOfElements(out);
 }
