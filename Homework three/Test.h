@@ -28,6 +28,8 @@
 	else													\
 		PRINT_DESCR("Unknown sorting algorithm")
 
+#define END_TEST out << "\n"
+
 #endif
 
 template<typename T>
@@ -38,6 +40,7 @@ public:
 	virtual void getSummary(std::ostream & out);
 protected:
 	void testWithRandomData(std::ostream & out) const;
+	void testWithEmptyArray(std::ostream & out) const;
 protected:
 	Sorter<T> ** sorters;
 	int count;
@@ -79,6 +82,7 @@ inline void Test<T>::testWithRandomData(std::ostream & out) const
 	for (int i = 0; i < count; ++i)
 	{
 		Utility<T>::copyTo(arr, originalArr, size);
+
 		PRINT_SORT_DESCRIPTION(sorters[i]);
 
 		PRINT_ARRAY(arr, size, "Array before sort");
@@ -92,10 +96,36 @@ inline void Test<T>::testWithRandomData(std::ostream & out) const
 
 	delete[] originalArr;
 	delete[] arr;
+
+	END_TEST;
+}
+
+template <class T>
+inline void Test<T>::testWithEmptyArray(std::ostream & out) const
+{
+	START_TEST("Test with empty array!");
+	T * arr = NULL;
+	size_t size = 0;
+
+	for (int i = 0; i < count; ++i)
+	{
+		PRINT_SORT_DESCRIPTION(sorters[i]);
+
+		PRINT_ARRAY(arr, size, "Array before sort");
+
+		sorters[i]->sort(arr, size);
+
+		PRINT_ARRAY(arr, size, "Array after  sort");
+
+		PRINT_STATUS(arr, size);
+	}
+
+	END_TEST;
 }
 
 template <class T>
 inline void Test<T>::getSummary(std::ostream & out)
 {
 	testWithRandomData(out);
+	testWithEmptyArray(out);
 }
