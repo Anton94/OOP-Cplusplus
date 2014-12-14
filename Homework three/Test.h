@@ -35,7 +35,6 @@
 	 
 
 #define EXECUTE_FOR_ALL_SORTS						\
-	int * arr = new int[size];						\
 	for (int i = 0; i < count; ++i)					\
 	{												\
 		Utility<T>::copyTo(arr, originalArr, size);	\
@@ -64,7 +63,8 @@ protected:
 	void testWithRandomData(std::ostream & out) const;
 	void testWithEmptyArray(std::ostream & out) const;
 	void testWithOnyTypeOfElements(std::ostream & out) const;
-	void testWithSorterArray(std::ostream & out) const;
+	void testWithSortedArray(std::ostream & out) const;
+	void testWithInvertedSortedArray(std::ostream & out) const;
 protected:
 	Sorter<T> ** sorters;
 	int count;
@@ -99,6 +99,8 @@ START_TEST(testWithRandomData, "Test with random elements!");
 	for (size_t i = 0; i < size; ++i)
 		originalArr[i] = rand() % 1000; // [0,999]
 
+	int * arr = new int[size];
+
 	EXECUTE_FOR_ALL_SORTS;
 
 	END_TEST;
@@ -108,6 +110,8 @@ START_TEST(testWithEmptyArray, "Test with empty array!");
 {
 	T * originalArr = NULL;
 	size_t size = 0;
+
+	T * arr = new T[size];
 
 	EXECUTE_FOR_ALL_SORTS;
 
@@ -124,12 +128,14 @@ START_TEST(testWithOnyTypeOfElements, "Test with one type of elements!");
 		originalArr[i] = 42;
 	}
 
+	int * arr = new int[size];
+
 	EXECUTE_FOR_ALL_SORTS;
 
 	END_TEST;
 }
 
-START_TEST(testWithSorterArray, "Test with sorted array!");
+START_TEST(testWithSortedArray, "Test with sorted array!");
 {
 	size_t size = 13;
 	int * originalArr = new int[size];
@@ -138,6 +144,27 @@ START_TEST(testWithSorterArray, "Test with sorted array!");
 	{
 		originalArr[i] = size - i;
 	}
+
+	int * arr = new int[size];
+
+	EXECUTE_FOR_ALL_SORTS;
+
+	END_TEST;
+}
+
+
+
+START_TEST(testWithInvertedSortedArray, "Test with sorted array!");
+{
+	size_t size = 11;
+	int * originalArr = new int[size];
+
+	for (int i = 0; i < size; ++i)
+	{
+		originalArr[i] = i;
+	}
+
+	int * arr = new int[size];
 
 	EXECUTE_FOR_ALL_SORTS;
 
@@ -151,5 +178,6 @@ inline void Test<T>::getSummary(std::ostream & out)
 	testWithRandomData(out);
 	testWithEmptyArray(out);
 	testWithOnyTypeOfElements(out);
-	testWithSorterArray(out);
+	testWithSortedArray(out);
+	testWithInvertedSortedArray(out);
 }
