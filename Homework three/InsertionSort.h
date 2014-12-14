@@ -34,10 +34,6 @@ inline void InsertionSort<T>::sort(T * data, size_t count)
 	}
 
 	CALC_TIME;
-
-	///**/
-	//std::cout << "Time: " << sortTime << std::endl;
-	///**/
 }
 
 template <class T>

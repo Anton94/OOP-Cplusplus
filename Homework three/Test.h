@@ -3,6 +3,32 @@
 #include <iostream>
 #include "SortTester.h"
 #include "Sorter.h"
+#include "Utility.h"
+
+#ifndef MACROSES   // DA moga da gi zatvorq, che ne moga da 
+#define MACROSES
+#define START_TEST(msg) out << msg << "\n"; \
+	srand(time(NULL))
+
+#define PRINT_ARRAY(arr, size, msg)			\
+	out << "    " << msg << ": ";			\
+	Utility<T>::printArray(arr, size, out)
+
+#define PRINT_STATUS(arr, size)						\
+	if (Utility<T>::checkForSortedArray(arr, size))	\
+		out << "    Test status: Passed!\n";		\
+	else											\
+		out << "    Test status: Failed!\n"
+
+#define PRINT_DESCR(msg) out << "  " << msg << ":\n"
+#define PRINT_SORT_DESCRIPTION(sort)						\
+	MySorter<T> * mySorter;									\
+	if (mySorter = dynamic_cast<MySorter<T>*>(sort))		\
+		PRINT_DESCR(mySorter->description());				\
+	else													\
+		PRINT_DESCR("Unknown sorting algorithm")
+
+#endif
 
 template<typename T>
 class Test : public SortTester<T>
@@ -11,7 +37,6 @@ public:
 	Test(Sorter<T> ** sorters, int count);
 	virtual void getSummary(std::ostream & out);
 protected:
-	bool checkForSortedArray(T * data, size_t count) const;
 	void testWithRandomData(std::ostream & out) const;
 protected:
 	Sorter<T> ** sorters;
@@ -40,49 +65,33 @@ inline Test<T>::Test(Sorter<T> ** sorters, int count) : SortTester<T>(sorters, c
 template <class T>
 inline void Test<T>::testWithRandomData(std::ostream & out) const
 {
-	out << "Test with random elements!" << "\n";
+	START_TEST("Test with random elements!");
 
-	T arr[10] = { 1, 2, 3, 5, 88, 0, -2, 3, 7, 1 };
-	
+	size_t size = rand() % 12 + 1; // [1,30]
+
+	T * originalArr = new T[size];
+
+	for (size_t i = 0; i < size; ++i)
+		originalArr[i] = rand() % 1000; // [0,999]
+
+	T * arr = new T[size];	
 
 	for (int i = 0; i < count; ++i)
 	{
-		MySorter<T> * mySorter;
-		if (mySorter = dynamic_cast<MySorter<T>*>(sorters[i]))
-		{
-			out << "  " << mySorter->description() << "->\n";
-		}
-		else
-		{
-			out << "  " << "Unknown sorting algorithm" << "\n";
-		}
+		Utility<T>::copyTo(arr, originalArr, size);
+		PRINT_SORT_DESCRIPTION(sorters[i]);
 
-		out << "    " << "Array before sort: ";
-		MySorter<T>::printArray(arr, 10, std::cout);
+		PRINT_ARRAY(arr, size, "Array before sort");
 
-		sorters[i]->sort(arr, 10);
+		sorters[i]->sort(arr, size);
 
-		out << "    " << "Array after  sort: ";
-		MySorter<T>::printArray(arr, 10, std::cout);
+		PRINT_ARRAY(arr, size, "Array after  sort");
 
-		if (checkForSortedArray(arr, 10))
-			out << "    " << "Test status: Passed!" << "\n";
-		else
-			out << "    " << "Test status: Failed!" << "\n";
-	}
-}
-
-
-template <class T>
-inline bool Test<T>::checkForSortedArray(T * data, size_t count) const
-{
-	for (size_t i = 1; i < count; ++i)
-	{
-		if (data[i] > data[i - 1])
-			return false;
+		PRINT_STATUS(arr, size);
 	}
 
-	return true;
+	delete[] originalArr;
+	delete[] arr;
 }
 
 template <class T>
