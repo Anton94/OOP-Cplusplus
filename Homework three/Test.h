@@ -157,7 +157,7 @@ START_TEST(testWithSortedArray, "Test with sorted array!");
 
 START_TEST(testWithInvertedSortedArray, "Test with inverted sorted array!");
 {
-	size_t size = 15;
+	size_t size = 7;
 	int * originalArr = new int[size];
 
 	for (int i = 0; i < size; ++i)
