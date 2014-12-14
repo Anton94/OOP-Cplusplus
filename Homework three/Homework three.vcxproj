@@ -76,15 +76,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="InsertionSord.h" />
+    <ClInclude Include="InsertionSort.h" />
+    <ClInclude Include="MySorter.h" />
     <ClInclude Include="Sorter.h" />
     <ClInclude Include="SortTester.h" />
     <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="InsertionSortcpp.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
