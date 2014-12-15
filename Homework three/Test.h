@@ -65,6 +65,7 @@ class Test : public SortTester<T>
 public:
 	Test(Sorter<T> ** sorters, int count);
 	virtual void getSummary(std::ostream & out);
+	~Test();
 protected:
 	void testWithRandomData(std::ostream & out) const;
 	void testWithAlmostSorted(std::ostream & out) const;
@@ -96,6 +97,12 @@ inline Test<T>::Test(Sorter<T> ** sorters, int count) : SortTester<T>(sorters, c
 	}
 
 	this->count = count;
+}
+
+template <class T>
+inline Test<T>::~Test()
+{
+	delete[] sorters;
 }
 
 START_TEST(testWithRandomData, "Test with random elements!");

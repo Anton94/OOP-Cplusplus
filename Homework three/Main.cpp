@@ -6,17 +6,30 @@
 
 int main()
 {
-	InsertionSort<MyTestStruct> insertionSort;
-	MergeSort<MyTestStruct> mergeSort;
+	_CrtMemState s1, s2, s3;
+	_CrtMemCheckpoint(&s1);
+	{
+		InsertionSort<MyTestStruct> insertionSort;
+		MergeSort<MyTestStruct> mergeSort;
 
-	Sorter<MyTestStruct> ** sorters = new Sorter<MyTestStruct>*[5];
+		Sorter<MyTestStruct> ** sorters = new Sorter<MyTestStruct>*[2];
 
-	sorters[0] = &insertionSort;
-	sorters[1] = &mergeSort;
-	Test<MyTestStruct> test(sorters, 2);
-	test.getSummary(std::cout);
+		sorters[0] = &insertionSort;
+		sorters[1] = &mergeSort;
+		Test<MyTestStruct> test(sorters, 2);
+		test.getSummary(std::cout);
 
-	delete [] sorters;
+		delete[] sorters;
+	}
+
+
+	_CrtMemCheckpoint(&s2);
+
+	if (_CrtMemDifference(&s3, &s1, &s2))
+	{
+		std::cout << "Memory leak detected!" << std::endl;
+		_CrtMemDumpStatistics(&s3);
+	}
 
 	return 0;
 }
