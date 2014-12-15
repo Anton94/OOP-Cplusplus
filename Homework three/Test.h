@@ -7,6 +7,10 @@
 
 #ifndef MACROSES   // DA moga da gi zatvorq, che ne moga da gi gledam! (slagam i vuv funkciite {} za moe udobstvo)
 #define MACROSES
+
+// size for the array on the test functions.
+#define SIZE 15
+
 #define START_TEST(name, msg)								\
 	template <class T>										\
 	inline void Test<T>::name(std::ostream & out) const		\
@@ -35,6 +39,7 @@
 		PRINT_DESCR("Unknown sorting algorithm")	 
 
 #define EXECUTE_FOR_ALL_SORTS						\
+	T * arr = new T[size];							\
 	for (int i = 0; i < count; ++i)					\
 	{												\
 		Utility<T>::copyTo(arr, originalArr, size);	\
@@ -62,6 +67,7 @@ public:
 	virtual void getSummary(std::ostream & out);
 protected:
 	void testWithRandomData(std::ostream & out) const;
+	void testWithAlmostSorted(std::ostream & out) const;
 	void testWithEmptyArray(std::ostream & out) const;
 	void testWithOnyTypeOfElements(std::ostream & out) const;
 	void testWithSortedArray(std::ostream & out) const;
@@ -95,14 +101,37 @@ inline Test<T>::Test(Sorter<T> ** sorters, int count) : SortTester<T>(sorters, c
 START_TEST(testWithRandomData, "Test with random elements!");
 {
 	srand(time(NULL));
-	size_t size = rand() % 12 + 1;		// [1,30]
+	size_t size = rand() % SIZE + 1;		// [1,SIZE]
 
-	int * originalArr = new int[size];
+	T * originalArr = new T[size];
 
 	for (size_t i = 0; i < size; ++i)
 		originalArr[i] = rand() % 1000; // [0,999]
 
-	int * arr = new int[size];
+	EXECUTE_FOR_ALL_SORTS;
+
+	END_TEST;
+}
+
+START_TEST(testWithAlmostSorted, "Test with almost sorted array!");
+{
+	srand(time(NULL));
+	size_t size = SIZE;
+	size_t offset = 3;					// moved max elemenets after the original place
+	size_t offsetFrequency = size / 3;	// every 'offsetFrequency'-th element to be shaked
+
+	T * originalArr = new T[size];
+
+	for (int i = 0; i < size; ++i)
+	{
+		originalArr[i] = size - i;
+	}
+	
+	// shake it a little
+	for (int i = 0; i < size - offset; i += offsetFrequency)
+	{
+		std::swap(originalArr[i], originalArr[i + (rand() % offset + 1)]);
+	}
 
 	EXECUTE_FOR_ALL_SORTS;
 
@@ -114,8 +143,6 @@ START_TEST(testWithEmptyArray, "Test with empty array!");
 	T * originalArr = NULL;
 	size_t size = 0;
 
-	T * arr = new T[size];
-
 	EXECUTE_FOR_ALL_SORTS;
 
 	END_TEST;
@@ -123,15 +150,13 @@ START_TEST(testWithEmptyArray, "Test with empty array!");
 
 START_TEST(testWithOnyTypeOfElements, "Test with one type of elements!");
 {
-	size_t size = 10;
-	int * originalArr = new int[size];
+	size_t size = SIZE;
+	T * originalArr = new T[size];
 
 	for (int i = 0; i < size; ++i)
 	{
 		originalArr[i] = 42;
 	}
-
-	int * arr = new int[size];
 
 	EXECUTE_FOR_ALL_SORTS;
 
@@ -140,15 +165,13 @@ START_TEST(testWithOnyTypeOfElements, "Test with one type of elements!");
 
 START_TEST(testWithSortedArray, "Test with sorted array!");
 {
-	size_t size = 13;
-	int * originalArr = new int[size];
+	size_t size = SIZE;
+	T * originalArr = new T[size];
 
 	for (int i = 0; i < size; ++i)
 	{
 		originalArr[i] = size - i;
 	}
-
-	int * arr = new int[size];
 
 	EXECUTE_FOR_ALL_SORTS;
 
@@ -157,15 +180,13 @@ START_TEST(testWithSortedArray, "Test with sorted array!");
 
 START_TEST(testWithInvertedSortedArray, "Test with inverted sorted array!");
 {
-	size_t size = 7;
-	int * originalArr = new int[size];
+	size_t size = SIZE;
+	T * originalArr = new T[size];
 
 	for (int i = 0; i < size; ++i)
 	{
 		originalArr[i] = i;
 	}
-
-	int * arr = new int[size];
 
 	EXECUTE_FOR_ALL_SORTS;
 
@@ -174,15 +195,13 @@ START_TEST(testWithInvertedSortedArray, "Test with inverted sorted array!");
 
 START_TEST(testWithFewTypesOfElements, "Test with few types of elements!");
 {
-	size_t size = 20;
-	int * originalArr = new int[size];
+	size_t size = SIZE;
+	T * originalArr = new T[size];
 
 	for (int i = 0; i < size; ++i)
 	{
 		originalArr[i] = i % 3; // [0,2]
 	}
-
-	int * arr = new int[size];
 
 	EXECUTE_FOR_ALL_SORTS;
 
@@ -192,14 +211,12 @@ START_TEST(testWithFewTypesOfElements, "Test with few types of elements!");
 START_TEST(testWith20000Elements, "Test with 20 000 elements!");
 {
 	size_t size = 20000;
-	int * originalArr = new int[size];
+	T * originalArr = new T[size];
 
 	for (int i = 0; i < size; ++i)
 	{
-		originalArr[i] = rand() % 1000; // [0,999]
+		originalArr[i] = rand() % 1000;
 	}
-
-	int * arr = new int[size];
 
 	EXECUTE_FOR_ALL_SORTS;
 
@@ -211,10 +228,11 @@ template <class T>
 inline void Test<T>::getSummary(std::ostream & out)
 {
 	testWithRandomData(out);
+	testWithAlmostSorted(out);
 	testWithEmptyArray(out);
 	testWithOnyTypeOfElements(out);
 	testWithSortedArray(out);
 	testWithInvertedSortedArray(out);
 	testWithFewTypesOfElements(out);
-	// testWith20000Elements(out);
+//	testWith20000Elements(out);
 }

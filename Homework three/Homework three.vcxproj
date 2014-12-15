@@ -79,6 +79,7 @@
     <ClInclude Include="InsertionSort.h" />
     <ClInclude Include="MergeSort.h" />
     <ClInclude Include="MySorter.h" />
+    <ClInclude Include="MyTestStruct.h" />
     <ClInclude Include="Sorter.h" />
     <ClInclude Include="SortTester.h" />
     <ClInclude Include="Test.h" />
@@ -86,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MyTestStruct.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

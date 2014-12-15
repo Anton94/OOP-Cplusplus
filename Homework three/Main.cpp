@@ -2,17 +2,18 @@
 #include "Test.h"
 #include "InsertionSort.h"
 #include "MergeSort.h"
+#include "MyTestStruct.h"
 
 int main()
 {
-	InsertionSort<int> insertionSort;
-	MergeSort<int> mergeSort;
+	InsertionSort<MyTestStruct> insertionSort;
+	MergeSort<MyTestStruct> mergeSort;
 
-	Sorter<int> ** sorters = new Sorter<int>*[5];
+	Sorter<MyTestStruct> ** sorters = new Sorter<MyTestStruct>*[5];
 
 	sorters[0] = &insertionSort;
 	sorters[1] = &mergeSort;
-	Test<int> test(sorters, 2);
+	Test<MyTestStruct> test(sorters, 2);
 	test.getSummary(std::cout);
 
 	delete [] sorters;
