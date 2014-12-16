@@ -9,7 +9,7 @@
 #define MACROSES
 
 // size for the array on the test functions.
-#define SIZE 15
+#define SIZE 30
 
 #define START_TEST(name, msg)								\
 	template <class T>										\
@@ -225,7 +225,16 @@ START_TEST(testWith20000Elements, "Test with 20 000 elements!");
 		originalArr[i] = rand() % 1000;
 	}
 
-	EXECUTE_FOR_ALL_SORTS;
+	T * arr = new T[size];	
+
+	for (int i = 0; i < count; ++i)					
+	{												
+		Utility<T>::copyTo(arr, originalArr, size);	
+		PRINT_SORT_DESCRIPTION(sorters[i]);			
+		sorters[i]->sort(arr, size);				
+		PRINT_STATUS(arr, size);					
+		PRINT_TIME(sorters[i]->getSortTime());		
+	}
 
 	END_TEST;
 }
@@ -241,5 +250,5 @@ inline void Test<T>::getSummary(std::ostream & out)
 	testWithSortedArray(out);
 	testWithInvertedSortedArray(out);
 	testWithFewTypesOfElements(out);
-//	testWith20000Elements(out);
+	testWith20000Elements(out);
 }

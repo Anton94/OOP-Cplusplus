@@ -31,9 +31,10 @@ int main()
 
 		testFile << "The test class generates my own data which is one int value for comparation and load, which of array with 42 double values.\n"
 			<< "In the following data, you can see how bad or good are the algorithms!\n"
-			<< "(I don`t know if I need to say this algorithm is with O(n*logN) and etc..."
+			<< "// (I don`t know if I need to say this algorithm is with O(n*logN) and etc..."
 			<< "I suppose you need only the output data)\n"
-			<< "If you want to make the test arrays smaller or bigger you can modify all of them with the #macros SIZE in 'Test.h'!\n\n\n";
+			<< "If you want to make the test arrays smaller or bigger you can modify all of them with the #macros SIZE in 'Test.h'!\n"
+			<< "Now they are with size " << SIZE << ".\n\n\n";
 
 		InsertionSort<MyTestStruct> insertionSort;
 		MergeSort<MyTestStruct> mergeSort;
