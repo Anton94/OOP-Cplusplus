@@ -15,15 +15,17 @@ template <class T>
 inline void InsertionSort<T>::sort(T * data, size_t count)
 {
 	START_TIME;
-
-	for (size_t i = 1; i < count; ++i)
+	
+	if (data != NULL && count > 0)
 	{
-		for (size_t j = i; j > 0 && data[j - 1] < data[j]; --j)
+		for (size_t i = 1; i < count; ++i)
 		{
-			std::swap(data[j], data[j - 1]);
+			for (size_t j = i; j > 0 && data[j - 1] < data[j]; --j)
+			{
+				std::swap(data[j], data[j - 1]);
+			}
 		}
 	}
-
 	CALC_TIME;
 }
 

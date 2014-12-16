@@ -1,8 +1,9 @@
 #include <iostream>
+#include "MyTestStruct.h"
 #include "Test.h"
 #include "InsertionSort.h"
 #include "MergeSort.h"
-#include "MyTestStruct.h"
+#include "HeapSort.h"
 
 int main()
 {
@@ -11,12 +12,14 @@ int main()
 	{
 		InsertionSort<MyTestStruct> insertionSort;
 		MergeSort<MyTestStruct> mergeSort;
+		HeapSort<MyTestStruct> heapSort;
 
-		Sorter<MyTestStruct> ** sorters = new Sorter<MyTestStruct>*[2];
+		Sorter<MyTestStruct> ** sorters = new Sorter<MyTestStruct>*[3];
 
 		sorters[0] = &insertionSort;
 		sorters[1] = &mergeSort;
-		Test<MyTestStruct> test(sorters, 2);
+		sorters[2] = &heapSort;
+		Test<MyTestStruct> test(sorters, 3);
 		test.getSummary(std::cout);
 
 		delete[] sorters;
