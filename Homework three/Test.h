@@ -9,7 +9,7 @@
 #define MACROSES
 
 // size for the array on the test functions.
-#define SIZE 15
+#define SIZE 20
 
 #define START_TEST(name, msg)								\
 	template <class T>										\
@@ -234,12 +234,12 @@ START_TEST(testWith20000Elements, "Test with 20 000 elements!");
 template <class T>
 inline void Test<T>::getSummary(std::ostream & out)
 {
-	testWithRandomData(out);
+	/*testWithRandomData(out);
 	testWithAlmostSorted(out);
 	testWithEmptyArray(out);
 	testWithOnyTypeOfElements(out);
-	testWithSortedArray(out);
+	testWithSortedArray(out);*/
 	testWithInvertedSortedArray(out);
-	testWithFewTypesOfElements(out);
+//	testWithFewTypesOfElements(out);
 //	testWith20000Elements(out);
 }
