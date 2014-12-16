@@ -9,7 +9,7 @@
 #define MACROSES
 
 // size for the array on the test functions.
-#define SIZE 15
+#define SIZE 20
 
 #define START_TEST(name, msg)								\
 	template <class T>										\

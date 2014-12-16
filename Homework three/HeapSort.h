@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "MySorter.h"
 
@@ -10,7 +10,7 @@ public:
 	virtual unsigned long long getSortTime() const;
 	virtual const char* description() const;
 private:
-	void swiftUp(T * data, size_t index) const;
+	void Sift(T* data, size_t pos, size_t count) const;
 };
 
 template <class T>
@@ -20,9 +20,18 @@ inline void HeapSort<T>::sort(T * data, size_t count)
 
 	if (data != NULL && count > 0)
 	{
-		for (size_t i = 1; i < count; ++i) // first is alreade at the top...
+		size_t i = count / 2;
+
+		while (i--)
 		{
-			swiftUp(data, i);
+			Sift(data, i, count);
+		}
+		i = count;
+
+		while (--i)
+		{
+			std::swap(data[0], data[i]);
+			Sift(data, 0, i);
 		}
 	}
 
@@ -30,26 +39,27 @@ inline void HeapSort<T>::sort(T * data, size_t count)
 }
 
 template <class T>
-inline void HeapSort<T>::swiftUp(T * data, size_t index) const
+void HeapSort<T>::Sift(T* data, size_t pos, size_t count) const
 {
-	size_t i = index + 1;
-	
-	while (i-- > 0)
+	T elem(data[pos]);
+
+	size_t ni = pos;
+	size_t si = pos * 2 + 1;
+
+	while (si < count)
 	{
-		if (i > 0)
-		{
-			i = (i - 1) / 2;
-		}
-		else
-		{
-			i = 0;
-		}
-		if (data[i] < data[index])
-		{
-			std::swap(data[i], data[index]);
-			index = i;
-		}
+		if (si < count - 1 && data[si] > data[si + 1])
+			si++;
+
+		if (elem < data[si])
+			break;
+
+		data[ni] = data[si];
+		ni = si;
+		si = si * 2 + 1;
 	}
+
+	data[ni] = elem;
 }
 
 template <class T>

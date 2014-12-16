@@ -15,6 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+    <ClCompile Include="Calculator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Operations.cpp">
+=======
     <ClCompile Include="Operations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -22,11 +31,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+>>>>>>> 082232fe0d4b990fe78faa900df15395aa14cd4f
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Calculator.h">
+<<<<<<< HEAD
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Operations.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Source Files</Filter>
+=======
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Operations.h">
@@ -37,6 +59,7 @@
     </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Header Files</Filter>
+>>>>>>> 082232fe0d4b990fe78faa900df15395aa14cd4f
     </ClInclude>
   </ItemGroup>
 </Project>

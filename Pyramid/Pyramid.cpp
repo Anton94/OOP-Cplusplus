@@ -24,6 +24,16 @@
 #include <list>
 
 // the result of the calculations is in the given list.
+void printList(std::list<int> list)
+{
+	for (int i = 0; i < list.size(); i++)
+	{
+		std::cout << list.front() << " ";
+		list.pop_front();
+	}
+	
+	std::cout << std::endl;
+}
 
 void calculate(std::list<int> & list, int n)
 {
@@ -41,7 +51,9 @@ void calculate(std::list<int> & list, int n)
 
 			if (list.front() == 0)
 			{
+				
 				list.pop_front();
+			//	printList(list);
 				if (--n == 0)
 				{
 					break;
