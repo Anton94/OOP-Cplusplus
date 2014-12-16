@@ -9,7 +9,7 @@
 #define MACROSES
 
 // size for the array on the test functions.
-#define SIZE 15
+#define SIZE 10000
 
 #define START_TEST(name, msg)								\
 	template <class T>										\
@@ -44,9 +44,7 @@
 	{												\
 		Utility<T>::copyTo(arr, originalArr, size);	\
 		PRINT_SORT_DESCRIPTION(sorters[i]);			\
-		PRINT_ARRAY(arr, size, "Array before sort");\
 		sorters[i]->sort(arr, size);				\
-		PRINT_ARRAY(arr, size, "Array after  sort");\
 		PRINT_STATUS(arr, size);					\
 		PRINT_TIME(sorters[i]->getSortTime());		\
 	}

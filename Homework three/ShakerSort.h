@@ -18,7 +18,23 @@ inline void ShakerSort<T>::sort(T * data, size_t count)
 
 	if (data != NULL && count > 1)
 	{
-		
+		size_t left = 0;
+		size_t right = count - 1;
+
+		while (left < right)
+		{
+			for (size_t r = right; r > left; r--)
+				if (data[r - 1] < data[r])
+					std::swap(data[r - 1], data[r]);
+
+			left++; // r - 1 so the left element will rotated...
+
+			for (size_t l = left + 1; l <= right; l++)
+				if (data[l - 1] < data[l])
+					std::swap(data[l - 1], data[l]);
+
+			right--;
+		}
 	}
 
 	CALC_TIME;

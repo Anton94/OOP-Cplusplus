@@ -16,6 +16,8 @@
 #include "HeapSort.h"
 #include "QuickSort.h"
 #include "SelectionSort.h"
+#include "ShakerSort.h"
+
 
 int main()
 {
@@ -27,6 +29,7 @@ int main()
 		HeapSort<MyTestStruct> heapSort;
 		QuickSort<MyTestStruct> quickSort;
 		SelectionSort<MyTestStruct> selectionSort;
+		ShakerSort<MyTestStruct> shakerSort;
 
 		Sorter<MyTestStruct> ** sorters = new Sorter<MyTestStruct>*[6];
 
@@ -35,7 +38,8 @@ int main()
 		sorters[2] = &heapSort;
 		sorters[3] = &quickSort;
 		sorters[4] = &selectionSort;
-		Test<MyTestStruct> test(sorters, 5);
+		sorters[5] = &shakerSort;
+		Test<MyTestStruct> test(sorters, 6);
 		test.getSummary(std::cout);
 
 		delete[] sorters;

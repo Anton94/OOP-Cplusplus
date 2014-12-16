@@ -83,6 +83,7 @@
     <ClInclude Include="MyTestStruct.h" />
     <ClInclude Include="QuickSort.h" />
     <ClInclude Include="SelectionSort.h" />
+    <ClInclude Include="ShakerSort.h" />
     <ClInclude Include="Sorter.h" />
     <ClInclude Include="SortTester.h" />
     <ClInclude Include="Test.h" />
