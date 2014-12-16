@@ -1,9 +1,19 @@
+/*
+	Github repository: https://github.com/Anton94/OOP-Cplusplus
+	Github project:	   https://github.com/Anton94/OOP-Cplusplus/tree/master/Homework%20three
+
+	'MyTestStruct' is the testing type.
+
+*/
+
 #include <iostream>
 #include "MyTestStruct.h"
 #include "Test.h"
 #include "InsertionSort.h"
 #include "MergeSort.h"
 #include "HeapSort.h"
+#include "QuickSort.h"
+
 
 int main()
 {
@@ -13,13 +23,15 @@ int main()
 		InsertionSort<MyTestStruct> insertionSort;
 		MergeSort<MyTestStruct> mergeSort;
 		HeapSort<MyTestStruct> heapSort;
+		QuickSort<MyTestStruct> quickSort;
 
-		Sorter<MyTestStruct> ** sorters = new Sorter<MyTestStruct>*[3];
+		Sorter<MyTestStruct> ** sorters = new Sorter<MyTestStruct>*[4];
 
 		sorters[0] = &insertionSort;
 		sorters[1] = &mergeSort;
 		sorters[2] = &heapSort;
-		Test<MyTestStruct> test(sorters, 3);
+		sorters[3] = &quickSort;
+		Test<MyTestStruct> test(sorters, 4);
 		test.getSummary(std::cout);
 
 		delete[] sorters;

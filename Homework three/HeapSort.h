@@ -18,7 +18,7 @@ inline void HeapSort<T>::sort(T * data, size_t count)
 {
 	START_TIME;
 
-	if (data != NULL && count > 0)
+	if (data != NULL && count > 1)
 	{
 		size_t i = count / 2;
 

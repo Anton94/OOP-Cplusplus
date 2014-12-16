@@ -9,7 +9,7 @@
 #define MACROSES
 
 // size for the array on the test functions.
-#define SIZE 20
+#define SIZE 15
 
 #define START_TEST(name, msg)								\
 	template <class T>										\
@@ -28,7 +28,7 @@
 		out << "    Test status: Failed!\n"			
 
 #define PRINT_TIME(val) \
-	out << "    Sorting time: " << val << "!\n"
+	out << "    Sorting time: " << val << " seconds!\n"
 
 #define PRINT_DESCR(msg) out << "  " << msg << ":\n"
 #define PRINT_SORT_DESCRIPTION(sort)						\

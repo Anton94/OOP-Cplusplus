@@ -19,7 +19,7 @@ inline void MergeSort<T>::sort(T * data, size_t count)
 {
 	START_TIME;
 
-	if (data != NULL && count > 0)
+	if (data != NULL && count > 1)
 	{
 		T * buffer = new T[count];
 
