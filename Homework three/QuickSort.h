@@ -24,10 +24,8 @@ inline void QuickSort<T>::sort(T * data, size_t count)
 		quickSort(data, count);
 	}
 
-
 	CALC_TIME;
 }
-
 
 template <class T>
 void QuickSort<T>::quickSort(T * data, size_t count) const

@@ -1,8 +1,10 @@
 /*
+
+	#71488 FMI 
+	Homework three
+
 	Github repository: https://github.com/Anton94/OOP-Cplusplus
 	Github project:	   https://github.com/Anton94/OOP-Cplusplus/tree/master/Homework%20three
-
-	'MyTestStruct' is the testing type.
 
 */
 
@@ -13,7 +15,7 @@
 #include "MergeSort.h"
 #include "HeapSort.h"
 #include "QuickSort.h"
-
+#include "SelectionSort.h"
 
 int main()
 {
@@ -24,14 +26,16 @@ int main()
 		MergeSort<MyTestStruct> mergeSort;
 		HeapSort<MyTestStruct> heapSort;
 		QuickSort<MyTestStruct> quickSort;
+		SelectionSort<MyTestStruct> selectionSort;
 
-		Sorter<MyTestStruct> ** sorters = new Sorter<MyTestStruct>*[4];
+		Sorter<MyTestStruct> ** sorters = new Sorter<MyTestStruct>*[6];
 
 		sorters[0] = &insertionSort;
 		sorters[1] = &mergeSort;
 		sorters[2] = &heapSort;
 		sorters[3] = &quickSort;
-		Test<MyTestStruct> test(sorters, 4);
+		sorters[4] = &selectionSort;
+		Test<MyTestStruct> test(sorters, 5);
 		test.getSummary(std::cout);
 
 		delete[] sorters;
