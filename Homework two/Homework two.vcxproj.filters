@@ -15,51 +15,40 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <ClCompile Include="Calculator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Operations.cpp">
-=======
-    <ClCompile Include="Operations.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Calculator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
->>>>>>> 082232fe0d4b990fe78faa900df15395aa14cd4f
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="..\Double linked list\DLList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Double linked list\ElemDLList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Queue with one link\ElemQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Queue with one link\Queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Market.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MarketState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Calculator.h">
-<<<<<<< HEAD
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Operations.h">
+    </ClCompile>
+    <ClCompile Include="Market.cpp">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Stack.h">
+    </ClCompile>
+    <ClCompile Include="MarketState.cpp">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
       <Filter>Source Files</Filter>
-=======
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Operations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Stack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Header Files</Filter>
->>>>>>> 082232fe0d4b990fe78faa900df15395aa14cd4f
-    </ClInclude>
+    </ClCompile>
   </ItemGroup>
 </Project>
