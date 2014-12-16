@@ -40,6 +40,10 @@ inline void HeapSort<T>::swiftUp(T * data, size_t index) const
 		{
 			i = (i - 1) / 2;
 		}
+		else
+		{
+			i = 0;
+		}
 		if (data[i] < data[index])
 		{
 			std::swap(data[i], data[index]);
