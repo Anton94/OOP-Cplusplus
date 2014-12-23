@@ -178,34 +178,16 @@ END()
 
 int main()
 {
-	ADD(checkPeekAndEnqueAndDequeSequence);
-	ADD(checkCopyConstructorAndTheOperator);
-	ADD(checkQueueSize);
-	ADD(checkWith1mElements);
-	ADD(checkPeekFromEmptyQueue);
-	ADD(checkDequeueFromEmptyQueue);
+	//ADD(checkPeekAndEnqueAndDequeSequence);
+	//ADD(checkCopyConstructorAndTheOperator);
+	//ADD(checkQueueSize);
+	//ADD(checkWith1mElements);
+	//ADD(checkPeekFromEmptyQueue);
+	//ADD(checkDequeueFromEmptyQueue);
 
-	Testing::executeTheTests();
-	
-	/*
-	using namespace std;
-	const size_t rows = 9;
+	//Testing::executeTheTests();
 
-	//set first row
-	for (int i = 0; i < rows * 2; ++i)
-	{
-		cout << ((i % 2 == 0) ? "*" : " ");
-	}
-	cout << endl;
 
-	for (int i = 2; i < rows; ++i)
-	{
-		cout << setw(i)  << "*" << setw(rows * 2 - i * 2) << "*" << endl;
-	}
-
-	// set last row
-	cout << setw(rows) << "*" << endl;
-	*/
 
 
 	return 0;
