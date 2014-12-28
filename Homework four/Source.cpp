@@ -1,5 +1,6 @@
 #include <iostream>
 #include "MyString.h"
+#include "Attributes.h"
 
 int main()
 {
@@ -14,8 +15,11 @@ int main()
 		std::cout << str1 << " and " << str2 << std::endl;
 		std::cout << (str1 == str2) << std::endl;
 
-		int a = 5, b = 7;
+		Attributes attributes;
+		attributes.addAttribute(MyString("Tony"), MyString("1994"));
+		attributes.addAttribute(MyString("AS"), MyString("AF"));
 
+		std::cout << attributes << std::endl;
 	}
 
 	_CrtMemCheckpoint(&s2);
