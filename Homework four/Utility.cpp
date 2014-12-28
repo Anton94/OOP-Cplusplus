@@ -22,7 +22,7 @@ void strCopy(char * dest, const char* src)
 		do
 		{
 			*dest++ = *src;
-		} while (*src++);
+		} while (*src++); // including '\0'
 
 	}
 }
