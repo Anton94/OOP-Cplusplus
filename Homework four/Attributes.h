@@ -5,10 +5,11 @@
 
 class Attributes
 {
-	friend std::ostream& operator<<(std::ostream& out, Attributes& attributes);
+	friend std::ostream& operator<<(std::ostream& out, const Attributes& attributes);
 public:
 	void addAttribute(const MyString& name, const MyString& value);
 	void removeAttribute(const MyString& name);
+	void editAttribute(const MyString& name, const MyString& newName, const MyString& newValue);
 	~Attributes();
 private:
 	DLList<Attribute*> attributes;

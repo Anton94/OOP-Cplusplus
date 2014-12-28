@@ -109,6 +109,11 @@ void MyString::free()
 	setDefaultValues();
 }
 
+bool MyString::isEmpty() const
+{
+	return size == 1;
+}
+
 // Deletes the allocated memory.
 
 MyString::~MyString()

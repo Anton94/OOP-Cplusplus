@@ -1,6 +1,7 @@
 #include <iostream>
 #include "MyString.h"
 #include "Attributes.h"
+#include "Tree.h"
 
 int main()
 {
@@ -17,9 +18,20 @@ int main()
 
 		Attributes attributes;
 		attributes.addAttribute(MyString("Tony"), MyString("1994"));
-		attributes.addAttribute(MyString("AS"), MyString("AF"));
+		attributes.addAttribute(MyString("Montana"), MyString("AF"));
+		attributes.addAttribute(MyString("Forby"), MyString("201F"));
+		attributes.addAttribute(MyString("Gnom"), MyString("FFFFFF"));
 
 		std::cout << attributes << std::endl;
+
+		attributes.removeAttribute("Tony");
+		std::cout << attributes << std::endl;
+
+		attributes.editAttribute("Montana", "EditedMontana", "1994");
+		std::cout << attributes << std::endl;
+
+		Tree tree;
+		tree.print(std::cout);
 	}
 
 	_CrtMemCheckpoint(&s2);

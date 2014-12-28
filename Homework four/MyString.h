@@ -18,6 +18,7 @@ public:
 	char operator[](int index) const;
 	size_t getLength() const;
 	void free();
+	bool isEmpty() const;
 	~MyString();
 private:
 	void setDefaultValues();
