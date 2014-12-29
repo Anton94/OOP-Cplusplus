@@ -30,7 +30,8 @@ addTag root/person/name
 email
 n
 
-removeTag root/person/name
+print
+removeTag root/person/name/email
 exit
 
 

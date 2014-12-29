@@ -28,6 +28,12 @@ bool Tree::executeOperation(std::istream & in, std::ostream & out, const MyStrin
 	if (operation == "exit")
 		return false;
 
+	if (operation == "print")
+	{
+		print(std::cout); // TO DO
+		return true;
+	}
+
 	// Get the path.
 	MyString path;
 	getWordFromIStream(in, path);
@@ -123,7 +129,7 @@ void Tree::removeTag(Tag * root, const MyString* dirs, size_t dirsCount)
 		{
 			if (dirsCount == 2) // this is the searched dir and search again for other match (a little ineffective for now). TO DO
 			{
-				deleteRoot((*iter)); // delete the tree (memory)
+				deleteRoot((*iter));
 				root->sons.removeAt(iter);
 				removeTag(root, dirs, dirsCount);
 				break;
