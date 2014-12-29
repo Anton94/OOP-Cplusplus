@@ -76,10 +76,8 @@ bool checkNewWord(char ch)
 }
 
 
-MyString* parseThePath(const MyString& path, char delim)
+MyString* parseThePath(const MyString& path, char delim, size_t size)
 {
-	size_t size = getCountDirectories(path, delim);
-
 	MyString * arr = new MyString[size];
 
 	const char* pStr = path.getString();

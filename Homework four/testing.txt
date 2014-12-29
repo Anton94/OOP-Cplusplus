@@ -22,6 +22,15 @@ addTag root
 empty
 n
 
+addTag root/person/name
+symbol
+n
+symbol11
+addTag root/person/name
+email
+n
+
+removeTag root/person/name
 exit
 
 

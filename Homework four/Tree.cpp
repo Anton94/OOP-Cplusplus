@@ -9,47 +9,66 @@ Tree::Tree()
 
 void Tree::buildTree(std::istream & in, std::ostream & out)
 {
-	MyString operation, path;
+	MyString operation;
 
-	while (true)
+	do
 	{
 		out << "Insert operation: ";
 
 		// Get the operation.
 		getWordFromIStream(in, operation);
 
-		if (operation == "exit")
-			break;
+	} while (executeOperation(in, out, operation));
+}
 
-		// Get the path.
-		getWordFromIStream(in, path);
+// Execute the given operation, if it is "exit" returns false, otherwise returns true.
 
-		// Generate the array of dirs.
-		MyString * dirs = parseThePath(path, '/');
-		size_t size = getCountDirectories(path, '/');
+bool Tree::executeOperation(std::istream & in, std::ostream & out, const MyString& operation)
+{
+	if (operation == "exit")
+		return false;
 
-		if (operation == "addTag")
-		{
-			Tag * tag = createTag(in, out);
-			
-			insertTag(root, tag, dirs, size);
-			delete tag;
-		}
+	// Get the path.
+	MyString path;
+	getWordFromIStream(in, path);
 
-		delete[] dirs;
-	} 
+	// Parse the path to array of dirs.
+	size_t dirsCount = getCountDirectories(path, '/');
+	MyString * dirs = parseThePath(path, '/', dirsCount);
+
+	if (operation == "addTag")
+		addTag(in, out, dirs, dirsCount);
+	else if (operation == "removeTag")
+		removeTag(root, dirs, dirsCount);
+
+	delete[] dirs;
+
+	return true;
+}
+
+// Creates a new tag with needed data and insert it in every possible position.
+
+void Tree::addTag(std::istream & in, std::ostream & out, const MyString* dirs, size_t dirsCount)
+{
+	// 
+	Tag * tag = createTag(in, out);
+
+	insertTag(root, tag, dirs, dirsCount);
+
+	delete tag;
+
 }
 
 // Insert a copy of the tag on every possible possition in the tree.
 
-void Tree::insertTag(Tag * root, Tag * newTag, MyString* path, size_t size)
+void Tree::insertTag(Tag * root, Tag * newTag, const MyString* dirs, size_t dirsCount)
 {
 	// path dir is different than the dir, which is in at the moment- do nothing.
-	if (size == 0 || root->name != *path)	 
+	if (dirsCount == 0 || root->name != *dirs)
 		return;
 
 	// The dir is last. (the name of the searched one and the current one match from above if case)
-	if (size == 1)							
+	if (dirsCount == 1)
 	{
 		root->sons.push_back(new Tag(*newTag));
 	}
@@ -59,11 +78,13 @@ void Tree::insertTag(Tag * root, Tag * newTag, MyString* path, size_t size)
 		for (DLList<Tag*>::Iterator iter = const_cast<Tag*>(root)->sons.begin(); iter != const_cast<Tag*>(root)->sons.end(); ++iter)
 		{
 			// If the child dir matches the name of searched subdir.
-			if ((*iter)->name == *(path + 1)) 
-				insertTag((*iter), newTag, path + 1, size - 1);
+			if ((*iter)->name == *(dirs + 1))
+				insertTag((*iter), newTag, dirs + 1, dirsCount - 1);
 		}
 	}
 }
+
+// Creates new Tag and returns a pointer to the tag (dynamic one). 
 
 Tree::Tag* Tree::createTag(std::istream & in, std::ostream & out)
 {
@@ -86,6 +107,36 @@ Tree::Tag* Tree::createTag(std::istream & in, std::ostream & out)
 
 	return root;
 }
+
+// Insert a copy of the tag on every possible possition in the tree.
+
+void Tree::removeTag(Tag * root, const MyString* dirs, size_t dirsCount)
+{
+	// path dir is different than the dir, which is in at the moment- do nothing.
+	if (dirsCount <= 1 || root->name != *dirs) // <= 1 can`t delete the root.
+		return;
+
+	for (DLList<Tag*>::Iterator iter = const_cast<Tag*>(root)->sons.begin(); iter != const_cast<Tag*>(root)->sons.end(); ++iter)
+	{
+		// If the child dir matches the name of searched subdir.
+		if ((*iter)->name == *(dirs + 1))
+		{
+			if (dirsCount == 2) // this is the searched dir and search again for other match (a little ineffective for now). TO DO
+			{
+				deleteRoot((*iter)); // delete the tree (memory)
+				root->sons.removeAt(iter);
+				removeTag(root, dirs, dirsCount);
+				break;
+			}
+			else
+			{
+				removeTag((*iter), dirs + 1, dirsCount - 1);
+			}
+		}
+	}
+}
+
+// Print the tree from the root (some kind of in ordered).
 
 void Tree::print(std::ostream & out) const
 {
@@ -150,6 +201,8 @@ bool Tree::isEmptyTag(const Tag * root) const
 	return root->text.isEmpty() && root->sons.isEmpty();
 }
 
+// Prints ('indent') blank spaces 
+
 void Tree::printIndent(std::ostream & out, size_t indent) const
 {
 	while (indent--)
@@ -166,6 +219,7 @@ void Tree::deleteRoot(Tag * root)
 	delete root;
 }
 
+// Check if the use whant`s to add attribute. If he enter "y" or "Y" returns true, in any other case returns false.
 
 bool Tree::checkToAddAttribute(std::istream & in, std::ostream & out) const
 {
