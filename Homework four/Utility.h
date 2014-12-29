@@ -10,3 +10,5 @@ void getWordFromIStream(std::istream & in, MyString& str);
 void getDataFromIStream(std::istream & in, MyString& str, bool(*pFunc)(char ch));
 bool checkNewLine(char ch);
 bool checkNewWord(char ch);
+MyString* parseThePath(const MyString& path, char delim);
+size_t getCountDirectories(const MyString& path, char delim);

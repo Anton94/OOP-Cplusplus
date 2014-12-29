@@ -15,6 +15,16 @@ int main()
 		Tree tree;
 		tree.buildTree(in, out);
 		tree.print(std::cout);
+
+		/*MyString * dirs = parseThePath("root/person", '/');
+		size_t size = getCountDirectories("root/person", '/');
+
+		for (size_t i = 0; i < size; ++i)
+		{
+			std::cout << dirs[i] << std::endl;
+		}
+
+		delete[] dirs;*/
 	}
 
 	_CrtMemCheckpoint(&s2);

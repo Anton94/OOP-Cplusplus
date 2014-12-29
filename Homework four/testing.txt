@@ -1,0 +1,27 @@
+addTag root
+person
+n
+Ma ra ba
+addTag root
+person
+n
+
+addTag root
+person
+n
+
+addTag root/person
+name
+n
+Tony
+addTag root
+name
+n
+Dudov
+addTag root
+empty
+n
+
+exit
+
+

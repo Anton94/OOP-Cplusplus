@@ -14,41 +14,53 @@ void Tree::buildTree(std::istream & in, std::ostream & out)
 	while (true)
 	{
 		out << "Insert operation: ";
-		operation = path = "";
+
+		// Get the operation.
 		getWordFromIStream(in, operation);
 
 		if (operation == "exit")
 			break;
 
+		// Get the path.
 		getWordFromIStream(in, path);
+
+		// Generate the array of dirs.
+		MyString * dirs = parseThePath(path, '/');
+		size_t size = getCountDirectories(path, '/');
 
 		if (operation == "addTag")
 		{
 			Tag * tag = createTag(in, out);
-
-			insertTag(root, tag, Path(path));
+			
+			insertTag(root, tag, dirs, size);
 			delete tag;
 		}
+
+		delete[] dirs;
 	} 
 }
 
 // Insert a copy of the tag on every possible possition in the tree.
 
-void Tree::insertTag(Tag * root, Tag * newTag, Path path)
+void Tree::insertTag(Tag * root, Tag * newTag, MyString* path, size_t size)
 {
-	if (root->name != path.getCurrent()) // if the path is invalid ("") or the path dir is different than the dir , which is in at the moment- do nothing.
+	// path dir is different than the dir, which is in at the moment- do nothing.
+	if (size == 0 || root->name != *path)	 
 		return;
 
-	path.increment();
-	if (!path.hasNext())
+	// The dir is last. (the name of the searched one and the current one match from above if case)
+	if (size == 1)							
 	{
 		root->sons.push_back(new Tag(*newTag));
 	}
-	else
+	// size >= 2...
+	else									
 	{
 		for (DLList<Tag*>::Iterator iter = const_cast<Tag*>(root)->sons.begin(); iter != const_cast<Tag*>(root)->sons.end(); ++iter)
 		{
-			insertTag((*iter), newTag, path);
+			// If the child dir matches the name of searched subdir.
+			if ((*iter)->name == *(path + 1)) 
+				insertTag((*iter), newTag, path + 1, size - 1);
 		}
 	}
 }
@@ -89,23 +101,20 @@ void Tree::print(const Tag* root, std::ostream & out, size_t indent) const
 		<< root->name
 		<< root->attributes;
 
-	if (root->text.isEmpty() && root->sons.isEmpty()) // Empty tag
+	if (isEmptyTag(root))
 	{
 		out << "/>";
 		return;
 	}
-	
-	// Print the text.
 
 	out << ">"
 		<< root->text;
 
 
-	if (!root->text.isEmpty() && root->sons.isEmpty())
+	if (root->sons.isEmpty())
 	{
-		out << "</"
-			<< root->name
-			<< ">";
+		// close tag on same line.
+		printCloseTag(out, root);
 	}
 	else
 	{
@@ -115,16 +124,30 @@ void Tree::print(const Tag* root, std::ostream & out, size_t indent) const
 			print(*iter, out, indent + 4);
 		}
 
-		// close tag
+		// close tag on new line.
 
 		out << "\n";
 		printIndent(out, indent);
 
-		out << "</"
-			<< root->name
-			<< ">";
+		printCloseTag(out, root);
 	}
 
+}
+
+// Prints close tag for the Tag.
+
+void Tree::printCloseTag(std::ostream & out, const Tag * root) const
+{
+	out << "</"
+		<< root->name
+		<< ">";
+}
+
+// Checks if the tag is empty.
+
+bool Tree::isEmptyTag(const Tag * root) const
+{
+	return root->text.isEmpty() && root->sons.isEmpty();
 }
 
 void Tree::printIndent(std::ostream & out, size_t indent) const

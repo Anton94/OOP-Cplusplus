@@ -45,7 +45,7 @@ void getWordFromIStream(std::istream & in, MyString& str)
 
 void getDataFromIStream(std::istream & in, MyString& str, bool(*pFunc)(char ch))
 {
-//	str = ""; // empty string.
+	str = ""; // empty string.
 
 	if (!in)
 		throw "The input is broken!";
@@ -73,4 +73,50 @@ bool checkNewLine(char ch)
 bool checkNewWord(char ch)
 {
 	return ch != EOF && ch != '\n' && ch != ' ';
+}
+
+
+MyString* parseThePath(const MyString& path, char delim)
+{
+	size_t size = getCountDirectories(path, delim);
+
+	MyString * arr = new MyString[size];
+
+	const char* pStr = path.getString();
+
+	MyString dir;
+
+	for (size_t i = 0; i < size; ++i)
+	{
+		dir = "";
+
+		while (*pStr && *pStr != delim)
+		{
+			dir += *pStr;
+			++pStr;
+		}
+
+		++pStr;
+		
+		arr[i] = dir;
+	}
+
+	return arr;
+}
+
+
+size_t getCountDirectories(const MyString& path, char delim)
+{
+	size_t count = 1;
+	const char* pStr = path.getString();
+	
+	while (*pStr)
+	{
+		if (*pStr == delim)
+			++count;
+		
+		++pStr;
+	}
+
+	return count;
 }
