@@ -2,35 +2,18 @@
 #include "MyString.h"
 #include "Attributes.h"
 #include "Tree.h"
+#include "Utility.h"
+#include <fstream>
 
 int main()
 {
 	_CrtMemState s1, s2, s3;
 	_CrtMemCheckpoint(&s1);
 	{
-		MyString str1("aba1a");
-		MyString str2("abaa");
-
-		str1 += "t";
-
-		std::cout << str1 << " and " << str2 << std::endl;
-		std::cout << (str1 == str2) << std::endl;
-
-		Attributes attributes;
-		attributes.addAttribute(MyString("Tony"), MyString("1994"));
-		attributes.addAttribute(MyString("Montana"), MyString("AF"));
-		attributes.addAttribute(MyString("Forby"), MyString("201F"));
-		attributes.addAttribute(MyString("Gnom"), MyString("FFFFFF"));
-
-		std::cout << attributes << std::endl;
-
-		attributes.removeAttribute("Tony");
-		std::cout << attributes << std::endl;
-
-		attributes.editAttribute("Montana", "EditedMontana", "1994");
-		std::cout << attributes << std::endl;
-
+		std::ifstream in("testing.txt");
+		std::ofstream out("output.txt");
 		Tree tree;
+		tree.buildTree(in, out);
 		tree.print(std::cout);
 	}
 

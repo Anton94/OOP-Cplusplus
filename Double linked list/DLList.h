@@ -310,13 +310,15 @@ const T& DLList<T>::Iterator::operator*() const
 template <class  T>
 typename DLList<T>::Iterator& DLList<T>::Iterator::operator++()
 {
-	element = element->next;
+	if (operator bool())
+		element = element->next;
 	return *this;
 }
 
 template <class  T>
 typename const DLList<T>::Iterator& DLList<T>::Iterator::operator++() const
 {
-	element = element->next;
+	if (operator bool())
+		element = element->next;
 	return *this;
 }

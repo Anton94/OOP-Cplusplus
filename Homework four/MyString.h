@@ -13,10 +13,12 @@ public:
 	MyString& operator=(const char* other);
 	MyString& operator+=(const MyString& other);
 	MyString& operator+=(const char* other);
+	MyString& operator+=(char ch);
 	bool operator==(const MyString& other) const;
 	bool operator!=(const MyString& other) const;
 	char operator[](int index) const;
 	size_t getLength() const;
+	const char* getString() const;
 	void free();
 	bool isEmpty() const;
 	~MyString();

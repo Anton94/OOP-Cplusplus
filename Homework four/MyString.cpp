@@ -27,8 +27,19 @@ MyString::MyString(const MyString& other)
 
 MyString& MyString::operator=(const char* other)
 {
-	free();
+	delete[] string;
 	copyFrom(other);
+
+	return *this;
+}
+
+MyString& MyString::operator=(const MyString& other)
+{
+	if (this != &other)
+	{
+		delete[] string;
+		copyFrom(other);
+	}
 
 	return *this;
 }
@@ -47,17 +58,19 @@ MyString& MyString::operator+=(const char* other)
 MyString& MyString::operator+=(const MyString& other)
 {
 	addFrom(getLength() + other.size + 1, other.string); // + '\0'
-	
+
 	return *this;
 }
 
-MyString& MyString::operator=(const MyString& other)
+// Adds other char to the end of existing string.
+
+MyString& MyString::operator+=(char ch)
 {
-	if (this != &other)
-	{
-		free();
-		copyFrom(other);
-	}
+	if (full())
+		resize(capacity * 2);
+
+	string[size - 1] = ch;
+	string[size++] = '\0';
 
 	return *this;
 }
@@ -94,6 +107,13 @@ char MyString::operator[](int index) const
 	return string[index];
 }
 
+// Returns a pointer to the buffer in the memory.
+
+const char* MyString::getString() const
+{
+	return string;
+}
+
 // Returns the length of the string
 
 size_t MyString::getLength() const
@@ -101,17 +121,9 @@ size_t MyString::getLength() const
 	return size - 1;
 }
 
-// Deletes the allocated memory and sets the string to empty one.
-
-void MyString::free()
-{
-	delete[] string;
-	setDefaultValues();
-}
-
 bool MyString::isEmpty() const
 {
-	return size == 1;
+	return size <= 1;
 }
 
 // Deletes the allocated memory.
@@ -125,8 +137,13 @@ MyString::~MyString()
 
 void MyString::setDefaultValues()
 {
-	size = capacity = 1;
-	string = '\0';
+	copyFrom(""); // Empty string.
+}
+
+
+bool MyString::full() const
+{
+	return size == capacity;
 }
 
 // Creates new char array for the data with the given capacity and copies the symbols there.
@@ -175,4 +192,6 @@ void MyString::addFrom(size_t newSize, const char* other)
 		resize((capacity * 2 > newSize) ? capacity * 2 : newSize); // resize the buffer with the bigger of: twice capacity and the newSize
 
 	strCopy(string + getLength(), other);
+
+	size = newSize;
 }

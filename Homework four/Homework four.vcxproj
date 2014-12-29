@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="Attributes.cpp" />
+    <ClCompile Include="Path.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="Tree.cpp" />
@@ -87,8 +88,10 @@
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Attributes.h" />
     <ClInclude Include="MyString.h" />
+    <ClInclude Include="Path.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
