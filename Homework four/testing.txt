@@ -10,6 +10,9 @@ n
 Ma ra ba
 addTag root
 person
+y
+marker
+ima
 n
 
 addTag root
@@ -58,10 +61,25 @@ n
 
 print
 editTag root/person
-y
 FirstAttemptToEdit
-y
 TEXT IS CHANGED
+print
+addAttribute root/FirstAttemptToEdit
+insert
+yes
+editTag root/empty
+empty
+text for emptyto
+print
+removeAttribute root/FirstAttemptToEdit insert
+addAttribute root/FirstAttemptToEdit/name/symbol
+insert
+yes
+print
+editAttribute root/FirstAttemptToEdit marker
+editedMarker
+nqma
+print
 exit
 
 
