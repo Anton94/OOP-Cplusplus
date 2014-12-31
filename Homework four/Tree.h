@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Attributes.h"
-#include "Path.h"
+#include "Utility.h"
+#include "../Queue with one link/Queue.h"
 
 /*
 
@@ -28,6 +29,7 @@ class Tree
 public:
 	Tree();
 	void buildTree(std::istream & in, std::ostream & out);
+	void printBFS(std::ostream& out) const;
 	void print(std::ostream & out) const;
 	void printNoSpaces(std::ostream& out) const;
 	~Tree();

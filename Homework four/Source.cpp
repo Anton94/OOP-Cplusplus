@@ -14,7 +14,6 @@ int main()
 		std::ofstream out("output.txt");
 		Tree tree;
 		tree.buildTree(in, out);
-		tree.printNoSpaces(std::cout);
 
 		/*MyString * dirs = parseThePath("root/person", '/');
 		size_t size = getCountDirectories("root/person", '/');

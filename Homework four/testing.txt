@@ -80,6 +80,8 @@ editAttribute root/FirstAttemptToEdit marker
 editedMarker
 nqma
 print
+printNoSpaces
+printBFS
 exit
 
 

@@ -1,1 +1,168 @@
-Insert operation: Enter tag name: Add attribute? (y?) Enter attribute name: Enter attribute value: Add attribute? (y?) Enter attribute name: Enter attribute value: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter attribute name: Enter attribute value: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Insert operation: Enter the new tag name: Enter the new tag text: Insert operation: Insert operation: Enter attribute name: Enter attribute value: Insert operation: Enter the new tag name: Enter the new tag text: Insert operation: Insert operation: Enter attribute name: Insert operation: Enter attribute name: Enter attribute value: Insert operation: Insert operation: Enter attribute name: Enter attribute name: Enter attribute value: Insert operation: Insert operation: 
+Insert operation: Enter tag name: Add attribute? (y?) Enter attribute name: Enter attribute value: Add attribute? (y?) Enter attribute name: Enter attribute value: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter attribute name: Enter attribute value: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: Enter tag name: Add attribute? (y?) Enter text: Insert operation: <root>
+    <person src = "google" bold = "yes">Ma ra ba
+        <name>Tony
+            <symbol>symbol11</symbol>
+            <email/>
+        </name>
+    </person>
+    <person marker = "ima">
+        <name>Tony
+            <symbol>symbol11</symbol>
+            <email/>
+        </name>
+    </person>
+    <person>
+        <name>Tony
+            <symbol>symbol11</symbol>
+            <email/>
+        </name>
+    </person>
+    <name>Dudov</name>
+    <empty/>
+    <Vraca/>
+    <Pernik/>
+    <Sofia>
+        <Gorublqne>
+            <Tonkata/>
+        </Gorublqne>
+    </Sofia>
+</root>
+Insert operation: Enter the new tag name: Enter the new tag text: Insert operation: <root>
+    <FirstAttemptToEdit src = "google" bold = "yes">TEXT IS CHANGED
+        <name>Tony
+            <symbol>symbol11</symbol>
+            <email/>
+        </name>
+    </FirstAttemptToEdit>
+    <FirstAttemptToEdit marker = "ima">TEXT IS CHANGED
+        <name>Tony
+            <symbol>symbol11</symbol>
+            <email/>
+        </name>
+    </FirstAttemptToEdit>
+    <FirstAttemptToEdit>TEXT IS CHANGED
+        <name>Tony
+            <symbol>symbol11</symbol>
+            <email/>
+        </name>
+    </FirstAttemptToEdit>
+    <name>Dudov</name>
+    <empty/>
+    <Vraca/>
+    <Pernik/>
+    <Sofia>
+        <Gorublqne>
+            <Tonkata/>
+        </Gorublqne>
+    </Sofia>
+</root>
+Insert operation: Enter attribute name: Enter attribute value: Insert operation: Enter the new tag name: Enter the new tag text: Insert operation: <root>
+    <FirstAttemptToEdit src = "google" bold = "yes" insert = "yes">TEXT IS CHANGED
+        <name>Tony
+            <symbol>symbol11</symbol>
+            <email/>
+        </name>
+    </FirstAttemptToEdit>
+    <FirstAttemptToEdit marker = "ima" insert = "yes">TEXT IS CHANGED
+        <name>Tony
+            <symbol>symbol11</symbol>
+            <email/>
+        </name>
+    </FirstAttemptToEdit>
+    <FirstAttemptToEdit insert = "yes">TEXT IS CHANGED
+        <name>Tony
+            <symbol>symbol11</symbol>
+            <email/>
+        </name>
+    </FirstAttemptToEdit>
+    <name>Dudov</name>
+    <empty>text for emptyto</empty>
+    <Vraca/>
+    <Pernik/>
+    <Sofia>
+        <Gorublqne>
+            <Tonkata/>
+        </Gorublqne>
+    </Sofia>
+</root>
+Insert operation: Enter attribute name: Insert operation: Enter attribute name: Enter attribute value: Insert operation: <root>
+    <FirstAttemptToEdit src = "google" bold = "yes">TEXT IS CHANGED
+        <name>Tony
+            <symbol insert = "yes">symbol11</symbol>
+            <email/>
+        </name>
+    </FirstAttemptToEdit>
+    <FirstAttemptToEdit marker = "ima">TEXT IS CHANGED
+        <name>Tony
+            <symbol insert = "yes">symbol11</symbol>
+            <email/>
+        </name>
+    </FirstAttemptToEdit>
+    <FirstAttemptToEdit>TEXT IS CHANGED
+        <name>Tony
+            <symbol insert = "yes">symbol11</symbol>
+            <email/>
+        </name>
+    </FirstAttemptToEdit>
+    <name>Dudov</name>
+    <empty>text for emptyto</empty>
+    <Vraca/>
+    <Pernik/>
+    <Sofia>
+        <Gorublqne>
+            <Tonkata/>
+        </Gorublqne>
+    </Sofia>
+</root>
+Insert operation: Enter attribute name: Enter attribute name: Enter attribute value: Insert operation: <root>
+    <FirstAttemptToEdit src = "google" bold = "yes">TEXT IS CHANGED
+        <name>Tony
+            <symbol insert = "yes">symbol11</symbol>
+            <email/>
+        </name>
+    </FirstAttemptToEdit>
+    <FirstAttemptToEdit editedMarker = "nqma">TEXT IS CHANGED
+        <name>Tony
+            <symbol insert = "yes">symbol11</symbol>
+            <email/>
+        </name>
+    </FirstAttemptToEdit>
+    <FirstAttemptToEdit>TEXT IS CHANGED
+        <name>Tony
+            <symbol insert = "yes">symbol11</symbol>
+            <email/>
+        </name>
+    </FirstAttemptToEdit>
+    <name>Dudov</name>
+    <empty>text for emptyto</empty>
+    <Vraca/>
+    <Pernik/>
+    <Sofia>
+        <Gorublqne>
+            <Tonkata/>
+        </Gorublqne>
+    </Sofia>
+</root>
+Insert operation: <root><FirstAttemptToEdit src = "google" bold = "yes">TEXT IS CHANGED<name>Tony<symbol insert = "yes">symbol11</symbol><email/></name></FirstAttemptToEdit><FirstAttemptToEdit editedMarker = "nqma">TEXT IS CHANGED<name>Tony<symbol insert = "yes">symbol11</symbol><email/></name></FirstAttemptToEdit><FirstAttemptToEdit>TEXT IS CHANGED<name>Tony<symbol insert = "yes">symbol11</symbol><email/></name></FirstAttemptToEdit><name>Dudov</name><empty>text for emptyto</empty><Vraca/><Pernik/><Sofia><Gorublqne><Tonkata/></Gorublqne></Sofia></root>
+Insert operation: Printing 'BFS'
+root
+FirstAttemptToEdit
+FirstAttemptToEdit
+FirstAttemptToEdit
+name
+empty
+Vraca
+Pernik
+Sofia
+name
+name
+name
+Gorublqne
+symbol
+email
+symbol
+email
+symbol
+email
+Tonkata
+Insert operation: 

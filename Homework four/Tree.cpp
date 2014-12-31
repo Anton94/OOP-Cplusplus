@@ -1,5 +1,4 @@
 #include "Tree.h"
-#include "Utility.h"
 
 Tree::Tree()
 {
@@ -21,7 +20,38 @@ void Tree::buildTree(std::istream & in, std::ostream & out)
 	} while (executeOperation(in, out, operation));
 }
 
-// Print the info with no spaces and formating
+// Makes (some kind of) BFS iteration on the tree. I don`t know if that`s what it wants from us, but I will make it so it will have iteration on the tree (some kind ofBFS - hierarchically).
+
+// Notes:
+// Printiram elementa i vkarvam decata na korena v opashkata. 
+// Pravq tova za vseki element ot opashkata dokato ima elementi.
+// Ne znam dali e vqrno i dali e glupost, no se nadqvam, 4e vurshi nqkakva rabota.
+
+void Tree::printBFS(std::ostream& out) const
+{
+	out << "Printing 'BFS'\n";
+
+	Tag * cur;
+	Queue<Tag*> queue;
+	queue.enqueue(root);
+
+	while (!queue.isEmpty())
+	{
+		cur = queue.dequeue();
+
+		// Prints the tag name.
+		out << cur->name
+			<< "\n";
+		
+		// Insert all sons in the queue.
+		for (DLList<Tag*>::Iterator iter = const_cast<Tag*>(cur)->sons.begin(); iter != const_cast<Tag*>(cur)->sons.end(); ++iter)
+		{
+			queue.enqueue(*iter);
+		}
+	}
+}
+
+// Print the info with no spaces and formating. DFS
 
 void Tree::printNoSpaces(std::ostream& out) const
 {
@@ -29,7 +59,7 @@ void Tree::printNoSpaces(std::ostream& out) const
 	out << "\n";
 }
 
-// Print the tree from the root (some kind of in ordered).
+// Print the tree from the root (some kind of in ordered). DFS
 
 void Tree::print(std::ostream & out) const
 {
@@ -49,9 +79,21 @@ bool Tree::executeOperation(std::istream & in, std::ostream & out, const MyStrin
 	if (operation == "exit")
 		return false;
 
+	if (operation == "printBFS")
+	{
+		printBFS(out);
+		return true;
+	}
+
 	if (operation == "print")
 	{
-		print(std::cout); // TO DO
+		print(out);
+		return true;
+	}
+
+	if (operation == "printNoSpaces")
+	{
+		printNoSpaces(out);
 		return true;
 	}
 
