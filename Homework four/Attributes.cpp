@@ -8,6 +8,14 @@ std::ostream& operator<<(std::ostream& out, const Attributes& val)
 	}
 
 	return out;
+}	
+
+Attributes::Attributes(const Attributes& other)
+{
+	for (DLList<Attribute*>::Iterator iter = const_cast<Attributes&>(other).attributes.begin(); iter != const_cast<Attributes&>(other).attributes.end(); ++iter)
+	{
+		addAttribute((*iter)->getName(), (*iter)->getValue());
+	}
 }
 
 void Attributes::addAttribute(const MyString& name, const MyString& value)

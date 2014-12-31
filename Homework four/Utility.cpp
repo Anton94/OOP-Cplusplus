@@ -118,3 +118,16 @@ size_t getCountDirectories(const MyString& path, char delim)
 
 	return count;
 }
+
+// Check if the user whant`s some action ti happen(the action is given by the 'msg'. If he enter "y" or "Y" returns true, in any other case returns false.
+
+bool checkForAction(std::istream & in, std::ostream & out, const MyString& msg)
+{
+	out << msg << "? (y?) ";
+
+	MyString str;
+
+	getLineFromIStream(in, str);
+
+	return str == "y" || str == "Y";
+}

@@ -1,5 +1,11 @@
 addTag root
 person
+y
+src
+google
+y
+bold
+yes
 n
 Ma ra ba
 addTag root
@@ -22,6 +28,26 @@ addTag root
 empty
 n
 
+addTag root
+Vraca
+n
+
+addTag root
+Pernik
+n
+
+addTag root
+Sofia
+n
+
+addTag root/Sofia
+Gorublqne
+n
+
+addTag root/Sofia/Gorublqne
+Tonkata
+n
+
 addTag root/person/name
 symbol
 n
@@ -31,7 +57,11 @@ email
 n
 
 print
-removeTag root/person/name/email
+editTag root/person
+y
+FirstAttemptToEdit
+y
+TEXT IS CHANGED
 exit
 
 

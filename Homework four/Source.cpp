@@ -25,6 +25,15 @@ int main()
 		}
 
 		delete[] dirs;*/
+
+		/*Attributes attributes;
+		attributes.addAttribute("Tony", "Montana");
+		attributes.addAttribute("Tony", "Montana");
+		attributes.addAttribute("Tony", "Montana");
+		out << attributes << "\n";*/
+
+		in.close();
+		out.close();
 	}
 
 	_CrtMemCheckpoint(&s2);

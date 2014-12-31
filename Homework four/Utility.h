@@ -12,3 +12,4 @@ bool checkNewLine(char ch);
 bool checkNewWord(char ch);
 MyString* parseThePath(const MyString& path, char delim, size_t size);
 size_t getCountDirectories(const MyString& path, char delim);
+bool checkForAction(std::istream & in, std::ostream & out, const MyString& msg);
