@@ -23,7 +23,9 @@ void Attributes::addAttribute(const MyString& name, const MyString& value)
 	attributes.push_back(new Attribute(name, value));
 }
 
-void Attributes::removeAttribute(const MyString& name) // Removes first match of attribute by it`s name (if exist) (one unique tag basicly, but...)
+// Removes first match of attribute by it`s name (if exist) (one unique tag basicly, but...)
+
+void Attributes::removeAttribute(const MyString& name)
 {
 	for (DLList<Attribute*>::Iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
 	{
@@ -36,7 +38,9 @@ void Attributes::removeAttribute(const MyString& name) // Removes first match of
 	}
 }
 
-void Attributes::editAttribute(const MyString& name, const MyString& newName, const MyString& newValue) // Edits first match of attribute by it`s name (if exist)(one unique tag basicly, but...)
+// Edits first match of attribute by it`s name (if exist)(one unique tag basicly, but...)
+
+void Attributes::editAttribute(const MyString& name, const MyString& newName, const MyString& newValue) 
 {
 	for (DLList<Attribute*>::Iterator iter = attributes.begin(); iter != attributes.end(); ++iter)
 	{

@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Math expression with tree",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Homework four", "Homework four\Homework four.vcxproj", "{6E104E8D-7C37-475B-A6B3-BA733C348411}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Homework five", "Homework five\Homework five.vcxproj", "{1681478B-AC87-44AE-9675-98EF3C0B4ED1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +159,16 @@ Global
 		{6E104E8D-7C37-475B-A6B3-BA733C348411}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{6E104E8D-7C37-475B-A6B3-BA733C348411}.Release|Win32.ActiveCfg = Release|Win32
 		{6E104E8D-7C37-475B-A6B3-BA733C348411}.Release|Win32.Build.0 = Release|Win32
+		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Debug|Win32.Build.0 = Debug|Win32
+		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Release|Any CPU.ActiveCfg = Release|Win32
+		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Release|Win32.ActiveCfg = Release|Win32
+		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
