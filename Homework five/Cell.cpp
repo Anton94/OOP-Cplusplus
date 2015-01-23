@@ -34,7 +34,9 @@ void Cell::setIndexes(int indexRow, int indexCol)
 void Cell::setHeight(int height)
 {
 	if (height < -100 || height > 1000)
+	{
 		throw "Invalid value for the height";
+	}
 
 	this->height = height;
 }
@@ -44,16 +46,6 @@ void Cell::setHeight(int height)
 void Cell::setOwner(StreetMap* owner)
 {
 	this->owner = owner;
-}
-
-/// Sets the water level, if it is lower than 0->throws exeption.
-
-void Cell::setWater(double water)
-{
-	if (water < 0)
-		throw "Invalid value for the cell water level!";
-
-	this->water = water;
 }
 
 /// Sets the water level for the cell, if the given water level is negative- throws exeption.
