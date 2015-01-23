@@ -18,6 +18,8 @@ public:
 	void setHeight(int height);
 	void setOwner(StreetMap* owner);
 	void setWater(double water);
+	int getHeight() const;
+	double getWater() const;
 	bool pourOut();
 	void updateAll(); // adds toAdd value to the water value.
 private:

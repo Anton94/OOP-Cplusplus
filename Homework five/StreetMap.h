@@ -18,12 +18,16 @@ public:
 	void deserialize(std::istream& in);
 	void setFlow(double flow);
 	void printStreetMapWithHeights(std::ostream& out) const;
+	void printStreetMapWithWater(std::ostream& out) const;
 private:
 	void setDefaultValues();
 	void copyFrom(const StreetMap& other);
 	void free();
 	void allocateStreetMapArray(int rows, int cols);
 	void initializeStreetMapHeights(std::istream& in);
+	void printCellHeight(std::ostream& out, int i, int j) const;
+	void printCellWater(std::ostream& out, int i, int j) const;
+	void printCellInfo(std::ostream& out, void (StreetMap::*printInfo)(std::ostream& out, int i, int j) const) const;
 private:
 	Cell ** streetMap;
 	int rows;

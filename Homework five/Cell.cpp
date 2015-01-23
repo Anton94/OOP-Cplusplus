@@ -57,3 +57,17 @@ void Cell::setWater(double water)
 
 	this->water = water;
 }
+
+/// Returns the height of the cell.
+
+int Cell::getHeight() const
+{
+	return height;
+}
+
+/// Returns the water level of the cell.
+
+double Cell::getWater() const
+{
+	return water;
+}
