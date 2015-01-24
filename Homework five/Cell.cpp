@@ -6,6 +6,23 @@ Cell::Cell()
 	setDefaultValues();
 }
 
+Cell::Cell(const Cell& other)
+{
+	copyFrom(other);
+}
+
+Cell& Cell::operator=(const Cell& other)
+{
+	if (this != &other)
+	{
+		copyFrom(other);
+	}
+
+	return *this;
+}
+
+
+
 /// Sets the default values of the cell.
 
 void Cell::setDefaultValues()
@@ -16,6 +33,18 @@ void Cell::setDefaultValues()
 	this->owner = NULL;
 	this->water = 0.0;
 	this->toAdd = 0.0;
+}
+
+/// Copies the values from the other cell and sets the owner to null.
+
+void Cell::copyFrom(const Cell& other)
+{
+	this->indexRow = other.indexRow;
+	this->indexCol = other.indexCol;
+	this->height = other.height;
+	this->owner = NULL;
+	this->water = other.water;
+	this->toAdd = other.toAdd;
 }
 
 /// Validation for the indexes more than ziro and if the cell has owner-> validation for the indexes inside the bounds of the map.
@@ -33,7 +62,7 @@ void Cell::setIndexes(int indexRow, int indexCol)
 
 void Cell::setHeight(int height)
 {
-	if (height < -100 || height > 1000)
+	if (height < this->owner->getMinHeight() || height > this->owner->getMaxHeight())
 	{
 		throw "Invalid value for the height";
 	}

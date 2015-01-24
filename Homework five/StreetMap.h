@@ -14,8 +14,11 @@ public:
 public:
 	int getRows() const;
 	int getCols() const;
+	int getMinHeight() const;
+	int getMaxHeight() const;
 	double getFlow() const;
 	void deserialize(std::istream& in);
+	void setHeightBounds(int minHeight, int maxHeight);
 	void setFlow(double flow);
 	void printStreetMapWithHeights(std::ostream& out) const;
 	void printStreetMapWithWater(std::ostream& out) const;
@@ -34,5 +37,7 @@ private:
 	Cell ** streetMap;
 	int rows;
 	int cols;
+	int minHeight; // If somehow the values are changed-> wont start recheck for the heights.
+	int maxHeight;
 	double flow; // constant c...
 };

@@ -10,14 +10,15 @@ class Cell;
 
 
 	NOTE:
-	copy constructor and operator= will make cells which will be exact copy to the same streetMap(the owener will be the same!).
+	copy constructor and operator= will make cells which will be exact copy but the owner will be null!
 */
 
 class Cell
 {
-	friend class StreetMap;
 public:
 	Cell();
+	Cell(const Cell& other);
+	Cell& operator=(const Cell& other);
 	void setIndexes(int indexRow, int indexCol);
 	void setHeight(int height);
 	void setOwner(StreetMap* owner);
@@ -28,6 +29,7 @@ public:
 	void updateAll(); // adds toAdd value to the water value.
 private:
 	void setDefaultValues();
+	void copyFrom(const Cell& other);
 private:
 	int indexRow;
 	int indexCol;

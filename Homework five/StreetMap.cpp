@@ -38,6 +38,11 @@ void StreetMap::copyFrom(const StreetMap& other)
 
 	// Change the owner of each cell.
 	setCellsOwner();
+
+	// Sets the bounds of the heights and the flow capacity.
+	this->minHeight = other.minHeight;
+	this->maxHeight = other.maxHeight;
+	this->flow = other.flow;
 }
 
 /// Copies the cells data from the other streetMap object.
@@ -78,6 +83,20 @@ int StreetMap::getRows() const
 int StreetMap::getCols() const
 {
 	return this->cols;
+}
+
+/// Returns the minimum height of the street map.
+
+int StreetMap::getMinHeight() const
+{
+	return this->minHeight;
+}
+
+/// Returns the maximum height of the street map.
+
+int StreetMap::getMaxHeight() const
+{
+	return this->maxHeight;
 }
 
 /// Returns the number of columns of the street map.
@@ -180,6 +199,17 @@ void StreetMap::deserializeStreetMapHeights(std::istream& in)
 	}
 }
 
+/// Checks if the height bounds are correct and sets them.
+
+void StreetMap::setHeightBounds(int minHeight, int maxHeight)
+{
+	if (minHeight > maxHeight)
+		throw "Invalid values for the height bounds of the street map!";
+
+	this->minHeight = minHeight;
+	this->maxHeight = maxHeight;
+}
+
 /// Sets the flow capcity of the 'streets'. If it`s negative number (double) throws exeption.
 
 void StreetMap::setFlow(double flow)
@@ -241,5 +271,5 @@ void StreetMap::free()
 void StreetMap::setDefaultValues()
 {
 	streetMap = NULL;
-	rows = cols = 0;
+	rows = cols = minHeight = maxHeight = 0;
 }
