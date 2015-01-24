@@ -3,6 +3,7 @@
 class StreetMap;
 
 #include "Cell.h"
+#include "../Queue with one link/Queue.h"
 
 class StreetMap
 {
@@ -37,7 +38,7 @@ private:
 	Cell ** streetMap;
 	int rows;
 	int cols;
-	int minHeight; // If somehow the values are changed-> wont start recheck for the heights.
+	int minHeight;
 	int maxHeight;
 	double flow; // constant c...
 };

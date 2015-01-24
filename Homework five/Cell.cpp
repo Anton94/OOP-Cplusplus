@@ -21,8 +21,6 @@ Cell& Cell::operator=(const Cell& other)
 	return *this;
 }
 
-
-
 /// Sets the default values of the cell.
 
 void Cell::setDefaultValues()

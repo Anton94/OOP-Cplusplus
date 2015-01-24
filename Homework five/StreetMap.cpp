@@ -199,7 +199,7 @@ void StreetMap::deserializeStreetMapHeights(std::istream& in)
 	}
 }
 
-/// Checks if the height bounds are correct and sets them.
+/// Checks if the height bounds are correct and sets them. Doesnt make recheck for the current height of the cells!
 
 void StreetMap::setHeightBounds(int minHeight, int maxHeight)
 {
