@@ -296,16 +296,45 @@ void StreetMap::setDefaultValues()
 	rows = cols = minHeight = maxHeight = 0;
 }
 
+/// Prints the iterations , loaded from the istream.
 
 void StreetMap::printIterations(std::ostream& out)
 {
+	foreachIteration(out, &StreetMap::printIterationData);
+}
+
+/// Execute each iteration with the current streetmap values.
+
+void StreetMap::executeIterations(std::ostream& out)
+{
+	foreachIteration(out, &StreetMap::executeAIteration);
+}
+
+/// Goes through each iteration and applies some action (pointer to void function, takes istream and makes copy of the given iteration).
+
+void StreetMap::foreachIteration(std::ostream& out, void (StreetMap::*action)(std::ostream& out, Pair<double, int> iteration))
+{
 	size_t numberOfIterations = iterations.getSize();
-	Pair<double, int> temp;
+	Pair<double, int> current;
 
 	for (size_t i = 0; i < numberOfIterations; ++i)
 	{
-		temp = iterations.dequeue();
-		out << temp.first << " " << temp.second << "\n";
-		iterations.enqueue(temp);
+		current = iterations.dequeue();
+		(*this.*action)(out, current);
+		iterations.enqueue(current);
 	}
+}
+
+/// Prints iteration data.
+
+void StreetMap::printIterationData(std::ostream& out, Pair<double, int> iteration)
+{
+	out << iteration.first << " " << iteration.second << "\n";
+}
+
+/// Make simulation with the given iteration and the current streetmap values.
+
+void StreetMap::executeAIteration(std::ostream& out, Pair<double, int> iteration)
+{
+	// TO DO
 }

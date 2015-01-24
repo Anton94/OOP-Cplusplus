@@ -9,12 +9,16 @@ struct Pair
 {
 public:
 	Pair(){};
-	Pair(const T& first, const Q& second)
-	{
-		this->first = first;
-		this->second = second;
-	}
+	Pair(const T& first, const Q& second);
 public:
 	T first;
 	Q second;
 };
+
+
+template<class T, class Q>
+inline Pair<T, Q>::Pair(const T& first, const Q& second)
+{
+	this->first = first;
+	this->second = second;
+}

@@ -77,7 +77,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cell.cpp" />
-    <ClCompile Include="Pair.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="StreetMap.cpp" />
   </ItemGroup>

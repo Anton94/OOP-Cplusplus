@@ -19,12 +19,13 @@ public:
 	int getMinHeight() const;
 	int getMaxHeight() const;
 	double getFlow() const;
-	void deserialize(std::istream& in);
 	void setHeightBounds(int minHeight, int maxHeight);
 	void setFlow(double flow);
+	void deserialize(std::istream& in);
 	void printStreetMapWithHeights(std::ostream& out) const;
 	void printStreetMapWithWater(std::ostream& out) const;
 	void printIterations(std::ostream& out);
+	void executeIterations(std::ostream& out);
 private:
 	void setDefaultValues();
 	void copyFrom(const StreetMap& other);
@@ -37,6 +38,9 @@ private:
 	void printCellHeight(std::ostream& out, int i, int j) const;
 	void printCellWater(std::ostream& out, int i, int j) const;
 	void printCellInfo(std::ostream& out, void (StreetMap::*printInfo)(std::ostream& out, int i, int j) const) const;
+	void printIterationData(std::ostream& out, Pair<double, int> iteration);
+	void foreachIteration(std::ostream& out, void (StreetMap::*action)(std::ostream& out, Pair<double, int> iteration));
+	void executeAIteration(std::ostream& out, Pair<double, int> iteration);
 private:
 	Cell ** streetMap;
 	int rows;
