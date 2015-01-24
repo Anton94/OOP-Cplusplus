@@ -21,21 +21,24 @@ int main()
 		{
 			StreetMap map1, map2;
 
-			map1.deserialize(in);
 			map1.setFlow(1);
 			map1.setHeightBounds(-100, 1000);
+			map1.deserialize(in);
 			map1.printStreetMapWithHeights(std::cout);
 			map1.printStreetMapWithWater(std::cout);
+			map1.printIterations(std::cout);
 			std::cout << std::endl;
 
 			map2 = map1;
 			map2.printStreetMapWithHeights(std::cout);
-			map1.printStreetMapWithWater(std::cout);
+			map2.printStreetMapWithWater(std::cout);
+			map1.printIterations(std::cout);
 			std::cout << std::endl;
 
 			StreetMap map3 = map2;
 			map3.printStreetMapWithHeights(std::cout);
-			map1.printStreetMapWithWater(std::cout);
+			map3.printStreetMapWithWater(std::cout);
+			map1.printIterations(std::cout);
 			std::cout << std::endl;
 		}
 		catch (const char * str)

@@ -24,12 +24,18 @@
     <ClCompile Include="StreetMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pair.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StreetMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

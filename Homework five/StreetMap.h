@@ -4,6 +4,7 @@ class StreetMap;
 
 #include "Cell.h"
 #include "../Queue with one link/Queue.h"
+#include "Pair.h"
 
 class StreetMap
 {
@@ -23,6 +24,7 @@ public:
 	void setFlow(double flow);
 	void printStreetMapWithHeights(std::ostream& out) const;
 	void printStreetMapWithWater(std::ostream& out) const;
+	void printIterations(std::ostream& out);
 private:
 	void setDefaultValues();
 	void copyFrom(const StreetMap& other);
@@ -31,6 +33,7 @@ private:
 	void free();
 	void allocateStreetMapArray(int rows, int cols);
 	void deserializeStreetMapHeights(std::istream& in);
+	void deserializeIterations(std::istream& in);
 	void printCellHeight(std::ostream& out, int i, int j) const;
 	void printCellWater(std::ostream& out, int i, int j) const;
 	void printCellInfo(std::ostream& out, void (StreetMap::*printInfo)(std::ostream& out, int i, int j) const) const;
@@ -41,4 +44,5 @@ private:
 	int minHeight;
 	int maxHeight;
 	double flow; // constant c...
+	Queue<Pair<double, int>> iterations;
 };

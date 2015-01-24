@@ -77,11 +77,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Pair.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="StreetMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="Pair.h" />
     <ClInclude Include="StreetMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -154,9 +154,6 @@ void StreetMap::printCellInfo(std::ostream& out, void (StreetMap::*printInfo)(st
 
 void StreetMap::deserialize(std::istream& in)
 {
-	if (!in)
-		throw "Something went wrong with input streem!";
-
 	// Get rows cols and flow capacity.
 
 	int rows, cols;
@@ -174,7 +171,32 @@ void StreetMap::deserialize(std::istream& in)
 	// Get the height values for the table
 	deserializeStreetMapHeights(in);
 
-	// TO DO other things...
+	// Get the iterations(how many 'rains' and how many iterations has to make).
+	deserializeIterations(in);
+}
+
+/// Initialize the heights of every point of the street map.
+
+void StreetMap::deserializeIterations(std::istream& in)
+{
+	// Get the number of iterations.
+	int numberOfIterations;
+	in >> numberOfIterations;
+	if (!in)
+		throw "Invalid value for the number of iterations!";
+
+	double numberOfLiters;
+	int numberOfSteps;
+
+	// Get iterations (one by one).
+	for (int i = 0; i < numberOfIterations; ++i)
+	{
+		in >> numberOfLiters >> numberOfSteps;
+		if (numberOfLiters < 0 || numberOfSteps < 0)
+			throw "Invalid information for the iteration!";
+
+		iterations.enqueue(Pair<double, int>(numberOfLiters, numberOfSteps));
+	}
 }
 
 /// Initialize the heights of every point of the street map.
@@ -272,4 +294,18 @@ void StreetMap::setDefaultValues()
 {
 	streetMap = NULL;
 	rows = cols = minHeight = maxHeight = 0;
+}
+
+
+void StreetMap::printIterations(std::ostream& out)
+{
+	size_t numberOfIterations = iterations.getSize();
+	Pair<double, int> temp;
+
+	for (size_t i = 0; i < numberOfIterations; ++i)
+	{
+		temp = iterations.dequeue();
+		out << temp.first << " " << temp.second << "\n";
+		iterations.enqueue(temp);
+	}
 }
