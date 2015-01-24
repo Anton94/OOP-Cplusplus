@@ -10,8 +10,6 @@ int main()
 	_CrtMemState s1, s2, s3;
 	_CrtMemCheckpoint(&s1);
 	{
-		StreetMap map;
-
 		std::ifstream in("input.txt");
 		if (!in)
 		{
@@ -21,8 +19,22 @@ int main()
 
 		try
 		{
-			map.deserialize(in);
-			map.printStreetMapWithHeights(std::cout);
+			StreetMap map1, map2;
+
+			map1.deserialize(in);
+			map1.printStreetMapWithHeights(std::cout);
+			map1.printStreetMapWithWater(std::cout);
+			std::cout << std::endl;
+
+			map2 = map1;
+			map2.printStreetMapWithHeights(std::cout);
+			map1.printStreetMapWithWater(std::cout);
+			std::cout << std::endl;
+
+			StreetMap map3 = map2;
+			map3.printStreetMapWithHeights(std::cout);
+			map1.printStreetMapWithWater(std::cout);
+			std::cout << std::endl;
 		}
 		catch (const char * str)
 		{

@@ -22,9 +22,11 @@ public:
 private:
 	void setDefaultValues();
 	void copyFrom(const StreetMap& other);
+	void copyFromStreetMapCells(const StreetMap& other);
+	void setCellsOwner();
 	void free();
 	void allocateStreetMapArray(int rows, int cols);
-	void initializeStreetMapHeights(std::istream& in);
+	void deserializeStreetMapHeights(std::istream& in);
 	void printCellHeight(std::ostream& out, int i, int j) const;
 	void printCellWater(std::ostream& out, int i, int j) const;
 	void printCellInfo(std::ostream& out, void (StreetMap::*printInfo)(std::ostream& out, int i, int j) const) const;

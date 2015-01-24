@@ -7,6 +7,10 @@ class Cell;
 /*
 	pourOut : get the water from the last pour and pours the water to the toAdd variable on the neighbours cells with lower height(or pours out of the street map(river)). 
 	Because of that it had to make last iteration on the map to update all cells. 
+
+
+	NOTE:
+	copy constructor and operator= will make cells which will be exact copy to the same streetMap(the owener will be the same!).
 */
 
 class Cell
