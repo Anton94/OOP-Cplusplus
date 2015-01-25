@@ -1,5 +1,13 @@
 #pragma once
+/*
 
+#71488 FMI
+Homework five
+
+Github repository: https://github.com/Anton94/OOP-Cplusplus
+Github project:	   https://github.com/Anton94/OOP-Cplusplus/tree/master/Homework%20five
+
+*/
 class StreetMap;
 
 #include "Cell.h"
@@ -45,7 +53,7 @@ private:
 	Cell* getCellAt(int i, int j);
 	void updateEveryCell();
 	void setWaterlevelToEveryCell(double water);
-	void resetAllCells();
+	void resetEveryCell();
 private:
 	Cell ** streetMap;
 	int rows;

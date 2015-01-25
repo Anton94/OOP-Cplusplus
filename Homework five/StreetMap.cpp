@@ -337,25 +337,31 @@ void StreetMap::printIterationData(std::ostream& out, Pair<double, int> iteratio
 void StreetMap::executeAIteration(std::ostream& out, Pair<double, int> iteration)
 {
 	// TO DO flag!
+	// Resets all cells (water levels and so..)
+	resetEveryCell();
 
 	// Sets the water from the given iteration.
 	setWaterlevelToEveryCell(iteration.first);
 
+	bool flag = true;
+
 	// Pours out the water from each cell given amount of times(iteration.second value).
-	while (iteration.second > 0)
+	while (iteration.second-- > 0 && flag)
 	{
+		flag = false;
+	/*	printStreetMapWithWater(out);
+		out << "\n";*/
 		for (int i = 0; i < this->rows; ++i)
 		{
 			for (int j = 0; j < this->cols; ++j)
 			{
-				streetMap[i][j].pourOut();
+				if (streetMap[i][j].pourOut())
+					flag = true;
 			}
 		}
-
-		iteration.second--;
+		updateEveryCell();
 	}
-
-	updateEveryCell();
+	out << "Iterations left: " << iteration.second << "\n";
 	printStreetMapWithWater(out);
 	out << "\n";
 }
@@ -364,12 +370,13 @@ void StreetMap::executeAIteration(std::ostream& out, Pair<double, int> iteration
 
 Cell* StreetMap::getCellAt(int i, int j)
 {
-	if (i < 0 || j < 0 || i >= rows || j >= cols)
+	if (i < 0 || j < 0 || i >= this->rows || j >= this->cols)
 		return NULL;
 
 	return &streetMap[i][j];
 }
 
+/// TO DO: MAY BE ADD FOREACH CELL FUNCTION BUT IT HAS TO BE WITH DIFF POINTERS SO..
 
 /// Goes throw every cell and update it`s water status(adds 'toAdd' value to the water from the last iteration on the streetmap).
 
@@ -393,6 +400,19 @@ void StreetMap::setWaterlevelToEveryCell(double water)
 		for (int j = 0; j < this->cols; ++j)
 		{
 			streetMap[i][j].setWater(water);
+		}
+	}
+}
+
+/// Goes throw every cell and resets it`s water levels.
+
+void StreetMap::resetEveryCell()
+{
+	for (int i = 0; i < this->rows; ++i)
+	{
+		for (int j = 0; j < this->cols; ++j)
+		{
+			streetMap[i][j].resetWaterLevel();
 		}
 	}
 }

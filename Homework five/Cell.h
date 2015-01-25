@@ -1,8 +1,9 @@
 #pragma once
 
+#include "../Double linked list/DLList.h"
+
 class Cell;
 
-#include "../Double linked list/DLList.h"
 #include "StreetMap.h"
 
 /*
@@ -28,6 +29,7 @@ public:
 	double getWater() const;
 	bool pourOut();
 	void updateCell();
+	void resetWaterLevel();
 private:
 	void setDefaultValues();
 	void copyFrom(const Cell& other);
@@ -38,6 +40,7 @@ private:
 	void getCellNeighbours(DLList<Cell*>& neighbours) const;
 	void getCellNeighboursWithLessHeight(DLList<Cell*>& neighbours, DLList<Cell*>& neighboursWithLessHeight) const;
 	void getCellNeighboursRiver(DLList<Cell*>& neighbours, DLList<Cell*>& neighboursRiver) const;
+	void pourOutToTheNeightboursWithLessHeight(DLList<Cell*>& neighboursWithLessHeight, double amount);
 private:
 	int indexRow;
 	int indexCol;

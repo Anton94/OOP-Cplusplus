@@ -2,7 +2,15 @@
 #include <fstream>
 #include "StreetMap.h"
 
+/*
 
+#71488 FMI
+Homework five
+
+Github repository: https://github.com/Anton94/OOP-Cplusplus
+Github project:	   https://github.com/Anton94/OOP-Cplusplus/tree/master/Homework%20five
+
+*/
 
 int main()
 {
@@ -20,7 +28,6 @@ int main()
 		try
 		{
 			StreetMap map1, map2;
-
 			map1.setFlow(1);
 			map1.setHeightBounds(-100, 1000);
 			map1.deserialize(in);
