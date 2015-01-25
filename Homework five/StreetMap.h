@@ -8,6 +8,7 @@ class StreetMap;
 
 class StreetMap
 {
+	friend class Cell;
 public:
 	StreetMap();
 	StreetMap(const StreetMap& other);
@@ -41,6 +42,7 @@ private:
 	void printIterationData(std::ostream& out, Pair<double, int> iteration);
 	void foreachIteration(std::ostream& out, void (StreetMap::*action)(std::ostream& out, Pair<double, int> iteration));
 	void executeAIteration(std::ostream& out, Pair<double, int> iteration);
+	Cell* getCellAt(int i, int j);
 private:
 	Cell ** streetMap;
 	int rows;

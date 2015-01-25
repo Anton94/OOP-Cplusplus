@@ -30,6 +30,10 @@ public:
 private:
 	void setDefaultValues();
 	void copyFrom(const Cell& other);
+	Cell* getLeftCell() const;
+	Cell* getUpCell() const;
+	Cell* getRightCell() const;
+	Cell* getDownCell() const;
 private:
 	int indexRow;
 	int indexCol;

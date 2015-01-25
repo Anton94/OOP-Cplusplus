@@ -98,3 +98,44 @@ double Cell::getWater() const
 {
 	return water;
 }
+
+/// Returns a pointer to the LEFT cell of the current one. If the cell is outside the bounds of the map->returns NULL;
+
+Cell* Cell::getLeftCell() const
+{
+	if (!owner)
+		return NULL;
+
+	return owner->getCellAt(indexRow, indexCol - 1);
+}
+
+/// Returns a pointer to the UP cell of the current one. If the cell is outside the bounds of the map->returns NULL;
+
+Cell* Cell::getUpCell() const
+{
+	if (!owner)
+		return NULL;
+
+	return owner->getCellAt(indexRow - 1, indexCol);
+}
+
+/// Returns a pointer to the RIGHT cell of the current one. If the cell is outside the bounds of the map->returns NULL;
+
+Cell* Cell::getRightCell() const
+{
+	if (!owner)
+		return NULL;
+
+	return owner->getCellAt(indexRow, indexCol + 1);
+}
+
+/// Returns a pointer to the DOWN cell of the current one. If the cell is outside the bounds of the map->returns NULL;
+
+Cell* Cell::getDownCell() const
+{
+	if (!owner)
+		return NULL;
+
+	return owner->getCellAt(indexRow + 1, indexCol);
+}
+

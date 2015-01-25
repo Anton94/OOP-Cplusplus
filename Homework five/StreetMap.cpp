@@ -338,3 +338,13 @@ void StreetMap::executeAIteration(std::ostream& out, Pair<double, int> iteration
 {
 	// TO DO
 }
+
+/// Returns a pointer to the cell, with the given coords. If the cell is outside the bounds of the map->returns NULL;
+
+Cell* StreetMap::getCellAt(int i, int j)
+{
+	if (i < 0 || j < 0 || i >= rows || j >= cols)
+		return NULL;
+
+	return &streetMap[i][j];
+}
