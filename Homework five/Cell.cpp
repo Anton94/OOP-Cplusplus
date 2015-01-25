@@ -134,8 +134,7 @@ bool Cell::pourOut()
 	else
 	{
 		// If the water in the cell can pour in each neighbour cell in equal amounts (flow of the street map is the max portion). (dont pour to the rivers for now.. the pointers are null).
-		double maxWaterToPourWithSameFlow = neighboursWithLessHeight.getSize() * flow + neighboursRiver.getSize() * flow;
-		if (maxWaterToPourWithSameFlow > water)
+		if ((neighboursWithLessHeight.getSize() + neighboursRiver.getSize()) * flow > water)
 		{
 			double waterPortion = water / (neighboursWithLessHeight.getSize() + neighboursRiver.getSize());
 			pourOutToTheNeightboursWithLessHeight(waterPortion);

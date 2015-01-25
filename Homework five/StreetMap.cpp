@@ -400,8 +400,6 @@ Cell* StreetMap::getCellAt(int i, int j)
 	return &streetMap[i][j];
 }
 
-/// TO DO: MAY BE ADD FOREACH CELL FUNCTION BUT IT HAS TO BE WITH DIFF POINTERS SO..
-
 /// Foreach cell applies some functions which is void and taks no arguments.
 
 void StreetMap::foreachCell(void (Cell::*action)())
