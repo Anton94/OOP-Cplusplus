@@ -27,7 +27,7 @@ int main()
 
 		try
 		{
-			StreetMap map1, map2;
+			StreetMap map1;
 			map1.setFlow(1);
 			map1.setHeightBounds(-100, 1000);
 			map1.deserialize(in);
@@ -38,6 +38,9 @@ int main()
 			std::cout << std::endl;
 
 			map1.executeIterations(std::cout);
+
+			StreetMap * arr = new StreetMap[20];
+			delete[] arr;
 
 			/*map2 = map1;
 			map2.printStreetMapWithHeights(std::cout);
@@ -55,7 +58,6 @@ int main()
 		{
 			std::cerr << "Error: " << str << "\n";
 		}
-
 
 		in.close();
 	}

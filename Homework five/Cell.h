@@ -1,10 +1,12 @@
 #pragma once
 
-#include "../Double linked list/DLList.h"
 
 class Cell;
 
 #include "StreetMap.h"
+#include "../Double linked list/DLList.h"
+#include "../Queue with one link/Queue.h"
+#include "Pair.h"
 
 /*
 	pourOut : get the water from the last pour and pours the water to the toAdd variable on the neighbours cells with lower height(or pours out of the street map(river)). 
@@ -21,6 +23,7 @@ public:
 	Cell();
 	Cell(const Cell& other);
 	Cell& operator=(const Cell& other);
+public:
 	void setIndexes(int indexRow, int indexCol);
 	void setHeight(int height);
 	void setOwner(StreetMap* owner);
@@ -30,6 +33,7 @@ public:
 	bool pourOut();
 	void updateCell();
 	void resetWaterLevel();
+	void calculateCellNeighbours();
 private:
 	void setDefaultValues();
 	void copyFrom(const Cell& other);
@@ -37,10 +41,10 @@ private:
 	Cell* getUpCell() const;
 	Cell* getRightCell() const;
 	Cell* getDownCell() const;
-	void getCellNeighbours(DLList<Cell*>& neighbours) const;
-	void getCellNeighboursWithLessHeight(DLList<Cell*>& neighbours, DLList<Cell*>& neighboursWithLessHeight) const;
-	void getCellNeighboursRiver(DLList<Cell*>& neighbours, DLList<Cell*>& neighboursRiver) const;
-	void pourOutToTheNeightboursWithLessHeight(DLList<Cell*>& neighboursWithLessHeight, double amount);
+	void getCellNeighbours(DLList<Cell*>& neighbours);
+	void getCellNeighboursWithLessHeight(DLList<Cell*>& neighbours);
+	void getCellNeighboursRiver(DLList<Cell*>& neighbours);
+	void pourOutToTheNeightboursWithLessHeight(double amount);
 private:
 	int indexRow;
 	int indexCol;
@@ -48,4 +52,6 @@ private:
 	StreetMap* owner;
 	double water;
 	double toAdd;
+	DLList<Cell*> neighboursWithLessHeight;
+	DLList<Cell*> neighboursRiver;
 };

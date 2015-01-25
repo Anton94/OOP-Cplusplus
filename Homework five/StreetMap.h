@@ -12,6 +12,7 @@ class StreetMap;
 
 #include "Cell.h"
 #include "../Queue with one link/Queue.h"
+#include "../Double linked list/DLList.h"
 #include "Pair.h"
 
 class StreetMap
@@ -54,6 +55,7 @@ private:
 	void updateEveryCell();
 	void setWaterlevelToEveryCell(double water);
 	void resetEveryCell();
+	void calculateEveryCellNeighbours();
 private:
 	Cell ** streetMap;
 	int rows;
@@ -62,4 +64,5 @@ private:
 	int maxHeight;
 	double flow; // constant c...
 	Queue<Pair<double, int>> iterations;
+	DLList < int > temp;
 };

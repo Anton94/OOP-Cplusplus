@@ -39,10 +39,15 @@ void StreetMap::copyFrom(const StreetMap& other)
 	// Change the owner of each cell.
 	setCellsOwner();
 
-	// Sets the bounds of the heights and the flow capacity.
+	// Calculate the cells neighbours.
+	calculateEveryCellNeighbours();
+
+	// Sets the bounds of the heights, the flow capacity and iterations.
 	this->minHeight = other.minHeight;
 	this->maxHeight = other.maxHeight;
 	this->flow = other.flow;
+	
+	this->iterations = other.iterations;
 }
 
 /// Copies the cells data from the other streetMap object.
@@ -171,6 +176,9 @@ void StreetMap::deserialize(std::istream& in)
 	// Get the height values for the table
 	deserializeStreetMapHeights(in);
 
+	// Calculate the street map cells neighbours
+	calculateEveryCellNeighbours();
+
 	// Get the iterations(how many 'rains' and how many iterations has to make).
 	deserializeIterations(in);
 }
@@ -283,7 +291,7 @@ void StreetMap::free()
 		return;
 
 	for (int i = 0; i < rows; ++i)
-		delete streetMap[i];
+		delete [] streetMap[i];
 
 	delete[] streetMap;
 }
@@ -343,14 +351,13 @@ void StreetMap::executeAIteration(std::ostream& out, Pair<double, int> iteration
 	// Sets the water from the given iteration.
 	setWaterlevelToEveryCell(iteration.first);
 
-	bool flag = true;
+	bool flag = true; // For stable streetMap
 
 	// Pours out the water from each cell given amount of times(iteration.second value).
 	while (iteration.second-- > 0 && flag)
 	{
 		flag = false;
-	/*	printStreetMapWithWater(out);
-		out << "\n";*/
+
 		for (int i = 0; i < this->rows; ++i)
 		{
 			for (int j = 0; j < this->cols; ++j)
@@ -359,9 +366,11 @@ void StreetMap::executeAIteration(std::ostream& out, Pair<double, int> iteration
 					flag = true;
 			}
 		}
+
 		updateEveryCell();
 	}
-	out << "Iterations left: " << iteration.second << "\n";
+
+	//out << "Iterations left: " << iteration.second + 1 << "\n";
 	printStreetMapWithWater(out);
 	out << "\n";
 }
@@ -413,6 +422,19 @@ void StreetMap::resetEveryCell()
 		for (int j = 0; j < this->cols; ++j)
 		{
 			streetMap[i][j].resetWaterLevel();
+		}
+	}
+}
+
+/// Goes throw every cell and sets the neighbours.
+
+void StreetMap::calculateEveryCellNeighbours()
+{
+	for (int i = 0; i < this->rows; ++i)
+	{
+		for (int j = 0; j < this->cols; ++j)
+		{
+			streetMap[i][j].calculateCellNeighbours();
 		}
 	}
 }

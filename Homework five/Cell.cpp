@@ -21,6 +21,7 @@ Cell& Cell::operator=(const Cell& other)
 	return *this;
 }
 
+
 /// Sets the default values of the cell.
 
 void Cell::setDefaultValues()
@@ -33,7 +34,7 @@ void Cell::setDefaultValues()
 	this->toAdd = 0.0;
 }
 
-/// Copies the values from the other cell and sets the owner to null.
+/// Copies the values from the other cell and sets the owner to null and the cells wont have any neighbours!
 
 void Cell::copyFrom(const Cell& other)
 {
@@ -149,43 +150,35 @@ bool Cell::pourOut()
 	if (!owner || water <= 0.0)
 		return false;
 
-	// Get all neighbour cells in double linked list.
-	DLList<Cell*> neighbours;
-	getCellNeighbours(neighbours);
-
-	// Get the cells with less height and river once from all neighbours.
-	DLList<Cell*> neighboursWithLessHeight, neighboursRiver; 
-	getCellNeighboursWithLessHeight(neighbours, neighboursWithLessHeight);
-	getCellNeighboursRiver(neighbours, neighboursRiver);// neighbours river is with null pointers but in the future may be something different(like river cells some kind or ...), so maybe it`s better like that.
-
 	// Calculate what quantity of water that can be pour out. If there is no water to pour(the neighbours are with heights more than current one and no rivers) returns false.
 	double flow = owner->getFlow();
-	double maximumWaterToPour = neighboursWithLessHeight.getSize() * flow + neighboursRiver.getSize() * flow * 2;
-	if (maximumWaterToPour <= 0.0)
+	double maxWaterToPour = neighboursWithLessHeight.getSize() * flow + neighboursRiver.getSize() * flow * 2;
+	if (maxWaterToPour <= 0.0)
 		return false;
 
 	// If the maximum flow (waterToPour) is less than the water in the cell, pours in every neighbour (with less height) the maximum flow capacity.
-	if (maximumWaterToPour <= water)
+	if (maxWaterToPour <= water)
 	{
-		pourOutToTheNeightboursWithLessHeight(neighboursWithLessHeight, flow);
+		pourOutToTheNeightboursWithLessHeight(flow);
 
 		// Removes the poured water. (dont pour to the rivers for now.. the pointers are null).
-		water -= maximumWaterToPour;
+		water -= maxWaterToPour;
 	}
 	else
 	{
 		// If the water in the cell can pour in each neighbour cell in equal amounts (flow of the street map is the max portion). (dont pour to the rivers for now.. the pointers are null).
-		double waterToPourWithSameFlow = neighboursWithLessHeight.getSize() * flow + neighboursRiver.getSize() * flow;
-		if (waterToPourWithSameFlow > water)
+		double maxWaterToPourWithSameFlow = neighboursWithLessHeight.getSize() * flow + neighboursRiver.getSize() * flow;
+		if (maxWaterToPourWithSameFlow > water)
 		{
 			double waterPortion = water / (neighboursWithLessHeight.getSize() + neighboursRiver.getSize());
-			pourOutToTheNeightboursWithLessHeight(neighboursWithLessHeight, waterPortion);
+			pourOutToTheNeightboursWithLessHeight(waterPortion);
 			water = 0.0;			
 		}
 		// The water in the cell can pour out with the flow capacity to the neighbour cells and more than flow capacity but less than 2*flow capacity to the rivers.
 		else
 		{
-			pourOutToTheNeightboursWithLessHeight(neighboursWithLessHeight, flow);
+			pourOutToTheNeightboursWithLessHeight(flow);
+			water = 0.0;
 		}
 	}
 
@@ -194,7 +187,7 @@ bool Cell::pourOut()
 
 /// Pour out water to the neighbours with less height (given amount).
 
-void Cell::pourOutToTheNeightboursWithLessHeight(DLList<Cell*>& neighboursWithLessHeight, double amount)
+void Cell::pourOutToTheNeightboursWithLessHeight(double amount)
 {
 	for (DLList<Cell*>::Iterator iter = neighboursWithLessHeight.begin(); iter != neighboursWithLessHeight.end(); ++iter)
 	{
@@ -202,21 +195,34 @@ void Cell::pourOutToTheNeightboursWithLessHeight(DLList<Cell*>& neighboursWithLe
 	}
 }
 
-/// Gets the cell neighbours and push them into the given list. In our case there are four neighbours.
+/// Gets the cell neighbours and push them into the given list. In our case there are four neighbours. If there is no owner-> dont make any neighbours.
 
-void Cell::getCellNeighbours(DLList<Cell*>& neighbours) const
+void Cell::getCellNeighbours(DLList<Cell*>& neighbours)
 {
+	if (!owner)
+		return;
 	neighbours.push_back(getLeftCell());
 	neighbours.push_back(getUpCell());
 	neighbours.push_back(getRightCell());
 	neighbours.push_back(getDownCell());
 }
 
+void Cell::calculateCellNeighbours()
+{
+	// Get all neighbour cells in double linked list.
+	DLList<Cell*> neighbours;
+	getCellNeighbours(neighbours);
+
+	// Get the cells with less height and river once from all neighbours.
+	getCellNeighboursWithLessHeight(neighbours);
+	getCellNeighboursRiver(neighbours);// neighbours river is with null pointers but in the future may be something different(like river cells some kind or ...), so maybe it`s better like that.
+}
+
 /// TO DO CONST ITERATOR.
 
 /// Pushes in the second list (neighboursWithLessHeight) the cells from neighbours which have less height.
 
-void Cell::getCellNeighboursWithLessHeight(DLList<Cell*>& neighbours, DLList<Cell*>& neighboursWithLessHeight) const
+void Cell::getCellNeighboursWithLessHeight(DLList<Cell*>& neighbours)
 {
 	for (DLList<Cell*>::Iterator iter = neighbours.begin(); iter != neighbours.end(); ++iter)
 	{
@@ -227,7 +233,7 @@ void Cell::getCellNeighboursWithLessHeight(DLList<Cell*>& neighbours, DLList<Cel
 
 /// Pushes in the second list (neighboursRiver) the cells from neighbours which are "river"(NULL).
 
-void Cell::getCellNeighboursRiver(DLList<Cell*>& neighbours, DLList<Cell*>& neighboursRiver) const
+void Cell::getCellNeighboursRiver(DLList<Cell*>& neighbours)
 {
 	for (DLList<Cell*>::Iterator iter = neighbours.begin(); iter != neighbours.end(); ++iter)
 	{
