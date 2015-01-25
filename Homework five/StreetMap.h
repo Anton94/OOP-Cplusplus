@@ -31,18 +31,19 @@ public:
 	double getFlow() const;
 	void setHeightBounds(int minHeight, int maxHeight);
 	void setFlow(double flow);
-	void deserialize(std::istream& in);
 	void printStreetMapWithHeights(std::ostream& out) const;
 	void printStreetMapWithWater(std::ostream& out) const;
 	void printIterations(std::ostream& out);
+	void deserialize(std::istream& in);
 	void executeIterations(std::ostream& out);
 private:
 	void setDefaultValues();
+	void allocateStreetMapArray(int rows, int cols);
 	void copyFrom(const StreetMap& other);
 	void copyFromStreetMapCells(const StreetMap& other);
 	void setCellsOwner();
+	void calculateEveryCellNeighbours();
 	void free();
-	void allocateStreetMapArray(int rows, int cols);
 	void deserializeStreetMapHeights(std::istream& in);
 	void deserializeIterations(std::istream& in);
 	void printCellHeight(std::ostream& out, int i, int j) const;
@@ -55,14 +56,12 @@ private:
 	void updateEveryCell();
 	void setWaterlevelToEveryCell(double water);
 	void resetEveryCell();
-	void calculateEveryCellNeighbours();
 private:
 	Cell ** streetMap;
 	int rows;
 	int cols;
 	int minHeight;
 	int maxHeight;
-	double flow; // constant c...
+	double flow;
 	Queue<Pair<double, int>> iterations;
-	DLList < int > temp;
 };

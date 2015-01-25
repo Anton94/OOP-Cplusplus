@@ -1,6 +1,10 @@
 #include <iostream>
 #include "Cell.h"
 
+/*
+///
+*/
+
 Cell::Cell()
 {
 	setDefaultValues();
@@ -20,7 +24,6 @@ Cell& Cell::operator=(const Cell& other)
 
 	return *this;
 }
-
 
 /// Sets the default values of the cell.
 
@@ -45,6 +48,10 @@ void Cell::copyFrom(const Cell& other)
 	this->water = other.water;
 	this->toAdd = other.toAdd;
 }
+
+/*
+///
+*/
 
 /// Validation for the indexes more than ziro and if the cell has owner-> validation for the indexes inside the bounds of the map.
 
@@ -100,46 +107,6 @@ double Cell::getWater() const
 	return water;
 }
 
-/// Returns a pointer to the LEFT cell of the current one. If the cell is outside the bounds of the map->returns NULL;
-
-Cell* Cell::getLeftCell() const
-{
-	if (!owner)
-		return NULL;
-
-	return owner->getCellAt(indexRow, indexCol - 1);
-}
-
-/// Returns a pointer to the UP cell of the current one. If the cell is outside the bounds of the map->returns NULL;
-
-Cell* Cell::getUpCell() const
-{
-	if (!owner)
-		return NULL;
-
-	return owner->getCellAt(indexRow - 1, indexCol);
-}
-
-/// Returns a pointer to the RIGHT cell of the current one. If the cell is outside the bounds of the map->returns NULL;
-
-Cell* Cell::getRightCell() const
-{
-	if (!owner)
-		return NULL;
-
-	return owner->getCellAt(indexRow, indexCol + 1);
-}
-
-/// Returns a pointer to the DOWN cell of the current one. If the cell is outside the bounds of the map->returns NULL;
-
-Cell* Cell::getDownCell() const
-{
-	if (!owner)
-		return NULL;
-
-	return owner->getCellAt(indexRow + 1, indexCol);
-}
-
 /// Gets the water from the last iteration and pours out water from the cell in his neighbours 'toAdd' values.
 /// If the cell dont have owner -> can`t pours anything so returns false.
 /// If the cell dont pour out some water returns false, otherwise returns true.
@@ -185,27 +152,22 @@ bool Cell::pourOut()
 	return true;
 }
 
-/// Pour out water to the neighbours with less height (given amount).
+/// Adds 'toAdd' value to the water value.
 
-void Cell::pourOutToTheNeightboursWithLessHeight(double amount)
+void Cell::updateCell()
 {
-	for (DLList<Cell*>::Iterator iter = neighboursWithLessHeight.begin(); iter != neighboursWithLessHeight.end(); ++iter)
-	{
-		(*iter)->toAdd += amount;
-	}
+	water += toAdd;
+	toAdd = 0.0;
 }
 
-/// Gets the cell neighbours and push them into the given list. In our case there are four neighbours. If there is no owner-> dont make any neighbours.
+///  Sets water level and toAdd variable to 0.0
 
-void Cell::getCellNeighbours(DLList<Cell*>& neighbours)
+void Cell::resetWaterLevel()
 {
-	if (!owner)
-		return;
-	neighbours.push_back(getLeftCell());
-	neighbours.push_back(getUpCell());
-	neighbours.push_back(getRightCell());
-	neighbours.push_back(getDownCell());
+	water = toAdd = 0.0;
 }
+
+/// Calculates the cell neighbours.
 
 void Cell::calculateCellNeighbours()
 {
@@ -218,7 +180,20 @@ void Cell::calculateCellNeighbours()
 	getCellNeighboursRiver(neighbours);// neighbours river is with null pointers but in the future may be something different(like river cells some kind or ...), so maybe it`s better like that.
 }
 
-/// TO DO CONST ITERATOR.
+/// Gets the cell neighbours and push them into the given list. In our case there are four neighbours. If there is no owner-> dont make any neighbours.
+
+void Cell::getCellNeighbours(DLList<Cell*>& neighbours)
+{
+	if (!owner)
+		return;
+
+	neighbours.push_back(getLeftCell());
+	neighbours.push_back(getUpCell());
+	neighbours.push_back(getRightCell());
+	neighbours.push_back(getDownCell());
+}
+
+/// TO DO CONST ITERATOR FOR DLList.
 
 /// Pushes in the second list (neighboursWithLessHeight) the cells from neighbours which have less height.
 
@@ -242,18 +217,52 @@ void Cell::getCellNeighboursRiver(DLList<Cell*>& neighbours)
 	}
 }
 
+/// Pour out water to the neighbours with less height (given amount).
 
-/// Adds 'toAdd' value to the water value.
-
-void Cell::updateCell()
+void Cell::pourOutToTheNeightboursWithLessHeight(double amount)
 {
-	water += toAdd;
-	toAdd = 0.0;
+	for (DLList<Cell*>::Iterator iter = neighboursWithLessHeight.begin(); iter != neighboursWithLessHeight.end(); ++iter)
+	{
+		(*iter)->toAdd += amount;
+	}
 }
 
-///  Sets water level and toAdd variable to 0.0
+/// Returns a pointer to the LEFT cell of the current one. If the cell is outside the bounds of the map->returns NULL;
 
-void Cell::resetWaterLevel()
+Cell* Cell::getLeftCell() const
 {
-	water = toAdd = 0.0;
+	if (!owner)
+		return NULL;
+
+	return owner->getCellAt(indexRow, indexCol - 1);
+}
+
+/// Returns a pointer to the UP cell of the current one. If the cell is outside the bounds of the map->returns NULL;
+
+Cell* Cell::getUpCell() const
+{
+	if (!owner)
+		return NULL;
+
+	return owner->getCellAt(indexRow - 1, indexCol);
+}
+
+/// Returns a pointer to the RIGHT cell of the current one. If the cell is outside the bounds of the map->returns NULL;
+
+Cell* Cell::getRightCell() const
+{
+	if (!owner)
+		return NULL;
+
+	return owner->getCellAt(indexRow, indexCol + 1);
+}
+
+/// Returns a pointer to the DOWN cell of the current one. If the cell is outside the bounds of the map->returns NULL;
+
+Cell* Cell::getDownCell() const
+{
+	if (!owner)
+		return NULL;
+
+	return owner->getCellAt(indexRow + 1, indexCol);
 }

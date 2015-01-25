@@ -39,9 +39,6 @@ int main()
 
 			map1.executeIterations(std::cout);
 
-			StreetMap * arr = new StreetMap[20];
-			delete[] arr;
-
 			/*map2 = map1;
 			map2.printStreetMapWithHeights(std::cout);
 			map2.printStreetMapWithWater(std::cout);

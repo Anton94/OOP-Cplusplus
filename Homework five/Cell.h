@@ -23,6 +23,7 @@ public:
 	Cell();
 	Cell(const Cell& other);
 	Cell& operator=(const Cell& other);
+	~Cell(){}
 public:
 	void setIndexes(int indexRow, int indexCol);
 	void setHeight(int height);

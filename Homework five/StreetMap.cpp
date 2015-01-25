@@ -1,6 +1,10 @@
 #include <iostream>
 #include "StreetMap.h"
 
+/*
+///
+*/
+
 StreetMap::StreetMap()
 {
 	setDefaultValues();
@@ -27,6 +31,13 @@ StreetMap::~StreetMap()
 	free();
 }
 
+/// Sets the default values (empty street map).
+
+void StreetMap::setDefaultValues()
+{
+	streetMap = NULL;
+	rows = cols = minHeight = maxHeight = 0;
+}
 
 void StreetMap::copyFrom(const StreetMap& other)
 {
@@ -63,6 +74,39 @@ void StreetMap::copyFromStreetMapCells(const StreetMap& other)
 	}
 }
 
+// Allocates the 2D array for the streetmap with the given rows and cols(and sets the streetmap size(rows, cols) to the given one. If the allocation fails, clears allocated memory if needed and throws exeption.
+
+void StreetMap::allocateStreetMapArray(int rows, int cols)
+{
+	if (rows < 0 || cols < 0)
+		throw "Invalid sizes of the streetMap!";
+
+	this->rows = rows;
+	this->cols = cols;
+
+	try
+	{
+		streetMap = new Cell*[cols];
+
+		// Sets all pointers to null in case of some allocation after that fail-> so the free function can safty delets all the allocated memory.
+		for (int i = 0; i < rows; ++i)
+		{
+			streetMap[i] = NULL;
+		}
+
+		for (int i = 0; i < rows; ++i)
+		{
+			streetMap[i] = new Cell[cols];
+		}
+	}
+	catch (std::bad_alloc& ba)
+	{
+		free();
+		setDefaultValues();
+		throw "Bad alloc exeption, can`t allocate memory for the streetMap!";
+	}
+}
+
 /// For each cell on the streetmap reset the owner to current object.
 
 void StreetMap::setCellsOwner()
@@ -75,6 +119,38 @@ void StreetMap::setCellsOwner()
 		}
 	}
 }
+
+/// Deletes all the dynamic allocated memory (NOTE: dont sets the default values after that!).
+
+void StreetMap::free()
+{
+	if (!streetMap)
+		return;
+
+	for (int i = 0; i < rows; ++i)
+		delete[] streetMap[i];
+
+	delete[] streetMap;
+}
+
+/// Goes throw every cell and sets the neighbours.
+
+void StreetMap::calculateEveryCellNeighbours()
+{
+	for (int i = 0; i < this->rows; ++i)
+	{
+		for (int j = 0; j < this->cols; ++j)
+		{
+			streetMap[i][j].calculateCellNeighbours();
+		}
+	}
+}
+
+
+/*
+///
+*/
+
 
 /// Returns the number of rows of the street map.
 
@@ -109,6 +185,27 @@ int StreetMap::getMaxHeight() const
 double StreetMap::getFlow() const
 {
 	return this->flow;
+}
+
+/// Checks if the height bounds are correct and sets them. Doesnt make recheck for the current height of the cells!
+
+void StreetMap::setHeightBounds(int minHeight, int maxHeight)
+{
+	if (minHeight > maxHeight)
+		throw "Invalid values for the height bounds of the street map!";
+
+	this->minHeight = minHeight;
+	this->maxHeight = maxHeight;
+}
+
+/// Sets the flow capcity of the 'streets'. If it`s negative number (double) throws exeption.
+
+void StreetMap::setFlow(double flow)
+{
+	if (flow < 0)
+		throw "Invalid value of the flow capacity!";
+
+	this->flow = flow;
 }
 
 /// Prints the street map with the heights of the cells.
@@ -153,6 +250,13 @@ void StreetMap::printCellInfo(std::ostream& out, void (StreetMap::*printInfo)(st
 
 		out << "\n";
 	}
+}
+
+/// Prints the iterations , loaded from the istream.
+
+void StreetMap::printIterations(std::ostream& out)
+{
+	foreachIteration(out, &StreetMap::printIterationData);
 }
 
 /// Deserialize street map data from istream
@@ -229,88 +333,6 @@ void StreetMap::deserializeStreetMapHeights(std::istream& in)
 	}
 }
 
-/// Checks if the height bounds are correct and sets them. Doesnt make recheck for the current height of the cells!
-
-void StreetMap::setHeightBounds(int minHeight, int maxHeight)
-{
-	if (minHeight > maxHeight)
-		throw "Invalid values for the height bounds of the street map!";
-
-	this->minHeight = minHeight;
-	this->maxHeight = maxHeight;
-}
-
-/// Sets the flow capcity of the 'streets'. If it`s negative number (double) throws exeption.
-
-void StreetMap::setFlow(double flow)
-{
-	if (flow < 0)
-		throw "Invalid value of the flow capacity!";
-
-	this->flow = flow;
-}
-
-// Allocates the 2D array for the streetmap with the given rows and cols(and sets the streetmap size(rows, cols) to the given one. If the allocation fails, clears allocated memory if needed and throws exeption.
-
-void StreetMap::allocateStreetMapArray(int rows, int cols)
-{
-	if (rows < 0 || cols < 0)
-		throw "Invalid sizes of the streetMap!";
-
-	this->rows = rows;
-	this->cols = cols;
-
-	try
-	{
-		streetMap = new Cell*[cols];
-
-		// Sets all pointers to null in case of some allocation after that fail-> so the free function can safty delets all the allocated memory.
-		for (int i = 0; i < rows; ++i)
-		{
-			streetMap[i] = NULL;
-		}
-
-		for (int i = 0; i < rows; ++i)
-		{
-			streetMap[i] = new Cell[cols];
-		}
-	}
-	catch (std::bad_alloc& ba)
-	{
-		free();
-		setDefaultValues();
-		throw "Bad alloc exeption, can`t allocate memory for the streetMap!";
-	}
-}
-
-/// Deletes all the dynamic allocated memory (NOTE: dont sets the default values after that!).
-
-void StreetMap::free()
-{
-	if (!streetMap)
-		return;
-
-	for (int i = 0; i < rows; ++i)
-		delete [] streetMap[i];
-
-	delete[] streetMap;
-}
-
-/// Sets the default values (empty street map).
-
-void StreetMap::setDefaultValues()
-{
-	streetMap = NULL;
-	rows = cols = minHeight = maxHeight = 0;
-}
-
-/// Prints the iterations , loaded from the istream.
-
-void StreetMap::printIterations(std::ostream& out)
-{
-	foreachIteration(out, &StreetMap::printIterationData);
-}
-
 /// Execute each iteration with the current streetmap values.
 
 void StreetMap::executeIterations(std::ostream& out)
@@ -344,7 +366,6 @@ void StreetMap::printIterationData(std::ostream& out, Pair<double, int> iteratio
 
 void StreetMap::executeAIteration(std::ostream& out, Pair<double, int> iteration)
 {
-	// TO DO flag!
 	// Resets all cells (water levels and so..)
 	resetEveryCell();
 
@@ -422,19 +443,6 @@ void StreetMap::resetEveryCell()
 		for (int j = 0; j < this->cols; ++j)
 		{
 			streetMap[i][j].resetWaterLevel();
-		}
-	}
-}
-
-/// Goes throw every cell and sets the neighbours.
-
-void StreetMap::calculateEveryCellNeighbours()
-{
-	for (int i = 0; i < this->rows; ++i)
-	{
-		for (int j = 0; j < this->cols; ++j)
-		{
-			streetMap[i][j].calculateCellNeighbours();
 		}
 	}
 }
