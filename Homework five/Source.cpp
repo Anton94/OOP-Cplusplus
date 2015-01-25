@@ -28,8 +28,11 @@ int main()
 			map1.printStreetMapWithWater(std::cout);
 			map1.printIterations(std::cout);
 			std::cout << std::endl;
+			std::cout << std::endl;
 
-			map2 = map1;
+			map1.executeIterations(std::cout);
+
+			/*map2 = map1;
 			map2.printStreetMapWithHeights(std::cout);
 			map2.printStreetMapWithWater(std::cout);
 			map1.printIterations(std::cout);
@@ -39,7 +42,7 @@ int main()
 			map3.printStreetMapWithHeights(std::cout);
 			map3.printStreetMapWithWater(std::cout);
 			map1.printIterations(std::cout);
-			std::cout << std::endl;
+			std::cout << std::endl;*/
 		}
 		catch (const char * str)
 		{

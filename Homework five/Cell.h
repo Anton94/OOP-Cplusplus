@@ -2,6 +2,7 @@
 
 class Cell;
 
+#include "../Double linked list/DLList.h"
 #include "StreetMap.h"
 
 /*
@@ -26,7 +27,7 @@ public:
 	int getHeight() const;
 	double getWater() const;
 	bool pourOut();
-	void updateAll(); // adds toAdd value to the water value.
+	void updateCell();
 private:
 	void setDefaultValues();
 	void copyFrom(const Cell& other);
@@ -34,6 +35,9 @@ private:
 	Cell* getUpCell() const;
 	Cell* getRightCell() const;
 	Cell* getDownCell() const;
+	void getCellNeighbours(DLList<Cell*>& neighbours) const;
+	void getCellNeighboursWithLessHeight(DLList<Cell*>& neighbours, DLList<Cell*>& neighboursWithLessHeight) const;
+	void getCellNeighboursRiver(DLList<Cell*>& neighbours, DLList<Cell*>& neighboursRiver) const;
 private:
 	int indexRow;
 	int indexCol;

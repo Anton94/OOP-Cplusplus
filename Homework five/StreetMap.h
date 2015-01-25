@@ -43,6 +43,9 @@ private:
 	void foreachIteration(std::ostream& out, void (StreetMap::*action)(std::ostream& out, Pair<double, int> iteration));
 	void executeAIteration(std::ostream& out, Pair<double, int> iteration);
 	Cell* getCellAt(int i, int j);
+	void updateEveryCell();
+	void setWaterlevelToEveryCell(double water);
+	void resetAllCells();
 private:
 	Cell ** streetMap;
 	int rows;

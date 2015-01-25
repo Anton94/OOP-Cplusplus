@@ -336,7 +336,28 @@ void StreetMap::printIterationData(std::ostream& out, Pair<double, int> iteratio
 
 void StreetMap::executeAIteration(std::ostream& out, Pair<double, int> iteration)
 {
-	// TO DO
+	// TO DO flag!
+
+	// Sets the water from the given iteration.
+	setWaterlevelToEveryCell(iteration.first);
+
+	// Pours out the water from each cell given amount of times(iteration.second value).
+	while (iteration.second > 0)
+	{
+		for (int i = 0; i < this->rows; ++i)
+		{
+			for (int j = 0; j < this->cols; ++j)
+			{
+				streetMap[i][j].pourOut();
+			}
+		}
+
+		iteration.second--;
+	}
+
+	updateEveryCell();
+	printStreetMapWithWater(out);
+	out << "\n";
 }
 
 /// Returns a pointer to the cell, with the given coords. If the cell is outside the bounds of the map->returns NULL;
@@ -347,4 +368,31 @@ Cell* StreetMap::getCellAt(int i, int j)
 		return NULL;
 
 	return &streetMap[i][j];
+}
+
+
+/// Goes throw every cell and update it`s water status(adds 'toAdd' value to the water from the last iteration on the streetmap).
+
+void StreetMap::updateEveryCell()
+{
+	for (int i = 0; i < this->rows; ++i)
+	{
+		for (int j = 0; j < this->cols; ++j)
+		{
+			streetMap[i][j].updateCell();
+		}
+	}
+}
+
+/// Goes throw every cell and sets the water level of the cell with the given one as parameter.
+
+void StreetMap::setWaterlevelToEveryCell(double water)
+{
+	for (int i = 0; i < this->rows; ++i)
+	{
+		for (int j = 0; j < this->cols; ++j)
+		{
+			streetMap[i][j].setWater(water);
+		}
+	}
 }

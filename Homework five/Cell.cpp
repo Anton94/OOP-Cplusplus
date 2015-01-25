@@ -139,3 +139,93 @@ Cell* Cell::getDownCell() const
 	return owner->getCellAt(indexRow + 1, indexCol);
 }
 
+/// Gets the water from the last iteration and pours out water from the cell in his neighbours 'toAdd' values.
+/// If the cell dont have owner -> can`t pours anything so returns false.
+/// If the cell dont pour out some water returns false, otherwise returns true.
+
+bool Cell::pourOut()
+{
+	// Gets the water from the last iteration.
+	updateCell();
+
+	// If there is no water to pour or there is no owner->returns false.
+	if (!owner || water <= 0.0)
+		return false;
+
+	// Get all neighbour cells in double linked list.
+	DLList<Cell*> neighbours;
+	getCellNeighbours(neighbours);
+
+	// Get the cells with less height and river once from all neighbours.
+	DLList<Cell*> neighboursWithLessHeight, neighboursRiver; 
+	getCellNeighboursWithLessHeight(neighbours, neighboursWithLessHeight);
+	getCellNeighboursRiver(neighbours, neighboursRiver);// neighbours river is with null pointers but in the future may be something different(like river cells some kind or ...), so maybe it`s better like that.
+
+
+	// Calculate what quantity of water that can be pour out. If there is no water to pour(the neighbours are with heights more than current one and no rivers) returns false.
+	double flow = owner->getFlow();
+	double waterToPour = neighboursWithLessHeight.getSize() * flow + neighboursRiver.getSize() * flow * 2;
+	if (waterToPour <= 0.0)
+		return false;
+
+	// If the maximum flow (waterToPour) is less than the water in the cell, pours in every neighbour (with less height) the maximum flow capacity.
+	if (waterToPour <= water)
+	{
+		// Pour out to the neighbour cells with less heigh.
+		for (DLList<Cell*>::Iterator iter = neighboursWithLessHeight.begin(); iter != neighboursWithLessHeight.end(); ++iter)
+		{
+			(*iter)->toAdd += flow;
+			water -= flow;
+		}
+
+		// Pours out to the river.
+		water = water - neighboursRiver.getSize() * 2 * flow;
+	}
+	else // the waterToPour is more than the water in the cell, it has to pour equal amounts of water.
+	{
+
+	}
+}
+
+/// Gets the cell neighbours and push them into the given list. In our case there are four neighbours.
+
+void Cell::getCellNeighbours(DLList<Cell*>& neighbours) const
+{
+	neighbours.push_back(getLeftCell());
+	neighbours.push_back(getUpCell());
+	neighbours.push_back(getRightCell());
+	neighbours.push_back(getDownCell());
+}
+
+/// TO DO CONST ITERATOR.
+
+/// Pushes in the second list (neighboursWithLessHeight) the cells from neighbours which have less height.
+
+void Cell::getCellNeighboursWithLessHeight(DLList<Cell*>& neighbours, DLList<Cell*>& neighboursWithLessHeight) const
+{
+	for (DLList<Cell*>::Iterator iter = neighbours.begin(); iter != neighbours.end(); ++iter)
+	{
+		if ((*iter) && (*iter)->getHeight() < height)
+			neighboursWithLessHeight.push_back(*iter);
+	}
+}
+
+/// Pushes in the second list (neighboursRiver) the cells from neighbours which are "river"(NULL).
+
+void Cell::getCellNeighboursRiver(DLList<Cell*>& neighbours, DLList<Cell*>& neighboursRiver) const
+{
+	for (DLList<Cell*>::Iterator iter = neighbours.begin(); iter != neighbours.end(); ++iter)
+	{
+		if (!(*iter))
+			neighboursRiver.push_back(*iter);
+	}
+}
+
+
+/// Adds 'toAdd' value to the water value.
+
+void Cell::updateCell()
+{
+	water += toAdd;
+	toAdd = 0.0;
+}
