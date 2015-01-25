@@ -51,6 +51,8 @@ private:
 	void printCellInfo(std::ostream& out, void (StreetMap::*printInfo)(std::ostream& out, int i, int j) const) const;
 	void printIterationData(std::ostream& out, Pair<double, int> iteration);
 	void foreachIteration(std::ostream& out, void (StreetMap::*action)(std::ostream& out, Pair<double, int> iteration));
+	void foreachCell(void (Cell::*action)());
+	void foreachCell(void (Cell::*action)(double value), double value);
 	void executeAIteration(std::ostream& out, Pair<double, int> iteration);
 	Cell* getCellAt(int i, int j);
 	void updateEveryCell();

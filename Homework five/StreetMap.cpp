@@ -137,13 +137,7 @@ void StreetMap::free()
 
 void StreetMap::calculateEveryCellNeighbours()
 {
-	for (int i = 0; i < this->rows; ++i)
-	{
-		for (int j = 0; j < this->cols; ++j)
-		{
-			streetMap[i][j].calculateCellNeighbours();
-		}
-	}
+	foreachCell(&Cell::calculateCellNeighbours);
 }
 
 
@@ -408,41 +402,49 @@ Cell* StreetMap::getCellAt(int i, int j)
 
 /// TO DO: MAY BE ADD FOREACH CELL FUNCTION BUT IT HAS TO BE WITH DIFF POINTERS SO..
 
-/// Goes throw every cell and update it`s water status(adds 'toAdd' value to the water from the last iteration on the streetmap).
+/// Foreach cell applies some functions which is void and taks no arguments.
 
-void StreetMap::updateEveryCell()
+void StreetMap::foreachCell(void (Cell::*action)())
 {
 	for (int i = 0; i < this->rows; ++i)
 	{
 		for (int j = 0; j < this->cols; ++j)
 		{
-			streetMap[i][j].updateCell();
+			(streetMap[i][j].*action)();
 		}
 	}
+}
+
+/// Foreach cell applies some functions which is void and taks one double argument.
+
+void StreetMap::foreachCell(void (Cell::*action)(double value), double value)
+{
+	for (int i = 0; i < this->rows; ++i)
+	{
+		for (int j = 0; j < this->cols; ++j)
+		{
+			(streetMap[i][j].*action)(value);
+		}
+	}
+}
+
+/// Goes throw every cell and update it`s water status(adds 'toAdd' value to the water from the last iteration on the streetmap).
+
+void StreetMap::updateEveryCell()
+{
+	foreachCell(&Cell::updateCell);
 }
 
 /// Goes throw every cell and sets the water level of the cell with the given one as parameter.
 
 void StreetMap::setWaterlevelToEveryCell(double water)
 {
-	for (int i = 0; i < this->rows; ++i)
-	{
-		for (int j = 0; j < this->cols; ++j)
-		{
-			streetMap[i][j].setWater(water);
-		}
-	}
+	foreachCell(&Cell::setWater, water);
 }
 
 /// Goes throw every cell and resets it`s water levels.
 
 void StreetMap::resetEveryCell()
 {
-	for (int i = 0; i < this->rows; ++i)
-	{
-		for (int j = 0; j < this->cols; ++j)
-		{
-			streetMap[i][j].resetWaterLevel();
-		}
-	}
+	foreachCell(&Cell::resetWaterLevel);
 }
