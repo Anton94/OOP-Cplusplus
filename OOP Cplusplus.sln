@@ -29,6 +29,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Homework four", "Homework f
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Homework five", "Homework five\Homework five.vcxproj", "{1681478B-AC87-44AE-9675-98EF3C0B4ED1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Script IIS", "Script IIS\Script IIS.vcxproj", "{3492C88D-0BC3-451D-9AD3-A5C801288928}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -169,6 +171,16 @@ Global
 		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Release|Win32.ActiveCfg = Release|Win32
 		{1681478B-AC87-44AE-9675-98EF3C0B4ED1}.Release|Win32.Build.0 = Release|Win32
+		{3492C88D-0BC3-451D-9AD3-A5C801288928}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{3492C88D-0BC3-451D-9AD3-A5C801288928}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{3492C88D-0BC3-451D-9AD3-A5C801288928}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{3492C88D-0BC3-451D-9AD3-A5C801288928}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3492C88D-0BC3-451D-9AD3-A5C801288928}.Debug|Win32.Build.0 = Debug|Win32
+		{3492C88D-0BC3-451D-9AD3-A5C801288928}.Release|Any CPU.ActiveCfg = Release|Win32
+		{3492C88D-0BC3-451D-9AD3-A5C801288928}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{3492C88D-0BC3-451D-9AD3-A5C801288928}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{3492C88D-0BC3-451D-9AD3-A5C801288928}.Release|Win32.ActiveCfg = Release|Win32
+		{3492C88D-0BC3-451D-9AD3-A5C801288928}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
