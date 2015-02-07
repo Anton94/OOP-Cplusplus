@@ -54,7 +54,7 @@ int main()
 			getline(inFile, questionText, '?');
 			outFile << questionText << "?\n";
 
-			getline(inFile, word, ' ');
+			getline(inFile, word, ' '); // Gets the A. word...
 		}
 		else if (word.find("B.") != std::string::npos)
 		{

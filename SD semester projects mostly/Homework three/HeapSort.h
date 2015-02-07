@@ -26,6 +26,7 @@ inline void HeapSort<T>::sort(T * data, size_t count)
 		{
 			Sift(data, i, count);
 		}
+
 		i = count;
 
 		while (--i)
