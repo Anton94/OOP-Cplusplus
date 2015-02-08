@@ -2,7 +2,7 @@
 #define VECTOR_H
 
 /*
-	Operator[] if the index is out of the range->returns NULL pointer, otherwise returns pointer to the element on that index.
+	
 
 
 */
@@ -14,10 +14,11 @@ public:
 	Vector();
 	Vector(const Vector<T>& other);
 	Vector<T>& operator=(const  Vector<T>& other);
+	T* getAt(int index);
 	void push(const T& elem);
 	void removeElement(int index);
-	T* operator[](int index);
-	const T* operator[](int index) const;
+	T& operator[](int index);
+	const T& operator[](int index) const;
 	int getSize() const;
 	bool empty() const;
 	void free();
@@ -86,9 +87,8 @@ void Vector<T>::push(const T& elem)
 	vector[size++] = elem;
 }
 
-
 template <class T>
-T* Vector<T>::operator[](int index)
+T* Vector<T>::getAt(int index)
 {
 	if (index < 0 || index >= size)
 		return NULL;
@@ -96,14 +96,22 @@ T* Vector<T>::operator[](int index)
 	return &vector[index];
 }
 
-
 template <class T>
-const T* Vector<T>::operator[](int index) const
+T& Vector<T>::operator[](int index)
 {
 	if (index < 0 || index >= size)
-		return NULL;
+		throw "Invalid index (out of bounds)!";
 
-	return &vector[index];
+	return vector[index];
+}
+
+template <class T>
+const T& Vector<T>::operator[](int index) const
+{
+	if (index < 0 || index >= size)
+		throw "Invalid index (out of bounds)!";
+
+	return vector[index];
 }
 
 template <class T>

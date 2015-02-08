@@ -2,8 +2,8 @@
 #include "../Vector/Vector.h"
 
 
-#define HEIGHT 260
-#define WIDTH 1000000
+#define HEIGHT 10
+#define WIDTH 100000000
 
 int main()
 {
