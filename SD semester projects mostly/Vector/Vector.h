@@ -14,9 +14,9 @@ class Vector
 public:
 	Vector();
 	Vector(const Vector<T>& other);
+	Vector<T>& operator=(const  Vector<T>& other);
 	void push(const T& elem);
 	void removeElement(int index);
-	Vector<T>& operator=(const  Vector<T>& other);
 	T& operator[](int index);
 	const T& operator[](int index) const;
 	int getSize() const;
@@ -26,6 +26,7 @@ public:
 	~Vector();
 private:
 	void resizeArray(int size);
+	void copyFrom(const  Vector<T>& other);
 private:
 	T * vector;
 	int size;
@@ -45,12 +46,35 @@ Vector<T>::Vector()
 template <class T>
 Vector<T>::Vector(const Vector<T>& other)
 {
-	for (size_t i = 0; i < other.getSize(); ++i)
-	{
-		push(other[i]);
-	}
+	copyFrom(other);
 }
 
+
+template <class T>
+Vector<T>& Vector<T>::operator=(const Vector<T>& other)
+{
+	if (this != &other)
+	{
+		free();
+		copyFrom(other);
+	}
+
+	return *this;
+}
+
+template <class T>
+void Vector<T>::copyFrom(const Vector<T> & other)
+{
+	resizeArray(other.capacity);
+
+	for (int i = 0; i < other.size; ++i)
+	{
+		vector[i] = other.vector[i];
+	}
+
+	size = other.size;
+	capacity = other.capacity;
+}
 
 template <class T>
 void Vector<T>::push(const T& elem)
@@ -63,26 +87,11 @@ void Vector<T>::push(const T& elem)
 	vector[size++] = elem;
 }
 
-template <class T>
-Vector<T>& Vector<T>::operator=(const Vector<T>& other)
-{
-	if (this != &other)
-	{
-		free();
-		for (size_t i = 0; i < other.getSize(); ++i)
-		{
-			push(other[i]);
-		}
-	}
-
-	return *this;
-}
-
 
 template <class T>
 T& Vector<T>::operator[](int index)
 {
-	if (index < 0 || index >= (int)size)
+	if (index < 0 || index >= size)
 		throw "Invalid index (out of bounds)!";
 
 	return vector[index];
@@ -92,7 +101,7 @@ T& Vector<T>::operator[](int index)
 template <class T>
 const T& Vector<T>::operator[](int index) const
 {
-	if (index < 0 || index >= (int)size)
+	if (index < 0 || index >= size)
 		throw "Invalid index (out of bounds)!";
 
 	return vector[index];
@@ -101,10 +110,10 @@ const T& Vector<T>::operator[](int index) const
 template <class T>
 void Vector<T>::removeElement(int index)
 {
-	if (index < 0 || index >= (int)size)
+	if (index < 0 || index >= size)
 		throw "Invalid index (out of bounds)!";
 
-	for (size_t i = (size_t)index; i < size - 1; i++)
+	for (int i = index; i < size - 1; i++)
 	{
 		vector[i] = vector[i + 1];
 	}
@@ -113,7 +122,7 @@ void Vector<T>::removeElement(int index)
 }
 
 
-/// Makes the array with the newSize (if < 0 throws exeption). If the array before the resize is smaller than the array after the resize- all new cells are with default constructor.
+/// Makes the array with the newSize (if < 0 throws exeption). If the newSize is smaller than the current one, trims the last cells.
 
 template <class T>
 void Vector<T>::resizeArray(int newSize)
@@ -125,7 +134,7 @@ void Vector<T>::resizeArray(int newSize)
 
 	int numberOfElements = (newSize < size ? newSize : size);
 
-	for (size_t i = 0; i < numberOfElements; ++i)
+	for (int i = 0; i < numberOfElements; ++i)
 	{
 		temp[i] = vector[i];
 	}
