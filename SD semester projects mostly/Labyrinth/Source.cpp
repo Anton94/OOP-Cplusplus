@@ -2,8 +2,8 @@
 #include "../Vector/Vector.h"
 
 
-#define HEIGHT 500
-#define WIDTH 500
+#define HEIGHT 260
+#define WIDTH 1000000
 
 int main()
 {
@@ -13,20 +13,21 @@ int main()
 		
 		try
 		{
-
 			Vector<Vector<double> > array2D;
 
-			// Set up sizes. (HEIGHT x WIDTH)
 			array2D.resize(HEIGHT);
 			array2D.getSize();
 			for (int i = 0; i < HEIGHT; ++i)
-				array2D[i].resize(WIDTH);
+				array2D[i]->resize(WIDTH);
 		}
 		catch (const char * str)
 		{
 			std::cerr << "Error: " << str << "\n";
 		}
-
+		catch (std::bad_alloc e)
+		{
+			std::cerr << "Error: " << e.what() << "\n";
+		}
 	}
 
 	_CrtMemCheckpoint(&s2);

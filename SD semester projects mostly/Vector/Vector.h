@@ -1,12 +1,11 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-/// Запазва наредбата, когато някой елемт бъде изтрит.
-/// Обектите, които могат да бъдат съхранявани във вектора трябва да имат следните функции/възможности:
-/// 1. Конструктор по подразбиране.
-/// 2. Оператор за присвояване.
-/// 3. Копиращ конструктор.
+/*
+	Operator[] if the index is out of the range->returns NULL pointer, otherwise returns pointer to the element on that index.
 
+
+*/
 
 template <class T>
 class Vector
@@ -17,8 +16,8 @@ public:
 	Vector<T>& operator=(const  Vector<T>& other);
 	void push(const T& elem);
 	void removeElement(int index);
-	T& operator[](int index);
-	const T& operator[](int index) const;
+	T* operator[](int index);
+	const T* operator[](int index) const;
 	int getSize() const;
 	bool empty() const;
 	void free();
@@ -89,22 +88,22 @@ void Vector<T>::push(const T& elem)
 
 
 template <class T>
-T& Vector<T>::operator[](int index)
+T* Vector<T>::operator[](int index)
 {
 	if (index < 0 || index >= size)
-		throw "Invalid index (out of bounds)!";
+		return NULL;
 
-	return vector[index];
+	return &vector[index];
 }
 
 
 template <class T>
-const T& Vector<T>::operator[](int index) const
+const T* Vector<T>::operator[](int index) const
 {
 	if (index < 0 || index >= size)
-		throw "Invalid index (out of bounds)!";
+		return NULL;
 
-	return vector[index];
+	return &vector[index];
 }
 
 template <class T>
