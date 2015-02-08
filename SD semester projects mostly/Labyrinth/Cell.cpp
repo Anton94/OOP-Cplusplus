@@ -1,0 +1,85 @@
+#include <iostream>
+#include "Cell.h"
+
+/// Default constructor.
+
+Cell::Cell()
+{
+	setDefaultValues();
+}
+
+void Cell::setDefaultValues()
+{
+	indexRow = indexCol = 0;
+	symbol = ' ';
+	owner = NULL;	
+	parent = NULL;
+	opened = closed = 0;
+	h = 0;
+}
+
+
+/// Validation for the indexes more than ziro and if the cell has owner-> validation for the indexes inside the bounds of the map.
+
+void Cell::setIndexes(int indexRow, int indexCol)
+{
+	if (indexRow < 0 || indexCol < 0 || (owner && (indexRow >= owner->getRows() || indexCol >= owner->getCols())))
+		throw "Invalid indexes of the cell!";
+
+	this->indexRow = indexRow;
+	this->indexCol = indexCol;
+}
+
+/// Sets the owner of the cell.
+
+void Cell::setOwner(Board* owner)
+{
+	this->owner = owner;
+}
+
+/// Sets the symbol of the cell.
+
+void Cell::setSymbol(char symbol)
+{
+	this->symbol = symbol;
+}
+
+/// Returns a pointer to the LEFT cell of the current one. If the cell is outside the bounds of the map->returns NULL;
+
+Cell* Cell::getLeftCell() const
+{
+	if (!owner)
+		return NULL;
+
+	return owner->getCellAt(indexRow, indexCol - 1);
+}
+
+/// Returns a pointer to the UP cell of the current one. If the cell is outside the bounds of the map->returns NULL;
+
+Cell* Cell::getUpCell() const
+{
+	if (!owner)
+		return NULL;
+
+	return owner->getCellAt(indexRow - 1, indexCol);
+}
+
+/// Returns a pointer to the RIGHT cell of the current one. If the cell is outside the bounds of the map->returns NULL;
+
+Cell* Cell::getRightCell() const
+{
+	if (!owner)
+		return NULL;
+
+	return owner->getCellAt(indexRow, indexCol + 1);
+}
+
+/// Returns a pointer to the DOWN cell of the current one. If the cell is outside the bounds of the map->returns NULL;
+
+Cell* Cell::getDownCell() const
+{
+	if (!owner)
+		return NULL;
+
+	return owner->getCellAt(indexRow + 1, indexCol);
+}
