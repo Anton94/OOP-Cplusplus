@@ -83,3 +83,17 @@ Cell* Cell::getDownCell() const
 
 	return owner->getCellAt(indexRow + 1, indexCol);
 }
+
+/// Returns the owner of the cell.
+
+Board* Cell::getOwner() const
+{
+	return owner;
+}
+
+/// Returns the symbol of the cell.
+
+char Cell::getSymbol() const
+{
+	return symbol;
+}

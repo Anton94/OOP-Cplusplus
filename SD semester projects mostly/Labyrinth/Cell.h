@@ -13,6 +13,8 @@ public:
 	void setIndexes(int indexRow, int indexCol);
 	void setOwner(Board* owner);
 	void setSymbol(char symbol);
+	Board* getOwner() const;
+	char getSymbol() const;
 private:
 	void setDefaultValues();
 	Cell* getLeftCell() const;

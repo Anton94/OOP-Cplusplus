@@ -2,8 +2,10 @@
 
 class Board;
 
+#include <iostream>
 #include "Cell.h"
 #include "../Vector/Vector.h"
+
 
 class Board
 {
@@ -11,6 +13,7 @@ class Board
 public:
 	int getRows() const;
 	int getCols() const;
+	void printBoard(std::ostream) const;
 private:
 	Cell* getCellAt(int i, int j);
 private:

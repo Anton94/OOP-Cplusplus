@@ -3,7 +3,8 @@
 
 /*
 	
-
+	operator[] - WITH NO CHECK...
+	getAt - if the index is out of the bounds -> returns NULL pointer.
 
 */
 
@@ -99,18 +100,12 @@ T* Vector<T>::getAt(int index)
 template <class T>
 T& Vector<T>::operator[](int index)
 {
-	if (index < 0 || index >= size)
-		throw "Invalid index (out of bounds)!";
-
 	return vector[index];
 }
 
 template <class T>
 const T& Vector<T>::operator[](int index) const
 {
-	if (index < 0 || index >= size)
-		throw "Invalid index (out of bounds)!";
-
 	return vector[index];
 }
 

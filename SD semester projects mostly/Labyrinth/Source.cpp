@@ -18,7 +18,7 @@ int main()
 			array2D.resize(HEIGHT);
 			array2D.getSize();
 			for (int i = 0; i < HEIGHT; ++i)
-				array2D[i]->resize(WIDTH);
+				array2D[i].resize(WIDTH);
 		}
 		catch (const char * str)
 		{
