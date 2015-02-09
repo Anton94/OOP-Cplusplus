@@ -1,9 +1,10 @@
 #include <iostream>
+#include <fstream>
 #include "../Vector/Vector.h"
-
+#include "Board.h"
 
 #define HEIGHT 10
-#define WIDTH 100000000
+#define WIDTH 1000
 
 int main()
 {
@@ -13,12 +14,20 @@ int main()
 		
 		try
 		{
-			Vector<Vector<double> > array2D;
+			std::ifstream in("levelOne.txt");
+			if (!in)
+				throw "Can`t open the file for the level!";
 
-			array2D.resize(HEIGHT);
-			array2D.getSize();
+			Board board;
+			board.deserialize(in);
+			board.printBoard(std::cout);
+
+			Vector<Vector<Cell>> matrix;
+
+			matrix.resize(HEIGHT);
 			for (int i = 0; i < HEIGHT; ++i)
-				array2D[i].resize(WIDTH);
+				matrix[i].resize(WIDTH);
+			matrix.resize(0);
 		}
 		catch (const char * str)
 		{
@@ -28,6 +37,7 @@ int main()
 		{
 			std::cerr << "Error: " << e.what() << "\n";
 		}
+		// catch outside of the bounds array...
 	}
 
 	_CrtMemCheckpoint(&s2);

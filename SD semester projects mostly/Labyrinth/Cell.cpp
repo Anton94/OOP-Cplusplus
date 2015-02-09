@@ -23,7 +23,7 @@ void Cell::setDefaultValues()
 
 void Cell::setIndexes(int indexRow, int indexCol)
 {
-	if (indexRow < 0 || indexCol < 0 || (owner && (indexRow >= owner->getRows() || indexCol >= owner->getCols())))
+	if (owner && (indexRow >= owner->getRows() || indexCol >= owner->getCols() || indexRow < 0 || indexCol < 0))
 		throw "Invalid indexes of the cell!";
 
 	this->indexRow = indexRow;
