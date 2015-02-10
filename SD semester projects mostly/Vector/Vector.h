@@ -13,6 +13,7 @@ class Vector
 {
 public:
 	Vector();
+	Vector(int size, const T& elem);
 	Vector(const Vector<T>& other);
 	Vector<T>& operator=(const  Vector<T>& other);
 	T* getAt(int index);
@@ -28,6 +29,7 @@ public:
 private:
 	void resizeArray(int size);
 	void copyFrom(const  Vector<T>& other);
+	void setDefaultValues();
 private:
 	T * vector;
 	int size;
@@ -36,23 +38,32 @@ private:
 
 
 template <class T>
-Vector<T>::Vector()
+inline Vector<T>::Vector()
 {
-	vector = NULL;
-	size = 0;
-	capacity = 0;
+	setDefaultValues();
 }
 
+/// Makes vector with given size and makes every element from the vector the given element.
 
 template <class T>
-Vector<T>::Vector(const Vector<T>& other)
+inline Vector<T>::Vector(int newSize, const T& elem)
+{
+	setDefaultValues();
+	resize(newSize);
+
+	for (int i = 0; i < size; ++i)
+		vector[i] = elem;
+}
+
+template <class T>
+inline Vector<T>::Vector(const Vector<T>& other)
 {
 	copyFrom(other);
 }
 
 
 template <class T>
-Vector<T>& Vector<T>::operator=(const Vector<T>& other)
+inline Vector<T>& Vector<T>::operator=(const Vector<T>& other)
 {
 	if (this != &other)
 	{
@@ -64,8 +75,9 @@ Vector<T>& Vector<T>::operator=(const Vector<T>& other)
 }
 
 template <class T>
-void Vector<T>::copyFrom(const Vector<T> & other)
+inline void Vector<T>::copyFrom(const Vector<T> & other)
 {
+	setDefaultValues();
 	resizeArray(other.capacity);
 
 	for (int i = 0; i < other.size; ++i)
@@ -78,7 +90,15 @@ void Vector<T>::copyFrom(const Vector<T> & other)
 }
 
 template <class T>
-void Vector<T>::push(const T& elem)
+inline void Vector<T>::setDefaultValues()
+{
+	vector = NULL;
+	size = 0;
+	capacity = 0;
+}
+
+template <class T>
+inline void Vector<T>::push(const T& elem)
 {
 	if (size == capacity)
 	{
@@ -89,7 +109,7 @@ void Vector<T>::push(const T& elem)
 }
 
 template <class T>
-T* Vector<T>::getAt(int index)
+inline T* Vector<T>::getAt(int index)
 {
 	if (index < 0 || index >= size)
 		return NULL;
@@ -98,19 +118,19 @@ T* Vector<T>::getAt(int index)
 }
 
 template <class T>
-T& Vector<T>::operator[](int index)
+inline T& Vector<T>::operator[](int index)
 {
 	return vector[index];
 }
 
 template <class T>
-const T& Vector<T>::operator[](int index) const
+inline const T& Vector<T>::operator[](int index) const
 {
 	return vector[index];
 }
 
 template <class T>
-void Vector<T>::removeElement(int index)
+inline void Vector<T>::removeElement(int index)
 {
 	if (index < 0 || index >= size)
 		throw "Invalid index (out of bounds)!";
@@ -127,7 +147,7 @@ void Vector<T>::removeElement(int index)
 /// Makes the array with the newSize (if < 0 throws exeption). If the newSize is smaller than the current one, trims the last cells.
 
 template <class T>
-void Vector<T>::resizeArray(int newSize)
+inline void Vector<T>::resizeArray(int newSize)
 {
 	if (newSize < 0)
 		throw "Invalid size capacity for the vector!";
@@ -150,35 +170,33 @@ void Vector<T>::resizeArray(int newSize)
 /// Public method. Resize the vector and fill the rest of the cells with default once(if the new size is bigger than the current one) (size = newSize...)
 
 template <class T>
-void Vector<T>::resize(int newSize)
+inline void Vector<T>::resize(int newSize)
 {
 	resizeArray(newSize);
 	size = newSize;
 }
 
 template <class T>
-int Vector<T>::getSize() const
+inline int Vector<T>::getSize() const
 {
 	return size;
 }
 
 template <class T>
-bool Vector<T>::empty() const
+inline bool Vector<T>::empty() const
 {
 	return size == 0;
 }
 template <class T>
-void Vector<T>::free()
+inline void Vector<T>::free()
 {
 	delete[] vector;
 
-	vector = NULL;
-	size = 0;
-	capacity = 0;
+	setDefaultValues();
 }
 
 template <class T>
-Vector<T>::~Vector()
+inline Vector<T>::~Vector()
 {
 	delete[] vector;
 }

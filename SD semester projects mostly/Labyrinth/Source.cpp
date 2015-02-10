@@ -28,6 +28,7 @@ int main()
 			for (int i = 0; i < HEIGHT; ++i)
 				matrix[i].resize(WIDTH);
 			matrix.resize(0);
+
 		}
 		catch (const char * str)
 		{
