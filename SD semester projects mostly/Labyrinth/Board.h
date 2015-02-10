@@ -30,7 +30,8 @@ public:
 	int getRows() const;
 	int getCols() const;
 	void deserialize(std::istream& in);
-	void printBoard(std::ostream& out) const;
+	void printBoard(std::ostream& out) const; 
+	void printDoorKeyPairs(std::ostream& out) const;
 private:
 	Cell* getCellAt(int i, int j);
 	void getDimensions(std::istream& in, int& rows, int& cols) const;

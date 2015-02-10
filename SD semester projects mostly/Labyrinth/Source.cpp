@@ -21,6 +21,7 @@ int main()
 			Board board;
 			board.deserialize(in);
 			board.printBoard(std::cout);
+			board.printDoorKeyPairs(std::cout);
 
 			Vector<Vector<Cell>> matrix;
 

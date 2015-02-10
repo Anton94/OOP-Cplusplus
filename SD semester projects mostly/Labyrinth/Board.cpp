@@ -53,6 +53,14 @@ void Board::printBoard(std::ostream& out) const
 	}
 }
 
+void Board::printDoorKeyPairs(std::ostream& out) const
+{
+	for (DLList<Pair<Cell*, Cell*>>::Iterator iter = const_cast<DLList<Pair<Cell*, Cell*>>&>(doorKeyPairs).begin(); iter != const_cast<DLList<Pair<Cell*, Cell*>>&>(doorKeyPairs).end(); ++iter)
+	{
+		std::cout << (((*iter).first == NULL) ? '*' : (*iter).first->getSymbol()) << (((*iter).second == NULL) ? '*' : (*iter).second->getSymbol()) << "\n";
+	}
+}
+
 /// Gets the board symbols and the pairs key->door from the input stream. If the input stream is wrong->throws exeption.
 /// Makes vector with (128) elements and makes all pointers NULL. Binary search tree for alternative, but here insert and find are constant, so I wanted to try it out. Also I may use and hash MAP .
 /// Every speacil cell (key or door) has constant search and constant add in the vector of pointers to cells.

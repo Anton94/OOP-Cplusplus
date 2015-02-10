@@ -44,6 +44,26 @@ void Cell::setSymbol(char symbol)
 	this->symbol = symbol;
 }
 
+void Cell::setParent(Cell* parent)
+{
+	this->parent = parent;
+}
+
+void Cell::setOpened(bool opened)
+{
+	this->opened = opened;
+}
+
+void Cell::setClosed(bool closed)
+{
+	this->closed = closed;
+}
+
+void Cell::setH(int h)
+{
+	this->h = h;
+}
+
 /// Returns a pointer to the LEFT cell of the current one. If the cell is outside the bounds of the map->returns NULL;
 
 Cell* Cell::getLeftCell() const
@@ -96,4 +116,24 @@ Board* Cell::getOwner() const
 char Cell::getSymbol() const
 {
 	return symbol;
+}
+
+Cell* Cell::getParent() const
+{
+	return parent;
+}
+
+bool Cell::getOpened() const
+{
+	return opened;
+}
+
+bool Cell::getClosed() const
+{
+	return closed;
+}
+
+int Cell::getH() const
+{
+	return h;
 }
