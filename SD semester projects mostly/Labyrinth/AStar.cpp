@@ -1,8 +1,8 @@
 #include "AStar.h"
 
-/// If there is no path, the returned path will be empty!
+/// If there is no path, the returned path will be empty! walkable so it can go through doors or something like that...
 
-DLList<Cell*> AStar::pathFinder(Cell* startCell, Cell* endCell)
+DLList<Cell*> AStar::pathFinder(Cell* startCell, Cell* endCell, bool(Cell::*walkable)() const)
 {
 	DLList<Cell*> path;
 	bool pathFound = false;
@@ -21,10 +21,16 @@ DLList<Cell*> AStar::pathFinder(Cell* startCell, Cell* endCell)
 
 	while (currentCell != endCell)
 	{
+		// NO path found..
+		if (openList.isEmpty())
+			return path;
+
+
 		// Look for the smallest H value in the openList and make it the current point. The current is first one at the beginning. Iter helper is to delete the current from the opened list after that.
-		for (i = openList.begin(), currentCell = (*i), iterHelper = i; i != openList.end(); ++i)
+
+		for (i = openList.begin(); i != openList.end(); ++i)
 		{
-			if ((*i)->getH() <= currentCell->getH())
+			if (i == openList.begin() || (*i)->getH() <= currentCell->getH())
 			{
 				currentCell = (*i);
 				iterHelper = i;
@@ -47,10 +53,10 @@ DLList<Cell*> AStar::pathFinder(Cell* startCell, Cell* endCell)
 		currentCell->setClosed(true);
 
 		// Four direction....
-		calcCell(currentCell, currentCell->getLeftCell(), openList, endCell);
-		calcCell(currentCell, currentCell->getUpCell(), openList, endCell);
-		calcCell(currentCell, currentCell->getRightCell(), openList, endCell);
-		calcCell(currentCell, currentCell->getDownCell(), openList, endCell);
+		calcCell(currentCell, currentCell->getLeftCell(), openList, endCell, walkable);
+		calcCell(currentCell, currentCell->getUpCell(), openList, endCell, walkable);
+		calcCell(currentCell, currentCell->getRightCell(), openList, endCell, walkable);
+		calcCell(currentCell, currentCell->getDownCell(), openList, endCell, walkable);
 	}
 
 	// Reset
@@ -80,11 +86,10 @@ DLList<Cell*> AStar::pathFinder(Cell* startCell, Cell* endCell)
 	return path;
 }
 
-
-void AStar::calcCell(Cell* current, Cell* child, DLList<Cell*> & openList, Cell* endCell)
+void AStar::calcCell(Cell* current, Cell* child, DLList<Cell*> & openList, Cell* endCell, bool (Cell::*walkable)() const)
 {
 	// If it's closed or not walkable then pass
-	if (child->getClosed() || !child->getWalkable())
+	if (child->getClosed() || !child->getWalkableWithoutWallsAndDoors())
 	{
 		return;
 	}

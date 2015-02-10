@@ -273,7 +273,11 @@ Cell* Board::getCellAt(int i, int j)
 
 void Board::tempPath()
 {
-	DLList<Cell*> path = AStar::pathFinder(startCell, endCell);
+	DLList<Cell*> path = AStar::pathFinder(startCell, endCell, &Cell::getWalkableWithoutWallsAndDoors);
+
+
+	if (path.isEmpty())
+		std::cout << "NO PATH FOUND!" << std::endl;
 
 	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
 	{

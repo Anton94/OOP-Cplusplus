@@ -140,10 +140,26 @@ int Cell::getH() const
 
 /// Checks only if the cell is not board wall...
 
-bool Cell::getWalkable() const
+bool Cell::getWalkableWithoutWalls() const
 {
 	if (!owner)
 		return true;
+
+	return symbol != owner->boardSymbols.wall;
+}
+
+/// Checks only if the cell is not board wall or some kind of door.
+
+bool Cell::getWalkableWithoutWallsAndDoors() const
+{
+	if (!owner)
+		return true;
+
+	for (DLList<Pair<Cell*, Cell*>>::Iterator iter = owner->doorKeyPairs.begin(); iter != owner->doorKeyPairs.end(); ++iter)
+	{
+		if ((*iter).second && (*iter).first->getSymbol() == symbol)
+			return false;
+	}
 
 	return symbol != owner->boardSymbols.wall;
 }

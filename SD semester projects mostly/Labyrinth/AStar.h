@@ -6,7 +6,7 @@
 class AStar
 {
 public:
-	static DLList<Cell*> pathFinder(Cell* startCell, Cell* endCell);
+	static DLList<Cell*> pathFinder(Cell* startCell, Cell* endCell, bool(Cell::*walkable)() const);
 private:
-	static void calcCell(Cell* current, Cell* child, DLList<Cell*> & openList, Cell* endCell);
+	static void calcCell(Cell* current, Cell* child, DLList<Cell*> & openList, Cell* endCell, bool(Cell::*walkable)() const);
 };

@@ -24,7 +24,8 @@ public:
 	bool getClosed() const;
 	int getH() const;
 
-	bool getWalkable() const;
+	bool getWalkableWithoutWalls() const;
+	bool getWalkableWithoutWallsAndDoors() const;
 	void computeH(Cell* targerCell);
 
 	Cell* getLeftCell() const;
