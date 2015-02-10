@@ -88,8 +88,8 @@ DLList<Cell*> AStar::pathFinder(Cell* startCell, Cell* endCell, bool(Cell::*walk
 
 void AStar::calcCell(Cell* current, Cell* child, DLList<Cell*> & openList, Cell* endCell, bool (Cell::*walkable)() const)
 {
-	// If it's closed or not walkable then pass
-	if (child->getClosed() || !(child->*walkable)())
+	// If the child is NULL or it's closed or not walkable then pass
+	if (!child || child->getClosed() || !(child->*walkable)())
 	{
 		return;
 	}
