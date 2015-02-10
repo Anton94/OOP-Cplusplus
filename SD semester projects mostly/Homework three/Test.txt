@@ -2,39 +2,38 @@ The test class generates my own data which is one int value for comparation and 
 In the following data, you can see how bad or good are the algorithms!
 // (I don`t know if I need to say this algorithm is with O(n*logN) and etc...I suppose you need only the output data)
 If you want to make the test arrays smaller or bigger you can modify all of them with the #macros SIZE in 'Test.h'!
-The test with 20 000 elements don`t display the values...
 Now they are with size 30.
 
 
 Test with random elements!
   Insertion sort:
-    Array before sort: 417 45 107 417 819 388 900 531 279 351 102 537 861 302 603 321 675 365 844 904 185 179 628 77 615 963 35 
-    Array after  sort: 963 904 900 861 844 819 675 628 615 603 537 531 417 417 388 365 351 321 302 279 185 179 107 102 77 45 35 
+    Array before sort: 537 393 813 553 209 354 896 575 844 749 353 598 869 125 737 157 452 523 906 653 742 
+    Array after  sort: 906 896 869 844 813 749 742 737 653 598 575 553 537 523 452 393 354 353 209 157 125 
     Test status: Passed!
     Sorting time: 0 seconds!
   Merge sort:
-    Array before sort: 417 45 107 417 819 388 900 531 279 351 102 537 861 302 603 321 675 365 844 904 185 179 628 77 615 963 35 
-    Array after  sort: 963 904 900 861 844 819 675 628 615 603 537 531 417 417 388 365 351 321 302 279 185 179 107 102 77 45 35 
+    Array before sort: 537 393 813 553 209 354 896 575 844 749 353 598 869 125 737 157 452 523 906 653 742 
+    Array after  sort: 906 896 869 844 813 749 742 737 653 598 575 553 537 523 452 393 354 353 209 157 125 
     Test status: Passed!
     Sorting time: 0 seconds!
   Heap sort:
-    Array before sort: 417 45 107 417 819 388 900 531 279 351 102 537 861 302 603 321 675 365 844 904 185 179 628 77 615 963 35 
-    Array after  sort: 963 904 900 861 844 819 675 628 615 603 537 531 417 417 388 365 351 321 302 279 185 179 107 102 77 45 35 
+    Array before sort: 537 393 813 553 209 354 896 575 844 749 353 598 869 125 737 157 452 523 906 653 742 
+    Array after  sort: 906 896 869 844 813 749 742 737 653 598 575 553 537 523 452 393 354 353 209 157 125 
     Test status: Passed!
     Sorting time: 0 seconds!
   Quick sort:
-    Array before sort: 417 45 107 417 819 388 900 531 279 351 102 537 861 302 603 321 675 365 844 904 185 179 628 77 615 963 35 
-    Array after  sort: 963 904 900 861 844 819 675 628 615 603 537 531 417 417 388 365 351 321 302 279 185 179 107 102 77 45 35 
+    Array before sort: 537 393 813 553 209 354 896 575 844 749 353 598 869 125 737 157 452 523 906 653 742 
+    Array after  sort: 906 896 869 844 813 749 742 737 653 598 575 553 537 523 452 393 354 353 209 157 125 
     Test status: Passed!
     Sorting time: 0 seconds!
   Selection sort:
-    Array before sort: 417 45 107 417 819 388 900 531 279 351 102 537 861 302 603 321 675 365 844 904 185 179 628 77 615 963 35 
-    Array after  sort: 963 904 900 861 844 819 675 628 615 603 537 531 417 417 388 365 351 321 302 279 185 179 107 102 77 45 35 
+    Array before sort: 537 393 813 553 209 354 896 575 844 749 353 598 869 125 737 157 452 523 906 653 742 
+    Array after  sort: 906 896 869 844 813 749 742 737 653 598 575 553 537 523 452 393 354 353 209 157 125 
     Test status: Passed!
     Sorting time: 0 seconds!
   Shaker sort:
-    Array before sort: 417 45 107 417 819 388 900 531 279 351 102 537 861 302 603 321 675 365 844 904 185 179 628 77 615 963 35 
-    Array after  sort: 963 904 900 861 844 819 675 628 615 603 537 531 417 417 388 365 351 321 302 279 185 179 107 102 77 45 35 
+    Array before sort: 537 393 813 553 209 354 896 575 844 749 353 598 869 125 737 157 452 523 906 653 742 
+    Array after  sort: 906 896 869 844 813 749 742 737 653 598 575 553 537 523 452 393 354 353 209 157 125 
     Test status: Passed!
     Sorting time: 0 seconds!
 
@@ -233,7 +232,7 @@ Test with few types of elements!
 Test with 20 000 elements!
   Insertion sort:
     Test status: Passed!
-    Sorting time: 20 seconds!
+    Sorting time: 19 seconds!
   Merge sort:
     Test status: Passed!
     Sorting time: 0 seconds!
@@ -248,5 +247,5 @@ Test with 20 000 elements!
     Sorting time: 5 seconds!
   Shaker sort:
     Test status: Passed!
-    Sorting time: 24 seconds!
+    Sorting time: 21 seconds!
 

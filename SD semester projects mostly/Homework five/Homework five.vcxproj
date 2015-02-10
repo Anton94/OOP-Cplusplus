@@ -78,9 +78,14 @@
   <ItemGroup>
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="StreetMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h" />
+<<<<<<< HEAD:Homework five/Homework five.vcxproj
+=======
+    <ClInclude Include="Pair.h" />
+>>>>>>> 995da66a97fa3872d9eb68b63a25c8669b1fb2b4:SD semester projects mostly/Homework five/Homework five.vcxproj
     <ClInclude Include="StreetMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

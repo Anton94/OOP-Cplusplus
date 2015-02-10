@@ -1,0 +1,1947 @@
+QUESTION: 1
+Mac is planning a Change Control application that will be used by thousands of staff located in
+10 different countries. What is one thing Mac can do to help optimize the performance of the
+application for his users?
+A. On the Advanced tab of Database properties, enable "Support specialized response
+hierarchy" and enable "Allow simple search".
+B. On the Advanced tab of Database properties, enable "Don t support specialized
+response hierarchy" and disable "Allow simple search".
+C. Use File > Application > New Copy to create a copy of the application on a server in
+each country, and have users access the application from a local server.
+D. Use File > Replication > New Replica to create a replica of the application on a
+server in each country, and have users access the application from a local server.
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 2
+Joe wants to display a company logo in the background of a view in his sales application. How
+can he do this?
+A. Use an Image Resource as the background graphic for the view.
+B. Use a URL as the background graphic for the view, where the URL points to the
+logo.
+C. Display the view in a frameset, and set the background of the view s frame to an
+Image Resource or URL depicting the logo.
+D. He can t do this. Views cannot have background graphics.
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 3
+Herb has some data to display in a form, and he would like to have it appear in a formatted
+grid. What option would he use to format this data layout?
+A. Create - Table
+B. Create - Layer
+C. Create - Section - Table
+D. Create - Layout Region - Table
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------QUESTION: 4
+Cheryle would like to have access to her mail file while she is traveling and disconnected from
+the network. Once she arrives at her destination, she wants to connect to the network and
+synchronize her mail file updates with the server version of her mail file. How can she
+accomplish this?
+A. Create a local copy of her mail file.
+B. Create a local replica of her mail file.
+C. Create a local mirror copy of her mail file.
+D. Create a local synchronized copy of her mail file.
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 5
+Molly has a Notes application that is used by employees in Europe and Japan. Each group of
+employees has a server that is in their geographical location. Molly needs to have versions of
+her application in both locations for efficient access, and the application data and design must
+stay synchronized in both locations. How can Molly accomplish this?
+A. Create a copy of the database in each location by using the menu option File >
+Application > New Copy.
+B. Create a replica of the database in each location by using the menu option File >
+Replication > New Replica.
+C. Create a mirror of the database in each location by using the menu option File >
+Application > New Mirror.
+D. Create a synchronized copy of the database in each location by using the menu
+option File > Synchronization > New Copy.
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 6
+Tony wants to create a duplicate of the Video application. He wants to keep a version of the
+data on the same server as the production application but does not want any new documents or
+document modifications to be replicated into his new database once he creates it. Which one of
+the following should Tony do to create his archive?
+A. Create a new copy of the database.
+B. Create a replica copy of the database.
+C. Use Windows Explorer to create a copy of the database file.
+D. Create a replica copy of the database and disable replication on the database
+properties.
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------QUESTION: 7
+Which one of the following database elements is NOT updated when the DESIGN task is run?
+A. Forms
+B. Views
+C. Roles
+D. Agents
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 8
+Christopher is making a new application using the NewVideo Design Template that he plans to
+customize. He wants to make sure that his new application will not get future modifications to
+the NewVideo Design Template. Which one of the following should Christopher do to
+accomplish this?
+A. Create a blank application and refresh the design of the new application using the
+NewVideo Design Template.
+B. Create the new application from the NewVideo Design Template and deselect
+"Inherit future design changes" in the New Application dialog box.
+C. Create the new application from the NewVideo Design Template and select "Lock
+Design Documents" in the application Design properties dialog box.
+D. Create the new application from the NewVideo Design Template and then open the
+application Design properties and select "Database is a master template."
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 9
+Colby has a default level access of Author in the Suggestion database. She created a new
+suggestion, but was unable to edit the document later. Why would this problem occur?
+A. The document does not have a Readers type field.
+B. The document form does not have an Authors type field.
+C. She needs the "Edit document" option added to her access.
+D. She needs at least Editor access to edit her documents in the database.
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 10
+Shandi has created a Suggestion database in Designer. She would like to create additional
+databases based on the Suggestion database design, and she would like to have them
+automatically updated whenever she changes the original design. How would she accomplish this?
+A. Select the Database Inheritance option for "Allow inheritance" in the additional
+databases.
+B. Select the Database Inheritance option for "Inherit from master template" in the
+additional databases.
+C. Select the Database Inheritance option for "Database file is a master template" in the
+original Suggestion database.
+D. Select the Database Inheritance option for "Allow other databases to inherit design"
+in the original Suggestion database.
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 11
+Greg created a new database that will be used by members of the Accounting department. He
+sees that there is a group in the Domino Directory that already contains all of the members of
+the Accounting department, and it is a "Mail only" group. How can he use that group in the
+ACL of his database, to control access?
+A. He needs to change the group type to "Mail and ACL"
+B. He needs to change the group type to "Multi-purpose"
+C. He doesn t need to do anything. All group types can be used for ACL access.
+D. He has to create a copy of the group, and make the new group of type "Access
+Control List only". Groups can be used for mail or ACL access, but not both.
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 12
+Tim has enabled document locking in the Sales application. He has noticed some documents
+that have been locked for several hours. The users tell him that their computers crashed while
+they were working on documents. What can Tim do to unlock the documents?
+A. Have an administrator run fixup on the database.
+B. Write an agent to run on selected documents. Use the formula: FIELD $Lock :=
+@DeleteField
+C. Have someone with Manager access right-click on a locked document and select
+Unlock Document.
+D. The nightly compact of the database will unlock the documents. Tim can also
+manually compact the database.
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 13AJ wants to create a new application on his laptop that does not have any design elements in it.
+Which one of the following should he do to begin this process?
+A. Select File > Application > New and assign a filename of _blank.nsf.
+B. Select File > Application > New. Designate "Local" as the server, and select "-Blank-
+" as the template.
+C. Select File > Application > New. Designate "Local" as the server, and assign a
+filename of _blank.nsf.
+D. Select File > Application > New. Designate "Local" as the server, and select "-
+Default-" as the template.
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 14
+Ken would like to allow remote salespeople to replicate information from the videoinfo.nsf
+application to their laptops, so that the replications are fast and the application on each laptop
+isn t too big. Each salesperson should replicate only the information from their territory. Which
+one of the following does Ken need to do to configure this?
+A. Use a selective replication formula.
+B. Give the salespeople Reader access to the application.
+C. Give the SalesPeople group the [TerritoryOnly] role.
+D. Use AuthorName fields to limit access to information.
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 15
+Mickey wants to allow soft deletions in his database. How does he enable this?
+A. By checking the Advanced Database Property, "Allow soft deletions".
+B. By checking the Form Property "Allow soft deletions", for all Forms that should
+have this property.
+C. He doesn t need to do anything. All databases on a Domino 5 or higher server have
+soft deletions enabled automatically.
+D. By adding a field called $SoftDelete, with a computed value of "1", to all documents
+that should have soft deletions enabled
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 16
+Malik needs to find all the design elements that reference a particular field in his database. How
+could he accomplish this?A. Edit - Find Next
+B. Edit - Find/Replace
+C. File - Application - Analyze Design
+D. File - Application - Design Synopsis
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 17
+Nadia would like to position overlapping blocks of content on a form in the Video application.
+She wants the flexibility to control the placement, size, and content of the information. Which
+one of the following should Nadia use when creating her form?
+A. Layers
+B. Subforms
+C. Framesets
+D. Style Sheets
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 18
+Stacee has been asked to add a feature to the Video Rental application. Users should be able to
+rag videos into a "Favorites" area for future access. What design feature would allow Stacee to
+add this functionality?
+A. Views
+B. Agents
+C. Folders
+D. Custom User Views
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 19
+Luigi has been asked to create a view that shows the rental history of each video that s been
+checked out. The view should be sorted by the name of the video, and all the entries for a
+particular video should be grouped together. How would he accomplish this?
+A. Create a Grouping view with the VideoTitle field as the first column, and set the Sort
+option to Ascending.
+B. Create a view with the VideoTitle field as the first column, and set the Grouping
+option for the view to Ascending - Categorized.
+C. Create a view with the VideoTitle field as the first column, and set the Sort option for
+that column to Ascending and the Type option to Categorized.D. Create a view with the VideoTitle field as the first hidden column, and set the Sort
+option for that column to Ascending and the Type option to Categorized.
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 20
+When Marc creates a new document in the Suggestion database, he sees short descriptions of
+the fields at the bottom of the form. What design feature has been used to create this behavior?
+A. Default Value for the field
+B. Field Hint in the Field Properties dialog box
+C. Help Description in the Field Properties dialog box
+D. Field Assistance in the Field Properties dialog box
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 21
+Yuri created a formula for a button. The code is supposed to set the value of an existing field
+called Title. He used the following formula: Title:= @Propercase(Title); "" After the formula
+runs, the Title field has not changed. Which one of the following is the reason?
+A. The value of one field cannot be set from the value in another field.
+B. The text string in the formula is set to null. Thus Notes cannot validate the formula.
+C. When setting the value of a field, the formula must be in the field s Input Validation
+event.
+D. The formula does not specify that Title is an existing field. Thus it is interpreted as a
+temporary variable.
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 22
+Hans is enhancing the Sales application. He has noticed that in the Customers view there are
+several columns for which the column headers do not quite fit within the column width. What
+is one way Hans can correct this without manually resizing each column?
+A. Open the view Properties. Open the Style tab. In the Header section, set Height to
+"2".
+B. Open the view Properties. Open the Style tab. In the Header section, set Style to
+"Autowrap".
+C. Open the view Properties. Open the Style tab. In the Other section, select "Auto-fit
+column width"
+D. Open the view Properties. Open the Style tab. In the Other section, select "Extend
+columns to header width".Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 23
+Norma has a form action that will allow users to create comments for the existing document.
+When Norma views the form in her Web Browser, she sees the action, but when she opens the
+form in her Notes client the action is not visible. Which one of the following should she do to
+correct the problem?
+A. Make sure the comments form has a default access for all readers and above.
+B. Make the action a shared action and disable the Hide-when settings for "Web
+browsers".
+C. Check that the Web Access property for the Action Bar is not set to "Display Using
+Java Applet"
+D. Check the action Hide-when settings to make sure the action is available for "Notes
+4.6 or later".
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 24
+Hans created a Response document that appears as "Not Categorized" in a database view. He
+intended the document to appear in the view as a response to a review document. Which one
+of the following could have caused the problem?
+A. Form Type is set to Document.
+B. Form Type is set to Response to Response.
+C. View Selection formula is set to: SELECT Form = "Review" & @Isresponsedoc.
+D. View Selection formula is set to: SELECT Form = "Review" | @AllDescendants.
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 25
+Barney created a form that has a field that should always be a number with exactly two decimal
+places. How does he make sure the field value will have the correct number of decimal places?
+A. It should be a field of type "Currency".
+B. It should be a Number field, with an Input Translation formula of:
+@Decimal(@ThisValue; 2).
+C. It should be a Text field, with an Input Translation formula of:
+@TextToNumber(@ThisValue; 2).
+D. It should be a Number field, with the "Decimal Places" option set to "Fixed", and a
+value of 2.Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 26
+Shantille has written an agent to send a nightly report of all new Change Control documents
+created during the workday. The Change Control application exists on multiple servers, and
+Shantille needs to ensure that only one report is sent each night, reporting all new Change
+Controls, regardless of the server on which they were created. How should Shantille schedule
+her agent?
+A. Trigger: "On schedule" Runtime: "Daily" Set "Run on" to be one specific server
+B. Trigger: "On schedule" Runtime: "Daily - run once" Set "Run on" to be "-Any
+Server-"
+C. Trigger: "On schedule" Runtime: "Daily" From the hub server, set "Run on" to be
+"Local"
+D. Trigger: "On schedule" Runtime: "Daily - run once" From the hub server, set "Run
+on" to be "Local"
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 27
+Orlando wrote an agent to generate a weekly email that summarizes all the activity in the Video
+Rental application. The database resides on the PROD01 server with a replica on the
+BACKUP01 server. He is receiving two copies of the email every week. What is the cause of
+this problem?
+A. The agent is set to run on "Any Server".
+B. The "Restart On Failure" setting has been selected.
+C. The agent is set to run on both PROD01 and BACKUP01.
+D. The agent is set to run on "Local" as well as the PROD01 server.
+Answer: A -
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 28
+Mary would like to display a collapsed section on her Video Catalog form. She has created a
+section but when she displays the form in the Notes client the section always opens expanded.
+Which one of the following should Mary do to collapse the section?
+A. Nothing; sections always open expanded.
+B. Change the section type from "standard" to "controlled access".
+C. Modify the form properties to display all sections collapsed.
+D. Modify the section Opened for Reading property to auto-collapse.
+Answer: D-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 29
+The "Show Single Category" option of an Embedded View does what?
+A. Dynamically adds a category column to a view, based on a formula
+B. Displays only a single column of a view, based on a formula filter
+C. Displays only a single section of a categorized view, based on a formula
+D. Combines certain documents in the view to display in a single view category, based
+on a formula filter
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 30
+Derek has created a view in the Orders application. Derek wants the Order Amount column in
+the view to be punctuated to display two decimal places. Which one of the following should
+Derek do?
+A. Set the column value to use Formula, and use this code: @Text( OrderAmount;
+*0.nn)
+B. Set the column value to use Formula, and use this code: @Format( OrderAmount;
+CURRENCY )
+C. On the Style tab of View Properties, enable "Currency" as the value for the Numbers
+option.
+D. On the Advanced Format tab of the Column Properties, Select "Number" for the
+Style. In the Decimal places section, deselect "Varying" and designate 2 as the value for
+"Fixed"
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 31
+Amber wants to add a field to her form that will allow one or more values to be selected from a
+pop-up list. What type of field should she use?
+A. Checkbox
+B. Combobox
+C. Dialog List
+D. Radio button
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 32
+Kristin is creating a page in the Videos application. Which one of the following statements about pages is true?
+A. Pages can contain fields.
+B. Pages can be full-text indexed.
+C. Pages can be used only on the Notes client.
+D. Pages can include text, graphics, applets, and links.
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 33
+Tony has added a Password field to the Rental Account form. What will he see when he types a
+value into that field?
+A. No characters will be shown as they are typed.
+B. Asterisks will be shown as each character is typed.
+C. The typed value is shown, but the encrypted value is stored in the database.
+D. The encrypted value of the field will be displayed as each character is typed.
+Answer: B -
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 34
+Clarissa has created a view of videos that are currently checked out. She would like to display a
+stoplight icon in the view for videos that are overdue. What column property does she need to
+select to accomplish this?
+A. Show icons only
+B. Use icon as value
+C. Show custom icon image
+D. Display values as icons
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 35
+JoAnne lost a document she had been creating in a Domino application when the power in the
+building failed. How can she modify the application to prevent the document loss in the future?
+A. Select "Allow Autosave" in the Form Properties.
+B. Create an action button with the Autosave @Command.
+C. Select "Allow Autosave" in the Database Properties.
+D. Enable a background agent to periodically save any open documents.
+Answer: A-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 36
+Eduardo chose Native OS style when he created an editable text field on a form. In which one
+of the following ways will the field appear to Notes users?
+A. An outlined rectangle.
+B. Blank space marked off by red brackets.
+C. Blank space marked off by black brackets.
+D. The field will not appear to Notes users. It will be visible only to Web users.
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 37
+Which of the following can NOT be copied as a hotspot link?
+A. View
+B. Page
+C. Database
+D. Document
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 38
+Anna wants to add a field to her form that will allow one or more values to be selected from a
+scrolling fixed size field. What type of field should she use?
+A. Listbox
+B. Keyword
+C. Combobox
+D. Dialog List
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 39
+Which of the following are agent trigger events?
+A. onLoad, onUnload, onClick
+B. onClick, onMouseover, onExit
+C. Postopen, Queryclose, Querysave
+D. After new mail arrives, Before new mail arrives, After documents are created or
+modifiedAnswer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 40
+Calvin needs to add a field to his form that will allow a user to save one or more file
+attachments. What type of field should he use for this requirement?
+A. Rich Text
+B. Attachment
+C. Extended Text
+D. Text+Attachment
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 41
+Kanesha has a view that should show both main and response documents to the user. When she
+displays the view, only the main documents show up. What is the cause of this problem?
+A. The view option of "Show main documents only" is selected.
+B. The column option of "Show main documents only" is selected.
+C. The view option of "Show response documents in a hierarchy" is not selected.
+D. The column option of "Show response documents in a hierarchy" is not selected.
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 42
+Janean has been asked to add the company logo to each form in the Video Rental application.
+How can she do this and minimize potential future maintenance of the logo?
+A. Add a computed link to the logo in each form.
+B. Add the logo from the Shared Resources - Files area.
+C. Add the logo from the Shared Resources - Images area.
+D. Add the logo from the Shared Code - Style Sheets area.
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 43
+When Tony looks at his video due date in the Video Rental database main view, he sees a due
+date time of 9 am. Bob is in a different time zone, and sees Tony s due date as 11 am. What
+setting causes the times to be different for Bob and Tony?
+A. The Column Properties dialog box has Display Time set to Always show time zone.B. The View Properties dialog box has Display Time set to Adjust time to local zone.
+C. The Column Properties dialog box has Display Time set to Adjust time to local zone.
+D. The View Properties dialog box has Display Time set to Show only if zone not local.
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 44
+Nancy used a Rich Text field on a form to capture data. She would like to display the data in a
+view. Which one of the following should she do?
+A. Use @TextToRichText
+B. Use a RichText lite field
+C. Use @Text (fieldname) in the column formula
+D. Nothing. Rich Text cannot be displayed in views.
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 45
+When a user clicks a link in the left frame of the Review application, the linked data displays in
+the frame on the right. Which one of the following did Kristin do to allow this to happen?
+A. Entered the name of the target frame in Hotspot properties
+B. Entered the name of the target frame in Frameset properties
+C. Entered the position of the target frame in Frame properties
+D. Entered the position of the target frame in Hotspot properties
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 46
+Which one of the following can be printed from the Domino Designer IDE?
+A. Current selection
+B. Alternative language
+C. Only LotusScript language
+D. Other objects Alternative language
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 47
+A Text field on a Form is set to "Allow multiple values". Jan is designing the form, and wants
+to set the default value of the field to a text list of "Apple", "Orange", and "Grape". What
+Default field value formula should she use?A. "Apple" : "Orange" : "Grape"
+B. "Apple" + "Orange" + "Grape"
+C. "Apple" , "Orange" , "Grape"
+D. @TextToList("Apple"; "Orange"; "Grape")
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 48
+Oscar has a database that is designed to be used by the Notes client and a Web browser. He s
+adding a new view that should be accessible only by people using the Notes client. How can he
+accomplish this?
+A. Set the "$HideFrom" design element field to a value of "Web".
+B. Select "Hide design element from Web browsers" in the Column Properties dialog
+box.
+C. Select "Hide design element from Web browsers" in the Design Document
+Properties for the view.
+D. Deselect "Web browsers" from the "Who can use this view?" option in the View
+Properties dialog box.
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 49
+Chaz has a number of action buttons in the action bar of his view. The action buttons are
+already using all the available space in the action bar, and he must add five more options.
+What can Chaz use to make those options available to the user?
+A. Change the icon hide when formula to "Hide in Edit mode"
+B. Set the action buttons to "Compress to fit".
+C. Set the Action Bar Display Height to "Double".
+D. Set the action button to "Include in right mouse button menu".
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 50
+Joline needs to create a field that takes the first three characters of the FirstName field and the
+last three characters of the LastName field as part of a subscriber key. Which statement would
+give her that information?
+A. @SubStr(FirstName + LastName;3;3)
+B. @Left(FirstName;3) + @Right(LastName;3)C. @First(FirstName;3) + @Last(LastName;3)
+D. @Right(FirstName;-3) + @Left(LastName;-3)
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 51
+Doug is enhancing the Change Control form. He wants to help approvers more easily
+communicate with the Requester. How can Doug enable the Requester field for instant
+messaging?
+A. Ensure that Requester is a Names, Authors, or Readers field. On the Control tab of
+the field properties, enable "Enable instant messaging".
+B. Ensure that Requester is a Names field that evaluates to Canonical format. On the
+Control tab of the field properties, enable "Show online status".
+C. Ensure that Requester is a Names field that evaluates to Abbreviated format. On the
+Control tab of the field properties, enable "Show online status".
+D. Ensure that Requester is a Names, Authors, or Readers field that evaluates to
+Abbreviated format. On the Control tab of the field properties, enable "Enable instant
+messaging".
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 52
+Riley wants to add an action button on his form that will allow the user to save the document.
+What @Command will accomplish that task?
+A. @Command([Save])
+B. @Command([SaveDoc])
+C. @Command([FileSave])
+D. @Command([EditClose])
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 53
+Ian is coding a Translation formula for the Title field on the Video Rental form. Where can Ian
+find a list of the Formula @Functions that are available to him from within the Designer
+application?
+A. Tools - Help - @Functions
+B. Right-click in the Title field
+C. The Objects Tab in the Programming pane.
+D. The Reference Tab in the Programming pane.Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 54
+Dwayne would like to change the font for his formula statements to make them easier to read.
+Where would he change that property?
+A. Form Properties dialog box
+B. Database Properties dialog box
+C. Designer Properties dialog box
+D. Programmer s Pane Properties dialog box
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 55
+Nakita has been asked to add a feature that will check a document for misspellings before it is
+saved. What @Command can she use to add this behavior?
+A. @Command([SpellVerify])
+B. @Command([SpellChecker])
+C. @Command([ToolsSpellCheck])
+D. @Command([FileSave];[SpellCheck])
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 56
+Review the formula below, assuming that the Author field contains the following: Richard
+Clarke/Meadowlands/ACME @Left(@Name([CN]; Author);" ") Which one of the following
+will the formula produce? (Note: The substring portion of the @Left statement contains a
+single space.)
+A. Clarke
+B. Richard
+C. Meadowlands
+D. Richard Clarke
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 57
+Jorge has built a Ticket Tracking application that is accessed via a Web browser. When a user
+bookmarks a document in his browser, the bookmark title should show the date and status of
+the ticket. How would Jorge accomplish this?A. Use a Window Title formula of @Text(TicketDate) + " - " + TicketStatus
+B. Use a Bookmark Title formula of @Text(TicketDate) + " - " + TicketStatus
+C. Create a $WindowTitle field with a formula of @Text(TicketDate) + " - " +
+TicketStatus
+D. Create a $BrowserTitle field with a formula of @Text(TicketDate) + " - " +
+TicketStatus
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 58
+Robert is adding a editable field called CountryLocation to the Member form in the Video
+Rental application. The field should show a value of USA when the document is first created.
+What formula would accomplish this behavior?
+A. "USA" in the field s Default Value object.
+B. "USA" in the field s Input Enabled object.
+C. "USA" in the field s Input Validation object.
+D. "USA" in the field s Input Translation object.
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 59
+Diane has a color palette program on her computer that she uses while designing applications.
+She would like to have the option to launch that program when she is in Designer. How would
+she add that program to her Designer menu options?
+A. Tools - Add Tool...
+B. Tools - Add-on Options...
+C. Tools - Customize Tools...
+D. Tools - Launch On Startup...
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 60
+Al is creating a form that will include a number of Text fields. He would like to create the first
+field, include an Input Translation formula that will trim any leading and trailing white space
+from the user input, and then copy that initial field when creating the rest of the fields. What
+should Al put in his Input Translation formula?
+A. @Trim(@Value)
+B. @Trim(@ThisValue)
+C. @Trim(@ThisField)D. @Trim(@GetFieldValue)
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 61
+Chere has a field in her document that stores the date and time when the document was saved.
+What @Function will allow this value to be stored in the field?
+A. @If(@IsDocBeingSaved;@Now;SavedDate)
+B. @If(@IsDocBeingEdited;@Now;SavedDate)
+C. @If(@IsDocBeingSaved;@Today;SavedDate)
+D. @If(@IsDocBeingEdited;@Today;SavedDate)
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 62
+Wesley is able to see documents in the Suggestion database that have his name listed in the
+"SuggestionContact" field. He can not see any other documents nor can he edit the documents
+he can see. What level of access does Wesley have in the ACL for this database?
+A. Reader
+B. Editor
+C. Author
+D. Depositor
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 63
+Catherine is preparing to deploy the Sales application. She needs to ensure that only
+authenticated users can access the application from their web browser. How can Catherine
+allow the proper access to the privileged users, and prevent non-authenticated users from
+accessing the Sales application from the web?
+A. On the ACL Advanced tab, select "Disable URL Open".
+B. Add an entry for "Anonymous" to the ACL, and set Access to "No Access".
+C. On the Advanced tab of the ACL, set "Maximum Internet name and password" to
+"No access".
+D. Add an entry for "Anonymous" to the ACL, and set Access to "No Access". On the
+Advanced tab of the ACL, set "Maximum Internet name and password" to "No access".
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------QUESTION: 64
+Which one of the following statements about Readers fields is true?
+A. A Readers field may be computed or editable.
+B. Readers fields only affect those people who have reader access.
+C. A form may contain several Readers fields, each of which affects who can read
+different sections of a form.
+D. A user listed in an Authors field must also be listed in a field with the Readers data
+type in order to read a document.
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 65
+Ted, a user of the Videos application, is unable to create a video description. Kristin, the
+application administrator, surveys the ACL and discovers that Ted is a member of two groups
+in the ACL. Which one of the following describes the effective rights Ted has to the
+application?
+A. Default access
+B. The lower of the two groups
+C. The higher of the two groups
+D. No access (overlapping groups are not permitted)
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 66
+Johan has a Notes application that tracks suggestions to improve production processes. He must
+set the Access Control List so that anyone can add a suggestion, but they can t see any of of the
+suggestions that have been submitted. What level of access would Johan assign to the Default
+entry in the Access Control List?
+A. Depositor
+B. Anonymous
+C. Author - Create
+D. Reader - Write Public Documents
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 67
+Lindsay is troubleshooting a problem on her application. The users have editor access to the
+database, but they are unable to delete any of the documents. What should Lindsay do to give
+the users the ability to delete documents?A. Add an Authors name field on the form.
+B. Select the Delete Documents option for the user s ACL entry.
+C. Give the user Author access with the Delete Documents option.
+D. Give the user Depositor access with the Delete Documents option.
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 68
+Jayne has asked her Domino server administrator to enable document locking on the server.
+Which one of the following must she do to enable it for her application?
+A. Enable the "Allow document locking" database property.
+B. Enable the "Allow document locking" Form property for each Form that should
+allow locking.
+C. Add @LockDocument or NotesUiDocument.Lock to the QueryModeChange event
+of each Form that should allow document locking, and write similar code to unlock the
+documents in the QuerySave event.
+D. Nothing. Once document locking is enabled on the server, all the databases on that
+server automatically use document locking.
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 69
+Karen has posted a template, newvideo.ntf, for the Video application on the development
+server. Denise wants to create a new Video application using the new template, such that the
+new application will inherit design changes from the template. Which one of the following
+does Denise need to do?
+A. Create a replica of the "newvideo.ntf" template, and give it a .nsf file name.
+B. Ask a server Administrator to make a copy of the template using the Domino
+Administrator tool, with the "Inherit Design" option checked.
+C. Select File>Database>New, choose the development server as the template server,
+and choose the "newvideo.ntf" template.
+D. Create a blank database, right-click the new database icon, and choose the "Copy
+From Template" option. Select the "newvideo.ntf" file as the template, and the design
+elements will be copied to the new database.
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 70
+Carmine has created a new design for her Video application. Carmine would like to post the
+design to the server and make it available so other databases can automatically inherit the
+design changes when the DESIGN server tasks runs. Which one of the following should Carmine to do make the new design available on the development server?
+A. Copy the database to the development server, name it "newvideo.nsf", and select
+"Update on DESIGN task" in the database Design properties.
+B. Copy the database to the development server, name it "newvideo.ntf", and select
+"Allow inheritance by applications" in the database Design properties.
+C. Copy the database to the server, name it "newvideo.ntf", select "Inherit design from
+master template", and give it a template name in the database Design properties.
+D. Copy the database to the development server, name it "newvideo.ntf", select
+"Database file is a master template", and give it a template name in the database Design
+properties.
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 71
+Silvio wants to allow Jackie to create and modify documents in his Video application, but he
+doesn t want Jackie to make a local replica or copy of the database. Which one of the following
+should Silvio do to accomplish this?
+A. Give Jackie Author access in the database ACL.
+B. Give Jackie Editor access, and deselect "Replicate or copy documents" in the
+database ACL.
+C. Click to place a checkmark by the "Disable copying" option on the Security tab of
+each form.
+D. Give Jackie Editor access in the database ACL, and assign her to a role that prevents
+her from replicating or copying documents.
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 72
+Derek has created a view in the products.nsf database. Derek wants the Markup column in the
+view to display the selling price of the item minus the cost. He wants this value to display in
+currency. Which one of the following should Derek do?
+A. Use the @function @Currency in the column formula in the view.
+B. Select currency on the Numbers tab in the View Properties box.
+C. Select currency on the Numbers tab in the Field Properties box of the cost field.
+D. Select "Number" as the style on the Advanced tab of the Column Properties dialog,
+and "Currency" as the Number Format.
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 73Dora has a view with a column that shows the date and time that the document was created.
+She would like to show just the date and hide the time portion. How can she accomplish this?
+A. In the View Properties dialog box, set the view style to Date/Time and format the
+date to be mm/dd/yyyy.
+B. In the View Properties dialog box, set the view style to Date/Time, and deselect the
+Display Time option.
+C. In the Column Properties dialog box, set the column style to Date/Time and format
+the date to be mm/dd/yyyy.
+D. In the Column Properties dialog box, set the column style to Date/Time, and deselect
+the Display Time option.
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 74
+Tony would like to make it easier for users of the Video application to enter new documents
+using the Video form. He d like users to be able to create new Video documents while in a
+view. Which one of the following should Tony do to build this interface?
+A. Create a view action that has the following formula: @Command([Create]; "Video").
+B. Create a form action that has the following formula: @Command([Compose];
+"Video").
+C. Create a view action that has the following formula: @Command([Compose];
+"Video").
+D. Create a database action that has the following formula: @Command([Create];
+"Video").
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 75
+Jackie wants to remove an action hotspot but leave the image on his Video form. In which one
+of the following ways can he do this?
+A. Right-click on the image to open the Picture Properties. Deselect Hotspot.
+B. Select the hotspot and then select Hotspot > Remove Hotspot from the menu bar.
+C. Select the hotspot and then select Design > Hotspot > Remove from the menu bar.
+D. Right-click on the image to open the Picture Properties. Set the Hotspots Number to
+0.
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 76
+Which one of the following accurately describes field names?A. They must be unique in a database.
+B. They must include text and a number.
+C. They can be used only once in a view.
+D. They can be used only once on each form.
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 77
+Heidi selected a document in a view and chose the menu option Edit>Copy As>Document
+Link. What did this do?
+A. Created a new copy of the document in the database.
+B. Copied the Unique ID of the document to the Windows clipboard.
+C. Created a new document in the database that will be a Response document to the
+selected document.
+D. Copied reference information about the document to the Windows clipboard, that
+can be pasted as a DocLink in a Notes Rich Text field.
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 78
+Robert does not want Authors in the Video database s ACL to be able to edit certain fields in
+documents they created. Which one of the following can he do to accomplish this?
+A. Set field security options to: Must have at least Editor access to use.
+B. Use a Readers field on the form to prevent access to existing documents.
+C. Use an Authors field on the form to prevent access to existing documents.
+D. Create a standard section on the form and put the restricted fields in the section.
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 79
+Juan has a form field that is designed to store Notes document links. He wants to make sure
+that no other types of information are stored in that field. How can Juan restrict information in
+that field?
+A. Create a Rich Text field with an object type of "Links".
+B. Create a Rich Text field with an Input Validation formula.
+C. Create a Rich Text Lite field with an object type of "Links".
+D. Create a Rich Text Lite field with an Input Validation formula.Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 80
+When creating a scheduled agent, what are the options for the schedule frequency?
+A. Daily, Weekly, Monthly
+B. Hourly, Daily, Weekly, Monthly, Annually
+C. Once, Daily, Weekly, Monthly, Annually, Never
+D. More than once a day, Daily, Weekly, Monthly, Never
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 81
+Brittany is designing the Help Desk application. She is creating a Date/Time field in which the
+user will enter the earliest date on which a technician may come to the user s desk to help. The
+field should default to the current date. What formula should Brittany supply for the field s
+Default value?
+A. @Today
+B. @SysDate
+C. @Date("")
+D. @Date(@SysTime)
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 82
+Roberto has been asked to modify the Membership view in the Video Rental application. A
+green checkmark should appear in the Approved view column for each document where
+membership has been approved. He set the view column property to "Display values as icons",
+and now he needs to write a column formula. What is the column formula he needs to use?
+A. @If(Approved = "Yes"; 82; 0)
+B. @If(Approved = "Yes"; @OpenImageResource("checkmark.gif"); "")
+C. @If(Approved = "Yes"; @Icon(82); @Icon(0))
+D. @If(Approved = "Yes"; @Column(82); @Column(0))
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 83
+Cheng wants to write a view selection statement to include documents created with the Review
+form and any responses. Which one of the following statements should Cheng write?A. SELECT Form = "Review" | @AllDescendants
+B. SELECT Form = "Review" & @AllDescendants
+C. SELECT Form = "Review"; SELECT @Responses
+D. SELECT Form = "Review"; SELECT @AllResponses
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 84
+Which one of the following @Functions refers to all "Response" and "Response to Response"
+documents of parent documents?
+A. @Responses
+B. @AllChildren
+C. @AllResponses
+D. @AllDescendants
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 85
+Norita has a form with a field that allows the user to choose the background color of a
+particular document. How has she set up the field to accomplish this?
+A. It is a Dialog List field that allows the user to choose a color to use.
+B. It is a Text field that allows the user to type the name of a color to use.
+C. It is a Color field that allows the user to choose a color from the palette.
+D. It is a Rich Text field that allows the user to highlight text and select a font color.
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 86
+Takako has created a view that shows the entire inventory of videos in the Video Rental
+application. She would like to give the user the ability to sort on the title, studio, and last rented
+date columns. How would she accomplish this?
+A. Set each column s Sort option to Custom.
+B. Set each column s Sort option to Ascending.
+C. Set the "Allow custom sorting" option for the view.
+D. Set the "Click on column header to sort" value to Both for all three columns.
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 87Cindy has created a private agent. She wants her colleagues to be able to use it. Which one of
+the following should she do?
+A. Change the agent property to shared.
+B. Copy the agent to a Domino 6 server.
+C. Add the colleagues to the agent s Readers list.
+D. Delete the agent. She must create it again as a shared agent.
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 88
+Yuki wants to add a field to her form that will allow multiple values to be selected or
+deselected by clicking next to the item. What type of field should she use?
+A. Text
+B. Checkbox
+C. Combobox
+D. Radio Button
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 89
+Which one of the following formulas does Cheng use to change the value of the ReleaseDate
+field to today s date?
+A. ReleaseDate := @Today
+B. SET ReleaseDate := @Today
+C. FIELD ReleaseDate := @Today
+D. @ChangeField(ReleaseDate;@Today)
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 90
+When Eduardo tried to save a document, he got the following error message: Incorrect data
+type for operator or @Function: Text Expected. Which one of the following did he most likely
+do to cause this to happen?
+A. He entered text in a Number field.
+B. He neglected to place a formula in a validation event.
+C. He neglected to place a formula in a translation event.
+D. He combined a Text field and a Time field in a formula.Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 91
+When Nora creates a new document in the Suggestion application, a number of the fields have
+ext already displayed. But when she tabs or clicks into the field, the text disappears. What
+design feature has been used to create this behavior?
+A. Field Hint in the Field Properties dialog box
+B. Default Value in the Form Properties dialog box
+C. Help Description in the Field Properties dialog box
+D. Field Assistance in the Field Properties dialog box
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 92
+Desmond has been asked to enhance the Change Control form. If a Change Control document
+is opened, the user should now be able to see a list of other Change Control documents that
+were submitted by whomever is listed in the Requester field. How can he do this?
+A. Position the cursor where the list should appear on the form. Create a new field, and
+set the Type to PickList. In the Choices section, select a view that lists Change Controls
+by Requester. Enable "Restrict selection" and set the Value to @UserName
+B. Position the cursor where the list should appear on the form. Create a new Text field,
+and enable "Allow multiple values". Set "Display separate values with" to Newline. In
+the Programmer s pane, set the value to
+@DbLookup("";"";"ChangeControlsByRequester";Requester)
+C. Position the cursor where the list should appear on the form. Choose Create >
+Embedded Element > View. Select a view that lists Change Controls by Requester and
+click OK. Choose the "Show single category" event in the Programmer s pane, and set
+the value to Requester
+D. Position the cursor where the list should appear on the form. Choose Create > Frame.
+From the Frame properties, set Type to "Named Element" and select "View". Set the
+Value to a view that lists Change Controls by Requester. Enable "Show single
+category", and set Value to Requester
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 93
+Victor has a field that allows the user to enter the list price of a video. What type of field will
+make sure the value of that field is numeric?
+A. Number
+B. DollarC. Currency
+D. Text field with @TextToCurrency Input Validation formula
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 94
+Danae has added a LastReviewedDate computed field on the Suggestion form. She would like
+to create an action button that will update that field with the current date for all the documents
+in the Pending Suggestion view. What @Command can she use to accomplish this?
+A. @Command([ToolsRecomputeDocs])
+B. @Command([ToolsRefreshAllDocs])
+C. @Command([DocUpdate];"LastReviewedDate")
+D. @Command([UpdateField];"LastReviewedDate")
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 95
+Melanie needs to add a SuspendAccount field on a form in the Video Rental database. Only
+users with the [AccountAdmin] role should be able to see this field. How should Melanie code
+the hide-when formula to hide this field?
+A. @Hide("[AccountAdmin]";@UserRoles)
+B. @IsMember("[AccountAdmin]";@UserRoles)
+C. @HideWhen("[AccountAdmin]";@UserRoles)
+D. @IsNotMember("[AccountAdmin]";@UserRoles)
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 96
+Julie wants to have a view action display in a custom pop-up menu when the right mouse
+button is clicked. How can she do this?
+A. Set the Action bar to "Include in right mouse button menu".
+B. Set the action button to "Include in right mouse button menu".
+C. Set the view property to "Include actions in right mouse button menu".
+D. Set the database property to "Include actions in right mouse button menu".
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 97
+Burt has been asked to create a unique key to identify each rental transaction in the Video Rental database. What @Function can he use to create this key?
+A. @Key
+B. @Unique
+C. @UniqueKey
+D. @RandomKey
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 98
+Danielle is updating the "companyName" field on all documents in a view. The field may
+include varying text, but the field always includes the text "Blue Corporation". For example,
+one of the documents has "Blue Corporation, a wholly-owned subsidiary of GigantaCorp" as
+the contents of the companyName field. What formula can Danielle include in her agent to
+change the "Blue Corporation" text in each companyName field to now be "Green?
+Enterprises".
+A. FIELD companyName := @Replace( companyName; "Blue Corporation"; "Green
+Enterprises")
+B. FIELD companyName := @SetString(companyName; "Blue Corporation"; "Green
+Enterprises")
+C. FIELD companyName := @Set(@Middle(companyName; "Blue Corporation");
+"Green Enterprises")
+D. FIELD companyName := @ReplaceSubstring(companyName; "Blue Corporation";
+"Green Enterprises");
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 99
+Several @Functions can execute multiple statements. Which one of the following initializes a
+variable and can increment it during the operation?
+A. @Do
+B. @For
+C. @While
+D. @DoWhile
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 100
+Monroe needs to create an action button that will change a document from read mode to edit
+mode. What @Command should he use in this button?A. @Command([EditCurrent])
+B. @Command([EditDocument])
+C. @Command([SwitchMode];"Edit")
+D. @Command([ToggleMode];"Edit")
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 101
+Cindy wants to set up third-party tools so she can access them via the Designer. Which one of
+the following should Cindy do?
+A. File>Import
+B. Tools>Import
+C. Tools>Add Tool
+D. Shared Resources>Third Party Tool
+Answer: B
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 102
+Ted is in a group that has Author access in the Review application s ACL. However, he cannot
+edit a review he created. Which one of the following is the most likely reason?
+A. Authors can only create documents.
+B. He must have Editor or higher access to modify documents.
+C. The developer neglected to include an Authors field to the Review form.
+D. The developer neglected to select the "modify documents" option in the ACL.
+Answer: C
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 103
+Which one of the following describes who will be able to see an existing document that
+contains a Readers field?
+A. Only those people listed in the access list
+B. Anyone listed as a Reader or above in the ACL
+C. Only those people listed in the Readers field
+D. Anyone listed as a Reader or above in the ACL who is also listed in the Readers field
+Answer: D
+-------------------------------------------------------------------------------------------------------------------------------------
+QUESTION: 104
+Joy is able to see all the documents in the Suggestion database, but she can edit only the ocuments that have her name listed in the "NextAction" field. What level of access does Joy
+have in the ACL for this database?
+A. Reader
+B. Author
+C. Editor
+D. Depositor
+Answer: A
+-------------------------------------------------------------------------------------------------------------------------------------
+Question: 1
+Mary has a Notes application that is used by employees in Europe and Japan. Each group of
+employees has a server located in its own geographical location. Mary needs to have versions of
+her application in both locations for efficient access, and the application data and design must
+stay synchronized in both locations. How can Mary accomplish this?
+A. Create a copy of the database in both locations with the menu option File>Database> New
+Copy.
+B. Create a replica of the database in both locations with the menu option File>Replication>New
+Replica.
+C. Create a mirror copy of the database in both locations with the menu option
+File>Database>Mirror Database.
+D. Create a synchronized copy of the database in both locations with the menu option
+File>Synchronization>New Copy.
+Answer: B
+Question: 2
+Herb has some data to display in a form, and he would like to have it appear in a formatted grid.
+What option would he use to format this data layout?
+A. Create > Grid
+B. Create > Table
+C. Create > Data Layout
+D. Create > Formatted Display
+Answer: B
+Question: 3
+Jayne has asked her Domino server administrator to enable document locking on the server.
+Which of the following must she do to enable it for her application?
+A. Enable the "Allow document locking" database property.
+B. Create a view column for the locked document view icon.
+C. Add a profile document to the database to manage the locked documents.
+D. Enable document locking at the view level for each view in the database.
+Answer: A
+Question: 4
+Colby has a default level access of Author in the Suggestion database. She created a new
+suggestion, but was unable to edit the document later. Why would this problem occur?
+A. The document does not have a Readers type field.
+B. The document form does not have an Authors type field.
+C. She needs the "Edit document" option added to her access.
+D. She needs at least editor access to edit her documents in the database.
+Answer: B
+Question: 5
+Erin has created a new view in her mail file, and she doesn't want the view removed when the
+design is refreshed from the main design template. What setting will keep her view from being
+deleted? Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 2 of 20 © TestKing
+A. "Prohibit design refresh or replace to modify" in the View Properties dialog box
+B. "Prohibit design refresh or replace to modify" in the Database Properties dialog box
+C. "Prohibit design refresh or replace to modify" in the Design Document Properties dialog box
+D. "Prohibit design refresh or replace to modify" in the Template Design Properties dialog box
+Answer: C
+Question: 6
+Cam has created a new design for her Video application. Cam would like to post the design to the
+server and make it available so other databases can automatically inherit the design changes
+when the DESIGN server tasks runs. Which of the following should Cam do to make the new
+design available on the development server?
+A. Copy the database to the development server, and name it "newvideo.ntf".
+B. Copy the database to the development server, and name it "newvideo.nsf".
+C. Copy the database to the server, name it "newvideo.ntf", select "Inherit design from master
+template", and give it a template name in the database Design properties.
+D. Copy the database to the development server, name it "newvideo.ntf", select "Database file is
+a master template", and give it a template name in the database Design properties.
+Answer: D
+Question: 7
+Sal wants to allow Jackie to create and modify documents in his Video application, but he doesn't
+want Jackie to make a local replica or copy of the database. Which of the following should Sal do
+to accomplish this?
+A. There is no way for Sal to do this.
+B. Give Jackie Author access on the database ACL.
+C. Give Jackie Editor access and deselect "Replicate or copy documents" in the database ACL.
+D. Give Jackie Editor access on the database ACL and assign a role that prevents him from
+replicating or copying documents.
+Answer: C
+Question: 8
+Christopher is making a new database using the "NewVideo" Design Template that he plans to
+customize. He wants to make sure that his new application will not get future modifications to the
+"NewVideo" Design Template. Which of the following should Christopher do to accomplish this?
+A. Create a blank database and refresh the design of the new database using the "NewVideo"
+Design Template.
+B. Create the new database from the "NewVideo" Design Template and deselect "Inherit future
+design changes" in the New Database dialog box.
+C. Create the new database from the "NewVideo" Design Template and then open the database
+Design properties and select "Database is a master template."
+D. Create the new database from the "NewVideo" Design Template and then open the database
+Design properties and select "Database file is a master template."
+Answer: B
+Question: 9
+AJ wants to create a new application on his laptop that does not have any design elements in it.
+Which of the following should he do to begin this process? Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 3 of 20 © TestKing
+A. Select File > Database > New and give it a filename of "blank.nsf".
+B. Select File > Database > New and choose local as the server, then choose the blank
+template.
+C. Select File > Database > New, choose local as the server, then choose the default.ntf
+template.
+D. Select File > Database > New, give it a filename of "blank.nsf", and chose the blank template.
+Answer: B
+Question: 10
+Clarissa has created a view of videos that are currently checked out. She would like to display a
+stoplight icon in the view for videos that are overdue. What column property does she need to
+select to accomplish this?
+A. Show icons only
+B. Use icon as value
+C. Show custom icon image
+D. Display values as icons
+Answer: D
+
+Question: 11
+Kristin wants to create an action in the Titles view. The code in the action is:
+Field Type:= "Action";
+Field Director:= "Richard Clarke";
+""
+When the user clicks the action, which of the following will be affected?
+A. The Video form
+B. All selected documents
+C. All documents in the database
+D. Documents defined by the selection formula in the view
+Answer: B
+Question: 12
+To capture the date a document is created, Maria uses @Today in a formula. However, when she
+edits a document and saves it again, the date changes from the creation date to the current date.
+Which of the following causes the date to change?
+A. The document was edited by another user.
+B. The formula was placed in a Computed field.
+C. She does not have the appropriate ACL access.
+D. The formula was placed in a Computed when Composed field.
+Answer: B
+Question: 13
+Juan has a form field that is designed to store Notes document links. He wants to make sure that
+no other types of information is stored in that field. How can Juan restrict information in that field?
+A. Create a Rich Text field with an object type of "Links".
+B. Create a Rich Text field with an Input Validation formula.
+C. Create a Rich Text Lite field with an object type of "Links".
+D. Create a Rich Text Lite field with an Input Validation formula. Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 4 of 20 © TestKing
+Answer: C
+Question: 14
+Luis needs to add a field to a form that will allow him to enter up to 500 kilobytes of data. What
+type of field should he use for this requirement?
+A. Text
+B. Rich Text
+C. Extended Text
+D. Expanded Text
+Answer: B
+Question: 15
+Orlando wrote an agent to generate a weekly email that summarizes all the activity in the Video
+Rental application. The database resides on the PROD01 server with a replica on the BACKUP01
+server. He is receiving two copies of the email every week. What is the cause of this problem?
+A. The agent is set to run on "Any Server".
+B. The "Restart On Failure" setting has been selected.
+C. The agent is set to run on both "PROD01" and "BACKUP01".
+D. The agent is set to run on "Local" as well as the PROD01 server.
+Answer: A
+Question: 16
+Janean has been asked to add the company logo to each form in the Video Rental database.
+How can she do this and minimize potential future maintenance of the logo?
+A. Paste the logo into each form.
+B. Add a computed link to the logo in each form.
+C. Add the logo as an image hotspot in each form.
+D. Add the logo from the Shared Resources - Images area.
+Answer: D
+Question: 17
+Derek has created a view in the products.nsf database. Derek wants the Markup column in the
+view to display the selling price of the item minus the cost. He wants this value to display in
+currency. Which of the following should Derek do?
+A. Use the @function @Currency in the column formula in the view.
+B. Select currency on the Numbers tab in the View Properties box.
+C. Select currency on the Numbers tab in the Column Properties box.
+D. Select currency on the Numbers tab in the Field Properties box of the cost field.
+Answer: C
+Question: 18
+Nadia would like to position overlapping blocks of content on a form in the Video application. She
+wants the flexibility to control the placement, size, and content of the information. Which of the
+following should Nadia use when creating her form?
+A. Layers Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 5 of 20 © TestKing
+B. Subforms
+C. Framesets
+D. Style sheets
+Answer: A
+Question: 19
+Hans is designing the Reviews application. The application will include two forms: Review and
+Response. In the view, the Response documents do not appear under the Review documents
+from which they were created. Which of the following could cause this to happen?
+A. Inheritance in the Review form was disabled.
+B. Shared field values were enabled on both forms.
+C. Shared field values and field definitions were enabled.
+D. Show Response documents in a hierarchy was not enabled.
+Answer: D
+Question: 20
+Which of the following accurately describes field names?
+A. They must be unique in a database.
+B. They must include text and a number.
+C. They can only be used once in a view.
+D. They can only be used once on each form.
+Answer: D
+Question: 21
+Which of the following best describes the use of hidden column formulas?
+A. Views can be hidden based on a formula.
+B. Hidden columns are not a supported feature.
+C. Table columns can be hidden based on a formula.
+D. View columns can be displayed or hidden based on a formula.
+Answer: D
+Question: 22
+Mary would like to display a collapsed section on her Video Catalog form. She has created a
+section but when she displays the form in the Notes client, the section always opens expanded.
+Which of the following should Mary do to collapse the section?
+A. Nothing; sections always open expanded.
+B. Modify the section default properties to collapsed.
+C. Modify the form properties to display all sections collapsed.
+D. Modify the section Opened for Reading property to auto-collapse.
+Answer: D
+Question: 23
+Kanesha has a view that should show both main and response documents to the user, but when
+she displays the view, only the main documents show. What is the cause of this problem?
+A. The response documents should be shown in a separate view. Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 6 of 20 © TestKing
+B. The view option "Include response documents" is not selected.
+C. The view option "Show response documents in a hierarchy" is not selected.
+D. The column option of "Show response documents in a hierarchy" is not selected.
+Answer: C
+Question: 24
+Which of the following formulas does Cheng use to change the value of the ReleaseDate field to
+today's date?
+A. ReleaseDate := @Today
+B. TEMP ReleaseDate := @Today
+C. FIELD ReleaseDate := @Today
+D. @ChangeField(ReleaseDate;@Today)
+Answer: C
+Question: 25
+Tony has added a Password field to the Rental Account form. What will he see when he types a
+value into that field?
+A. No characters will be shown as they are typed.
+B. Asterisks will be shown as each character is typed.
+C. The typed value is shown, but the encrypted value is stored in the database.
+D. The encrypted value of the field will be displayed as each character is typed.
+Answer: B
+Question: 26
+Luigi has been asked to create a view that shows the rental history of each video that's been
+checked out. The view should be sorted by the name of the video, and all the entries for a
+particular video should be grouped together. How would he accomplish this?
+A. Create a Grouping view with the VideoTitle field as the first column, and set the Sort option to
+Ascending.
+B. Create a view with the VideoTitle field as the first column, and set the Sort option for the view
+to Ascending Categorized.
+C. Create a view with the VideoTitle field as the first column, and set the Sort option for that
+column to Ascending and the Type option to Categorized.
+D. Create a view with the VideoTitle field as the first hidden column, and set the Sort option for
+that column to Ascending and the Type option to Categorized.
+Answer: C
+Question: 27
+Yuki wants to add a field to her form that will allow multiple values to be selected or deselected by
+clicking next to the item. What type of field should she use?
+A. Text
+B. Checkbox
+C. Combobox
+D. Radio Button
+Answer: B Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 7 of 20 © TestKing
+Question: 28
+Which of the following is NOT an agent trigger event?
+A. On click
+B. After new mail arrives
+C. Before new mail arrives
+D. After documents are created or modified
+Answer: A
+Question: 29
+JoAnne lost a document she had been creating in a Domino application when the power in the
+building failed. How can she modify the application to prevent the document loss in the future?
+A. Activate "Allow Autosave" in the Form Properties.
+B. Create an action button with the Autosave @Command.
+C. Activate "Allow Autosave" in the Database Properties.
+D. Enable a background agent to periodically save any open documents.
+Answer: A
+Question: 30
+James needs to store a list of values in FieldA, and when the form is saved, he wants to sort the
+list before it is saved. Which of the following input translation formulas would accomplish this?
+A. @Sort
+B. @Sort(@ThisValue)
+C. @SortAscending(FieldA)
+D. @Sort("Ascending";"FieldA")
+Answer: B
+Question: 31
+Maria coded "Alpha, Beta, Gamma" as a list in a Notes formula. Which of the following indicates
+the syntax entered?
+A. "Alpha", "Beta", "Gamma"
+B. "Alpha"& "Beta"& "Gamma"
+C. "Alpha"; "Beta"; "Gamma"
+D. "Alpha": "Beta": "Gamma"
+Answer: D
+Question: 32
+Dwain would like to change the font for his formula statements to make them easier to read.
+Where would he change that property?
+A. Form Properties dialog box
+B. Database Propertiesdialog box
+C. Designer Properties dialog box
+D. Programmer's Pane Properties dialog box
+Answer: D
+Question: 33 Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 8 of 20 © TestKing
+Julie wants to have a view action display in a custom pop-up menu when the right mouse button
+is clicked. How can she do this?
+A. Set the Action bar to "Include in right mouse button menu".
+B. Set the Action button to "Include in right mouse button menu".
+C. Set the view property to "Include actions in right mouse button menu".
+D. Set the database property to "Include actions in right mouse button menu".
+Answer: B
+Question: 34
+Monroe needs to create an action button that will change a document from read mode to edit
+mode. What @Command should Monroe use to create this button?
+A. @Command([EditCurrent])
+B. @Command([EditDocument])
+C. @Command([SwitchMode];"Edit")
+D. @Command([ToggleMode];"Edit")
+Answer: B
+Question: 35
+Rich would like to create an action button that will create a new document using the Video form.
+What @Command can he use to accomplish this?
+A. @Command([NewDoc];"Video")
+B. @Command([Create];"Video")
+C. @Command([Compose];"Video")
+D. @Command([ComposeDoc];"Video")
+Answer: C
+Question: 36
+Melanie needs to add a SuspendAccount field on a form in the Video Rental database. Only
+users with the [AccountAdmin] role should be able to see this field. How should Melanie code the
+hide/when formula to hide this field?
+A. @Hide("[AccountAdmin]";@UserRoles)
+B. @IsMember("[AccountAdmin]";@UserRoles)
+C. @HideWhen("[AccountAdmin]";@UserRoles)
+D. @IsNotMember("[AccountAdmin]";@UserRoles)
+Answer: D
+Question: 37
+Review the formula below, assuming that the Author field contains the following and the
+discrimination-string in the @Left formula is a blank:
+Richard Clarke/Meadowlands/ACME
+@Left(@Name([CN]; Author);" ")
+Which of the following will the formula produce?
+A. Clarke
+B. Richard
+C. Meadowlands
+D. Richard Clarke Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 9 of 20 © TestKing
+Answer: B
+Question: 38
+Chere has a field in her document that stores the date and time the document was saved. What
+@Function will allow this value to be stored in the field?
+A. @If(@IsDocBeingSaved;@Now;SavedDate)
+B. @If(@IsDocBeingEdited;@Now;SavedDate)
+C. @If(@IsDocBeingSaved;@Today;SavedDate)
+D. @If(@IsDocBeingEdited;@Today;SavedDate)
+Answer: A
+Question: 39
+Jorge built a Ticket Tracking application that is accessed via a Web browser. When a user
+bookmarks a document in the browser, Jorge would like the bookmark title to show the date and
+status of the ticket. How would Jorge accomplish this?
+A. Use a Window Title formula of @Text(TicketDate) + " - " + TicketStatus
+B. Use a Browser Title formula of @Text(TicketDate) + " - " + TicketStatus
+C. Use a Bookmark Title formula of @Text(TicketDate) + " - " + TicketStatus
+D. Create a $WindowTitle field with a formula of @Text(TicketDate) + " - " + TicketStatus
+Answer: A
+Question: 40
+Which of the following should Cathy use to sort a list?
+A. @Sort
+B. @Sortlist
+C. @DataSort
+D. @ListOrder
+Answer: A
+Question: 41
+Joline needs to create a field that takes the first three characters of the FirstName field and the
+last three characters of the LastName field as part of a subscriber key. Which statement would
+give her that information?
+A. @SubStr(FirstName + LastName;3;3)
+B. @Left(FirstName;3) + @Right(LastName;3)
+C. @First(FirstName;3) + @Last(LastName;3)
+D. @Right(FirstName;-3) + @Left(LastName;-3)
+Answer: B
+Question: 42
+Which of the following describes who will be able to see an existing document that contains a
+Readers field?
+A. Only those people listed in the access list
+B. Anyone listed as a Reader or above in the ACL
+C. Only those people listed in the Readers field Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 10 of 20 © TestKing
+D. Anyone listed as a Reader or above in the ACL who is also listed in the Readers field
+Answer: D
+Question: 43
+The Video application ACL supports 3 types of users:
+1. Users who can only view information in the application
+2. Users who can view, enter, and edit information they have entered in the application
+3. Users who can view and modify any document in the application
+Cyd created groups in the Directory to hold the names of the different user types:
+1. Video Viewers
+2. Video Creators
+3. Video Modifiers
+Cyd adds the three groups and wants to control the access of different users. In which one of the
+following ways should he assign access levels?
+A. 1. Video Viewers = Reader
+ 2. Video Creators = Author
+ 3. Video Modifiers = Editor
+B. 1. Video Viewers = Reader
+ 2. Video Creators = Editor
+ 3. Video Modifiers = Manager
+C. 1. Video Viewers = Reader
+ 2. Video Creators = Editor
+ 3. Video Modifiers = Editor
+D. 1. Video Viewers = Readers
+ 2. Video Creators = Depositor
+ 3. Video Modifiers = Designer
+Answer: A
+Question: 44
+Pedro created a document in the Suggestion database. After saving and closing the document,
+he was unable to see his document or any other documents in the main view. What level of
+access does Pedro have in the Suggestion database?
+A. Author
+B. Editor
+C. Depositor
+D. No Access
+Answer: C
+Question: 45
+Which of the following statements about an Authors field is true?
+A. It can only contain one name.
+B. Users listed in the field can also read the document.
+C. It must be computed using @Author as the default formula.
+D. Users listed in the field are allowed to compose documents using that form.
+Answer: B Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 11 of 20 © TestKing
+Question: 46
+Herb has some data to display in a form, and he would like to have it appear in a formatted grid.
+What option would he use to format this data layout?
+A. Create > Grid
+B. Create > Table
+C. Create > Data Layout
+D. Create > Formatted Display
+Answer: B
+Question: 47
+Mary has a Notes application that is used by employees in Europe and Japan. Each group of
+employees has a server located in its own geographical location. Mary needs to have versions of
+her application in both locations for efficient access, and the application data and design must
+stay synchronized in both locations. How can Mary accomplish this?
+A. Create a copy of the database in both locations with the menu option File>Database> New
+Copy.
+B. Create a replica of the database in both locations with the menu option File>Replication>New
+Replica.
+C. Create a mirror copy of the database in both locations with the menu option
+File>Database>Mirror Database.
+D. Create a synchronized copy of the database in both locations with the menu
+optionFile>Synchronization>New Copy.
+Answer: B
+Question: 48
+Jayne has asked her Domino server administrator to enable document locking on the server.
+Which of the following must she do to enable it for her application?
+A. Enable the "Allow document locking" database property.
+B. Create a view column for the locked document view icon.
+C. Add a profile document to the database to manage the locked documents.
+D. Enable document locking at the view level for each view in the database.
+Answer: A
+Question: 49
+Erin has created a new view in her mail file, and she doesn't want the view removed when the
+design is refreshed from the main design template. What setting will keep her view from being
+deleted?
+A. "Prohibit design refresh or replace to modify" in the View Properties dialog box
+B. "Prohibit design refresh or replace to modify" in the Database Properties dialog box
+C. "Prohibit design refresh or replace to modify" in the Design Document Properties dialog box
+D. "Prohibit design refresh or replace to modify" in the Template Design Properties dialog box
+Answer: C
+Question: 50 Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 12 of 20 © TestKing
+Sal wants to allow Jackie to create and modify documents in his Video application, but he doesn't
+want Jackie to make a local replica or copy of the database. Which of the following should Sal do
+to accomplish this?
+A. There is no way for Sal to do this.
+B. Give Jackie Author access on the database ACL.
+C. Give Jackie Editor access and deselect "Replicate or copy documents" in the database ACL.
+D. Give Jackie Editor access on the database ACL and assign a role that prevents him from
+replicating or copying documents.
+Answer: C
+Question: 51
+AJ wants to create a new application on his laptop that does not have any design elements in it.
+Which of the following should he do to begin this process?
+A. Select File > Database > New and give it a filename of "blank.nsf".
+B. Select File > Database > New and choose local as the server, then choose the blank
+template.
+C. Select File > Database > New, choose local as the server, then choose the default.ntf
+template.
+D. Select File > Database > New, give it a filename of "blank.nsf", and chose the blank template.
+Answer: B
+Question: 52
+Karen has posted a template, "newvideo.ntf", for the Video application on the development
+server. Denise wants to create a new Video application using the new template. Which of the
+following does Denise need to do?
+A. Find the "newvideo.nsf" template on the development server and make a new copy of it.
+B. Find the "newvideo.nsf" template on the development server and make a replica copy of it.
+C. Select File > Database > New, choose the development server as the template server, then
+choose the "newvideo.ntf" template.
+D. Select File > Database > New Copy, choose the development server as the template server,
+then choose the "newvideo.nsf" template.
+Answer: C
+Question: 53
+Which of the following database elements is NOT updated when the DESIGN task is run?
+A. Forms
+B. Views
+C. Roles
+D. Agents
+Answer: C
+Question: 54
+Colby has a default level access of Author in the Suggestion database. She created a new
+suggestion, but was unable to edit the document later. Why would this problem occur?
+A. The document does not have a Readers type field.
+B. The document form does not have an Authors type field. Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 13 of 20 © TestKing
+C. She needs the "Edit document" option added to her access.
+D. She needs at least editor access to edit her documents in the database.
+Answer: B
+Question: 55
+Which of the following @Functions refers to all "response" and "response to response"
+documents of parent documents?
+A. @Responses
+B. @AllChildren
+C. @AllResponses
+D. @AllDescendants
+Answer: D
+Question: 56
+Clarissa has created a view of videos that are currently checked out. She would like to display a
+stoplight icon in the view for videos that are overdue. What column property does she need to
+select to accomplish this?
+A. Show icons only
+B. Use icon as value
+C. Show custom icon image
+D. Display values as icons
+Answer: D
+Question: 57
+Jamie wants to add a field to his form that will allow a single value in a group to be selected by
+clicking next to the item. What type of field should he use?
+A. Text
+B. Checkbox
+C. Dialog List
+D. Radio button
+Answer: D
+Question: 58
+Juan has a form field that is designed to store Notes document links. He wants to make sure that
+no other types of information is stored in that field. How can Juan restrict information in that field?
+A. Create a Rich Text field with an object type of "Links".
+B. Create a Rich Text field with an Input Validation formula.
+C. Create a Rich Text Lite field with an object type of "Links".
+D. Create a Rich Text Lite field with an Input Validation formula.
+Answer: C
+Question: 59
+Wayne created a private agent in the Video Rental database, and he would now like to make it
+available for all users. How would he do this?
+A. Change the Private agent option to Shared. Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 14 of 20 © TestKing
+B. Remove the hide-when formula from the agent properties.
+C. Create a copy of the agent with the Shared option selected.
+D. Change the default access for viewing the agent to be "All readers and above".
+Answer: A
+Question: 60
+Kristin is creating a page in the Videos application. Which of the following statements about
+pages is NOT true?
+A. Pages are design elements.
+B. Pages can be full-text indexed.
+C. Pages can be referenced by outlines or frames.
+D. Pages can include text, graphics, applets, and links.
+Answer: B
+Question: 61
+Mary would like to display a collapsed section on her Video Catalog form. She has created a
+section but when she displays the form in the Notes client, the section always opens expanded.
+Which of the following should Mary do to collapse the section?
+A. Nothing; sections always open expanded.
+B. Modify the section default properties to collapsed.
+C. Modify the form properties to display all sections collapsed.
+D. Modify the section Opened for Reading property to auto-collapse.
+Answer: D
+Question: 62
+JoAnne lost a document she had been creating in a Domino application when the power in the
+building failed. How can she modify the application to prevent the document loss in the future?
+A. Activate "Allow Autosave" in the Form Properties.
+B. Create an action button with the Autosave @Command.
+C. Activate "Allow Autosave" in the Database Properties.
+D. Enable a background agent to periodically save any open documents.
+Answer: A
+Question: 63
+Janean has been asked to add the company logo to each form in the Video Rental database.
+How can she do this and minimize potential future maintenance of the logo?
+A. Paste the logo into each form.
+B. Add a computed link to the logo in each form.
+C. Add the logo as an image hotspot in each form.
+D. Add the logo from the Shared Resources - Images area.
+Answer: D
+Question: 64
+Hans is designing the Reviews application. The application will include two forms: Review and
+Response. In the view, the Response documents do not appear under the Review documents
+from which they were created. Which of the following could cause this to happen? Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 15 of 20 © TestKing
+A. Inheritance in the Review form was disabled.
+B. Shared field values were enabled on both forms.
+C. Shared field values and field definitions were enabled.
+D. Show Response documents in a hierarchy was not enabled.
+Answer: D
+Question: 65
+Gary wants to have a list of users in a field on a document. The user names should be Sametimeaware,
+but they shouldn't control security to the document. What type of field should Gary use?
+A. Names
+B. Author
+C. Reader
+D. Rich Text
+Answer: A
+Question: 66
+Kristin wants to build an action which exits the Video form. Which of the following will accomplish
+this?
+A. @Command([Back])
+B. @Command([FileExit])
+C. @Command([GoToView])
+D. @Command([FileCloseWindow])
+Answer: D
+Question: 67
+Tony has added a Password field to the Rental Account form. What will he see when he types a
+value into that field?
+A. No characters will be shown as they are typed.
+B. Asterisks will be shown as each character is typed.
+C. The typed value is shown, but the encrypted value is stored in the database.
+D. The encrypted value of the field will be displayed as each character is typed.
+Answer: B
+Question: 68
+Takako has created a view that shows the entire inventory of videos in the Video Rental
+application. She would like to give the user the ability to sort on the title, studio, and last rented
+date columns. How would she accomplish this?
+A. Set each column's Sort option to Custom.
+B. Set each column's Sort option to Ascending.
+C. Set the "Allow custom sorting" option for the view.
+D. Set the "Click on column header to sort" value to Both for all three columns.
+Answer: D
+Question: 69 Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 16 of 20 © TestKing
+Derek has created a view in the sales.nsf database. Derek wants the Sales Value column in the
+view to be punctuated to display two decimal places. Which of the following should Derek do?
+A. Use the @function @Decimal in the column formula in the view.
+B. Select decimal on the Numbers tab in the View Properties box.
+C. Select decimal on the Numbers tab in the Column Properties box.
+D. Use the @function @Decimal to format the value in the field on the form that will be
+displaying in the view.
+Answer: C
+Question: 70
+Benton would like to build a view with the response documents indented under the main
+documents. How would he accomplish this?
+A. Set the view option "Indent response documents".
+B. Set the view sorting option to "Indent response documents".
+C. Add a column to show response document information, and select the "indent responses"
+option for that column.
+D. Add a column to show response document information, and select the "Show responses only"
+option for that column.
+Answer: D
+Question: 71
+When creating a scheduled agent, what are the options for the schedule frequency?
+A. Daily, Weekly, Monthly
+B. Hourly, Daily, Weekly, Monthly, Annually
+C. Once, Daily, Weekly Monthly, Annually, Never
+D. More than once a day, Daily, Weekly, Monthly, Never
+Answer: D
+Question: 72
+Calvin needs to add a field to his form that will allow a user to save one or more file attachments.
+What type of field should he use for this requirement?
+A. Rich Text
+B. Attachment
+C. Extended Text
+D. Text+Attachment
+Answer: A
+Question: 73
+Nadia would like to position overlapping blocks of content on a form in the Video application. She
+wants the flexibility to control the placement, size, and content of the information. Which of the
+following should Nadia use when creating her form?
+A. Layers
+B. Subforms
+C. Framesets
+D. Style sheets Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 17 of 20 © TestKing
+Answer: A
+Question: 74
+Cindy has created a private agent. She wants her colleagues to be able to use it. Which of the
+following should she do?
+A. Change the agent property to shared.
+B. Copy the agent to a Domino 6 server.
+C. Change the agent property to Shared Code.
+D. Delete the agent. She must create it again as a shared agent.
+Answer: A
+Question: 75
+Julie wants to have a view action display in a custom pop-up menu when the right mouse button
+is clicked. How can she do this?
+A. Set the Action bar to "Include in right mouse button menu".
+B. Set the Action button to "Include in right mouse button menu".
+C. Set the view property to "Include actions in right mouse button menu".
+D. Set the database property to "Include actions in right mouse button menu".
+Answer: B
+Question: 76
+Boris wants to create an Action button that will close an open document, as well as asking the
+user if the document should be saved if there have been changes. What @Command can he use
+to do this?
+A. @Command([Close])
+B. @Command([Clear])
+C. @Command([CloseWindow])
+D. @Command([CloseDocument])
+Answer: C
+Question: 77
+Riley wants to add an action button on his form that will allow the user to save the document.
+What @Command will accomplish that task?
+A. @Command([Save])
+B. @Command([SaveDoc])
+C. @Command([FileSave])
+D. @Command([EditClose])
+Answer: C
+Question: 78
+Jorge built a Ticket Tracking application that is accessed via a Web browser. When a user
+bookmarks a document in the browser, Jorge would like the bookmark title to show the date and
+status of the ticket. How would Jorge accomplish this?
+A. Use a Window Title formula of @Text(TicketDate) + " - " + TicketStatus
+B. Use a Browser Title formula of @Text(TicketDate) + " - " + TicketStatus
+C. Use a Bookmark Title formula of @Text(TicketDate) + " - " + TicketStatus Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 18 of 20 © TestKing
+D. Create a $WindowTitle field with a formula of @Text(TicketDate) + " - " + TicketStatus
+Answer: A
+Question: 79
+Dora has a view with a column that shows the date and time the document was created. She
+would like to show just the date and hide the time portion. How can she accomplish this?
+A. In the View Properties dialog box, set the view style to Date/Time and format the date to be
+mm/dd/yyyy.
+B. In the View Properties dialog box, set the view style to Date/Time, and deselect the Display
+Time option.
+C. In the Column Properties dialog box, set the column style to Date/Time and format the date to
+be mm/dd/yyyy.
+D. In the Column Properties dialog box, set the column style to Date/Time, and deselect the
+Display Time option.
+Answer: D
+Question: 80
+Dwain would like to change the font for his formula statements to make them easier to read.
+Where would he change that property?
+A. Form Properties dialog box
+B. Database Propertiesdialog box
+C. Designer Properties dialog box
+D. Programmer's Pane Properties dialog box
+Answer: D
+Question: 81
+Richie has created an administrative view in the Video Rental database to show when each
+document was created. What @Function can he use to show the date and time the document
+was created?
+A. @Created
+B. @NewDate
+C. @OriginDate
+D. @CreationDate
+Answer: A
+Question: 82
+James needs to store a list of values in FieldA, and when the form is saved, he wants to sort the
+list before it is saved. Which of the following input translation formulas would accomplish this?
+A. @Sort
+B. @Sort(@ThisValue)
+C. @SortAscending(FieldA)
+D. @Sort("Ascending";"FieldA")
+Answer: B
+Question: 83 Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 19 of 20 © TestKing
+Maria coded "Alpha, Beta, Gamma" as a list in a Notes formula. Which of the following indicates
+the syntax entered?
+A. "Alpha", "Beta", "Gamma"
+B. "Alpha"& "Beta"& "Gamma"
+C. "Alpha"; "Beta"; "Gamma"
+D. "Alpha": "Beta": "Gamma"
+Answer: D
+Question: 84
+Danielle wants to capture everything from a Notes hierarchical name except the common name.
+Which of the following formulas will accomplish this?
+A. @ExcludeCommonName(User_Name), where User_Name is a field that contains the name
+value
+B. @Name([ExcludeCommon];User_Name), where User_Name is a field that contains the name
+value
+C. @Name([HierarchyOnly];User_Name), where User_Name is a field that contains the name
+value
+D. Danielle cannot use the formulas above. She must parse the pieces of the name she wants
+by using @Name, then concatenating them together.
+Answer: C
+Question: 85
+Which of the following should Cathy use to sort a list?
+A. @Sort
+B. @Sortlist
+C. @DataSort
+D. @ListOrder
+Answer: A
+Question: 86
+Burt has been asked to create a unique key to identify each rental transaction in the Video Rental
+database. What @Function can he use to create this key?
+A. @Key
+B. @Unique
+C. @UniqueKey
+D. @RandomKey
+Answer: B
+Question: 87
+Which of the following statements about an Authors field is true?
+A. It can only contain one name.
+B. Users listed in the field can also read the document.
+C. It must be computed using @Author as the default formula.
+D. Users listed in the field are allowed to compose documents using that form.
+Answer: B Exam Name: Lotus Notes Domino 7 App. Development Foundation Skills
+Exam Type: Lotus
+Exam Code: 190-710 Total Questions: 90
+Page 20 of 20 © TestKing
+Question: 88
+Which of the following statements about Readers fields is true?
+A. A Readers field may be computed or editable.
+B. Readers fields only affect those people who have reader access.
+C. A form may contain several Readers fields, each of which affects who can read different
+sections of a form.
+D. A user listed in an Authors field must also be listed in a field with the Readers data type in
+order to read a document.
+Answer: A
+Question: 89
+Wesley is able to see documents in the Suggestion database that have his name listed in the
+"SuggestionContact" field. He cannot see any other documents, nor can he edit the documents
+he can see. What level of access does Wesley have in the ACL for this database?
+A. Reader
+B. Editor
+C. Author
+D. Depositor
+Answer: A
+Question: 90
+Ted is in a group that has Author access in the Review application's ACL. However, he cannot
+edit a review he created. Which of the following is the most likely reason?
+A. Authors can only create documents.
+B. He must have Editor or higher access to modify documents.
+C. The developer neglected to include an Authors field to the Review form.
+D. The developer neglected to select the "modify documents" option in the ACL.
+Answer: C
+ End of Document
