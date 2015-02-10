@@ -28,10 +28,10 @@ int main()
 			board.printDoorKeyPairs(std::cout);
 
 		}
-		/*catch (const char * str)
+		catch (const char * str)
 		{
 			std::cerr << "Error: " << str << "\n";
-		}*/
+		}
 		catch (std::bad_alloc e)
 		{
 			std::cerr << "Error: " << e.what() << "\n";
