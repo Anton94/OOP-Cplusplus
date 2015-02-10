@@ -2,12 +2,12 @@
 
 /// If there is no path, the returned path will be empty!
 
-DLList<Cell*> AStar::pathFinder(Board& board, Cell* startCell, Cell* endCell) const
+DLList<Cell*> AStar::pathFinder(Cell* startCell, Cell* endCell)
 {
 	DLList<Cell*> path;
+	bool pathFound = false;
 
-	Cell* currentCell;
-	Cell* childCell;
+	Cell* currentCell = startCell;
 
 	// Define the open and the close list.
 	DLList<Cell*> openList;
@@ -34,6 +34,7 @@ DLList<Cell*> AStar::pathFinder(Board& board, Cell* startCell, Cell* endCell) co
 		// Stop if we reached the end.
 		if (currentCell == endCell)
 		{
+			pathFound = true;
 			break;
 		}
 
@@ -45,65 +46,11 @@ DLList<Cell*> AStar::pathFinder(Board& board, Cell* startCell, Cell* endCell) co
 		closedList.push_back(currentCell);
 		currentCell->setClosed(true);
 
-		// Get all current's adjacent walkable points
-		for (int x = -1; x < 2; x++)
-		{
-			for (int y = -1; y < 2; y++)
-			{
-				// If it's current point then pass
-				if (x == 0 && y == 0)
-				{
-					continue;
-				}
-
-				// Get this point
-				child = getPoint(current->getX() + x, current->getY() + y);
-
-				// If it's closed or not walkable then pass
-				if (child->closed || !child->walkable)
-				{
-					continue;
-				}
-
-				// If we are at a corner
-				if (x != 0 && y != 0)
-				{
-					// if the next horizontal point is not walkable or in the closed list then pass
-					if (!pointIsWalkable(current->getX(), current->getY() + y) || getPoint(current->getX(), current->getY() + y)->closed)
-					{
-						continue;
-					}
-					// if the next vertical point is not walkable or in the closed list then pass
-					if (!pointIsWalkable(current->getX() + x, current->getY()) || getPoint(current->getX() + x, current->getY())->closed)
-					{
-						continue;
-					}
-				}
-
-				// If it's already in the openList
-				if (child->opened)
-				{
-					// If it has a wroste g score than the one that pass through the current point
-					// then its path is improved when it's parent is the current point
-					if (child->getGScore() > child->getGScore(current))
-					{
-						// Change its parent and g score
-						child->setParent(current);
-						child->computeScores(end);
-					}
-				}
-				else
-				{
-					// Add it to the openList with current point as parent
-					openList.push_back(child);
-					child->opened = true;
-
-					// Compute it's g, h and f score
-					child->setParent(current);
-					child->computeScores(end);
-				}
-			}
-		}
+		// Four direction....
+		calcCell(currentCell, currentCell->getLeftCell(), openList, endCell);
+		calcCell(currentCell, currentCell->getUpCell(), openList, endCell);
+		calcCell(currentCell, currentCell->getRightCell(), openList, endCell);
+		calcCell(currentCell, currentCell->getDownCell(), openList, endCell);
 	}
 
 	// Reset
@@ -116,12 +63,40 @@ DLList<Cell*> AStar::pathFinder(Board& board, Cell* startCell, Cell* endCell) co
 		(*i)->setClosed(false);
 	}
 
+	if (!pathFound)
+		return path;
+
+	// Path without the start and the end cells.
+	// Removes the end cell...
+	currentCell = currentCell->getParent();
+
 	// Resolve the path starting from the end point
-	while (currentCell->getParent() && currentCell != startCell)
+	while (currentCell && currentCell->getParent() && currentCell != startCell)
 	{
 		path.push_back(currentCell);
 		currentCell = currentCell->getParent();
 	}
 
+	return path;
+}
 
+
+void AStar::calcCell(Cell* current, Cell* child, DLList<Cell*> & openList, Cell* endCell)
+{
+	// If it's closed or not walkable then pass
+	if (child->getClosed() || !child->getWalkable())
+	{
+		return;
+	}
+
+	if (!child->getOpened())
+	{
+		// Add it to the openList with current point as parent
+		openList.push_back(child);
+		child->setOpened(true);
+
+		// Compute it's g, h and f score
+		child->setParent(current);
+		child->computeH(endCell);
+	}
 }

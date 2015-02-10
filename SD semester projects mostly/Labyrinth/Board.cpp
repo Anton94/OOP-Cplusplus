@@ -268,3 +268,15 @@ Cell* Board::getCellAt(int i, int j)
 	else
 		return NULL;
 }
+
+/// TO DO delete...
+
+void Board::tempPath()
+{
+	DLList<Cell*> path = AStar::pathFinder(startCell, endCell);
+
+	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
+	{
+		(*iter)->setSymbol('+');
+	}
+}

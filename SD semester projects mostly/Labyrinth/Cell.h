@@ -22,14 +22,16 @@ public:
 	Cell* getParent() const;
 	bool getOpened() const;
 	bool getClosed() const;
+	int getH() const;
 
+	bool getWalkable() const;
+	void computeH(Cell* targerCell);
 
 	Cell* getLeftCell() const;
 	Cell* getUpCell() const;
 	Cell* getRightCell() const;
 	Cell* getDownCell() const;
 
-	int getH() const;
 private:
 	void setDefaultValues();
 private:

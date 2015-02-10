@@ -7,6 +7,7 @@ class Board;
 #include "../Vector/Vector.h"
 #include "../Double linked list/DLList.h"
 #include "Pair.h"
+#include "AStar.h"
 
 //#define NUMBER_OF_ELEMENTS_IN_CHAR std::pow(2, sizeof(char) * 8) / 2
 // The valid symbols for this task are 128.
@@ -32,6 +33,7 @@ public:
 	void deserialize(std::istream& in);
 	void printBoard(std::ostream& out) const; 
 	void printDoorKeyPairs(std::ostream& out) const;
+	void tempPath();
 private:
 	Cell* getCellAt(int i, int j);
 	void getDimensions(std::istream& in, int& rows, int& cols) const;

@@ -22,19 +22,16 @@ int main()
 			board.deserialize(in);
 			board.printBoard(std::cout);
 			board.printDoorKeyPairs(std::cout);
-
-			Vector<Vector<Cell>> matrix;
-
-			matrix.resize(HEIGHT);
-			for (int i = 0; i < HEIGHT; ++i)
-				matrix[i].resize(WIDTH);
-			matrix.resize(0);
+			
+			board.tempPath();
+			board.printBoard(std::cout);
+			board.printDoorKeyPairs(std::cout);
 
 		}
-		catch (const char * str)
+		/*catch (const char * str)
 		{
 			std::cerr << "Error: " << str << "\n";
-		}
+		}*/
 		catch (std::bad_alloc e)
 		{
 			std::cerr << "Error: " << e.what() << "\n";

@@ -6,5 +6,7 @@
 class AStar
 {
 public:
-	DLList<Cell*> pathFinder(Board& board, Cell* startCell, Cell* endCell) const;
+	static DLList<Cell*> pathFinder(Cell* startCell, Cell* endCell);
+private:
+	static void calcCell(Cell* current, Cell* child, DLList<Cell*> & openList, Cell* endCell);
 };

@@ -137,3 +137,20 @@ int Cell::getH() const
 {
 	return h;
 }
+
+/// Checks only if the cell is not board wall...
+
+bool Cell::getWalkable() const
+{
+	if (!owner)
+		return true;
+
+	return symbol != owner->boardSymbols.wall;
+}
+
+/// Calculates the distance to the target cell.
+
+void Cell::computeH(Cell* targerCell)
+{
+	h = (std::abs(targerCell->indexRow - indexRow) + std::abs(targerCell->indexCol - indexCol));
+}
