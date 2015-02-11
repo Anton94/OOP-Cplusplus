@@ -155,13 +155,15 @@ bool Cell::getWalkableWithoutWallsAndDoors() const
 	if (!owner)
 		return true;
 
+	// Check if the symbol is some of the door symbols and return false if so...
 	for (DLList<Pair<Cell*, Cell*>>::Iterator iter = owner->doorKeyPairs.begin(); iter != owner->doorKeyPairs.end(); ++iter)
 	{
-		if ((*iter).second && (*iter).first->getSymbol() == symbol)
+		if ((*iter).first && (*iter).first->getSymbol() == symbol)
 			return false;
 	}
 
-	return symbol != owner->boardSymbols.wall;
+	// Check if its wall...
+	return getWalkableWithoutWalls();
 }
 
 /// Calculates the distance to the target cell.

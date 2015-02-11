@@ -7,6 +7,9 @@ DLList<Cell*> AStar::pathFinder(Cell* startCell, Cell* endCell, bool(Cell::*walk
 	DLList<Cell*> path;
 	bool pathFound = false;
 
+	if (!startCell || !endCell)
+		return path;
+
 	Cell* currentCell = startCell;
 
 	// Define the open and the close list.

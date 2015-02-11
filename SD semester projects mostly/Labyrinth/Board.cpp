@@ -273,7 +273,7 @@ Cell* Board::getCellAt(int i, int j)
 
 void Board::tempPath()
 {
-	DLList<Cell*> path = AStar::pathFinder(startCell, endCell, &Cell::getWalkableWithoutWallsAndDoors);
+	DLList<Cell*> path = AStar::pathFinder(startCell, endCell, &Cell::getWalkableWithoutWalls);
 
 
 	if (path.isEmpty())
