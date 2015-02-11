@@ -23,7 +23,10 @@ DLList<Cell*> AStar::pathFinder(Cell* startCell, Cell* endCell, bool(Cell::*walk
 	{
 		// NO path found..
 		if (openList.isEmpty())
-			return path;
+		{
+			pathFound = false;
+			break;
+		}
 
 
 		// Look for the smallest H value in the openList and make it the current point. The current is first one at the beginning. Iter helper is to delete the current from the opened list after that.

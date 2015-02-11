@@ -10,6 +10,7 @@ public:
 	DLList();
 	DLList(const DLList<T>& other);
 	DLList<T>& operator=(const DLList<T>& other);
+	DLList<T>& operator+=(const DLList<T>& other);
 	~DLList();
 public:
 	T peek_front() const;
@@ -59,6 +60,7 @@ DLList<T>::DLList()
 template <class T>
 DLList<T>::DLList(const DLList<T>& other)
 {
+	init();
 	copyFrom(other);
 }
 
@@ -68,8 +70,17 @@ DLList<T>& DLList<T>::operator=(const DLList<T>& other)
 	if (this != &other)
 	{
 		free();
+		init();
 		copyFrom(other);
 	}
+
+	return *this;
+}
+
+template <class T>
+DLList<T>& DLList<T>::operator+=(const DLList<T>& other)
+{
+	copyFrom(other);
 
 	return *this;
 }
@@ -244,12 +255,11 @@ void DLList<T>::free()
 	delete n;  // with the next pointer it will start from the first element and go thru all and delete the head element (head->next is null where it will stop)
 }
 
+/// NEEDs init before calling copyFrom!!!
 
 template <class T>
 void DLList<T>::copyFrom(const DLList<T>& other)
 {
-	init();
-
 	ElemDLList<T>* n = other.head;
 
 	while (n->next != other.head)
