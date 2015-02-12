@@ -45,8 +45,9 @@ private:
 	void setPairValue(char c, Cell*& pairvalue, Map_Char_pCell & specialCells) const;
 	void generateMapOfSpecialCells();
 	void BFS(Cell * start);
-	void BFSAddNeighbour(Cell* start, Cell* neighbour, Queue<Cell*>& queue, DLList<Cell*>& path);
-	void resetCellsVisited();
+	void BFSAddNeighbour(Cell* start, Cell* current, Cell* neighbour, Queue<Cell*>& queue);
+	void BFSResolveThaPath(Cell* current, Cell* neighbour, Cell* start, DLList<Cell*> & path);
+	void resetCells();
 private:
 	BoardSymbols boardSymbols;
 	Vector<Vector<Cell>> board;

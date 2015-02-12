@@ -124,6 +124,17 @@ char Cell::getSymbol() const
 	return symbol;
 }
 
+
+int Cell::getIndexRow() const
+{
+	return indexRow;
+}
+
+
+int Cell::getIndexCol() const
+{
+	return indexCol;
+}
 Cell* Cell::getParent() const
 {
 	return parent;

@@ -135,21 +135,21 @@ void Board::BFS(Cell * start)
 
 		path.push_back(currentCell);
 
-		BFSAddNeighbour(start, currentCell->getLeftCell(), queue, path);
-		BFSAddNeighbour(start, currentCell->getUpCell(), queue, path);
-		BFSAddNeighbour(start, currentCell->getRightCell(), queue, path);
-		BFSAddNeighbour(start, currentCell->getDownCell(), queue, path);
+		BFSAddNeighbour(start, currentCell, currentCell->getLeftCell(), queue);
+		BFSAddNeighbour(start, currentCell, currentCell->getUpCell(), queue);
+		BFSAddNeighbour(start, currentCell, currentCell->getRightCell(), queue);
+		BFSAddNeighbour(start, currentCell, currentCell->getDownCell(), queue);
 	}
 
-	resetCellsVisited();
+	resetCells();
 }
 
 
 
-void Board::BFSAddNeighbour(Cell* start, Cell* neighbour, Queue<Cell*>& queue, DLList<Cell*>& path)
+void Board::BFSAddNeighbour(Cell* start, Cell* current, Cell* neighbour, Queue<Cell*>& queue)
 {
 	// If the neighbour cell is outside of the map, or it`s wall, return...
-	if (!neighbour || neighbour->getSymbol() == boardSymbols.wall)
+	if (!neighbour || !neighbour->getWalkableWithoutWalls())
 		return;
 
 
@@ -160,20 +160,44 @@ void Board::BFSAddNeighbour(Cell* start, Cell* neighbour, Queue<Cell*>& queue, D
 		// If the neighbour cell is special one (door or key) we add it as a EDGE to the graph and we assume that it`s not walkable field.
 		if (doors.getCellAt(neighbour->getSymbol()) || keys.getCellAt(neighbour->getSymbol()) || neighbour == startCell || neighbour == endCell)
 		{
+			DLList<Cell*> path;
+
+			BFSResolveThaPath(current, neighbour, start, path);
+
 			mapOfSpecialCells->insertEdge(start, neighbour, path);
 		}
 		else
 		{
 			queue.enqueue(neighbour);
+			neighbour->setParent(current);
 		}
 
+		// Makr it as visited, so I don`t go there if there is other way to that cell...(if the cell is special one...).
 		neighbour->setVisited(true);
 	}
 }
 
+/// Gets the path by its parents...
+/// Retursn the path from cell to cell, using the parent pointer. A save the path in the given one, so It dont make more copies... I Use current and neighbour so I dont add the neighbour because I don`t want to go throuh special cells, only paths without special cells.
+
+void Board::BFSResolveThaPath(Cell* current, Cell* neighbour, Cell* start, DLList<Cell*> & path)
+{
+	// Adds the ending cell.
+	path.push_front(neighbour);
+
+	while (current && current->getParent() && current != start)
+	{
+		path.push_front(current);
+		current = current->getParent();
+	}
+
+	// Adds the starting cell.
+	path.push_front(start);
+}
+
 /// Goes through every cell and sets visited variable to false.
 
-void Board::resetCellsVisited()
+void Board::resetCells()
 {
 	int rows = getRows();
 	int cols = getCols();
@@ -183,6 +207,7 @@ void Board::resetCellsVisited()
 		for (int j = 0; j < cols; ++j)
 		{
 			board[i][j].setVisited(false);
+			board[i][j].setParent(NULL);
 		}
 	}
 }

@@ -42,7 +42,12 @@ void Graph::printNode(std::ostream& out, Node* node)
 {
 	for (DLList<Pair<Node*, DLList<Cell*>>>::Iterator iter = node->sons.begin(); iter != node->sons.end(); ++iter)
 	{
-		out << node->cell->getSymbol() << " -> " << (*iter).first->cell->getSymbol() << " ";
+		out << node->cell->getSymbol() << " -> " << (*iter).first->cell->getSymbol() << " path: ";
+		for (DLList<Cell*>::Iterator pathIter = (*iter).second.begin(); pathIter != (*iter).second.end(); ++pathIter)
+		{
+			out << "(" << (*pathIter)->getIndexRow() << ", " << (*pathIter)->getIndexCol() << ") ";
+		}
+		out << "\n";
 	}
 }
 

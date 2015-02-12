@@ -19,6 +19,8 @@ public:
 	void setClosed(bool closed);
 	void setVisited(bool visited);
 	void setH(int h);
+	int getIndexRow() const;
+	int getIndexCol() const;
 	Board* getOwner() const;
 	char getSymbol() const;
 	Cell* getParent() const;
