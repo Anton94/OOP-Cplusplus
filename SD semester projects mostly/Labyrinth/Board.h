@@ -47,7 +47,7 @@ private:
 	void BFS(Cell * start);
 	void BFSAddNeighbour(Cell* start, Cell* current, Cell* neighbour, Queue<Cell*>& queue);
 	void BFSResolveThaPath(Cell* current, Cell* neighbour, Cell* start, DLList<Cell*> & path);
-	void resetCells();
+	void BFSResetCellsNeededInfo();
 private:
 	BoardSymbols boardSymbols;
 	Vector<Vector<Cell>> board;
