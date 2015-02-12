@@ -10,9 +10,9 @@ class Board;
 #include "AStar.h"
 
 //#define NUMBER_OF_ELEMENTS_IN_CHAR std::pow(2, sizeof(char) * 8) / 2
-// The valid symbols for this task are 128.
 
-#define NUMBER_OF_ELEMENTS_IN_CHAR 128
+// The valid symbols for this task are 128.
+#define NUMBER_OF_ELEMENTS_IN_CHAR 256
 
 class Board
 {

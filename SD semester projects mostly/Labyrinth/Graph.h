@@ -20,16 +20,19 @@ class Graph
 	{
 		Cell* cell;
 		DLList<Pair<Node*, DLList<Cell*>>> sons;
+
+		Node(Cell * cell);
 	};
 
 	DLList<Node*> allNodes;
 public:
-	Graph();
 	void insertEdge(Cell* source, Cell* dest, DLList<Cell*>& path);
-	void print(std::ostream& out);
+	void print(std::ostream& out); // Prints all edges between cells and the paths...
 	~Graph();
 private:
-	Node* findNode(Cell* cell); // Finds the node, which represents the given cell... if there is no, returns NULL...
+	Graph::Node* findNode(const Cell* cell); // Finds the node, which represents the given cell... if there is no, returns NULL... it returns pointer to node, so it`s not very constant function.
+	Graph::Node* getNode(Cell* cell);
+	void printNode(std::ostream& out, Node* node);
 private:
 	void free();
 };

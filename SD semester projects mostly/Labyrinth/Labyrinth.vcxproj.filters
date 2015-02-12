@@ -5,11 +5,13 @@
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="Graph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Pair.h" />
     <ClInclude Include="AStar.h" />
+    <ClInclude Include="Graph.h" />
   </ItemGroup>
 </Project>
