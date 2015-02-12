@@ -25,6 +25,7 @@ public:
 	bool empty() const;
 	void free();
 	void resize(int size);
+	void makeAllElements(const T& elem);
 	~Vector();
 private:
 	void resizeArray(int size);
@@ -51,8 +52,7 @@ inline Vector<T>::Vector(int newSize, const T& elem)
 	setDefaultValues();
 	resize(newSize);
 
-	for (int i = 0; i < size; ++i)
-		vector[i] = elem;
+	makeAllElements(elem);
 }
 
 template <class T>
@@ -174,6 +174,15 @@ inline void Vector<T>::resize(int newSize)
 {
 	resizeArray(newSize);
 	size = newSize;
+}
+
+/// Goes throug every element and sets it to the given one.
+
+template <class T>
+inline void Vector<T>::makeAllElements(const T& elem)
+{
+	for (int i = 0; i < size; ++i)
+		vector[i] = elem;
 }
 
 template <class T>

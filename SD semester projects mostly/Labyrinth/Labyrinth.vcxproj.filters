@@ -13,5 +13,6 @@
     <ClInclude Include="Pair.h" />
     <ClInclude Include="AStar.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="Map_Char_pCell.h" />
   </ItemGroup>
 </Project>

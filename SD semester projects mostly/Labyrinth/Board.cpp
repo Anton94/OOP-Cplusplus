@@ -74,7 +74,7 @@ void Board::deserialize(std::istream& in)
 	// Allocate the memory for the board.
 	allocateBoard(rows, cols);
 
-	Vector<Cell*> specialCells(NUMBER_OF_ELEMENTS_IN_CHAR, NULL); 
+	Map_Char_pCell specialCells; 
 
 	// Sets the cell symbols.
 	initializeBoardCells(in, specialCells);
@@ -160,7 +160,7 @@ void Board::allocateBoard(int rows, int cols)
 /// NOTE: it will get rows * cols symbols from the istream and if the new lines are incorrect wont throw exeption! Only if there are less symbols (without new lines).
 /// Checks if there are valid start/end cells, otherwise throws exeption.
 
-void Board::initializeBoardCells(std::istream& in, Vector<Cell*> & specialCells)
+void Board::initializeBoardCells(std::istream& in, Map_Char_pCell & specialCells)
 {
 	// Start from the beginning of the file.
 	in.clear();
@@ -202,10 +202,10 @@ void Board::initializeBoardCells(std::istream& in, Vector<Cell*> & specialCells)
 			}
 			else if (c != boardSymbols.walkable && c != boardSymbols.wall) // it`s some kind of special symbol (door or key).
 			{
-				if (specialCells[c])
+				if (specialCells.getCellAt(c))
 					throw "Invalid input data, more than one special symbol of one type!";
 				else
-					specialCells[c] = &board[i][j];
+					specialCells.setCellAt(c, &board[i][j]);
 			}
 		}
 	}
@@ -218,7 +218,7 @@ void Board::initializeBoardCells(std::istream& in, Vector<Cell*> & specialCells)
 /// If there is onle door with no key-> key is NULL ptr, if there is only key with no door-> door is null ptr.
 /// the input stream is at the last new line from the board at this moment.
 
-void Board::makeDoorKeyPairs(std::istream& in, Vector<Cell*> & specialCells)
+void Board::makeDoorKeyPairs(std::istream& in, Map_Char_pCell & specialCells)
 {
 	char c;
 	Pair<Cell*, Cell*> currPair(NULL, NULL);
@@ -246,14 +246,14 @@ void Board::makeDoorKeyPairs(std::istream& in, Vector<Cell*> & specialCells)
 
 /// Checks if the symbol is white space and sets the pair value to NULL, otherwise sets it to the pointer to that cell.
 
-void Board::setPairValue(char c, Cell*& pairvalue, Vector<Cell*> & specialCells) const
+void Board::setPairValue(char c, Cell*& pairvalue, Map_Char_pCell & specialCells) const
 {
 	if (c == ' ')
 		pairvalue = NULL;
-	else if (specialCells[c] == NULL)
+	else if (specialCells.getCellAt(c) == NULL)
 		throw "Invalid input stream, can`t find the symbol of the pairs of door keys in the field!";
 	else
-		pairvalue = specialCells[c];
+		pairvalue = specialCells.getCellAt(c);
 }
 
 /// Returns a pointer to the cell, with the given coords. If the cell is outside the bounds of the map->returns NULL;

@@ -8,11 +8,10 @@ class Board;
 #include "../Double linked list/DLList.h"
 #include "Pair.h"
 #include "AStar.h"
+#include "Map_Char_pCell.h"
 
 //#define NUMBER_OF_ELEMENTS_IN_CHAR std::pow(2, sizeof(char) * 8) / 2
 
-// The valid symbols for this task are 128.
-#define NUMBER_OF_ELEMENTS_IN_CHAR 256
 
 class Board
 {
@@ -38,9 +37,9 @@ private:
 	Cell* getCellAt(int i, int j);
 	void getDimensions(std::istream& in, int& rows, int& cols) const;
 	void allocateBoard(int rows, int cols);
-	void initializeBoardCells(std::istream& in, Vector<Cell*>& specialCells);
-	void makeDoorKeyPairs(std::istream& in, Vector<Cell*> & specialCells);
-	void setPairValue(char c, Cell*& pairvalue, Vector<Cell*> & specialCells) const;
+	void initializeBoardCells(std::istream& in, Map_Char_pCell& specialCells);
+	void makeDoorKeyPairs(std::istream& in, Map_Char_pCell & specialCells);
+	void setPairValue(char c, Cell*& pairvalue, Map_Char_pCell & specialCells) const;
 private:
 	BoardSymbols boardSymbols;
 	Vector<Vector<Cell>> board;
