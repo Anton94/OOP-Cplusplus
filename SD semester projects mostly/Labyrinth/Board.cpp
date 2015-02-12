@@ -16,6 +16,12 @@ Board::BoardSymbols::BoardSymbols()
 Board::Board()
 {
 	startCell = endCell = NULL;
+	mapOfSpecialCells = new Graph();
+}
+
+Board::~Board()
+{
+	delete mapOfSpecialCells;
 }
 
 /// Returns the number of rows (number of vectors in the vector of vectors).
@@ -59,6 +65,13 @@ void Board::printDoorKeyPairs(std::ostream& out) const
 	{
 		std::cout << (((*iter).first == NULL) ? '*' : (*iter).first->getSymbol()) << (((*iter).second == NULL) ? '*' : (*iter).second->getSymbol()) << "\n";
 	}
+
+	//out << "\nPrint doors: \n";
+	//doors.printIfNotNULL(out);
+	//out << "\n";
+	//out << "\nPrint keys: \n";
+	//keys.printIfNotNULL(out);
+	//out << "\n";
 }
 
 /// Gets the board symbols and the pairs key->door from the input stream. If the input stream is wrong->throws exeption.
@@ -79,17 +92,99 @@ void Board::deserialize(std::istream& in)
 	// Sets the cell symbols.
 	initializeBoardCells(in, specialCells);
 
-	// Makes pairs door->key.
+	// Makes pairs door->key. (sets also the maps with doors and keys...
 	makeDoorKeyPairs(in, specialCells);
 
-	/**/
-	
-	/*for (DLList<Pair<Cell*, Cell*>>::Iterator iter = doorKeyPairs.begin(); iter != doorKeyPairs.end(); ++iter)
-	{
-		std::cout << (((*iter).first == NULL) ? '*' : (*iter).first->getSymbol()) << (((*iter).second == NULL) ? '*' : (*iter).second->getSymbol()) << "\n";
-	}*/
+	generateMapOfSpecialCells();
 
-	/**/
+	mapOfSpecialCells->print(std::cout);
+}
+
+/// For each cell in specialCells, starts BFS with no target cell, and if it goes through other special cell, adds the edge to the map of special cells.(graph).
+
+void Board::generateMapOfSpecialCells()
+{
+	// Make BFS for the start cell and end cell.
+	BFS(startCell);
+	BFS(endCell);
+
+	for (DLList<Pair<Cell*, Cell*>>::Iterator iter = doorKeyPairs.begin(); iter != doorKeyPairs.end(); ++iter)
+	{
+		// If there is NULL on the key/door, the BFS will return...
+		BFS((*iter).first); // On the door.		
+		BFS((*iter).second); // On the key. 
+	}
+}
+
+/// Starts BFS with no target cell, and if it goes through other special cell, adds the edge to the map of special cells.(graph).
+
+void Board::BFS(Cell * start)
+{
+	if (!start)
+		return;
+
+	Queue<Cell*> queue;
+	DLList<Cell*> path;
+
+	queue.enqueue(start);
+	start->setVisited(true);
+
+	while (!queue.isEmpty())
+	{
+		Cell* currentCell = queue.dequeue();
+
+		path.push_back(currentCell);
+
+		BFSAddNeighbour(start, currentCell->getLeftCell(), queue, path);
+		BFSAddNeighbour(start, currentCell->getUpCell(), queue, path);
+		BFSAddNeighbour(start, currentCell->getRightCell(), queue, path);
+		BFSAddNeighbour(start, currentCell->getDownCell(), queue, path);
+	}
+
+	resetCellsVisited();
+}
+
+
+
+void Board::BFSAddNeighbour(Cell* start, Cell* neighbour, Queue<Cell*>& queue, DLList<Cell*>& path)
+{
+	// If the neighbour cell is outside of the map, or it`s wall, return...
+	if (!neighbour || neighbour->getSymbol() == boardSymbols.wall)
+		return;
+
+
+
+	// If the neighbour is not visited. 
+	if (neighbour->getVisited() == false)
+	{
+		// If the neighbour cell is special one (door or key) we add it as a EDGE to the graph and we assume that it`s not walkable field.
+		if (doors.getCellAt(neighbour->getSymbol()) || keys.getCellAt(neighbour->getSymbol()) || neighbour == startCell || neighbour == endCell)
+		{
+			mapOfSpecialCells->insertEdge(start, neighbour, path);
+		}
+		else
+		{
+			queue.enqueue(neighbour);
+		}
+
+		neighbour->setVisited(true);
+	}
+}
+
+/// Goes through every cell and sets visited variable to false.
+
+void Board::resetCellsVisited()
+{
+	int rows = getRows();
+	int cols = getCols();
+
+	for (int i = 0; i < rows; ++i)
+	{
+		for (int j = 0; j < cols; ++j)
+		{
+			board[i][j].setVisited(false);
+		}
+	}
 }
 
 /// Check if the board is with valud rows and cols (every row has same number of cols..). If the input stream is wrong->throws exeption.
@@ -227,8 +322,9 @@ void Board::makeDoorKeyPairs(std::istream& in, Map_Char_pCell & specialCells)
 	{
 		if (c != '\n')
 		{
-			// Door symbol is in the 'c'. If it`s white space, there is no door for the key.
+			// Door symbol is in the 'c'. If it`s white space, there is no door for the key. also sets the pointer in the map with doors.
 			setPairValue(c, currPair.first, specialCells);
+			doors.setCellAt(c, currPair.first);
 
 			// Now gets the key symbol. If it`s white space, there is no key for the door. If the symbol is new line, or EOF or the two symbols are white space, throws exeption for wrong input.
 			in.get(c);
@@ -236,6 +332,7 @@ void Board::makeDoorKeyPairs(std::istream& in, Map_Char_pCell & specialCells)
 				throw "Invalid input data while reading the pairs of door and keys!";
 
 			setPairValue(c, currPair.second, specialCells);
+			keys.setCellAt(c, currPair.second);
 
 			// Now adds the current  pair to the list of pairs.
 
@@ -273,7 +370,7 @@ Cell* Board::getCellAt(int i, int j)
 
 void Board::tempPath()
 {
-	DLList<Cell*> path = AStar::pathFinder(startCell, endCell, &Cell::getWalkableWithoutWalls);
+	DLList<Cell*> path = AStar::pathFinder(startCell, endCell, &Cell::getWalkableWithoutWallsAndDoors);
 
 
 	if (path.isEmpty())

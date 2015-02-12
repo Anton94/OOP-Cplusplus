@@ -75,7 +75,7 @@ Graph::Node * Graph::findNode(const Cell * cell)
 	return NULL;
 }
 
-/// Goes throw every node and deletes it.
+/// Goes through every node and deletes it.
 
 void Graph::free()
 {

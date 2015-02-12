@@ -12,9 +12,10 @@ void Cell::setDefaultValues()
 {
 	indexRow = indexCol = 0;
 	symbol = ' ';
+	visited = false;
 	owner = NULL;	
 	parent = NULL;
-	opened = closed = 0;
+	opened = closed = false;
 	h = 0;
 }
 
@@ -57,6 +58,11 @@ void Cell::setOpened(bool opened)
 void Cell::setClosed(bool closed)
 {
 	this->closed = closed;
+}
+
+void Cell::setVisited(bool visited)
+{
+	this->visited = visited;
 }
 
 void Cell::setH(int h)
@@ -133,6 +139,11 @@ bool Cell::getClosed() const
 	return closed;
 }
 
+bool Cell::getVisited() const
+{
+	return visited;
+}
+
 int Cell::getH() const
 {
 	return h;
@@ -156,11 +167,8 @@ bool Cell::getWalkableWithoutWallsAndDoors() const
 		return true;
 
 	// Check if the symbol is some of the door symbols and return false if so...
-	for (DLList<Pair<Cell*, Cell*>>::Iterator iter = owner->doorKeyPairs.begin(); iter != owner->doorKeyPairs.end(); ++iter)
-	{
-		if ((*iter).first && (*iter).first->getSymbol() == symbol)
-			return false;
-	}
+	if (owner->doors.getCellAt(symbol))
+		return false;
 
 	// Check if its wall...
 	return getWalkableWithoutWalls();

@@ -1,5 +1,7 @@
 #pragma once
 
+class Graph;
+
 #include "Cell.h"
 #include "../Double linked list/DLList.h"
 #include "Pair.h"
@@ -26,6 +28,7 @@ class Graph
 
 	DLList<Node*> allNodes;
 public:
+	Graph(){};
 	void insertEdge(Cell* source, Cell* dest, DLList<Cell*>& path);
 	void print(std::ostream& out); // Prints all edges between cells and the paths...
 	~Graph();
