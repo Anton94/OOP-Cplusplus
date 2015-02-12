@@ -3,6 +3,8 @@
 Graph::Node::Node(Cell * cell)
 {
 	this->cell = cell;
+	visited = false;
+	parent = NULL;
 }
 
 Graph::~Graph()
@@ -87,5 +89,100 @@ void Graph::free()
 	for (DLList<Node*>::Iterator iter = allNodes.begin(); iter != allNodes.end(); ++iter)
 	{
 		delete (*iter);
+	}
+}
+
+/// Returns all paths (NOT ALL)from start cell, to the end cell, when it walks only on doors. Returns a list of all the paths, which are cells (doors). NOTE: Dont goest through already taken nodes.
+
+DLList<DLList<Cell*>> Graph::BFSAllPathsBetweenCells(Cell* start, Cell* end)
+{
+	DLList<DLList<Cell*>> allPaths;
+
+	Board* board = start->getOwner();
+
+	Node * startNode = findNode(start);
+	Node * endNode = findNode(end);
+
+	// Start or end cell is not in the graph... or the owners of the two cells are diferent.
+	if (!startNode || !endNode || board != end->getOwner())
+		return allPaths;
+
+	Queue<Node*> queue;
+
+	queue.enqueue(startNode);
+	startNode->visited = true;
+
+	while (!queue.isEmpty())
+	{
+		Node* currentNode = queue.dequeue();
+
+		for (DLList<Pair<Node*, DLList<Cell*>>>::Iterator iter = currentNode->sons.begin(); iter != currentNode->sons.end(); ++iter)
+		{
+			BFSAddNeighbour(board, startNode, endNode, currentNode, (*iter).first, queue, allPaths);
+		}
+	}
+
+	BFSResetNodesNeededInfo();
+
+	return allPaths;
+}
+
+/// 
+
+void Graph::BFSAddNeighbour(Board * board, Node* startNode, Node * endNode, Node* currentNode, Node* neighbourNode, Queue<Node*>& queue, DLList<DLList<Cell*>> & allPaths)
+{
+	// If the neighbour node is not valid one or it`s not a door cell returns... (unless the end node is the neighbour node).
+	//if (!neighbourNode || (board->doors.getCellAt(neighbourNode->cell->getSymbol()) == NULL && neighbourNode != endNode))
+	if (!neighbourNode)
+		return;
+
+	// If the neighbour is not visited. 
+	if (neighbourNode->visited == false)
+	{
+		// If the neighbour node is searched one (endNode) adds the path to that node to the list of paths...
+		if (neighbourNode == endNode)
+		{
+			DLList<Cell*> path;
+
+			BFSResolveThaPath(currentNode, neighbourNode, startNode, path);
+			
+			allPaths.push_back(path);
+		}
+		else
+		{
+			queue.enqueue(neighbourNode);
+			neighbourNode->parent = currentNode;
+			neighbourNode->visited = true; // dont mark it if there is path to there, so it can found more paths...
+		}
+	}
+}
+
+/// Goes through every node and adds the cell pointer to the path.
+
+void Graph::BFSResolveThaPath(Node* currentNode, Node* neighbourNode, Node* startNode, DLList<Cell*> & path)
+{
+	// Push front because it`s in reverce order...
+	
+	// Adds the ending cell.
+	path.push_front(neighbourNode->cell);
+
+	while (currentNode && currentNode->parent && currentNode != startNode)
+	{
+		path.push_front(currentNode->cell);
+		currentNode = currentNode->parent;
+	}
+
+	// Adds the starting cell.
+	path.push_front(startNode->cell);
+}
+
+/// Sets all nodes visited and parent valus to default ones..
+
+void Graph::BFSResetNodesNeededInfo()
+{
+	for (DLList<Node*>::Iterator iter = allNodes.begin(); iter != allNodes.end(); ++iter)
+	{
+		(*iter)->visited = false;
+		(*iter)->parent = NULL;
 	}
 }

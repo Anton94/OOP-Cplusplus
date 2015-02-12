@@ -19,6 +19,7 @@ public:
 	T pop_back();
 	void push_front(const T& x);
 	void push_back(const T& x);
+	void push_front_list(const DLList<T>& other);
 	bool isEmpty() const;
 	size_t getSize() const;
 private:
@@ -185,6 +186,26 @@ void DLList<T>::push_back(const T& x)
 	++size;
 }
 
+/// Goes through every cell othe other list and adds it to the this one, has pointer last, if happenes push_front_list(tihs)...
+
+template <class T>
+void DLList<T>::push_front_list(const DLList<T>& other)
+{
+	ElemDLList<T>* n = other.head;
+
+	ElemDLList<T>* last = other.head->prev;
+
+	while (n->next != last)
+	{
+		push_front(n->next->data);
+		n = n->next;
+	}
+
+	// Push last element if has one...
+	if (n->next)
+		push_back(n->next->data);
+}
+
 template <class T>
 bool DLList<T>::isEmpty() const
 {
@@ -255,18 +276,24 @@ void DLList<T>::free()
 	delete n;  // with the next pointer it will start from the first element and go thru all and delete the head element (head->next is null where it will stop)
 }
 
-/// NEEDs init before calling copyFrom!!!
+/// NEEDs init before calling copyFrom!!! gets the last element
 
 template <class T>
 void DLList<T>::copyFrom(const DLList<T>& other)
 {
 	ElemDLList<T>* n = other.head;
 
-	while (n->next != other.head)
+	ElemDLList<T>* last = other.head->prev;
+
+	while (n->next != last)
 	{
 		push_back(n->next->data);
 		n = n->next;
 	}
+
+	// Push last element if has one...
+	if (n->next)
+		push_back(n->next->data);
 }
 
 

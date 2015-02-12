@@ -15,7 +15,7 @@ int main()
 		
 		try
 		{
-			std::ifstream in("levelOne.txt");
+			std::ifstream in("levelTwo.txt");
 			if (!in)
 				throw "Can`t open the file for the level!";
 
@@ -24,11 +24,11 @@ int main()
 			board.printBoard(std::cout);
 			board.printDoorKeyPairs(std::cout);
 			
-			board.tempPath();
-			board.printBoard(std::cout);
-			board.printDoorKeyPairs(std::cout);
+		/*	board.tempPath();*/
+		/*	board.printBoard(std::cout);
+			board.printDoorKeyPairs(std::cout);*/
 			
-			Cell cell1, cell2, cell3, cell4, cell5;
+			/*Cell cell1, cell2, cell3, cell4, cell5;
 			cell1.setSymbol('*');
 			cell2.setSymbol('!');
 			cell3.setSymbol('1');
@@ -36,21 +36,34 @@ int main()
 			cell5.setSymbol('3');
 
 			Graph graph;
-			graph.insertEdge(&cell1, &cell2, DLList<Cell*>());
-			graph.insertEdge(&cell1, &cell3, DLList<Cell*>());
 			graph.insertEdge(&cell1, &cell5, DLList<Cell*>());
 
-			graph.insertEdge(&cell2, &cell5, DLList<Cell*>());
+			graph.insertEdge(&cell2, &cell1, DLList<Cell*>());
 			graph.insertEdge(&cell2, &cell4, DLList<Cell*>());
 
-			graph.insertEdge(&cell3, &cell4, DLList<Cell*>());
-
-
-			graph.insertEdge(&cell5, &cell4, DLList<Cell*>());
+			graph.insertEdge(&cell4, &cell5, DLList<Cell*>());
+			 
 			graph.insertEdge(&cell5, &cell3, DLList<Cell*>());
 
 			graph.print(std::cout);
 
+			DLList<DLList<Cell*>> allPaths = graph.BFSAllPathsBetweenCells(&cell2, &cell3);
+
+			allPaths.getSize();
+
+			for (DLList<DLList<Cell*>>::Iterator iter = allPaths.begin(); iter != allPaths.end(); ++iter)
+			{
+				std::cout << (*iter).peek_front()->getSymbol() << " to " << (*iter).peek_back()->getSymbol() << " :";
+				
+				for (DLList<Cell*>::Iterator path = (*iter).begin(); path != (*iter).end(); ++path)
+				{
+					std::cout << (*path)->getSymbol() << " ";
+				}
+
+				std::cout << "\n";
+			}*/
+			std::cout << "\n\n\n";
+			board.findPathFromStartToEnd();
 		
 		}
 		catch (const char * str)

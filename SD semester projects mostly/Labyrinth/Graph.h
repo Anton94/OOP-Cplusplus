@@ -22,6 +22,8 @@ class Graph
 	{
 		Cell* cell;
 		DLList<Pair<Node*, DLList<Cell*>>> sons;
+		bool visited;
+		Node * parent;
 
 		Node(Cell * cell);
 	};
@@ -31,11 +33,15 @@ public:
 	Graph(){};
 	void insertEdge(Cell* source, Cell* dest, DLList<Cell*>& path);
 	void print(std::ostream& out); // Prints all edges between cells and the paths...
+	DLList<DLList<Cell*>> BFSAllPathsBetweenCells(Cell* start, Cell* end);
 	~Graph();
 private:
 	Graph::Node* findNode(const Cell* cell); // Finds the node, which represents the given cell... if there is no, returns NULL... it returns pointer to node, so it`s not very constant function.
 	Graph::Node* getNode(Cell* cell);
 	void printNode(std::ostream& out, Node* node);
+	void BFSAddNeighbour(Board * board, Node* startNode, Node * endNode, Node* currentNode, Node* neighbourNode, Queue<Node*>& queue, DLList<DLList<Cell*>> & allPaths);
+	void BFSResolveThaPath(Node* currentNode, Node* neighbourNode, Node* startNode, DLList<Cell*> & path);
+	void BFSResetNodesNeededInfo();
 private:
 	void free();
 };

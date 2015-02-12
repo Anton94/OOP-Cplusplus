@@ -18,6 +18,7 @@ class Board;
 class Board
 {
 	friend class Cell;
+	friend class Graph;
 
 	struct BoardSymbols
 	{
@@ -34,9 +35,13 @@ public:
 	void deserialize(std::istream& in);
 	void printBoard(std::ostream& out) const; 
 	void printDoorKeyPairs(std::ostream& out) const;
-	void tempPath();
+	void findPathFromStartToEnd();
+	//void tempPath();
 	~Board();
 private:
+	DLList<Cell*> findPath(DLList<Cell*> & path);
+	bool keyForTheDoorIsInThePath(Cell* key, DLList<Cell*> & path);
+	Cell* getKeyForTheDoor(Cell* door);
 	Cell* getCellAt(int i, int j);
 	void getDimensions(std::istream& in, int& rows, int& cols) const;
 	void allocateBoard(int rows, int cols);
@@ -60,4 +65,6 @@ private:
 private:
 	Board(const Board& board);
 	Board& operator=(const Board& board);
+
+	void Board::printPath(DLList<Cell*> & path); 
 };

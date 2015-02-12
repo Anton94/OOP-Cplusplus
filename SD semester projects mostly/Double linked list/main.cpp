@@ -12,8 +12,10 @@ void testing()
 	list.push_back(25);
 	list.push_back(30);
 
+	list += list;
+
 	DLList<int> list2;
-	list2 += list;
+	list2 += list2;
 
 	std::cout << "List is empty? = " << list.isEmpty() << std::endl;
 	while (!list.isEmpty())

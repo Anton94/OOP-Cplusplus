@@ -98,7 +98,27 @@ void Board::deserialize(std::istream& in)
 	// Makes a graph with edges paths between special cells, if there are any...
 	generateMapOfSpecialCells();
 
+
+	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->BFSAllPathsBetweenCells(startCell, endCell);
+
+	for (DLList<DLList<Cell*>>::Iterator iter = allPaths.begin(); iter != allPaths.end(); ++iter)
+	{
+		printPath(*iter);
+	}
+
 	mapOfSpecialCells->print(std::cout);
+}
+
+void Board::printPath(DLList<Cell*> & path)
+{
+	std::cout << path.peek_front()->getSymbol() << " to " << path.peek_back()->getSymbol() << ": ";
+
+	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
+	{
+		std::cout << (*iter)->getSymbol() << " ";
+	}
+
+	std::cout << "\n";
 }
 
 /// For each cell in specialCells, starts BFS with no target cell, and if it goes through other special cell, adds the edge to the map of special cells.(graph).
@@ -267,8 +287,13 @@ void Board::makeDoorKeyPairs(std::istream& in, Map_Char_pCell & specialCells)
 			// Now adds the current  pair to the list of pairs.
 
 			doorKeyPairs.push_back(currPair);
+
 		}
 	}
+
+	if (specialCells.hasElementDiferentThan(NULL))
+		throw "Invalid input data, not every special cell has description.";
+
 }
 
 /// Checks if the symbol is white space and sets the pair value to NULL, otherwise sets it to the pointer to that cell.
@@ -281,6 +306,9 @@ void Board::setPairValue(char c, Cell*& pairvalue, Map_Char_pCell & specialCells
 		throw "Invalid input stream, can`t find the symbol of the pairs of door keys in the field!";
 	else
 		pairvalue = specialCells.getCellAt(c);
+
+
+	specialCells.setCellAt(c, NULL); // makes the symbol in special cells to NULL, used one ...
 }
 
 /// Returns a pointer to the cell, with the given coords. If the cell is outside the bounds of the map->returns NULL;
@@ -295,22 +323,22 @@ Cell* Board::getCellAt(int i, int j)
 	else
 		return NULL;
 }
-
-/// TO DO delete...
-
-void Board::tempPath()
-{
-	DLList<Cell*> path = AStar::pathFinder(startCell, endCell, &Cell::getWalkableWithoutWallsAndDoors);
-
-
-	if (path.isEmpty())
-		std::cout << "NO PATH FOUND!" << std::endl;
-
-	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
-	{
-		(*iter)->setSymbol('+');
-	}
-}
+//
+///// TO DO delete...
+//
+//void Board::tempPath()
+//{
+//	DLList<Cell*> path = AStar::pathFinder(startCell, endCell, &Cell::getWalkableWithoutWallsAndDoors);
+//
+//
+//	if (path.isEmpty())
+//		std::cout << "NO PATH FOUND!" << std::endl;
+//
+//	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
+//	{
+//		(*iter)->setSymbol('+');
+//	}
+//}
 
 
 
@@ -322,7 +350,6 @@ void Board::BFS(Cell * start)
 		return;
 
 	Queue<Cell*> queue;
-	DLList<Cell*> path;
 
 	queue.enqueue(start);
 	start->setVisited(true);
@@ -330,8 +357,6 @@ void Board::BFS(Cell * start)
 	while (!queue.isEmpty())
 	{
 		Cell* currentCell = queue.dequeue();
-
-		path.push_back(currentCell);
 
 		BFSAddNeighbour(start, currentCell, currentCell->getLeftCell(), queue);
 		BFSAddNeighbour(start, currentCell, currentCell->getUpCell(), queue);
@@ -368,7 +393,7 @@ void Board::BFSAddNeighbour(Cell* start, Cell* current, Cell* neighbour, Queue<C
 			neighbour->setParent(current);
 		}
 
-		// Makr it as visited, so I don`t go there if there is other way to that cell...(if the cell is special one...).
+		// Mark it as visited, so I don`t go there if there is other way to that cell...(if the cell is special one...).
 		neighbour->setVisited(true);
 	}
 }
@@ -406,4 +431,127 @@ void Board::BFSResetCellsNeededInfo()
 			board[i][j].setParent(NULL);
 		}
 	}
+}
+
+void Board::findPathFromStartToEnd()
+{
+	// Get the paths. They will be doors and keys, but not valid one, no keys taken before the doors.
+	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->BFSAllPathsBetweenCells(startCell, endCell);
+
+	// Goes through all combinations of paths.
+	for (DLList<DLList<Cell*>>::Iterator path = allPaths.begin(); path != allPaths.end(); ++path)
+	{
+		try
+		{
+			// If there is no path between the start and end point(no key for some of the doors) it will throw exeption.
+			DLList<Cell*> pathWithTheKeys = findPath(*path);
+
+			// Because I dont add start cell in the find function.
+			pathWithTheKeys.push_front(startCell);
+			
+			// Generate path cell by cell from the special once.
+			printPath(pathWithTheKeys);
+			return;
+		}
+		catch (const char * msg)
+		{
+			// invalid path...
+		}
+	}
+
+	throw "Can`t find the path!";
+}
+
+
+DLList<Cell*> Board::findPath(DLList<Cell*> & path)
+{
+	DLList<Cell*> pathWithTheKeys;
+
+	// Goes throuh every cell in the path. Uses 2 iterator, current position and next position.
+	Cell* currentCell = path.peek_front();
+	DLList<Cell*>::Iterator nextCell = path.begin();
+	++nextCell;
+
+	while (nextCell != path.end())
+	{
+		// If the nextCell is a door. Finds a path, from the current cell, to the key to that door. 
+		if (doors.getCellAt((*nextCell)->getSymbol()) != NULL)
+		{			
+			// Get all posible variant from the cell, to that door key...		
+			Cell* keyForThatDoor = getKeyForTheDoor(*nextCell);
+		
+			// Checks if the key is already in the path, so dont search it again.
+			if (!keyForTheDoorIsInThePath(keyForThatDoor, path))
+			{
+				DLList<DLList<Cell*>> allPathsToThatKey = mapOfSpecialCells->BFSAllPathsBetweenCells(currentCell, keyForThatDoor);
+
+				bool pathToThatDoorFound = false;
+				DLList<Cell*> pathToThatKey;
+
+				// Goes through all combinations of paths to find one. Recursive finds the path and gets the needed keys for to get the needed one.
+				for (DLList<DLList<Cell*>>::Iterator currPathToThatDoor = allPathsToThatKey.begin(); currPathToThatDoor != allPathsToThatKey.end(); ++currPathToThatDoor)
+				{
+					try
+					{
+						// If there is no path between the start and end point(no key for some of the doors) it will throw exeption.
+						pathToThatKey = findPath(*currPathToThatDoor);
+						pathToThatDoorFound = true;
+						break;
+					}
+					catch (const char * msg)
+					{
+						// invalid path...
+					}
+				}
+
+				if (!pathToThatDoorFound)
+					throw "Can`t find a path to that door(cant found the key for the door)";
+
+				// Adds the path to that door to the aready existing one.
+				pathWithTheKeys += pathToThatKey;
+
+				// Make the current cell as the key.
+				currentCell = keyForThatDoor;
+			}			
+		}
+		// The cell is not a door, it can go through it without any problem.
+		else
+		{
+			pathWithTheKeys.push_back(*nextCell);
+		}
+
+		currentCell = (*nextCell);
+		++nextCell;
+	}
+
+	return pathWithTheKeys;
+}
+
+/// Checks if the key is already in the path.
+
+bool Board::keyForTheDoorIsInThePath(Cell* key, DLList<Cell*> & path)
+{
+	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
+	{
+		if ((*iter) == key)
+			return true;
+	}
+
+	return false;
+}
+
+
+/// Returns the key needed to open the given door.
+
+Cell* Board::getKeyForTheDoor(Cell* door)
+{
+	// TO DO: slow searching....
+	for (DLList<Pair<Cell*, Cell*>>::Iterator iter = doorKeyPairs.begin(); iter != doorKeyPairs.end(); ++iter)
+	{
+		if ((*iter).first == door)
+			return (*iter).second;
+	}
+
+	return NULL;
+
 }
