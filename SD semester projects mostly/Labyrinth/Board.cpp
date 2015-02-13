@@ -114,13 +114,13 @@ void Board::printPath(DLList<Cell*> & path)
 	if (path.isEmpty())
 		return;
 
-	//std::cout << path.peek_front()->getSymbol() << " to " << path.peek_back()->getSymbol() << ": ";
+	std::cout << path.peek_front()->getSymbol() << " to " << path.peek_back()->getSymbol() << ": ";
 
 	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
 	{
 		if ((*iter) != NULL)
-			//std::cout << "(" << (*iter)->getIndexRow() << ", " << (*iter)->getIndexCol() << ") ";
-			std::cout << (*iter)->getSymbol() << " ";
+			std::cout << "(" << (*iter)->getIndexRow() << ", " << (*iter)->getIndexCol() << ") ";
+			//std::cout << (*iter)->getSymbol() << " ";
 	}
 
 	std::cout << "\n";
@@ -330,6 +330,9 @@ Cell* Board::getCellAt(int i, int j)
 	else
 		return NULL;
 }
+
+
+
 //
 ///// TO DO delete...
 //
@@ -442,96 +445,212 @@ void Board::BFSResetCellsNeededInfo()
 
 void Board::findPathFromStartToEnd()
 {
-	// Get the paths. They will be doors and keys, but not valid one, no keys taken before the doors.
-	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCells(startCell, endCell);
+	//for (int i = 0; i < 128; ++i)
+	//{
+	//	if (keyForDoor.getCellAt(i))
+	//	{
+	//		std::cout << "Door: " << char(i) << " key " << keyForDoor.getCellAt(i)->getSymbol() << "\n";
+	//	}
 
-	// Goes through all combinations of paths.
-	for (DLList<DLList<Cell*>>::Iterator path = allPaths.begin(); path != allPaths.end(); ++path)
+	//}
+	
+	DLList<Cell*> currPath;
+
+	DLList<Cell*> path = findPath(startCell, endCell, currPath);
+
+	printPath(path);
+}
+
+/// Finds the path between two cells. If the path containts doors, finds the path from the prev cell, to the key for the door cell, and adds it to the path.
+
+/*
+	Path from point - to - point
+
+	If the path has door, searches the path to the key, and adds the path to the key and the reversed one to the current path.
+
+
+*/
+
+DLList<Cell*> Board::findPath(Cell * start, Cell* end, DLList<Cell*> & pathToThisMoment)
+{
+	//std::cout << "Searching path from: " << start->getSymbol() << " to : " << end->getSymbol() << std::endl;
+	//std::cout << "(" << (start)->getIndexRow() << ", " << (start)->getIndexCol() << ") to ";
+	//std::cout << "(" << (end)->getIndexRow() << ", " << (end)->getIndexCol() << ") ";
+	//std::cout << std::endl;
+	
+	DLList<Cell*> path;
+	path.push_back(start);
+
+	bool hasPath = false;
+
+	// Get all posible variants from the start cell to the end cell.
+	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCells(start, end);
+
+	// Check each one if it contains doors, without the keys have been taken yet.
+	for (DLList<DLList<Cell*>>::Iterator currenPath = allPaths.begin(); currenPath != allPaths.end(); ++currenPath)
 	{
+	/*	std::cout << "Maybe path: ";
+		printPath(*currenPath);*/
 		try
 		{
-			// If there is no path between the start and end point(no key for some of the doors) it will throw exeption.
-			DLList<Cell*> pathWithTheKeys = findPath(*path);
+			// Goes through every cell of the path and checks if there is a door, and no key taken for it.
+			DLList<Cell*>::Iterator nextIterOnCurrentPath = (*currenPath).begin();
+			DLList<Cell*>::Iterator iterOnCurrentPath = (*currenPath).begin();
+			++nextIterOnCurrentPath;
 
-			//// Because I dont add start cell in the find function.
-			//pathWithTheKeys.push_front(startCell);
-			
-			// Generate path cell by cell from the special once.
-			printPath(pathWithTheKeys);
-			return;
+
+			while (nextIterOnCurrentPath != (*currenPath).end())
+			{
+
+				// If the cell is a door and the key for that door.
+				if (doors.getCellAt((*nextIterOnCurrentPath)->getSymbol()))
+				{
+					// If there is no key for that door.
+					if (!keyForDoor.getCellAt((*nextIterOnCurrentPath)->getSymbol()))
+					{
+						throw "Cant find the path";
+					}
+
+					// If the key is not already in the path. Searches for the cell before the door, to the key for that door.  O(broq na kletkite v putq, LOSHO!)
+					if (!cellIsAlreadyInThePath((*nextIterOnCurrentPath), pathToThisMoment))
+					{
+						//// deletes the symbol before the door.
+						//path.pop_back();
+
+
+						DLList<Cell*> pathToTheKey;
+						// If there is no path between the start and end point it will throw exeption.
+						pathToTheKey = findPath(*nextIterOnCurrentPath, keyForDoor.getCellAt((*nextIterOnCurrentPath)->getSymbol()), path);
+
+						// Pops the start point, I dont go there.
+						pathToTheKey.pop_front();
+
+						// Adds the path to the key to the current one, and adds the reversed path so it can go back...
+						path += pathToTheKey;
+
+						//pathToTheKey.pop_back();
+						path.push_back_reversed_list(pathToTheKey);
+					}
+				}
+
+//s				if (path.peek_front() != *nextIterOnCurrentPath)
+					path.push_back(*nextIterOnCurrentPath);
+
+			//	printPath(path);
+
+
+				++iterOnCurrentPath;
+				++nextIterOnCurrentPath;
+			}
+
+			hasPath = true;
+			break;
 		}
-		catch (const char * msg)
+		catch (const char* msg)
 		{
 			// invalid path...
 		}
 	}
 
-	throw "Can`t find the path!";
-}
-
-
-DLList<Cell*> Board::findPath(DLList<Cell*> & path)
-{
-	DLList<Cell*> pathWithTheKeys;
-
-	// Goes throuh every cell in the path. Uses 2 iterator, current position and next position.
-	Cell* currentCell = path.peek_front();
-	DLList<Cell*>::Iterator nextCell = path.begin();
-	++nextCell;
-
-	while (nextCell != path.end())
+	if (!hasPath)
 	{
-		// If the nextCell is a door. Finds a path, from the current cell, to the key to that door. 
-		if (doors.getCellAt((*nextCell)->getSymbol()) != NULL)
-		{			
-			// Get all posible variant from the cell, to that door key...		
-			Cell* keyForThatDoor = getKeyForTheDoor(*nextCell);
-		
-			// Checks if the key is already in the path, so dont search it again.
-			if (!cellIsAlreadyInThePath(keyForThatDoor, path))
-			{
-				DLList<DLList<Cell*>> allPathsToThatKey = mapOfSpecialCells->AllPathsBetweenCells(currentCell, keyForThatDoor);
-
-				bool pathToThatDoorFound = false;
-				DLList<Cell*> pathToThatKey;
-
-				// Goes through all combinations of paths to find one. Recursive finds the path and gets the needed keys for to get the needed one.
-				for (DLList<DLList<Cell*>>::Iterator currPathToThatDoor = allPathsToThatKey.begin(); currPathToThatDoor != allPathsToThatKey.end(); ++currPathToThatDoor)
-				{
-					try
-					{
-						// If there is no path between the start and end point(no key for some of the doors) it will throw exeption.
-						pathToThatKey = findPath(*currPathToThatDoor);
-						pathToThatDoorFound = true;
-						break;
-					}
-					catch (const char * msg)
-					{
-						// invalid path...
-					}
-				}
-
-				if (!pathToThatDoorFound)
-					throw "Can`t find a path to that door(cant found the key for the door)";
-
-
-				// Adds the path to that door to the aready existing one.
-				pathWithTheKeys += pathToThatKey;
-
-				//// Make the current cell as the key.
-				//currentCell = keyForThatDoor;
-			}			
-		}
-		else
-		{
-			pathWithTheKeys.push_back(*nextCell);
-		}
-		currentCell = (*nextCell);
-		++nextCell;
+		throw "Cant find the path!";
 	}
 
-	return pathWithTheKeys;
+	return path;
 }
+
+	//			DLList<Cell*> pathToThatKey;
+
+	//			// Goes through all combinations of paths to find one. Recursive finds the path and gets the needed keys for to get the needed one.
+	//			for (DLList<DLList<Cell*>>::Iterator currPathToThatDoor = allPathsToThatKey.begin(); currPathToThatDoor != allPathsToThatKey.end(); ++currPathToThatDoor)
+	//			{
+	//				try
+	//				{
+	//					// If there is no path between the start and end point(no key for some of the doors) it will throw exeption.
+	//					pathToThatKey = findPath(*currPathToThatDoor);
+	//					pathToThatDoorFound = true;
+	//					break;
+	//				}
+	//				catch (const char * msg)
+	//				{
+	//					// invalid path...
+	//				}
+	//			}
+
+	//			if (!pathToThatDoorFound)
+	//				throw "Can`t find a path to that door(cant found the key for the door)";
+
+
+	//			// Adds the path to that door to the aready existing one.
+	//			pathWithTheKeys += pathToThatKey;
+
+	//			//// Make the current cell as the key.
+	//			//currentCell = keyForThatDoor;
+
+
+
+
+
+	//DLList<Cell*> pathWithTheKeys;
+
+	//// Goes throuh every cell in the path. Uses 2 iterator, current position and next position.
+	//Cell* currentCell = path.peek_front();
+	//DLList<Cell*>::Iterator nextCell = path.begin();
+	//++nextCell;
+
+	//while (nextCell != path.end())
+	//{
+	//	// If the nextCell is a door. Finds a path, from the current cell, to the key to that door. 
+	//	if (doors.getCellAt((*nextCell)->getSymbol()) != NULL)
+	//	{			
+	//		// Get all posible variant from the cell, to that door key...		
+	//		Cell* keyForThatDoor = getKeyForTheDoor(*nextCell);
+	//	
+	//		// Checks if the key is already in the path, so dont search it again.
+	//		if (!cellIsAlreadyInThePath(keyForThatDoor, path))
+	//		{
+	//			DLList<DLList<Cell*>> allPathsToThatKey = mapOfSpecialCells->AllPathsBetweenCells(currentCell, keyForThatDoor);
+
+	//			bool pathToThatDoorFound = false;
+	//			DLList<Cell*> pathToThatKey;
+
+	//			// Goes through all combinations of paths to find one. Recursive finds the path and gets the needed keys for to get the needed one.
+	//			for (DLList<DLList<Cell*>>::Iterator currPathToThatDoor = allPathsToThatKey.begin(); currPathToThatDoor != allPathsToThatKey.end(); ++currPathToThatDoor)
+	//			{
+	//				try
+	//				{
+	//					// If there is no path between the start and end point(no key for some of the doors) it will throw exeption.
+	//					pathToThatKey = findPath(*currPathToThatDoor);
+	//					pathToThatDoorFound = true;
+	//					break;
+	//				}
+	//				catch (const char * msg)
+	//				{
+	//					// invalid path...
+	//				}
+	//			}
+
+	//			if (!pathToThatDoorFound)
+	//				throw "Can`t find a path to that door(cant found the key for the door)";
+
+
+	//			// Adds the path to that door to the aready existing one.
+	//			pathWithTheKeys += pathToThatKey;
+
+	//			//// Make the current cell as the key.
+	//			//currentCell = keyForThatDoor;
+	//		}			
+	//	}
+	//	else
+	//	{
+	//		pathWithTheKeys.push_back(*nextCell);
+	//	}
+	//	currentCell = (*nextCell);
+	//	++nextCell;
+	//}
+
+	//return pathWithTheKeys;
 
 /// Checks if the key is already in the path.
 

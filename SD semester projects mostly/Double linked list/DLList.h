@@ -20,6 +20,7 @@ public:
 	void push_front(const T& x);
 	void push_back(const T& x);
 	void push_front_list(const DLList<T>& other);
+	void push_back_reversed_list(const DLList<T>& other);
 	bool isEmpty() const;
 	size_t getSize() const;
 private:
@@ -205,8 +206,32 @@ void DLList<T>::push_front_list(const DLList<T>& other)
 	}
 
 	// Push last element if has one...
-	if (n->prev)
+	if (n->prev != head)
 		push_front(n->prev->data);
+
+}
+
+/// Goes through every cell othe other list and adds it to the this one(from back to beginning), has pointer last, if happenes push_back_reversed(tihs)...
+
+template <class T>
+void DLList<T>::push_back_reversed_list(const DLList<T>& other)
+{
+	if (other.getSize() <= 0)
+		return;
+
+	ElemDLList<T>* n = other.head;
+
+	ElemDLList<T>* last = other.head->next;
+
+	while (n->prev != last)
+	{
+		push_back(n->prev->data);
+		n = n->prev;
+	}
+
+	// Push last element if has one...
+	if (n->prev != head)
+		push_back(n->prev->data);
 }
 
 template <class T>

@@ -12,7 +12,7 @@ int main()
 		
 		try
 		{
-			std::ifstream in("levelTwo.txt");
+			std::ifstream in("levelOne.txt");
 
 			if (!in)
 				throw "Can`t open the file for the level!";
@@ -22,6 +22,42 @@ int main()
 			board.printBoard(std::cout);
 			board.printDoorKeyPairs(std::cout);
 			
+			//DLList<char> tempArray;
+			//tempArray.push_back('a');
+			//tempArray.push_back('b');
+			//tempArray.push_back('c');
+			//tempArray.push_back('d');
+			//tempArray.push_back('e');
+			//tempArray.push_back('f');
+			//tempArray.push_back('g');
+
+
+			//DLList<char> tempArray2;
+			//DLList<char> tempArray3;
+			//tempArray2.push_back('z');
+			//tempArray2.push_back('w');
+
+
+			//for (DLList<char>::Iterator iter = tempArray.begin(); iter != tempArray.end(); ++iter)
+			//{
+			//	if (*iter == 'c')
+			//		tempArray3 += tempArray2;
+			//	else
+			//		tempArray3.push_back(*iter);
+
+			//}
+
+			//for (DLList<char>::Iterator iter = tempArray3.begin(); iter != tempArray3.end(); ++iter)
+			//{
+			//	std::cout << (*iter) << " ";
+
+			//}
+
+			//std::cout << std::endl;
+
+
+
+
 		/*	board.tempPath();*/
 		/*	board.printBoard(std::cout);
 			board.printDoorKeyPairs(std::cout);*/

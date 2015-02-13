@@ -100,24 +100,25 @@ DLList<DLList<Cell*>> Graph::AllPathsBetweenCells(Cell* start, Cell* end)
 {
 	DLList<DLList<Cell*>> allPaths;
 
-	DFSPathsBetweenCells(findNode(start), findNode(end), DLList<Cell*>(), allPaths);
+	DFSPathsBetweenCells(findNode(start), findNode(end), DLList<Cell*>(), DLList<Cell*>(), allPaths);
 
 	BFSResetNodesNeededInfo();
 
 	return allPaths;
 }
 
-void Graph::DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> currPath, DLList<DLList<Cell*>>& allPaths)
+void Graph::DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> & pathToThatCell, DLList<Cell*> currPath, DLList<DLList<Cell*>>& allPaths)
 {
 	if (!startNode || startNode->visited == true)
 		return;
 
 	// Add the path to that cell to the current path.
-	currPath.push_back(startNode->cell);
+	currPath += pathToThatCell;
 
 	// If we are at the needed one(node), adds the path to the all paths and returns.
 	if (startNode->cell == endNode->cell)
 	{
+		currPath.push_back(endNode->cell); // Adds the last cell, because the path has the start cell, inbetween cells and not the last one.
 		allPaths.push_back(currPath);
 	}
 
@@ -128,7 +129,7 @@ void Graph::DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> c
 	for (DLList<Pair<Node*, DLList<Cell*>>>::Iterator iter = startNode->sons.begin(); iter != startNode->sons.end(); ++iter)
 	{
 		if ((*iter).first->visited == false)
-			DFSPathsBetweenCells((*iter).first, endNode, currPath, allPaths);
+			DFSPathsBetweenCells((*iter).first, endNode, (*iter).second, currPath, allPaths);
 	}
 
 	startNode->visited = false;

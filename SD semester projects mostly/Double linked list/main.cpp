@@ -96,7 +96,24 @@ void testing()
 	{
 		std::cout << "Catched error: " << msg << std::endl;
 	}
+	std::cout << "PUSH BACK REVERSED" << std::endl;
 
+
+	DLList<int> listForPushBackReversed;
+	listForPushBackReversed.push_back(1);
+	listForPushBackReversed.push_back(2);
+	listForPushBackReversed.push_back(3);
+	listForPushBackReversed.push_back(4); 
+	DLList<int> listForPushBackReversed2;
+	listForPushBackReversed2.push_back(10);
+	listForPushBackReversed2.push_back(20);
+	listForPushBackReversed2.push_back(30);
+
+	listForPushBackReversed.push_back_reversed_list(listForPushBackReversed2);
+	for (DLList<int>::Iterator it = listForPushBackReversed.begin(); it != listForPushBackReversed.end(); ++it)
+	{
+		std::cout << "El = " << *it << std::endl;
+	}
 }
 int main()
 {

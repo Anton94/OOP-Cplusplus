@@ -41,7 +41,7 @@ public:
 	~Graph();
 private:
 	DLList<DLList<Cell*>> BFSAllPathsBetweenCells(Cell* start, Cell* end);
-	void DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> currPath, DLList<DLList<Cell*>>& allPaths);
+	void DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> & pathToThatCell, DLList<Cell*> currPath, DLList<DLList<Cell*>>& allPaths);
 
 
 
