@@ -53,6 +53,7 @@ private:
 	void BFSAddNeighbour(Cell* start, Cell* current, Cell* neighbour, Queue<Cell*>& queue);
 	void BFSResolveThaPath(Cell* current, Cell* neighbour, Cell* start, DLList<Cell*> & path);
 	void BFSResetCellsNeededInfo();
+	bool isSpecialCell(Cell * cell);
 private:
 	BoardSymbols boardSymbols;
 	Vector<Vector<Cell>> board;

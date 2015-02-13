@@ -118,9 +118,9 @@ void Board::printPath(DLList<Cell*> & path)
 
 	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
 	{
-		if ((*iter) != NULL)
-			std::cout << "(" << (*iter)->getIndexRow() << ", " << (*iter)->getIndexCol() << ") ";
-			//std::cout << (*iter)->getSymbol() << " ";
+		if ((*iter) != NULL && isSpecialCell(*iter))
+			//std::cout << "(" << (*iter)->getIndexRow() << ", " << (*iter)->getIndexCol() << ") ";
+			std::cout << (*iter)->getSymbol() << " ";
 	}
 
 	std::cout << "\n";
@@ -389,7 +389,7 @@ void Board::BFSAddNeighbour(Cell* start, Cell* current, Cell* neighbour, Queue<C
 	if (neighbour->getVisited() == false)
 	{
 		// If the neighbour cell is special one (door or key) we add it as a EDGE to the graph and we assume that it`s not walkable field.
-		if (doors.getCellAt(neighbour->getSymbol()) || keys.getCellAt(neighbour->getSymbol()) || neighbour == startCell || neighbour == endCell)
+		if (isSpecialCell(neighbour))
 		{
 			DLList<Cell*> path;
 
@@ -466,7 +466,7 @@ void Board::findPathFromStartToEnd()
 /*
 	Path from point - to - point
 
-	If the path has door, searches the path to the key, and adds the path to the key and the reversed one to the current path.
+	Saves the path of special cells, and after that gets the direct path between them , if has any...
 
 
 */
@@ -497,6 +497,8 @@ DLList<Cell*> Board::findPath(Cell * start, Cell* end, DLList<Cell*> & pathToThi
 			DLList<Cell*>::Iterator nextIterOnCurrentPath = (*currenPath).begin();
 			DLList<Cell*>::Iterator iterOnCurrentPath = (*currenPath).begin();
 			++nextIterOnCurrentPath;
+
+			Cell * startingPoint = start;
 
 
 			while (nextIterOnCurrentPath != (*currenPath).end())
@@ -533,7 +535,7 @@ DLList<Cell*> Board::findPath(Cell * start, Cell* end, DLList<Cell*> & pathToThi
 					}
 				}
 
-//s				if (path.peek_front() != *nextIterOnCurrentPath)
+//				if (path.peek_front() != *nextIterOnCurrentPath)
 					path.push_back(*nextIterOnCurrentPath);
 
 			//	printPath(path);
@@ -671,4 +673,16 @@ bool Board::cellIsAlreadyInThePath(Cell* cell, DLList<Cell*> & path)
 Cell* Board::getKeyForTheDoor(Cell* door)
 {
 	return keyForDoor.getCellAt(door->getSymbol());
+}
+
+/// Checks if the given cell is special one(door, key, start , end).
+
+bool Board::isSpecialCell(Cell * cell)
+{
+	if (doors.getCellAt(cell->getSymbol()) || keys.getCellAt(cell->getSymbol()) || cell == startCell || cell == endCell)
+	{
+		return true;
+	}
+
+	return false;
 }
