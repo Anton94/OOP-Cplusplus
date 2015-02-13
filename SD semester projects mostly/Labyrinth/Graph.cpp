@@ -94,37 +94,36 @@ void Graph::free()
 
 /// Returns all paths (NOT ALL)from start cell, to the end cell, when it walks only on doors. Returns a list of all the paths, which are cells (doors). NOTE: Dont goest through already taken nodes.
 
-DLList<DLList<Cell*>> Graph::BFSAllPathsBetweenCells(Cell* start, Cell* end)
+/// Find all paths
+
+DLList<DLList<Cell*>> Graph::AllPathsBetweenCells(Cell* start, Cell* end)
 {
 	DLList<DLList<Cell*>> allPaths;
 
-	Board* board = start->getOwner();
+	DFSPathsBetweenCells(start, end, DLList<Cell*>(), allPaths);
 
+	return allPaths;
+}
+
+void Graph::DFSPathsBetweenCells(Node* start, Node* end, DLList<Cell*>  currPath, DLList<DLList<Cell*>>& allPaths)
+{
+	Board* board = start->getOwner();
 	Node * startNode = findNode(start);
 	Node * endNode = findNode(end);
 
+	currPath.push_back(start);
+
 	// Start or end cell is not in the graph... or the owners of the two cells are diferent.
 	if (!startNode || !endNode || board != end->getOwner())
-		return allPaths;
+		return;
 
-	Queue<Node*> queue;
-
-	queue.enqueue(startNode);
 	startNode->visited = true;
-
-	while (!queue.isEmpty())
+	for (DLList<Pair<Node*, DLList<Cell*>>>::Iterator iter = startNode->sons.begin(); iter != startNode->sons.end(); ++iter)
 	{
-		Node* currentNode = queue.dequeue();
-
-		for (DLList<Pair<Node*, DLList<Cell*>>>::Iterator iter = currentNode->sons.begin(); iter != currentNode->sons.end(); ++iter)
-		{
-			BFSAddNeighbour(board, startNode, endNode, currentNode, (*iter).first, queue, allPaths);
-		}
+		DFSPathsBetweenCells((*oter))
 	}
 
-	BFSResetNodesNeededInfo();
-
-	return allPaths;
+	startNode->visited = false;
 }
 
 /// 

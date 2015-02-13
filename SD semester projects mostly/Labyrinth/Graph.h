@@ -25,15 +25,23 @@ class Graph
 		bool visited;
 		Node * parent;
 
+		int code;
+
 		Node(Cell * cell);
 	};
 
+	
 	DLList<Node*> allNodes;
 public:
 	Graph(){};
 	void insertEdge(Cell* source, Cell* dest, DLList<Cell*>& path);
 	void print(std::ostream& out); // Prints all edges between cells and the paths...
 	DLList<DLList<Cell*>> BFSAllPathsBetweenCells(Cell* start, Cell* end);
+
+
+	void DFSPathsBetweenCells(Cell* start, Cell* end, DLList<Cell*> currPath, DLList<DLList<Cell*>>& allPaths);
+
+	DLList<DLList<Cell*>> AllPathsBetweenCells(Cell* start, Cell* end);
 	~Graph();
 private:
 	Graph::Node* findNode(const Cell* cell); // Finds the node, which represents the given cell... if there is no, returns NULL... it returns pointer to node, so it`s not very constant function.
