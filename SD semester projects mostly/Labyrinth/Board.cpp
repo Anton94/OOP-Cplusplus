@@ -99,7 +99,7 @@ void Board::deserialize(std::istream& in)
 	generateMapOfSpecialCells();
 
 
-	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->BFSAllPathsBetweenCells(startCell, endCell);
+	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCells(startCell, endCell);
 
 	for (DLList<DLList<Cell*>>::Iterator iter = allPaths.begin(); iter != allPaths.end(); ++iter)
 	{
@@ -290,9 +290,11 @@ void Board::makeDoorKeyPairs(std::istream& in, Map_Char_pCell & specialCells)
 			keys.setCellAt(c, currPair.second);
 
 			// Now adds the current  pair to the list of pairs.
-
 			doorKeyPairs.push_back(currPair);
 
+			// Now adds the key for the door, if the door is not space. On the position of the door, sets the pointer to the key cell!
+			if (currPair.first)
+				keyForDoor.setCellAt(currPair.first->getSymbol(), currPair.second);
 		}
 	}
 
@@ -408,8 +410,8 @@ void Board::BFSAddNeighbour(Cell* start, Cell* current, Cell* neighbour, Queue<C
 
 void Board::BFSResolveThaPath(Cell* current, Cell* neighbour, Cell* start, DLList<Cell*> & path)
 {
-	// Adds the ending cell.
-	path.push_front(neighbour);
+	//// Adds the ending cell.
+	//path.push_front(neighbour);
 
 	while (current && current->getParent() && current != start)
 	{
@@ -441,7 +443,7 @@ void Board::BFSResetCellsNeededInfo()
 void Board::findPathFromStartToEnd()
 {
 	// Get the paths. They will be doors and keys, but not valid one, no keys taken before the doors.
-	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->BFSAllPathsBetweenCells(startCell, endCell);
+	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCells(startCell, endCell);
 
 	// Goes through all combinations of paths.
 	for (DLList<DLList<Cell*>>::Iterator path = allPaths.begin(); path != allPaths.end(); ++path)
@@ -488,7 +490,7 @@ DLList<Cell*> Board::findPath(DLList<Cell*> & path)
 			// Checks if the key is already in the path, so dont search it again.
 			if (!cellIsAlreadyInThePath(keyForThatDoor, path))
 			{
-				DLList<DLList<Cell*>> allPathsToThatKey = mapOfSpecialCells->BFSAllPathsBetweenCells(currentCell, keyForThatDoor);
+				DLList<DLList<Cell*>> allPathsToThatKey = mapOfSpecialCells->AllPathsBetweenCells(currentCell, keyForThatDoor);
 
 				bool pathToThatDoorFound = false;
 				DLList<Cell*> pathToThatKey;
@@ -549,13 +551,5 @@ bool Board::cellIsAlreadyInThePath(Cell* cell, DLList<Cell*> & path)
 
 Cell* Board::getKeyForTheDoor(Cell* door)
 {
-	// TO DO: slow searching....
-	for (DLList<Pair<Cell*, Cell*>>::Iterator iter = doorKeyPairs.begin(); iter != doorKeyPairs.end(); ++iter)
-	{
-		if ((*iter).first == door)
-			return (*iter).second;
-	}
-
-	return NULL;
-
+	return keyForDoor.getCellAt(door->getSymbol());
 }

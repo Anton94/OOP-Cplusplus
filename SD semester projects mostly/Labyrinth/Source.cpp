@@ -45,7 +45,7 @@ int main()
 
 			graph.print(std::cout);
 
-			DLList<DLList<Cell*>> allPaths = graph.BFSAllPathsBetweenCells(&cell2, &cell3);
+			DLList<DLList<Cell*>> allPaths = graph.AllPathsBetweenCells(&cell2, &cell3);
 
 			allPaths.getSize();
 
@@ -60,6 +60,7 @@ int main()
 
 				std::cout << "\n";
 			}*/
+
 			std::cout << "\n\n\n";
 			board.findPathFromStartToEnd();
 		
