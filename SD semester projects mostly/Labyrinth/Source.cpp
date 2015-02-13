@@ -4,9 +4,6 @@
 #include "Board.h"
 #include "Graph.h"
 
-#define HEIGHT 10
-#define WIDTH 1000
-
 int main()
 {
 	_CrtMemState s1, s2, s3;
@@ -15,7 +12,7 @@ int main()
 		
 		try
 		{
-			std::ifstream in("levelThree.txt");
+			std::ifstream in("levelOne.txt");
 			if (!in)
 				throw "Can`t open the file for the level!";
 
