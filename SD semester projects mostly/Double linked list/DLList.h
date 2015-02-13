@@ -186,24 +186,27 @@ void DLList<T>::push_back(const T& x)
 	++size;
 }
 
-/// Goes through every cell othe other list and adds it to the this one, has pointer last, if happenes push_front_list(tihs)...
+/// Goes through every cell othe other list and adds it to the this one(from back to beginning), has pointer last, if happenes push_front_list(tihs)...
 
 template <class T>
 void DLList<T>::push_front_list(const DLList<T>& other)
 {
+	if (other.getSize() <= 0)
+		return;
+
 	ElemDLList<T>* n = other.head;
 
-	ElemDLList<T>* last = other.head->prev;
+	ElemDLList<T>* last = other.head->next;
 
-	while (n->next != last)
+	while (n->prev != last)
 	{
-		push_front(n->next->data);
-		n = n->next;
+		push_front(n->prev->data);
+		n = n->prev;
 	}
 
 	// Push last element if has one...
-	if (n->next)
-		push_back(n->next->data);
+	if (n->prev)
+		push_front(n->prev->data);
 }
 
 template <class T>
@@ -281,6 +284,9 @@ void DLList<T>::free()
 template <class T>
 void DLList<T>::copyFrom(const DLList<T>& other)
 {
+	if (other.getSize() <= 0)
+		return;
+
 	ElemDLList<T>* n = other.head;
 
 	ElemDLList<T>* last = other.head->prev;

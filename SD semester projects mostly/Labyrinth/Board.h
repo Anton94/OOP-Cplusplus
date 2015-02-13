@@ -40,7 +40,7 @@ public:
 	~Board();
 private:
 	DLList<Cell*> findPath(DLList<Cell*> & path);
-	bool keyForTheDoorIsInThePath(Cell* key, DLList<Cell*> & path);
+	bool cellIsAlreadyInThePath(Cell* key, DLList<Cell*> & path);
 	Cell* getKeyForTheDoor(Cell* door);
 	Cell* getCellAt(int i, int j);
 	void getDimensions(std::istream& in, int& rows, int& cols) const;

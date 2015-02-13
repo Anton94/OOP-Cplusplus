@@ -111,11 +111,16 @@ void Board::deserialize(std::istream& in)
 
 void Board::printPath(DLList<Cell*> & path)
 {
-	std::cout << path.peek_front()->getSymbol() << " to " << path.peek_back()->getSymbol() << ": ";
+	if (path.isEmpty())
+		return;
+
+	//std::cout << path.peek_front()->getSymbol() << " to " << path.peek_back()->getSymbol() << ": ";
 
 	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
 	{
-		std::cout << (*iter)->getSymbol() << " ";
+		if ((*iter) != NULL)
+			//std::cout << "(" << (*iter)->getIndexRow() << ", " << (*iter)->getIndexCol() << ") ";
+			std::cout << (*iter)->getSymbol() << " ";
 	}
 
 	std::cout << "\n";
@@ -446,8 +451,8 @@ void Board::findPathFromStartToEnd()
 			// If there is no path between the start and end point(no key for some of the doors) it will throw exeption.
 			DLList<Cell*> pathWithTheKeys = findPath(*path);
 
-			// Because I dont add start cell in the find function.
-			pathWithTheKeys.push_front(startCell);
+			//// Because I dont add start cell in the find function.
+			//pathWithTheKeys.push_front(startCell);
 			
 			// Generate path cell by cell from the special once.
 			printPath(pathWithTheKeys);
@@ -481,7 +486,7 @@ DLList<Cell*> Board::findPath(DLList<Cell*> & path)
 			Cell* keyForThatDoor = getKeyForTheDoor(*nextCell);
 		
 			// Checks if the key is already in the path, so dont search it again.
-			if (!keyForTheDoorIsInThePath(keyForThatDoor, path))
+			if (!cellIsAlreadyInThePath(keyForThatDoor, path))
 			{
 				DLList<DLList<Cell*>> allPathsToThatKey = mapOfSpecialCells->BFSAllPathsBetweenCells(currentCell, keyForThatDoor);
 
@@ -507,19 +512,18 @@ DLList<Cell*> Board::findPath(DLList<Cell*> & path)
 				if (!pathToThatDoorFound)
 					throw "Can`t find a path to that door(cant found the key for the door)";
 
+
 				// Adds the path to that door to the aready existing one.
 				pathWithTheKeys += pathToThatKey;
 
-				// Make the current cell as the key.
-				currentCell = keyForThatDoor;
+				//// Make the current cell as the key.
+				//currentCell = keyForThatDoor;
 			}			
 		}
-		// The cell is not a door, it can go through it without any problem.
 		else
 		{
 			pathWithTheKeys.push_back(*nextCell);
 		}
-
 		currentCell = (*nextCell);
 		++nextCell;
 	}
@@ -529,11 +533,11 @@ DLList<Cell*> Board::findPath(DLList<Cell*> & path)
 
 /// Checks if the key is already in the path.
 
-bool Board::keyForTheDoorIsInThePath(Cell* key, DLList<Cell*> & path)
+bool Board::cellIsAlreadyInThePath(Cell* cell, DLList<Cell*> & path)
 {
 	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
 	{
-		if ((*iter) == key)
+		if ((*iter) == cell)
 			return true;
 	}
 

@@ -157,12 +157,12 @@ void Graph::BFSAddNeighbour(Board * board, Node* startNode, Node * endNode, Node
 	}
 }
 
-/// Goes through every node and adds the cell pointer to the path.
+/// Goes through every cell and fints its parent, and when it finds it, takse tha path from the parent to him
 
 void Graph::BFSResolveThaPath(Node* currentNode, Node* neighbourNode, Node* startNode, DLList<Cell*> & path)
 {
 	// Push front because it`s in reverce order...
-	
+
 	// Adds the ending cell.
 	path.push_front(neighbourNode->cell);
 
@@ -185,4 +185,21 @@ void Graph::BFSResetNodesNeededInfo()
 		(*iter)->visited = false;
 		(*iter)->parent = NULL;
 	}
+}
+
+/// Gets the path between the 2 nodes(direct one!). (if not found, returns empty one).
+
+DLList<Cell*> Graph::getPathBetweenTwoNodes(Node * parent, Node * child)
+{
+	if (!parent || !child)
+		return DLList<Cell*>();
+
+	// Goes through every son to find the needed one...
+	for (DLList<Pair<Node*, DLList<Cell*>>>::Iterator iter = parent->sons.begin(); iter != parent->sons.end(); ++iter)
+	{
+		if ((*iter).first == child)
+			return (*iter).second;
+	}
+
+	return DLList<Cell*>();
 }

@@ -42,6 +42,7 @@ private:
 	void BFSAddNeighbour(Board * board, Node* startNode, Node * endNode, Node* currentNode, Node* neighbourNode, Queue<Node*>& queue, DLList<DLList<Cell*>> & allPaths);
 	void BFSResolveThaPath(Node* currentNode, Node* neighbourNode, Node* startNode, DLList<Cell*> & path);
 	void BFSResetNodesNeededInfo();
+	DLList<Cell*> getPathBetweenTwoNodes(Node * parent, Node * child);
 private:
 	void free();
 };

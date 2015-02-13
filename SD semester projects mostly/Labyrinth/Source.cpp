@@ -15,7 +15,7 @@ int main()
 		
 		try
 		{
-			std::ifstream in("levelTwo.txt");
+			std::ifstream in("levelThree.txt");
 			if (!in)
 				throw "Can`t open the file for the level!";
 
