@@ -35,11 +35,16 @@ public:
 	void deserialize(std::istream& in);
 	void printBoard(std::ostream& out) const; 
 	void printDoorKeyPairs(std::ostream& out) const;
-	void findPathFromStartToEnd();
+	DLList<Cell*> findPathFromStartToEnd();
 	//void tempPath();
 	~Board();
 private:
-	DLList<Cell*> findPath(Cell * startCell, Cell* endCell, DLList<Cell*> & currentPath, Map_Char_pCell & bannedCells);
+	DLList<Cell*> findPath(Cell * startCell, Cell* endCell);
+
+	void addToBannedCellsIfDoor(DLList<Cell*>& path, Map_Char_pCell& bannedCells);
+
+
+
 	bool cellIsAlreadyInThePath(Cell* key, DLList<Cell*> & path);
 	Cell* getKeyForTheDoor(Cell* door);
 	Cell* getCellAt(int i, int j);
@@ -69,5 +74,5 @@ private:
 	Board(const Board& board);
 	Board& operator=(const Board& board);
 
-	void Board::printPath(DLList<Cell*> & path); 
 };
+void printPath(DLList<Cell*> & path);

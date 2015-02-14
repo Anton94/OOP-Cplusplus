@@ -4,6 +4,12 @@
 #include "Board.h"
 #include "Graph.h"
 
+void f(DLList<int>& list)
+{
+	list.push_back(1);
+	std::cout << list.peek_back() << std::endl;
+}
+
 int main()
 {
 	_CrtMemState s1, s2, s3;
@@ -12,7 +18,7 @@ int main()
 		
 		try
 		{
-			std::ifstream in("levelFour.txt");
+			std::ifstream in("levelOne.txt");
 
 			if (!in)
 				throw "Can`t open the file for the level!";
@@ -23,8 +29,9 @@ int main()
 			board.printDoorKeyPairs(std::cout);
 
 			std::cout << "\n\n\n";
-			board.findPathFromStartToEnd();
-			
+
+			DLList<Cell*> path = board.findPathFromStartToEnd();
+			printPath(path);
 
 			//for (DLList<char>::Iterator iter = tempArray3.begin(); iter != tempArray3.end(); ++iter)
 			//{
@@ -79,7 +86,6 @@ int main()
 				std::cout << "\n";
 			}*/
 
-		
 		}
 		catch (const char * str)
 		{
