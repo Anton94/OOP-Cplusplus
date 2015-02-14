@@ -35,7 +35,7 @@ public:
 	void deserialize(std::istream& in);
 	void printBoard(std::ostream& out) const; 
 	void printDoorKeyPairs(std::ostream& out) const;
-	DLList<Cell*> findPathFromStartToEnd();
+	char * findPathFromStartToEnd();
 	//void tempPath();
 	~Board();
 private:
@@ -43,6 +43,7 @@ private:
 
 	void addToBannedCellsIfDoor(DLList<Cell*>& path, Map_Char_pCell& bannedCells);
 
+	char * convertCellsToDirectionSymbols(DLList<Cell*> & path);
 
 
 	bool cellIsAlreadyInThePath(Cell* key, DLList<Cell*> & path);

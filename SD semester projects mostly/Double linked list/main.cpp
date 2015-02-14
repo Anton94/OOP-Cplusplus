@@ -117,6 +117,8 @@ void testing()
 
 	/// TESTS operator+= and iterator stuff...
 
+	std::cout << "Test operator += and iterator stuff." << std::endl;
+
 	DLList<char> tempArray;
 	tempArray.push_back('a');
 	tempArray.push_back('b');
@@ -126,12 +128,10 @@ void testing()
 	tempArray.push_back('f');
 	tempArray.push_back('g');
 
-
 	DLList<char> tempArray2;
 	DLList<char> tempArray3;
 	tempArray2.push_back('z');
 	tempArray2.push_back('w');
-
 
 	for (DLList<char>::Iterator iter = tempArray.begin(); iter != tempArray.end(); ++iter)
 	{
@@ -139,8 +139,15 @@ void testing()
 			tempArray3 += tempArray2;
 		else
 			tempArray3.push_back(*iter);
+	}
+
+	for (DLList<char>::Iterator iter = tempArray3.begin(); iter != tempArray3.end(); ++iter)
+	{
+		std::cout << (*iter) << " ";
 
 	}
+
+	std::cout << std::endl;
 }
 int main()
 {

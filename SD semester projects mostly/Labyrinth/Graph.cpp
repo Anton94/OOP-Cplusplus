@@ -164,15 +164,6 @@ void Graph::DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> &
 
 
 
-
-/// Returns the path between the two cells (if there is no DIRECT path, returns empty list).
-
-DLList<Cell*> Graph::getDirectPathBetweenTwoCells(Cell * parent, Cell * child)
-{
-	return getDirectPathBetweenTwoNodes(findNode(parent), findNode(child));
-}
-
-
 /// Gets the path between the 2 nodes(direct one!). (if not found, returns empty one).
 
 DLList<Cell*> Graph::getDirectPathBetweenTwoNodes(Node * parent, Node * child)
@@ -241,6 +232,15 @@ DLList<Cell*> Graph::getFullPathFromSpecialCells(DLList<Cell*> & pathOfSpecialCe
 ///
 
 
+
+//
+//
+///// Returns the path between the two cells (if there is no DIRECT path, returns empty list).
+//
+//DLList<Cell*> Graph::getDirectPathBetweenTwoCells(Cell * parent, Cell * child)
+//{
+//	return getDirectPathBetweenTwoNodes(findNode(parent), findNode(child));
+//}
 
 
 //

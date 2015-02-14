@@ -334,27 +334,6 @@ Cell* Board::getCellAt(int i, int j)
 		return NULL;
 }
 
-
-
-//
-///// TO DO delete...
-//
-//void Board::tempPath()
-//{
-//	DLList<Cell*> path = AStar::pathFinder(startCell, endCell, &Cell::getWalkableWithoutWallsAndDoors);
-//
-//
-//	if (path.isEmpty())
-//		std::cout << "NO PATH FOUND!" << std::endl;
-//
-//	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
-//	{
-//		(*iter)->setSymbol('+');
-//	}
-//}
-
-
-
 /// Starts BFS with no target cell, and if it goes through other special cell, adds the edge to the map of special cells.(graph).
 
 void Board::BFS(Cell * start)
@@ -446,23 +425,37 @@ void Board::BFSResetCellsNeededInfo()
 	}
 }
 
-DLList<Cell*> Board::findPathFromStartToEnd()
-{
-	//for (int i = 0; i < 128; ++i)
-	//{
-	//	if (keyForDoor.getCellAt(i))
-	//	{
-	//		std::cout << "Door: " << char(i) << " key " << keyForDoor.getCellAt(i)->getSymbol() << "\n";
-	//	}
-
-	//}
-	
+char * Board::findPathFromStartToEnd()
+{	
 	// This path contains only the special cells.
 	DLList<Cell*> pathOfSpecialCells = findPath(startCell, endCell);
 
-
 	// Extract the full path from the special cells (as direct paths between them). Returns it.
-	return mapOfSpecialCells->getFullPathFromSpecialCells(pathOfSpecialCells);
+	DLList<Cell* > fullPath = mapOfSpecialCells->getFullPathFromSpecialCells(pathOfSpecialCells);
+
+	return convertCellsToDirectionSymbols(fullPath);
+}
+
+/// Converst a list of cells to direction symbols. 
+
+char * Board::convertCellsToDirectionSymbols(DLList<Cell*> & path)
+{
+	char * stringPath = new char[path.getSize()]; // from start to the end, but not start, so getSize() - 1 + 1('\0');
+	char * pStringPath = stringPath;
+	Cell* prevCell = path.peek_front();
+
+	// ++path to skip the first symbol.
+	for (DLList<Cell*>::Iterator iterCell = ++path.begin(); iterCell != path.end(); ++iterCell)
+	{
+	//	(*iterCell)->setSymbol('+');
+		*pStringPath = prevCell->getDirectionToCell((*iterCell));
+		++pStringPath;
+		prevCell = *iterCell;
+	}
+
+	*pStringPath = '\0';
+
+	return stringPath;
 }
 
 /*
@@ -512,7 +505,6 @@ DLList<Cell*> Board::findPath(Cell * start, Cell* end)
 			return *currentPath;
 	}
 
-
 	// If it goes to here, that means that it can`t find the path.
 	throw "Path not found!";
 }
@@ -537,6 +529,35 @@ bool Board::isSpecialCell(Cell * cell)
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /// TO DO : DELETE THIS ONE.
 /// Goest through every cell and prints it.
 
@@ -550,12 +571,32 @@ void printPath(DLList<Cell*> & path)
 	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
 	{
 		if ((*iter) != NULL)
-			std::cout << "(" << (*iter)->getIndexRow() << ", " << (*iter)->getIndexCol() << ") ";
-			//std::cout << (*iter)->getSymbol() << " ";
+			//std::cout << "(" << (*iter)->getIndexRow() << ", " << (*iter)->getIndexCol() << ") ";
+			std::cout << (*iter)->getSymbol() << " ";
 	}
 
 	std::cout << "\n";
 }
+
+
+
+//
+///// TO DO delete...
+//
+//void Board::tempPath()
+//{
+//	DLList<Cell*> path = AStar::pathFinder(startCell, endCell, &Cell::getWalkableWithoutWallsAndDoors);
+//
+//
+//	if (path.isEmpty())
+//		std::cout << "NO PATH FOUND!" << std::endl;
+//
+//	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
+//	{
+//		(*iter)->setSymbol('+');
+//	}
+//}
+
 
 /// TO DO : DELETES IT
 

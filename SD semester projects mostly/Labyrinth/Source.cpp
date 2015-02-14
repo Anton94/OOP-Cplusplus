@@ -1,90 +1,70 @@
+/*
+
+
+
+Github project: https://github.com/Anton94/OOP-Cplusplus/tree/master/SD%20semester%20projects%20mostly
+
+
+
+
+*/
+
+
+
 #include <iostream>
 #include <fstream>
 #include "../Vector/Vector.h"
 #include "Board.h"
 #include "Graph.h"
 
-void f(DLList<int>& list)
-{
-	list.push_back(1);
-	std::cout << list.peek_back() << std::endl;
-}
-
-int main()
+int main(int argc, char* argv[])
 {
 	_CrtMemState s1, s2, s3;
 	_CrtMemCheckpoint(&s1);
-	{
-		
+	{		
 		try
 		{
-			std::ifstream in("levelOne.txt");
+			//DLList<char> pathForAllLevels;
+			// Goes through every 
+			for (int fileNameIndex = 1; fileNameIndex < argc; ++fileNameIndex)
+			{
+				std::ifstream in(argv[fileNameIndex]);
+				if (!in)
+					throw "Can`t open the file for the level!";
 
-			if (!in)
-				throw "Can`t open the file for the level!";
+				Board board;
+				board.deserialize(in);
+				board.printBoard(std::cout);
+				board.printDoorKeyPairs(std::cout);
 
-			Board board;
-			board.deserialize(in);
-			board.printBoard(std::cout);
-			board.printDoorKeyPairs(std::cout);
+				std::cout << "\n\n\n";
 
-			std::cout << "\n\n\n";
+				char * path = board.findPathFromStartToEnd();
+				board.printBoard(std::cout);
+				std::cout << "\n";
+				std::cout << path << std::endl;
+				delete[] path;
+				// make it to char symbols.
+				//pathForAllLevels += path;
+			}
 
-			DLList<Cell*> path = board.findPathFromStartToEnd();
-			printPath(path);
-
-			//for (DLList<char>::Iterator iter = tempArray3.begin(); iter != tempArray3.end(); ++iter)
-			//{
-			//	std::cout << (*iter) << " ";
-
-			//}
-
-			//std::cout << std::endl;
-
+			// TO DO : deleted cells..
+			std::cout << "Path for whole leves: ";
+		//	printPath(pathForAllLevels);
 
 
 
-		/*	board.tempPath();*/
-		/*	board.printBoard(std::cout);
-			board.printDoorKeyPairs(std::cout);*/
+
+
+
+
+
+
 			
 
-			/// TESTS THE GRAPH WITH 2 PATCHS TO THE END CELL
 
-			/*Cell cell1, cell2, cell3, cell4, cell5;
-			cell1.setSymbol('*');
-			cell2.setSymbol('!');
-			cell3.setSymbol('1');
-			cell4.setSymbol('2');
-			cell5.setSymbol('3');
+			
 
-			Graph graph;
-			graph.insertEdge(&cell1, &cell5, DLList<Cell*>());
-
-			graph.insertEdge(&cell2, &cell1, DLList<Cell*>());
-			graph.insertEdge(&cell2, &cell4, DLList<Cell*>());
-
-			graph.insertEdge(&cell4, &cell5, DLList<Cell*>());
-			 
-			graph.insertEdge(&cell5, &cell3, DLList<Cell*>());
-
-			graph.print(std::cout);
-
-			DLList<DLList<Cell*>> allPaths = graph.AllPathsBetweenCells(&cell2, &cell3);
-
-			allPaths.getSize();
-
-			for (DLList<DLList<Cell*>>::Iterator iter = allPaths.begin(); iter != allPaths.end(); ++iter)
-			{
-				std::cout << (*iter).peek_front()->getSymbol() << " to " << (*iter).peek_back()->getSymbol() << " :";
-				
-				for (DLList<Cell*>::Iterator path = (*iter).begin(); path != (*iter).end(); ++path)
-				{
-					std::cout << (*path)->getSymbol() << " ";
-				}
-
-				std::cout << "\n";
-			}*/
 
 		}
 		catch (const char * str)
@@ -107,3 +87,43 @@ int main()
 	}
 	return 0;
 }
+
+
+
+
+/// TESTS THE GRAPH WITH 2 PATCHS TO THE END CELL
+
+/*Cell cell1, cell2, cell3, cell4, cell5;
+cell1.setSymbol('*');
+cell2.setSymbol('!');
+cell3.setSymbol('1');
+cell4.setSymbol('2');
+cell5.setSymbol('3');
+
+Graph graph;
+graph.insertEdge(&cell1, &cell5, DLList<Cell*>());
+
+graph.insertEdge(&cell2, &cell1, DLList<Cell*>());
+graph.insertEdge(&cell2, &cell4, DLList<Cell*>());
+
+graph.insertEdge(&cell4, &cell5, DLList<Cell*>());
+
+graph.insertEdge(&cell5, &cell3, DLList<Cell*>());
+
+graph.print(std::cout);
+
+DLList<DLList<Cell*>> allPaths = graph.AllPathsBetweenCells(&cell2, &cell3);
+
+allPaths.getSize();
+
+for (DLList<DLList<Cell*>>::Iterator iter = allPaths.begin(); iter != allPaths.end(); ++iter)
+{
+std::cout << (*iter).peek_front()->getSymbol() << " to " << (*iter).peek_back()->getSymbol() << " :";
+
+for (DLList<Cell*>::Iterator path = (*iter).begin(); path != (*iter).end(); ++path)
+{
+std::cout << (*path)->getSymbol() << " ";
+}
+
+std::cout << "\n";
+}*/
