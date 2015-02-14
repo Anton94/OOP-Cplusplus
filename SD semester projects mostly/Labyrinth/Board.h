@@ -61,6 +61,7 @@ private:
 	Cell* endCell;
 	DLList<Pair<Cell*, Cell*>> doorKeyPairs;
 	Map_Char_pCell keyForDoor;
+	Map_Char_pCell doorForKey;
 	Map_Char_pCell doors;
 	Map_Char_pCell keys;
 	Graph * mapOfSpecialCells;

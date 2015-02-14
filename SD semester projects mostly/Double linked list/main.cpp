@@ -114,6 +114,33 @@ void testing()
 	{
 		std::cout << "El = " << *it << std::endl;
 	}
+
+	/// TESTS operator+= and iterator stuff...
+
+	DLList<char> tempArray;
+	tempArray.push_back('a');
+	tempArray.push_back('b');
+	tempArray.push_back('c');
+	tempArray.push_back('d');
+	tempArray.push_back('e');
+	tempArray.push_back('f');
+	tempArray.push_back('g');
+
+
+	DLList<char> tempArray2;
+	DLList<char> tempArray3;
+	tempArray2.push_back('z');
+	tempArray2.push_back('w');
+
+
+	for (DLList<char>::Iterator iter = tempArray.begin(); iter != tempArray.end(); ++iter)
+	{
+		if (*iter == 'c')
+			tempArray3 += tempArray2;
+		else
+			tempArray3.push_back(*iter);
+
+	}
 }
 int main()
 {

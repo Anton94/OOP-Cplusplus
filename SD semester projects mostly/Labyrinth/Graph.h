@@ -37,7 +37,11 @@ public:
 	void insertEdge(Cell* source, Cell* dest, DLList<Cell*>& path);
 	void print(std::ostream& out); // Prints all edges between cells and the paths...
 
+
+	DLList<Cell*> getPathBetweenTwoNodes(Cell * parent, Cell * child);
+
 	DLList<DLList<Cell*>> AllPathsBetweenCells(Cell* start, Cell* end);
+	bool Graph::checkForDirectPathBetweenTheCells(DLList<Cell*> path);
 	~Graph();
 private:
 	DLList<DLList<Cell*>> BFSAllPathsBetweenCells(Cell* start, Cell* end);

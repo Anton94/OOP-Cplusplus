@@ -113,12 +113,13 @@ void Graph::DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> &
 		return;
 
 	// Add the path to that cell to the current path.
-	currPath += pathToThatCell;
+	// currPath += pathToThatCell;
+	currPath.push_back(startNode->cell);
 
 	// If we are at the needed one(node), adds the path to the all paths and returns.
 	if (startNode->cell == endNode->cell)
 	{
-		currPath.push_back(endNode->cell); // Adds the last cell, because the path has the start cell, inbetween cells and not the last one.
+	//	currPath.push_back(endNode->cell); // Adds the last cell, because the path has the start cell, inbetween cells and not the last one.
 		allPaths.push_back(currPath);
 	}
 
@@ -195,6 +196,12 @@ void Graph::BFSResetNodesNeededInfo()
 	}
 }
 
+DLList<Cell*> Graph::getPathBetweenTwoNodes(Cell * parent, Cell * child)
+{
+	return getPathBetweenTwoNodes(findNode(parent), findNode(child));
+}
+
+
 /// Gets the path between the 2 nodes(direct one!). (if not found, returns empty one).
 
 DLList<Cell*> Graph::getPathBetweenTwoNodes(Node * parent, Node * child)
@@ -210,4 +217,37 @@ DLList<Cell*> Graph::getPathBetweenTwoNodes(Node * parent, Node * child)
 	}
 
 	return DLList<Cell*>();
+}
+
+/// Checks  if there is direct links between the given cells.
+
+bool Graph::checkForDirectPathBetweenTheCells(DLList<Cell*> path)
+{
+	Node * root = findNode(path.pop_front());
+
+	for (DLList<Cell*>::Iterator iter = path.begin(); iter != path.end(); ++iter)
+	{
+		bool nextNode = false;
+		if ((*iter) == root->cell)
+		{
+			nextNode = true;
+			continue;
+		}
+		for (DLList<Pair<Node*, DLList<Cell*>>>::Iterator child = root->sons.begin(); child != root->sons.end(); ++child)
+		{
+			if ((*child).first->cell == (*iter))
+			{
+				root = (*child).first;
+				nextNode = true;
+				break;
+			}
+				
+		}
+
+		if (!nextNode)
+			return false;
+	}
+
+
+	return true;
 }
