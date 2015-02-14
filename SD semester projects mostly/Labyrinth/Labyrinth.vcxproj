@@ -84,6 +84,8 @@
     <ClCompile Include="Directions.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="String.cpp" />
+    <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AStar.h" />
@@ -93,6 +95,8 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Map_Char_pCell.h" />
     <ClInclude Include="Pair.h" />
+    <ClInclude Include="String.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

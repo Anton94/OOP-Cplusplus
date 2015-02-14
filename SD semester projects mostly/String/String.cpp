@@ -3,8 +3,8 @@
 #include "Utility.h"
 
 /*
-	If there is no enough memory throws exeption...
-	A little fucked up , initial string is empty one always. Unless its given a start capacity size.
+If there is no enough memory throws exeption...
+A little fucked up , initial string is empty one always. Unless its given a start capacity size.
 
 */
 

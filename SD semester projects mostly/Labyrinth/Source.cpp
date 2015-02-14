@@ -16,7 +16,8 @@ Github project: https://github.com/Anton94/OOP-Cplusplus/tree/master/SD%20semest
 #include "../Vector/Vector.h"
 #include "Board.h"
 #include "Graph.h"
-#include "../String/String.h"
+#include "String.h"
+#include "Utility.h"
 
 int main(int argc, char* argv[])
 {
@@ -25,13 +26,18 @@ int main(int argc, char* argv[])
 	{		
 		try
 		{
-			//DLList<char> pathForAllLevels;
-			// Goes through every 
+			// A list of pointers to the every single level path.
+			DLList<char*> pathForAllLevels;
+			int allPathsLength = 0;
+
+			// Goes through every file, given by the console.
 			for (int fileNameIndex = 1; fileNameIndex < argc; ++fileNameIndex)
 			{
 				std::ifstream in(argv[fileNameIndex]);
 				if (!in)
 					throw "Can`t open the file for the level!";
+
+				String many;
 
 				Board board;
 				board.deserialize(in);
@@ -41,29 +47,41 @@ int main(int argc, char* argv[])
 				std::cout << "\n\n\n";
 
 				char * path = board.findPathFromStartToEnd();
+				// I can get the length and from the function, but for now it`s good enough.
+				allPathsLength += strLength(path);
+
+
 				board.printBoard(std::cout);
 				std::cout << "\n";
 				std::cout << path << std::endl;
-				// make it to char symbols.
-				//pathForAllLevels += path;
+
+				pathForAllLevels.push_back(path);
 			}
 
-			// TO DO : deleted cells..
-			std::cout << "Path for whole leves: ";
-		//	printPath(pathForAllLevels);
+			String allLevesPath(allPathsLength + 1); // + '\0'
+
+			for (DLList<char*>::Iterator iterPath = pathForAllLevels.begin(); iterPath != pathForAllLevels.end(); ++iterPath)
+			{
+				// Takes the length of the path (*iter) again, but for now it`s ok...
+				allLevesPath += (*iterPath);
+			}
 
 
-
-
-
-
-
-
-
-			
+			std::cout << "Path for whole leves: " << allLevesPath << std::endl;
 
 
 			
+
+
+
+
+
+
+			// Deletes the taken memory...
+			for (DLList<char*>::Iterator iterPath = pathForAllLevels.begin(); iterPath != pathForAllLevels.end(); ++iterPath)
+			{
+				delete [] (*iterPath);
+			}
 
 
 		}

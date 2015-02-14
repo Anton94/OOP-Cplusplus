@@ -6,10 +6,10 @@ int main()
 	_CrtMemState s1, s2, s3;
 	_CrtMemCheckpoint(&s1);
 	{
-	
+
 		String tony = "Tony";
 		std::cout << tony << std::endl;
-	
+
 	}
 
 	_CrtMemCheckpoint(&s2);
