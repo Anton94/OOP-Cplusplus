@@ -98,8 +98,18 @@ void Board::deserialize(std::istream& in)
 	// Makes a graph with edges paths between special cells, if there are any...
 	generateMapOfSpecialCells();
 
+	///
+	/* testing stuff */
+	///
 
-	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCells(startCell, endCell);
+	Map_Char_pCell bannedCells;
+	
+	
+	bannedCells.setCellAt('%', keys.getCellAt('%'));
+	bannedCells.setCellAt('2', doors.getCellAt('2'));
+
+
+	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCells(startCell, endCell, bannedCells);
 
 	for (DLList<DLList<Cell*>>::Iterator iter = allPaths.begin(); iter != allPaths.end(); ++iter)
 	{
@@ -107,6 +117,10 @@ void Board::deserialize(std::istream& in)
 	}
 
 	mapOfSpecialCells->print(std::cout);
+
+	///
+	/* end testing stuff */
+	///
 }
 
 void Board::printPath(DLList<Cell*> & path)
@@ -458,8 +472,8 @@ void Board::findPathFromStartToEnd()
 	//	}
 
 	//}
-
-	DLList<Cell*> path = findPath(startCell, endCell, DLList<Cell*>());
+	
+	DLList<Cell*> path = findPath(startCell, endCell, DLList<Cell*>(), Map_Char_pCell());
 
 	printPath(path);
 }
@@ -474,7 +488,7 @@ void Board::findPathFromStartToEnd()
 
 */
 
-DLList<Cell*> Board::findPath(Cell * start, Cell* end, DLList<Cell*> & pathToThisMoment)
+DLList<Cell*> Board::findPath(Cell * start, Cell* end, DLList<Cell*> & pathToThisMoment, Map_Char_pCell & bannedCells)
 {
 	std::cout << "Trying to find a path between : " << start->getSymbol() << " and " << end->getSymbol() << std::endl;
 	bool hasPath = false;
@@ -488,7 +502,7 @@ DLList<Cell*> Board::findPath(Cell * start, Cell* end, DLList<Cell*> & pathToThi
 	}
 
 	// Get all posible variants from the start cell to the end cell.
-	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCells(start, end);
+	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCells(start, end, bannedCells);
 
 	// Check each one if it contains doors, without the keys have been taken yet.
 	for (DLList<DLList<Cell*>>::Iterator currentPath = allPaths.begin(); currentPath != allPaths.end(); ++currentPath)

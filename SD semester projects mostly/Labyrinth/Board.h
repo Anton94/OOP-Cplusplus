@@ -39,7 +39,7 @@ public:
 	//void tempPath();
 	~Board();
 private:
-	DLList<Cell*> findPath(Cell * startCell, Cell* endCell, DLList<Cell*> & currentPath);
+	DLList<Cell*> findPath(Cell * startCell, Cell* endCell, DLList<Cell*> & currentPath, Map_Char_pCell & bannedCells);
 	bool cellIsAlreadyInThePath(Cell* key, DLList<Cell*> & path);
 	Cell* getKeyForTheDoor(Cell* door);
 	Cell* getCellAt(int i, int j);

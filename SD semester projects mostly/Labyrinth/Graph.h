@@ -5,6 +5,7 @@ class Graph;
 #include "Cell.h"
 #include "../Double linked list/DLList.h"
 #include "Pair.h"
+#include "Map_Char_pCell.h"
 
 
 /*
@@ -36,16 +37,18 @@ public:
 	Graph(){};
 	void insertEdge(Cell* source, Cell* dest, DLList<Cell*>& path);
 	void print(std::ostream& out); // Prints all edges between cells and the paths...
+	DLList<DLList<Cell*>> AllPathsBetweenCells(Cell* start, Cell* end, Map_Char_pCell & bannedCells);
 
 
 	DLList<Cell*> getPathBetweenTwoNodes(Cell * parent, Cell * child);
 
-	DLList<DLList<Cell*>> AllPathsBetweenCells(Cell* start, Cell* end);
-	bool Graph::checkForDirectPathBetweenTheCells(DLList<Cell*> path);
+	bool checkForDirectPathBetweenTheCells(DLList<Cell*> path);
 	~Graph();
 private:
 	DLList<DLList<Cell*>> BFSAllPathsBetweenCells(Cell* start, Cell* end);
-	void DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> & pathToThatCell, DLList<Cell*> currPath, DLList<DLList<Cell*>>& allPaths);
+
+
+	void DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> & pathToThatCell, DLList<Cell*> currPath, DLList<DLList<Cell*>>& allPaths, Map_Char_pCell & bannedCells);
 
 
 

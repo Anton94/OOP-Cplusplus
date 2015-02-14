@@ -93,23 +93,24 @@ void Graph::free()
 }
 
 /// Returns all paths (NOT ALL)from start cell, to the end cell, when it walks only on doors. Returns a list of all the paths, which are cells (doors). NOTE: Dont goest through already taken nodes.
-
+/// If the child cell is from banned once, dont goes there.
 /// Find all paths
 
-DLList<DLList<Cell*>> Graph::AllPathsBetweenCells(Cell* start, Cell* end)
+DLList<DLList<Cell*>> Graph::AllPathsBetweenCells(Cell* start, Cell* end, Map_Char_pCell & bannedCells)
 {
 	DLList<DLList<Cell*>> allPaths;
 
-	DFSPathsBetweenCells(findNode(start), findNode(end), DLList<Cell*>(), DLList<Cell*>(), allPaths);
+	DFSPathsBetweenCells(findNode(start), findNode(end), DLList<Cell*>(), DLList<Cell*>(), allPaths, bannedCells);
 
 	BFSResetNodesNeededInfo();
 
 	return allPaths;
 }
 
-void Graph::DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> & pathToThatCell, DLList<Cell*> currPath, DLList<DLList<Cell*>>& allPaths)
+void Graph::DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> & pathToThatCell, DLList<Cell*> currPath, DLList<DLList<Cell*>>& allPaths, Map_Char_pCell & bannedCells)
 {
-	if (!startNode || startNode->visited == true)
+	// If the start node is NULL, or its visited or its in the list of banned cells, returns;
+	if (!startNode || startNode->visited == true || bannedCells.getCellAt(startNode->cell->getSymbol()) != NULL)
 		return;
 
 	// Add the path to that cell to the current path.
@@ -129,61 +130,62 @@ void Graph::DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> &
 
 	for (DLList<Pair<Node*, DLList<Cell*>>>::Iterator iter = startNode->sons.begin(); iter != startNode->sons.end(); ++iter)
 	{
-		if ((*iter).first->visited == false)
-			DFSPathsBetweenCells((*iter).first, endNode, (*iter).second, currPath, allPaths);
+		// If the child is not visited and it`s not in the banned cells.
+		if ((*iter).first->visited == false && bannedCells.getCellAt((*iter).first->cell->getSymbol()) == NULL)
+			DFSPathsBetweenCells((*iter).first, endNode, (*iter).second, currPath, allPaths, bannedCells);
 	}
 
 	startNode->visited = false;
 }
 
-///// 
-//
-//void Graph::BFSAddNeighbour(Board * board, Node* startNode, Node * endNode, Node* currentNode, Node* neighbourNode, Queue<Node*>& queue, DLList<DLList<Cell*>> & allPaths)
-//{
-//	// If the neighbour node is not valid one or it`s not a door cell returns... (unless the end node is the neighbour node).
-//	//if (!neighbourNode || (board->doors.getCellAt(neighbourNode->cell->getSymbol()) == NULL && neighbourNode != endNode))
-//	if (!neighbourNode)
-//		return;
-//
-//	// If the neighbour is not visited. 
-//	if (neighbourNode->visited == false)
-//	{
-//		// If the neighbour node is searched one (endNode) adds the path to that node to the list of paths...
-//		if (neighbourNode == endNode)
-//		{
-//			DLList<Cell*> path;
-//
-//			BFSResolveThaPath(currentNode, neighbourNode, startNode, path);
-//			
-//			allPaths.push_back(path);
-//		}
-//		else
-//		{
-//			queue.enqueue(neighbourNode);
-//			neighbourNode->parent = currentNode;
-//			neighbourNode->visited = true; // dont mark it if there is path to there, so it can found more paths...
-//		}
-//	}
-//}
+/// TO DO: DELETE THIS SHITS
 
-///// Goes through every cell and fints its parent, and when it finds it, takse tha path from the parent to him
-//
-//void Graph::BFSResolveThaPath(Node* currentNode, Node* neighbourNode, Node* startNode, DLList<Cell*> & path)
-//{
-//	// Push front because it`s in reverce order...
-//
-//	// Adds the ending cell.
-//	path.push_front(neighbourNode->cell);
-//
-//	while (currentNode && currentNode->parent && currentNode != startNode)
-//	{
-//		path.push_front(currentNode->cell);
-//		currentNode = currentNode->parent;
-//	}
-//
-//	// Adds the starting cell.
-//	path.push_front(startNode->cell);
-//}
+void Graph::BFSAddNeighbour(Board * board, Node* startNode, Node * endNode, Node* currentNode, Node* neighbourNode, Queue<Node*>& queue, DLList<DLList<Cell*>> & allPaths)
+{
+	// If the neighbour node is not valid one or it`s not a door cell returns... (unless the end node is the neighbour node).
+	//if (!neighbourNode || (board->doors.getCellAt(neighbourNode->cell->getSymbol()) == NULL && neighbourNode != endNode))
+	if (!neighbourNode)
+		return;
+
+	// If the neighbour is not visited. 
+	if (neighbourNode->visited == false)
+	{
+		// If the neighbour node is searched one (endNode) adds the path to that node to the list of paths...
+		if (neighbourNode == endNode)
+		{
+			DLList<Cell*> path;
+
+			BFSResolveThaPath(currentNode, neighbourNode, startNode, path);
+			
+			allPaths.push_back(path);
+		}
+		else
+		{
+			queue.enqueue(neighbourNode);
+			neighbourNode->parent = currentNode;
+			neighbourNode->visited = true; // dont mark it if there is path to there, so it can found more paths...
+		}
+	}
+}
+
+/// Goes through every cell and fints its parent, and when it finds it, takse tha path from the parent to him
+
+void Graph::BFSResolveThaPath(Node* currentNode, Node* neighbourNode, Node* startNode, DLList<Cell*> & path)
+{
+	// Push front because it`s in reverce order...
+
+	// Adds the ending cell.
+	path.push_front(neighbourNode->cell);
+
+	while (currentNode && currentNode->parent && currentNode != startNode)
+	{
+		path.push_front(currentNode->cell);
+		currentNode = currentNode->parent;
+	}
+
+	// Adds the starting cell.
+	path.push_front(startNode->cell);
+}
 
 /// Sets all nodes visited and parent valus to default ones..
 
