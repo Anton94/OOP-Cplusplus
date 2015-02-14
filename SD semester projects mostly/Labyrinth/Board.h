@@ -11,6 +11,7 @@ class Board;
 #include "AStar.h"
 #include "Map_Char_pCell.h"
 #include "Graph.h"
+#include "Directions.h"
 
 //#define NUMBER_OF_ELEMENTS_IN_CHAR std::pow(2, sizeof(char) * 8) / 2
 

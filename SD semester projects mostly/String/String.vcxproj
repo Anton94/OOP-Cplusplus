@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8309F6C1-AC93-4267-8AE5-920685E196CB}</ProjectGuid>
+    <ProjectGuid>{B40A9D80-8AC1-4AAF-BB75-28B722BB680E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Labyrinth</RootNamespace>
+    <RootNamespace>String</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -52,7 +52,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -68,7 +67,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -78,21 +76,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AStar.cpp" />
-    <ClCompile Include="Board.cpp" />
-    <ClCompile Include="Cell.cpp" />
-    <ClCompile Include="Directions.cpp" />
-    <ClCompile Include="Graph.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="String.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AStar.h" />
-    <ClInclude Include="Board.h" />
-    <ClInclude Include="Cell.h" />
-    <ClInclude Include="Directions.h" />
-    <ClInclude Include="Graph.h" />
-    <ClInclude Include="Map_Char_pCell.h" />
-    <ClInclude Include="Pair.h" />
+    <ClInclude Include="String.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

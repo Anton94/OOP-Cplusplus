@@ -1,6 +1,10 @@
 #include <iostream>
 #include "Cell.h"
 
+
+
+
+
 /// Default constructor.
 
 Cell::Cell()
@@ -190,22 +194,4 @@ bool Cell::getWalkableWithoutWallsAndDoors() const
 void Cell::computeH(Cell* targerCell)
 {
 	h = (std::abs(targerCell->indexRow - indexRow) + std::abs(targerCell->indexCol - indexCol));
-}
-
-/// Calculates the direction to the other cell.
-
-char Cell::getDirectionToCell(Cell * other) const
-{
-	if (other->indexRow < indexRow)
-		return UP_SYMBOL;
-
-	if (other->indexRow > indexRow)
-		return DOWN_SYMBOL;
-
-	if (other->indexCol < indexCol)
-		return LEFT_SYMBOL;
-	if (other->indexCol > indexCol)
-		return RIGHT_SYMBOL;
-
-	return INVALID_SYMBOL;
 }

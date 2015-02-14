@@ -6,6 +6,7 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="Directions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
@@ -14,5 +15,6 @@
     <ClInclude Include="AStar.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Map_Char_pCell.h" />
+    <ClInclude Include="Directions.h" />
   </ItemGroup>
 </Project>

@@ -448,7 +448,7 @@ char * Board::convertCellsToDirectionSymbols(DLList<Cell*> & path)
 	for (DLList<Cell*>::Iterator iterCell = ++path.begin(); iterCell != path.end(); ++iterCell)
 	{
 	//	(*iterCell)->setSymbol('+');
-		*pStringPath = prevCell->getDirectionToCell((*iterCell));
+		*pStringPath = Directions::getDirectionToCell(prevCell, *iterCell);
 		++pStringPath;
 		prevCell = *iterCell;
 	}

@@ -35,6 +35,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Labyrinth", "Labyrinth\Laby
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vector", "Vector\Vector.vcxproj", "{B6864945-FB26-4492-BDC7-4060350122DC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "String", "String\String.vcxproj", "{B40A9D80-8AC1-4AAF-BB75-28B722BB680E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -205,6 +207,16 @@ Global
 		{B6864945-FB26-4492-BDC7-4060350122DC}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{B6864945-FB26-4492-BDC7-4060350122DC}.Release|Win32.ActiveCfg = Release|Win32
 		{B6864945-FB26-4492-BDC7-4060350122DC}.Release|Win32.Build.0 = Release|Win32
+		{B40A9D80-8AC1-4AAF-BB75-28B722BB680E}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{B40A9D80-8AC1-4AAF-BB75-28B722BB680E}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{B40A9D80-8AC1-4AAF-BB75-28B722BB680E}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{B40A9D80-8AC1-4AAF-BB75-28B722BB680E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B40A9D80-8AC1-4AAF-BB75-28B722BB680E}.Debug|Win32.Build.0 = Debug|Win32
+		{B40A9D80-8AC1-4AAF-BB75-28B722BB680E}.Release|Any CPU.ActiveCfg = Release|Win32
+		{B40A9D80-8AC1-4AAF-BB75-28B722BB680E}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{B40A9D80-8AC1-4AAF-BB75-28B722BB680E}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{B40A9D80-8AC1-4AAF-BB75-28B722BB680E}.Release|Win32.ActiveCfg = Release|Win32
+		{B40A9D80-8AC1-4AAF-BB75-28B722BB680E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

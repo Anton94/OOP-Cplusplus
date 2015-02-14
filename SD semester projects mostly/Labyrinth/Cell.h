@@ -6,12 +6,13 @@ class Cell;
 #include "Board.h"
 #include "Map_Char_pCell.h"
 
+/// OR USING ENUM -> CELL.CPP
 
-#define LEFT_SYMBOL 'L'
-#define UP_SYMBOL 'U'
-#define RIGHT_SYMBOL 'R'
-#define DOWN_SYMBOL 'D'
-#define INVALID_SYMBOL ' '
+//#define LEFT_SYMBOL 'L'
+//#define UP_SYMBOL 'U'
+//#define RIGHT_SYMBOL 'R'
+//#define DOWN_SYMBOL 'D'
+//#define INVALID_SYMBOL ' '
 
 
 class Cell
@@ -47,7 +48,6 @@ public:
 	Cell* getRightCell() const;
 	Cell* getDownCell() const;
 
-	char getDirectionToCell(Cell * other) const;
 
 private:
 	void setDefaultValues();
