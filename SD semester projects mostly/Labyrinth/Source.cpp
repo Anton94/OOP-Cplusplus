@@ -16,6 +16,7 @@ Github project: https://github.com/Anton94/OOP-Cplusplus/tree/master/SD%20semest
 #include "../Vector/Vector.h"
 #include "Board.h"
 #include "Graph.h"
+#include "../String/String.h"
 
 int main(int argc, char* argv[])
 {
@@ -43,7 +44,6 @@ int main(int argc, char* argv[])
 				board.printBoard(std::cout);
 				std::cout << "\n";
 				std::cout << path << std::endl;
-				delete[] path;
 				// make it to char symbols.
 				//pathForAllLevels += path;
 			}

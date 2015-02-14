@@ -12,6 +12,7 @@ class Board;
 #include "Map_Char_pCell.h"
 #include "Graph.h"
 #include "Directions.h"
+#include "../String/String.h"
 
 //#define NUMBER_OF_ELEMENTS_IN_CHAR std::pow(2, sizeof(char) * 8) / 2
 
@@ -37,7 +38,6 @@ public:
 	void printBoard(std::ostream& out) const; 
 	void printDoorKeyPairs(std::ostream& out) const;
 	char * findPathFromStartToEnd();
-	//void tempPath();
 	~Board();
 private:
 	DLList<Cell*> findPath(Cell * startCell, Cell* endCell);

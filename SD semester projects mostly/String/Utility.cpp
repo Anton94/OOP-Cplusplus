@@ -75,50 +75,6 @@ bool checkNewWord(char ch)
 	return ch != EOF && ch != '\n' && ch != ' ';
 }
 
-
-String* parseThePath(const String& path, char delim, size_t size)
-{
-	String * arr = new String[size];
-
-	const char* pStr = path.getString();
-
-	String dir;
-
-	for (size_t i = 0; i < size; ++i)
-	{
-		dir = "";
-
-		while (*pStr && *pStr != delim)
-		{
-			dir += *pStr;
-			++pStr;
-		}
-
-		++pStr;
-		
-		arr[i] = dir;
-	}
-
-	return arr;
-}
-
-
-size_t getCountDirectories(const String& path, char delim)
-{
-	size_t count = 1;
-	const char* pStr = path.getString();
-	
-	while (*pStr)
-	{
-		if (*pStr == delim)
-			++count;
-		
-		++pStr;
-	}
-
-	return count;
-}
-
 // Check if the user whant`s some action ti happen(the action is given by the 'msg'. If he enter "y" or "Y" returns true, in any other case returns false.
 
 bool checkForAction(std::istream & in, std::ostream & out, const String& msg)

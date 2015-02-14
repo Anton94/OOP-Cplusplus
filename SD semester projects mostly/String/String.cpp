@@ -2,6 +2,12 @@
 #include "String.h"
 #include "Utility.h"
 
+/*
+	If there is no enough memory throws exeption...
+	A little fucked up , initial string is empty one always. Unless its given a start capacity size.
+
+*/
+
 std::ostream& operator<<(std::ostream& out, const String& string)
 {
 	if (string.string != NULL)
@@ -13,6 +19,28 @@ std::ostream& operator<<(std::ostream& out, const String& string)
 String::String()
 {
 	setDefaultValues();
+}
+
+/// Makes a string with the capacity->given size.
+
+
+String::String(int capacitySize)
+{
+	initialResize(capacitySize);
+}
+
+/// Makes new string with bigger capacity, given one. 
+
+void String::initialResize(int newCapacity)
+{
+	if (newCapacity <= 0)
+		throw "Invalid size for the initial string! (needs to be bigger than zero)";
+
+	string = new char[newCapacity];
+	size_t size = 0;
+	size_t capacity = newCapacity;
+
+	string[0] = '\0';
 }
 
 String::String(const char* other)
@@ -109,7 +137,7 @@ char String::operator[](int index) const
 
 // Returns a pointer to the buffer in the memory.
 
-const char* String::getString() const
+char* String::getString()
 {
 	return string;
 }

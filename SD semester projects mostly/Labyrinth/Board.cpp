@@ -425,7 +425,7 @@ void Board::BFSResetCellsNeededInfo()
 	}
 }
 
-char * Board::findPathFromStartToEnd()
+char* Board::findPathFromStartToEnd()
 {	
 	// This path contains only the special cells.
 	DLList<Cell*> pathOfSpecialCells = findPath(startCell, endCell);
@@ -436,11 +436,13 @@ char * Board::findPathFromStartToEnd()
 	return convertCellsToDirectionSymbols(fullPath);
 }
 
-/// Converst a list of cells to direction symbols. 
+/// Converst a list of cells to direction symbols.  With knowing for the string , using pointer to his memory, so I can do things faster... and uglier...
 
 char * Board::convertCellsToDirectionSymbols(DLList<Cell*> & path)
 {
 	char * stringPath = new char[path.getSize()]; // from start to the end, but not start, so getSize() - 1 + 1('\0');
+	//String stringPath(path.getSize() - 1);
+
 	char * pStringPath = stringPath;
 	Cell* prevCell = path.peek_front();
 
