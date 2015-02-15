@@ -9,6 +9,7 @@ Github project: https://github.com/Anton94/OOP-Cplusplus/tree/master/SD%20semest
 
 */
 
+// ABCDEFABCDEFTOQWES
 
 
 #include <iostream>
@@ -29,7 +30,7 @@ int main(int argc, char* argv[])
 		{
 			Board board;
 			// Goes through every file, given by the console.
-			for (int fileNameIndex = 1; fileNameIndex < argc - 1; ++fileNameIndex)
+			for (int fileNameIndex = 1; fileNameIndex < argc; ++fileNameIndex)
 			{
 				std::ifstream in(argv[fileNameIndex]);
 				if (!in)

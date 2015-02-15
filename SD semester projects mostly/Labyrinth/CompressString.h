@@ -6,7 +6,8 @@ class CompressString
 {
 public:
 	static String basicCompress(const String& str);
-	static String makeStringFromNumber(int number);
+	static String notSoBasicCompress(const String& str);
 private:
+	static String makeStringFromNumber(int number);
 	static int digitsCount(int number);
 };

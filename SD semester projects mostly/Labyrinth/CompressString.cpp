@@ -128,3 +128,40 @@ int CompressString::digitsCount(int number)
 
 	return count;
 }
+
+
+
+/*
+	Here I use a pointers, search matches, bigest one and so on...
+	(we will see what will come out of this...)
+*/
+
+/// For now one iteration only, we will seee....
+
+String CompressString::notSoBasicCompress(const String& str)
+{
+	// More lenghth in worse case is UPUP -> 2(UP) which is 20% , so I make this size array. (for now twice array size)
+	//	char * strAsArray = new char[str.getLength() + (str.getLength() < 5) ? 1 : (str.getLength() / 5) + 1]; // + 20% bat case + '\0'.
+	char * pOriginalStr = new char[str.getLength() * 2];
+
+	char * pStr = pOriginalStr;
+
+	char * pStart = pStr;
+	char * pStartIter = pStr;
+
+	int partitionLength = 0;
+
+	/// Goes to the 2nd symbol.
+	++pStr;
+
+	while (*pStr)
+	{
+		// Checks if the current symbol and the start pattition symbol matches.
+		if (*pStartIter == *pStr)
+		{
+			// Goes to see w
+		}
+	}
+
+	return pOriginalStr;
+}

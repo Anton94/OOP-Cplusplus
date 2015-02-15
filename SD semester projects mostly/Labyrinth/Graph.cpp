@@ -120,7 +120,7 @@ DLList<DLList<Cell*>> Graph::AllPathsBetweenCellsWithBannedCells(Cell* start, Ce
 void Graph::DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> & pathToThatCell, DLList<Cell*> currPath, DLList<DLList<Cell*>>& allPaths, Map_Char_pCell & bannedCells)
 {
 	// If the start node is NULL, or its visited or its in the list of banned cells, returns;
-	if (!startNode || startNode->visited == true || bannedCells.getCellAt(startNode->cell->getSymbol()) != NULL)
+	if (!startNode || !endNode || startNode->visited == true || bannedCells.getCellAt(startNode->cell->getSymbol()) != NULL)
 		return;
 
 	// Add the path to that cell to the current path.
