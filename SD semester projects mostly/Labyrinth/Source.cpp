@@ -47,21 +47,12 @@ int main(int argc, char* argv[])
 			String path = board.generateTheWholePath();
 			
 
-			std::cout << "Path for whole leves: " << path << std::endl;
+			std::cout << "Path for whole leves:\n" << path << std::endl;
 
-			std::cout << "COMPRESED path for whole leves: " << CompressString::basicCompress(path) << std::endl;
+			std::cout << "\n\n";
+			std::cout << "COMPRESED path for whole leves:\n" << CompressString::basicCompress(path) << std::endl;
 			
 			
-			
-			
-			// TEST for basic compression.
-			String str = "aaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcddeefggerfddff";
-
-			std::cout << "String: " << str << std::endl;
-
-			std::cout << "Compressed one: " << CompressString::basicCompress(str) << std::endl;
-			// END TEST
-
 		}
 		catch (const char * str)
 		{
@@ -87,6 +78,16 @@ int main(int argc, char* argv[])
 }
 
 
+
+
+
+// TEST for basic compression.
+//String str = "aaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcddeefggerfddff";
+//
+//std::cout << "String: " << str << std::endl;
+//
+//std::cout << "Compressed one: " << CompressString::basicCompress(str) << std::endl;
+// END TEST
 
 
 /// TESTS THE GRAPH WITH 2 PATCHS TO THE END CELL

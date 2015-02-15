@@ -17,7 +17,7 @@ Board::Board()
 {
 	startCell = endCell = NULL;
 
-	mapOfSpecialCells = new Graph();
+//	mapOfSpecialCells = new Graph();
 
 	allPathsLength = 0;
 }
@@ -25,7 +25,7 @@ Board::Board()
 Board::~Board()
 {
 	freeAllPathStrings();
-	delete mapOfSpecialCells;
+//	delete mapOfSpecialCells;
 }
 
 /// Returns the number of rows (number of vectors in the vector of vectors).
@@ -81,7 +81,7 @@ void Board::printDoorKeyPairs(std::ostream& out) const
 void Board::clear()
 {
 	board.free();
-	mapOfSpecialCells->clear();
+	mapOfSpecialCells.clear();
 
 	clearMaps();
 
@@ -158,14 +158,14 @@ void Board::deserialize(std::istream& in)
 	bannedCells.setCellAt(endCell->getSymbol(), endCell);*/
 
 
-	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCellsWithBannedCells(startCell, endCell, bannedCells);
+	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells.AllPathsBetweenCellsWithBannedCells(startCell, endCell, bannedCells);
 
 	for (DLList<DLList<Cell*>>::Iterator iter = allPaths.begin(); iter != allPaths.end(); ++iter)
 	{
 		printPath(*iter);
 	}
 
-	mapOfSpecialCells->print(std::cout);
+	mapOfSpecialCells.print(std::cout);
 
 	///
 	/* end testing stuff */
@@ -426,7 +426,7 @@ void Board::BFSAddNeighbour(Cell* start, Cell* current, Cell* neighbour, Queue<C
 
 			BFSResolveThaPath(current, neighbour, start, path);
 
-			mapOfSpecialCells->insertEdge(start, neighbour, path);
+			mapOfSpecialCells.insertEdge(start, neighbour, path);
 		}
 		else
 		{
@@ -480,7 +480,7 @@ void Board::findPathFromStartToEnd()
 	DLList<Cell*> pathOfSpecialCells = findPath(startCell, endCell);
 
 	// Extract the full path from the special cells (as direct paths between them). Returns it.
-	DLList<Cell* > fullPath = mapOfSpecialCells->getFullPathFromSpecialCells(pathOfSpecialCells);
+	DLList<Cell* > fullPath = mapOfSpecialCells.getFullPathFromSpecialCells(pathOfSpecialCells);
 
 	convertCellsToDirectionSymbols(fullPath);
 }
@@ -525,7 +525,7 @@ void Board::convertCellsToDirectionSymbols(DLList<Cell*> & path)
 DLList<Cell*> Board::findPath(Cell * start, Cell* end)
 {
 	// Gets all paths from the start to the end cell.
-	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCells(start, end);
+	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells.AllPathsBetweenCells(start, end);
 
 	// Goes through every path and checks if the path contains the keys, before the door.
 	// Makes a map with the found keys to this moment.
@@ -692,7 +692,7 @@ void printPath(DLList<Cell*> & path)
 //	system("Pause");
 //
 //	// TO DO: returns only cells.
-//	if (mapOfSpecialCells->getPathBetweenTwoNodes(start, end).getSize() > 1)
+//	if (mapOfSpecialCells.getPathBetweenTwoNodes(start, end).getSize() > 1)
 //	{
 //		DLList<Cell*> path;
 //		path.push_back(start);
@@ -701,7 +701,7 @@ void printPath(DLList<Cell*> & path)
 //	}
 //
 //	// Get all posible variants from the start cell to the end cell.
-//	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCells(start, end, bannedCells);
+//	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells.AllPathsBetweenCells(start, end, bannedCells);
 //
 //	// Check each one if it contains doors, without the keys have been taken yet.
 //	for (DLList<DLList<Cell*>>::Iterator currentPath = allPaths.begin(); currentPath != allPaths.end(); ++currentPath)
@@ -792,7 +792,7 @@ void printPath(DLList<Cell*> & path)
 //bool hasPath = false;
 //
 //// Get all posible variants from the start cell to the end cell.
-//DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCells(start, end);
+//DLList<DLList<Cell*>> allPaths = mapOfSpecialCells.AllPathsBetweenCells(start, end);
 //
 //// Check each one if it contains doors, without the keys have been taken yet.
 //for (DLList<DLList<Cell*>>::Iterator currenPath = allPaths.begin(); currenPath != allPaths.end(); ++currenPath)
@@ -921,7 +921,7 @@ void printPath(DLList<Cell*> & path)
 	//		// Checks if the key is already in the path, so dont search it again.
 	//		if (!cellIsAlreadyInThePath(keyForThatDoor, path))
 	//		{
-	//			DLList<DLList<Cell*>> allPathsToThatKey = mapOfSpecialCells->AllPathsBetweenCells(currentCell, keyForThatDoor);
+	//			DLList<DLList<Cell*>> allPathsToThatKey = mapOfSpecialCells.AllPathsBetweenCells(currentCell, keyForThatDoor);
 
 	//			bool pathToThatDoorFound = false;
 	//			DLList<Cell*> pathToThatKey;

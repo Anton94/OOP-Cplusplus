@@ -73,9 +73,7 @@ private:
 	Map_Char_pCell doorForKey;
 	Map_Char_pCell doors;
 	Map_Char_pCell keys;
-	Graph * mapOfSpecialCells;
-
-
+	Graph mapOfSpecialCells;
 	DLList<char*> allPathsInStrings;
 	int allPathsLength;
 private:

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1681478B-AC87-44AE-9675-98EF3C0B4ED1}</ProjectGuid>
+    <ProjectGuid>{D07CC460-86F7-42AB-A362-B81FCC0909AF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Homeworkfive</RootNamespace>
   </PropertyGroup>
@@ -77,15 +77,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Pair.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="StreetMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h" />
-<<<<<<< HEAD:Homework five/Homework five.vcxproj
-=======
     <ClInclude Include="Pair.h" />
->>>>>>> 995da66a97fa3872d9eb68b63a25c8669b1fb2b4:SD semester projects mostly/Homework five/Homework five.vcxproj
     <ClInclude Include="StreetMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

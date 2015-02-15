@@ -15,10 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="Cell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Cell.cpp">
+    <ClCompile Include="Pair.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StreetMap.cpp">
@@ -29,10 +32,10 @@
     <ClInclude Include="Cell.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StreetMap.h">
+    <ClInclude Include="Pair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Pair.h">
+    <ClInclude Include="StreetMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
