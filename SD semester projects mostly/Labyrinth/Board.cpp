@@ -16,11 +16,15 @@ Board::BoardSymbols::BoardSymbols()
 Board::Board()
 {
 	startCell = endCell = NULL;
+
 	mapOfSpecialCells = new Graph();
+
+	allPathsLength = 0;
 }
 
 Board::~Board()
 {
+	freeAllPathStrings();
 	delete mapOfSpecialCells;
 }
 
@@ -74,12 +78,56 @@ void Board::printDoorKeyPairs(std::ostream& out) const
 	//out << "\n";
 }
 
+void Board::clear()
+{
+	board.free();
+	mapOfSpecialCells->clear();
+
+	clearMaps();
+
+	startCell = endCell = NULL;
+}
+
+void Board::freeAllPathStrings()
+{
+
+	// Deletes the strings for the paths...
+	while (!allPathsInStrings.isEmpty())
+	{
+		delete allPathsInStrings.pop_back();
+	}
+}
+
+/// Goes through every map and deletes the instantions in it
+
+void Board::clearMaps()
+{
+	// Pairs, first one is door, second one is key.
+	Pair<Cell*, Cell*> pair;
+
+	while (!doorKeyPairs.isEmpty())
+	{
+		pair = doorKeyPairs.pop_back();
+
+		// Doors and keys maps.
+		doors.setCellAt(pair.first->getSymbol(), NULL);
+		keys.setCellAt(pair.second->getSymbol(), NULL);
+
+		// Now key for the door and door for key has to be set to NULL
+		keyForDoor.setCellAt(pair.first->getSymbol(), NULL);
+		doorForKey.setCellAt(pair.second->getSymbol(), NULL);
+	}
+}
+
 /// Gets the board symbols and the pairs key->door from the input stream. If the input stream is wrong->throws exeption.
 /// Makes vector with (128) elements and makes all pointers NULL. Binary search tree for alternative, but here insert and find are constant, so I wanted to try it out. Also I may use and hash MAP .
 /// Every speacil cell (key or door) has constant search and constant add in the vector of pointers to cells.
 
 void Board::deserialize(std::istream& in)
 {
+	// Clears everything to this moment
+	clear();
+
 	// Get the rows, cols count.
 	int rows = 0, cols = 0;
 	getDimensions(in, rows, cols);
@@ -197,7 +245,8 @@ void Board::getDimensions(std::istream& in, int& rows, int& cols) const
 void Board::allocateBoard(int rows, int cols)
 {
 	// Free the board to this moment. If there was other allocation, the resize will copy the other once when resizing the vector, we don`t need that, so I set it to 0 and then to the new counts..)
-	board.resize(0);
+//	board.resize(0);
+	board.free();
 
 	board.resize(rows);
 	for (int i = 0; i < rows; ++i)
@@ -425,7 +474,7 @@ void Board::BFSResetCellsNeededInfo()
 	}
 }
 
-char* Board::findPathFromStartToEnd()
+void Board::findPathFromStartToEnd()
 {	
 	// This path contains only the special cells.
 	DLList<Cell*> pathOfSpecialCells = findPath(startCell, endCell);
@@ -433,14 +482,17 @@ char* Board::findPathFromStartToEnd()
 	// Extract the full path from the special cells (as direct paths between them). Returns it.
 	DLList<Cell* > fullPath = mapOfSpecialCells->getFullPathFromSpecialCells(pathOfSpecialCells);
 
-	return convertCellsToDirectionSymbols(fullPath);
+	convertCellsToDirectionSymbols(fullPath);
 }
 
-/// Converst a list of cells to direction symbols.  With knowing for the string , using pointer to his memory, so I can do things faster... and uglier...
+/// Converst a list of cells to direction symbols. Adds it to the list of paths after the convertion, ands the size of the path too...
 
-char * Board::convertCellsToDirectionSymbols(DLList<Cell*> & path)
+void Board::convertCellsToDirectionSymbols(DLList<Cell*> & path)
 {
 	char * stringPath = new char[path.getSize()]; // from start to the end, but not start, so getSize() - 1 + 1('\0');
+	
+	allPathsLength += path.getSize(); // Adds the path length.
+
 	//String stringPath(path.getSize() - 1);
 
 	char * pStringPath = stringPath;
@@ -457,7 +509,10 @@ char * Board::convertCellsToDirectionSymbols(DLList<Cell*> & path)
 
 	*pStringPath = '\0';
 
-	return stringPath;
+	// TO DELETE
+	std::cout << stringPath << std::endl;
+
+	allPathsInStrings.push_back(stringPath);
 }
 
 /*
@@ -531,7 +586,19 @@ bool Board::isSpecialCell(Cell * cell)
 }
 
 
+// Goest through every generated path for the levels and adds it to the string.
 
+String Board::generateTheWholePath()
+{
+	String allPaths(allPathsLength + 1); // + '\0'
+
+	for (DLList<char *>::Iterator iter = allPathsInStrings.begin(); iter != allPathsInStrings.end(); ++iter)
+	{
+		allPaths += (*iter); // Here again checks the length but whatever...
+	}
+
+	return allPaths;
+}
 
 
 

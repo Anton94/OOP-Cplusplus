@@ -26,62 +26,31 @@ int main(int argc, char* argv[])
 	{		
 		try
 		{
-			// A list of pointers to the every single level path.
-			DLList<char*> pathForAllLevels;
-			int allPathsLength = 0;
-
+			Board board;
 			// Goes through every file, given by the console.
 			for (int fileNameIndex = 1; fileNameIndex < argc; ++fileNameIndex)
 			{
 				std::ifstream in(argv[fileNameIndex]);
 				if (!in)
 					throw "Can`t open the file for the level!";
-
-				String many;
-
-				Board board;
+				
 				board.deserialize(in);
 				board.printBoard(std::cout);
 				board.printDoorKeyPairs(std::cout);
 
-				std::cout << "\n\n\n";
+				board.findPathFromStartToEnd();
 
-				char * path = board.findPathFromStartToEnd();
-				// I can get the length and from the function, but for now it`s good enough.
-				allPathsLength += strLength(path);
-
-
-				board.printBoard(std::cout);
-				std::cout << "\n";
-				std::cout << path << std::endl;
-
-				pathForAllLevels.push_back(path);
+				std::cout << "\n\n";
 			}
 
-			String allLevesPath(allPathsLength + 1); // + '\0'
+			String path = board.generateTheWholePath();
+			
 
-			for (DLList<char*>::Iterator iterPath = pathForAllLevels.begin(); iterPath != pathForAllLevels.end(); ++iterPath)
-			{
-				// Takes the length of the path (*iter) again, but for now it`s ok...
-				allLevesPath += (*iterPath);
-			}
-
-
-			std::cout << "Path for whole leves: " << allLevesPath << std::endl;
+			std::cout << "Path for whole leves: " << path << std::endl;
 
 
 			
 
-
-
-
-
-
-			// Deletes the taken memory...
-			for (DLList<char*>::Iterator iterPath = pathForAllLevels.begin(); iterPath != pathForAllLevels.end(); ++iterPath)
-			{
-				delete [] (*iterPath);
-			}
 
 
 		}

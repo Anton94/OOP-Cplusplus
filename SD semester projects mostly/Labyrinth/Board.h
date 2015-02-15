@@ -11,9 +11,8 @@ class Board;
 #include "AStar.h"
 #include "Map_Char_pCell.h"
 #include "Graph.h"
-#include "Directions.h"
-
-//#define NUMBER_OF_ELEMENTS_IN_CHAR std::pow(2, sizeof(char) * 8) / 2
+#include "Directions.h" 
+#include "String.h"
 
 
 class Board
@@ -36,15 +35,19 @@ public:
 	void deserialize(std::istream& in);
 	void printBoard(std::ostream& out) const; 
 	void printDoorKeyPairs(std::ostream& out) const;
-	char * findPathFromStartToEnd();
+	void findPathFromStartToEnd();
+	String generateTheWholePath();
+	void clear();
 	~Board();
 private:
 	DLList<Cell*> findPath(Cell * startCell, Cell* endCell);
 
 	void addToBannedCellsIfDoor(DLList<Cell*>& path, Map_Char_pCell& bannedCells);
 
-	char * convertCellsToDirectionSymbols(DLList<Cell*> & path);
+	void convertCellsToDirectionSymbols(DLList<Cell*> & path);
 
+	void clearMaps();
+	void freeAllPathStrings();
 
 	bool cellIsAlreadyInThePath(Cell* key, DLList<Cell*> & path);
 	Cell* getKeyForTheDoor(Cell* door);
@@ -71,9 +74,12 @@ private:
 	Map_Char_pCell doors;
 	Map_Char_pCell keys;
 	Graph * mapOfSpecialCells;
+
+
+	DLList<char*> allPathsInStrings;
+	int allPathsLength;
 private:
 	Board(const Board& board);
 	Board& operator=(const Board& board);
-
 };
 void printPath(DLList<Cell*> & path);

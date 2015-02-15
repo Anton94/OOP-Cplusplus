@@ -34,11 +34,13 @@ class Graph
 	
 	DLList<Node*> allNodes;
 public:
+	Graph(){};
 	void insertEdge(Cell* source, Cell* dest, DLList<Cell*>& path);
 	void print(std::ostream& out); // Prints all edges between cells and the paths...
 	DLList<DLList<Cell*>> AllPathsBetweenCells(Cell* start, Cell* end);
 	DLList<DLList<Cell*>> AllPathsBetweenCellsWithBannedCells(Cell* start, Cell* end, Map_Char_pCell & bannedCells);
 	DLList<Cell*> Graph::getFullPathFromSpecialCells(DLList<Cell*> & path);
+	void clear();
 	~Graph();
 private:	
 	void DFSPathsBetweenCells(Node* startNode, Node* endNode, DLList<Cell*> & pathToThatCell, DLList<Cell*> currPath, DLList<DLList<Cell*>>& allPaths, Map_Char_pCell & bannedCells);	
@@ -47,5 +49,6 @@ private:
 	void printNode(std::ostream& out, Node* node);
 	DLList<Cell*> getDirectPathBetweenTwoNodes(Node * parent, Node * child);
 private:
-	void free();
+	Graph(const Graph& other);
+	Graph& operator=(const Graph& other);
 };

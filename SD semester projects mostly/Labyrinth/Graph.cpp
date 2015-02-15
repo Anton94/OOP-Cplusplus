@@ -9,7 +9,7 @@ Graph::Node::Node(Cell * cell)
 
 Graph::~Graph()
 {
-	free();
+	clear();
 }
 
 /// Inserts Edge between two cells in the graph.
@@ -82,13 +82,13 @@ Graph::Node * Graph::findNode(const Cell * cell)
 	return NULL;
 }
 
-/// Goes through every node and deletes it.
+/// Goes through every node and deletes it. Removes it from the list of nodes.
 
-void Graph::free()
+void Graph::clear()
 {
-	for (DLList<Node*>::Iterator iter = allNodes.begin(); iter != allNodes.end(); ++iter)
+	while (!allNodes.isEmpty())
 	{
-		delete (*iter);
+		delete allNodes.pop_back();
 	}
 }
 

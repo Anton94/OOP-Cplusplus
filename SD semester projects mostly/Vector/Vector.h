@@ -154,7 +154,7 @@ inline void Vector<T>::resizeArray(int newSize)
 
 	T * temp = new T[newSize];
 
-	int numberOfElements = (newSize < size ? newSize : size);
+	int numberOfElements = (newSize < size) ? newSize : size;
 
 	for (int i = 0; i < numberOfElements; ++i)
 	{
