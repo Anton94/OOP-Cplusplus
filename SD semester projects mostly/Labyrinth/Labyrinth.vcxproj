@@ -81,6 +81,7 @@
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="CompressString.cpp" />
     <ClCompile Include="Directions.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -91,6 +92,7 @@
     <ClInclude Include="AStar.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="CompressString.h" />
     <ClInclude Include="Directions.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Map_Char_pCell.h" />

@@ -48,7 +48,6 @@ public:
 	Cell* getRightCell() const;
 	Cell* getDownCell() const;
 
-
 private:
 	void setDefaultValues();
 private:

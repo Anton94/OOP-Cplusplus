@@ -20,6 +20,7 @@ public:
 	char operator[](int index) const;
 	size_t getLength() const;
 	char* getString();
+	const char* getString() const;
 	bool isEmpty() const;
 	~String();
 private:

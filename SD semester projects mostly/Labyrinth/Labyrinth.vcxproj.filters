@@ -9,6 +9,7 @@
     <ClCompile Include="Directions.cpp" />
     <ClCompile Include="String.cpp" />
     <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="CompressString.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
@@ -20,5 +21,6 @@
     <ClInclude Include="Directions.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="CompressString.h" />
   </ItemGroup>
 </Project>

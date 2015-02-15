@@ -17,6 +17,7 @@ Github project: https://github.com/Anton94/OOP-Cplusplus/tree/master/SD%20semest
 #include "Board.h"
 #include "Graph.h"
 #include "String.h"
+#include "CompressString.h"
 #include "Utility.h"
 
 int main(int argc, char* argv[])
@@ -28,7 +29,7 @@ int main(int argc, char* argv[])
 		{
 			Board board;
 			// Goes through every file, given by the console.
-			for (int fileNameIndex = 1; fileNameIndex < argc; ++fileNameIndex)
+			for (int fileNameIndex = 1; fileNameIndex < argc - 1; ++fileNameIndex)
 			{
 				std::ifstream in(argv[fileNameIndex]);
 				if (!in)
@@ -48,21 +49,31 @@ int main(int argc, char* argv[])
 
 			std::cout << "Path for whole leves: " << path << std::endl;
 
-
+			std::cout << "COMPRESED path for whole leves: " << CompressString::basicCompress(path) << std::endl;
 			
+			
+			
+			
+			// TEST for basic compression.
+			String str = "aaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcddeefggerfddff";
 
+			std::cout << "String: " << str << std::endl;
 
+			std::cout << "Compressed one: " << CompressString::basicCompress(str) << std::endl;
+			// END TEST
 
 		}
 		catch (const char * str)
 		{
 			std::cerr << "Error: " << str << "\n";
 		}
-		catch (std::bad_alloc e)
+		catch (std::bad_alloc& e)
 		{
-			std::cerr << "Error: " << e.what() << "\n";
+			std::cerr << "Memory allocation rrror: " << e.what() << "\n";
 		}
-		// catch outside of the bounds array...
+		catch (const std::out_of_range& oor) {
+			std::cerr << "Out of Range error: " << oor.what() << '\n';
+		}
 	}
 
 	_CrtMemCheckpoint(&s2);

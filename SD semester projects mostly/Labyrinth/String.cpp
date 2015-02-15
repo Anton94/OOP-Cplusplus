@@ -85,7 +85,7 @@ String& String::operator+=(const char* other)
 
 String& String::operator+=(const String& other)
 {
-	addFrom(getLength() + other.size + 1, other.string); // + '\0'
+	addFrom(getLength() + other.size, other.string);
 
 	return *this;
 }
@@ -138,6 +138,13 @@ char String::operator[](int index) const
 // Returns a pointer to the buffer in the memory.
 
 char* String::getString()
+{
+	return string;
+}
+
+// Returns a const pointer to the buffer in the memory.
+
+const char* String::getString() const
 {
 	return string;
 }
