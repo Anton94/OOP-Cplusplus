@@ -32,25 +32,19 @@ public:
 	Board();
 	int getRows() const;
 	int getCols() const;
-	void deserialize(std::istream& in);
 	void printBoard(std::ostream& out) const; 
 	void printDoorKeyPairs(std::ostream& out) const;
+	void clear();
+	void freeAllPathStrings();
+	void deserialize(std::istream& in);
 	void findPathFromStartToEnd();
 	String generateTheWholePath();
-	void clear();
 	~Board();
 private:
 	DLList<Cell*> findPath(Cell * startCell, Cell* endCell);
-
-	void addToBannedCellsIfDoor(DLList<Cell*>& path, Map_Char_pCell& bannedCells);
-
 	void convertCellsToDirectionSymbols(DLList<Cell*> & path);
-
-	void clearMaps();
-	void freeAllPathStrings();
-
-	bool cellIsAlreadyInThePath(Cell* key, DLList<Cell*> & path);
 	Cell* getKeyForTheDoor(Cell* door);
+	bool isSpecialCell(Cell * cell);
 	Cell* getCellAt(int i, int j);
 	void getDimensions(std::istream& in, int& rows, int& cols) const;
 	void allocateBoard(int rows, int cols);
@@ -62,7 +56,7 @@ private:
 	void BFSAddNeighbour(Cell* start, Cell* current, Cell* neighbour, Queue<Cell*>& queue);
 	void BFSResolveThaPath(Cell* current, Cell* neighbour, Cell* start, DLList<Cell*> & path);
 	void BFSResetCellsNeededInfo();
-	bool isSpecialCell(Cell * cell);
+	void clearMaps();
 private:
 	BoardSymbols boardSymbols;
 	Vector<Vector<Cell>> board;
@@ -73,9 +67,9 @@ private:
 	Map_Char_pCell doorForKey;
 	Map_Char_pCell doors;
 	Map_Char_pCell keys;
-	Graph mapOfSpecialCells;
 	DLList<char*> allPathsInStrings;
 	int allPathsLength;
+	Graph * mapOfSpecialCells;
 private:
 	Board(const Board& board);
 	Board& operator=(const Board& board);

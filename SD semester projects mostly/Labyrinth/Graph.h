@@ -26,11 +26,8 @@ class Graph
 		bool visited;
 		Node * parent;
 
-		int code;
-
 		Node(Cell * cell);
 	};
-
 	
 	DLList<Node*> allNodes;
 public:

@@ -16,16 +16,15 @@ Board::BoardSymbols::BoardSymbols()
 Board::Board()
 {
 	startCell = endCell = NULL;
-
-//	mapOfSpecialCells = new Graph();
-
 	allPathsLength = 0;
+
+	mapOfSpecialCells = new Graph();
 }
 
 Board::~Board()
 {
 	freeAllPathStrings();
-//	delete mapOfSpecialCells;
+	delete mapOfSpecialCells;
 }
 
 /// Returns the number of rows (number of vectors in the vector of vectors).
@@ -63,39 +62,40 @@ void Board::printBoard(std::ostream& out) const
 	}
 }
 
+/// TO DO : delete it maybe...
+/// Prints in the given ostream the pairs of the door and key symbols. If there is no key/door prints '*' 
+
 void Board::printDoorKeyPairs(std::ostream& out) const
 {
 	for (DLList<Pair<Cell*, Cell*>>::Iterator iter = const_cast<DLList<Pair<Cell*, Cell*>>&>(doorKeyPairs).begin(); iter != const_cast<DLList<Pair<Cell*, Cell*>>&>(doorKeyPairs).end(); ++iter)
 	{
 		std::cout << (((*iter).first == NULL) ? '*' : (*iter).first->getSymbol()) << (((*iter).second == NULL) ? '*' : (*iter).second->getSymbol()) << "\n";
 	}
-
-	//out << "\nPrint doors: \n";
-	//doors.printIfNotNULL(out);
-	//out << "\n";
-	//out << "\nPrint keys: \n";
-	//keys.printIfNotNULL(out);
-	//out << "\n";
 }
 
-void Board::clear()
-{
-	board.free();
-	mapOfSpecialCells.clear();
-
-	clearMaps();
-
-	startCell = endCell = NULL;
-}
+/// Deletes all dynamic arrays of the paths.
 
 void Board::freeAllPathStrings()
 {
+	allPathsLength = 0;
 
 	// Deletes the strings for the paths...
 	while (!allPathsInStrings.isEmpty())
 	{
 		delete allPathsInStrings.pop_back();
 	}
+}
+
+/// Clears all needed variables.
+
+void Board::clear()
+{
+	board.free();
+	mapOfSpecialCells->clear();
+
+	clearMaps();
+
+	startCell = endCell = NULL;
 }
 
 /// Goes through every map and deletes the instantions in it
@@ -109,13 +109,19 @@ void Board::clearMaps()
 	{
 		pair = doorKeyPairs.pop_back();
 
-		// Doors and keys maps.
-		doors.setCellAt(pair.first->getSymbol(), NULL);
-		keys.setCellAt(pair.second->getSymbol(), NULL);
+		// Doors and key for the door. (Checks if there is input data for them first)
+		if (pair.first)
+		{
+			doors.setCellAt(pair.first->getSymbol(), NULL);
+			keyForDoor.setCellAt(pair.first->getSymbol(), NULL);
+		}
 
-		// Now key for the door and door for key has to be set to NULL
-		keyForDoor.setCellAt(pair.first->getSymbol(), NULL);
-		doorForKey.setCellAt(pair.second->getSymbol(), NULL);
+		// Keys and the door for that key (if valid one).
+		if (pair.second)
+		{
+			keys.setCellAt(pair.second->getSymbol(), NULL);
+			doorForKey.setCellAt(pair.second->getSymbol(), NULL);
+		}
 	}
 }
 
@@ -158,14 +164,14 @@ void Board::deserialize(std::istream& in)
 	bannedCells.setCellAt(endCell->getSymbol(), endCell);*/
 
 
-	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells.AllPathsBetweenCellsWithBannedCells(startCell, endCell, bannedCells);
+	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCellsWithBannedCells(startCell, endCell, bannedCells);
 
 	for (DLList<DLList<Cell*>>::Iterator iter = allPaths.begin(); iter != allPaths.end(); ++iter)
 	{
 		printPath(*iter);
 	}
 
-	mapOfSpecialCells.print(std::cout);
+	mapOfSpecialCells->print(std::cout);
 
 	///
 	/* end testing stuff */
@@ -426,7 +432,7 @@ void Board::BFSAddNeighbour(Cell* start, Cell* current, Cell* neighbour, Queue<C
 
 			BFSResolveThaPath(current, neighbour, start, path);
 
-			mapOfSpecialCells.insertEdge(start, neighbour, path);
+			mapOfSpecialCells->insertEdge(start, neighbour, path);
 		}
 		else
 		{
@@ -480,7 +486,7 @@ void Board::findPathFromStartToEnd()
 	DLList<Cell*> pathOfSpecialCells = findPath(startCell, endCell);
 
 	// Extract the full path from the special cells (as direct paths between them). Returns it.
-	DLList<Cell* > fullPath = mapOfSpecialCells.getFullPathFromSpecialCells(pathOfSpecialCells);
+	DLList<Cell* > fullPath = mapOfSpecialCells->getFullPathFromSpecialCells(pathOfSpecialCells);
 
 	convertCellsToDirectionSymbols(fullPath);
 }
@@ -525,7 +531,7 @@ void Board::convertCellsToDirectionSymbols(DLList<Cell*> & path)
 DLList<Cell*> Board::findPath(Cell * start, Cell* end)
 {
 	// Gets all paths from the start to the end cell.
-	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells.AllPathsBetweenCells(start, end);
+	DLList<DLList<Cell*>> allPaths = mapOfSpecialCells->AllPathsBetweenCells(start, end);
 
 	// Goes through every path and checks if the path contains the keys, before the door.
 	// Makes a map with the found keys to this moment.
@@ -548,8 +554,8 @@ DLList<Cell*> Board::findPath(Cell * start, Cell* end)
 			// If the cell is a door and the key for that door is NOT already in the path , this path is wrong and sets the bool field hasPath to false, breaks the cycle...
 			else if (doors.getCellAt(currentCellSymbol))
 			{
-				// If the key for the door is not in the path.
-				if (!foundKeys.getCellAt(getKeyForTheDoor(*currentCell)->getSymbol()))
+				// If the key for the door is not in the path. (First check if it have any key for the door in the maze (Not NULL ptr).
+				if (!getKeyForTheDoor(*currentCell) || !foundKeys.getCellAt(getKeyForTheDoor(*currentCell)->getSymbol()))
 				{
 					hasPath = false;
 					break;

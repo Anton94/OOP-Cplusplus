@@ -57,5 +57,5 @@ private:
 	Board* owner;
 	Cell* parent;
 	bool opened, closed;
-	int h;
+	int h; // This is distance to the target...
 };

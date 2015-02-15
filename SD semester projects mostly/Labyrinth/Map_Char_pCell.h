@@ -1,13 +1,9 @@
 #pragma once
 
-// TO DO check cell validation things..
-
 class Map_Char_pCell;
 
 #include "Cell.h"
 #include "../Vector/Vector.h"
-
-
 
 /*
 	A basic map of valid 256 char symbols and pointers to cells.
