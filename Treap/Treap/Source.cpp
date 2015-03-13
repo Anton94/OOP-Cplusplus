@@ -2,7 +2,7 @@
 #include "Treap.h"
 #include <time.h>
 
-#define NUMBER_OF_VALUES 2600000
+#define NUMBER_OF_VALUES 2600
 
 
 int main()
@@ -11,7 +11,7 @@ int main()
 	_CrtMemState s1, s2, s3;
 	_CrtMemCheckpoint(&s1);
 	{
-		//srand(time(NULL));
+	//	srand(time(NULL));
 		Treap treap;
 	
 		for (int i = 0; i < NUMBER_OF_VALUES; ++i)
@@ -27,9 +27,9 @@ int main()
 		std::cout << "Valid BST ? " << treap.checkKeys() << std::endl;
 		std::cout << "Search for element 25667 ? " << treap.containsKey(25667) << std::endl;
 		std::cout << "Search for element 123 ? " << treap.containsKey(123) << std::endl;
-		std::cout << "Removes element 25667 and 123 " << std::endl;
+		std::cout << "Removes element 25667 and 12312 " << std::endl;
 		treap.remove(25667);
-		treap.remove(123);
+		treap.remove(12312);
 
 		std::cout << std::endl;
 		/*std::cout << "Printing the treap:" << std::endl;
@@ -38,7 +38,7 @@ int main()
 		std::cout << "Valid heap ? " << treap.checkPriorities() << std::endl;
 		std::cout << "Valid BST ? " << treap.checkKeys() << std::endl;
 		std::cout << "Search for element 25667 ? " << treap.containsKey(25667) << std::endl;
-		std::cout << "Search for element 123 ? " << treap.containsKey(123) << std::endl;
+		std::cout << "Search for element 12312 ? " << treap.containsKey(12312) << std::endl;
 	}
 
 	_CrtMemCheckpoint(&s2);

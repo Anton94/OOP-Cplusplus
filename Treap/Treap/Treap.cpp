@@ -97,13 +97,13 @@ void Treap::remove(TreapNode*& nodeToDelete)
 	}
 
 	// If there is no right subtree OR there is left subtree and the priority of left subtree is smaller than the priority of right subtree , makes right rotation.
-	if (!nodeToDelete->right || (root->left && nodeToDelete->left->priority < nodeToDelete->right->priority))
+	if (!nodeToDelete->right || (nodeToDelete->left && nodeToDelete->left->priority < nodeToDelete->right->priority))
 	{
 		rightRotation(nodeToDelete);
 		remove(nodeToDelete->right);
 	}
 	// If there is no left subtree OR there is right subtree and the priority of left subtree is bigger than the priority of right subtree , makes left rotation.
-	else if (!nodeToDelete->left || (root->right && nodeToDelete->left->priority > nodeToDelete->right->priority))
+	else if (!nodeToDelete->left || (nodeToDelete->right && nodeToDelete->left->priority > nodeToDelete->right->priority))
 	{
 		leftRotation(nodeToDelete);
 		remove(nodeToDelete->left);
