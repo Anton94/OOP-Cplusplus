@@ -2,7 +2,7 @@
 #include "Treap.h"
 #include <time.h>
 
-#define NUMBER_OF_VALUES 20000
+#define NUMBER_OF_VALUES 2600000
 
 
 int main()

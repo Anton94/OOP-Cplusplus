@@ -77,45 +77,39 @@ void Treap::remove(int key)
 	// If there is no key with the given key value, returns...
 	if (!containsKey(key))
 		return;
+	
+	remove(searchNodeByKey(root, key));
+}
 
-	// References, so I keep the real connection...
-	TreapNode *& elementToDelete = searchNodeByKey(root, key);
-
-	// Now rotates the nodes while the needed one is a leaf. (while has left or right child subtree goes..
-	while (elementToDelete->left || elementToDelete->right)
+/**
+* Removes the node from the treap given as @root . makes it a leaf and deletes it.
+*
+* @param root: the node to delete
+*/
+void Treap::remove(TreapNode*& nodeToDelete)
+{
+	// If the node is a leaf, deletes it and makes THE real pointer to the node NULL.
+	if (!nodeToDelete->left && !nodeToDelete->right)
 	{
-		// If there is no right subtree, that means there is only left subtree and makes right rotation.
-		if (!elementToDelete->right)
-		{
-			rightRotation(elementToDelete);
-			elementToDelete = elementToDelete->right;
-		}
-		// If there is no left subtree, that means there is only right subtree and makes left rotation.
-		else if (!elementToDelete->left)
-		{
-			leftRotation(elementToDelete);
-			elementToDelete = elementToDelete->left;
-		}
-		// Last case, we have left and right subtrees.
-		else
-		{
-			if (elementToDelete->left->priority < elementToDelete->right->priority)
-			{
-				rightRotation(elementToDelete);
-				elementToDelete = elementToDelete->right;
-			}
-			else
-			{
-				leftRotation(elementToDelete);
-				elementToDelete = elementToDelete->left;
-			}
-		}
+		delete nodeToDelete;
+		nodeToDelete = NULL;
+		return;
 	}
 
-	// Now deletes the leaf and makes that pointer (real left/right child subtree pointer of parent node) NULL.
-	delete elementToDelete;
-	elementToDelete = NULL;
+	// If there is no right subtree OR there is left subtree and the priority of left subtree is smaller than the priority of right subtree , makes right rotation.
+	if (!nodeToDelete->right || (root->left && nodeToDelete->left->priority < nodeToDelete->right->priority))
+	{
+		rightRotation(nodeToDelete);
+		remove(nodeToDelete->right);
+	}
+	// If there is no left subtree OR there is right subtree and the priority of left subtree is bigger than the priority of right subtree , makes left rotation.
+	else if (!nodeToDelete->left || (root->right && nodeToDelete->left->priority > nodeToDelete->right->priority))
+	{
+		leftRotation(nodeToDelete);
+		remove(nodeToDelete->left);
+	}
 }
+
 
 /// SEARCH.
 
@@ -299,7 +293,7 @@ bool Treap::checkPriorities(TreapNode* root) const
 	if ((root->left && root->left->priority < root->priority) || (root->right && root->right->priority < root->priority))
 		return false;
 
-	return checkPriorities(root->left) || checkPriorities(root->right);
+	return checkPriorities(root->left) && checkPriorities(root->right);
 }
 
 bool Treap::checkKeys() const
@@ -315,5 +309,5 @@ bool Treap::checkKeys(TreapNode* root) const
 	if ((root->left && root->left->key > root->key) || (root->right && root->right->key < root->key))
 		return false;
 
-	return checkKeys(root->left) || checkKeys(root->right);
+	return checkKeys(root->left) && checkKeys(root->right);
 }

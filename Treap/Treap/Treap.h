@@ -65,12 +65,21 @@ private:
 	*/
 	void insert(int key, TreapNode *& root);
 	
+
 	/**
 	* Frees the treap by the given root.
 	*
 	* @param root: the root of the subTreap.
 	*/
 	void freeSubTree(TreapNode * root);
+
+
+	/**
+	* Removes the node from the treap given as @root . makes it a leaf and deletes it.
+	*
+	* @param root: the node to delete
+	*/
+	void Treap::remove(TreapNode*& root);
 
 	/**
 	* In order printing of the treap. (In the given @ostream). NOTE: does not returns the ostream...
@@ -80,6 +89,7 @@ private:
 	*/
 	void print(std::ostream& out, TreapNode * root) const;
 
+
 	/**
 	* Searches for the node of given @key and given @root for the subtree, and if there is a node with that @key. If there is no node with that key, throws exeption, use function 'containsKey' to check before using that function.
 	*
@@ -87,6 +97,7 @@ private:
 	* @return returns THE pointer to it, otherwise returns NULL
 	*/
 	TreapNode*& searchNodeByKey(TreapNode *& root, int key);
+
 
 	/**
 	* Makes left rotation, the given root is the parent.
@@ -101,6 +112,7 @@ private:
 	* @param root: the root of the subTreap.
 	*/
 	void rightRotation(TreapNode*& root);
+
 
 	/**
 	* Checks whether a given @key is already in the treap
