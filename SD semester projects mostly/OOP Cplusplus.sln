@@ -37,6 +37,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "String", "String\String.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Homework five", "Homework five\Homework five.vcxproj", "{D07CC460-86F7-42AB-A362-B81FCC0909AF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exercises", "Exercises\Exercises.vcxproj", "{D796CF39-7B73-483D-A86E-F392CFF87B2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -217,6 +219,16 @@ Global
 		{D07CC460-86F7-42AB-A362-B81FCC0909AF}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{D07CC460-86F7-42AB-A362-B81FCC0909AF}.Release|Win32.ActiveCfg = Release|Win32
 		{D07CC460-86F7-42AB-A362-B81FCC0909AF}.Release|Win32.Build.0 = Release|Win32
+		{D796CF39-7B73-483D-A86E-F392CFF87B2A}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{D796CF39-7B73-483D-A86E-F392CFF87B2A}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{D796CF39-7B73-483D-A86E-F392CFF87B2A}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{D796CF39-7B73-483D-A86E-F392CFF87B2A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D796CF39-7B73-483D-A86E-F392CFF87B2A}.Debug|Win32.Build.0 = Debug|Win32
+		{D796CF39-7B73-483D-A86E-F392CFF87B2A}.Release|Any CPU.ActiveCfg = Release|Win32
+		{D796CF39-7B73-483D-A86E-F392CFF87B2A}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{D796CF39-7B73-483D-A86E-F392CFF87B2A}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{D796CF39-7B73-483D-A86E-F392CFF87B2A}.Release|Win32.ActiveCfg = Release|Win32
+		{D796CF39-7B73-483D-A86E-F392CFF87B2A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

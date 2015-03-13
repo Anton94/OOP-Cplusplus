@@ -3,12 +3,12 @@
 
 void testing()
 {
-
 	DLList<int> list;
 	std::cout << "List is empty? = " << list.isEmpty() << std::endl;
 	list.push_back(10);
 	list.push_back(15);
-	list.push_front(20);
+	list.push_front(-20);
+	list.push_front(-550);
 	list.push_back(25);
 	list.push_back(30);
 
@@ -147,10 +147,26 @@ void testing()
 
 	}
 
+
 	std::cout << std::endl;
 }
 int main()
 {
-	testing();
+	_CrtMemState s1, s2, s3;
+	_CrtMemCheckpoint(&s1);
+	{
+		
+		testing();
+
+	}
+
+
+	_CrtMemCheckpoint(&s2);
+
+	if (_CrtMemDifference(&s3, &s1, &s2))
+	{
+		std::cout << "Memory leak detected!" << std::endl;
+		_CrtMemDumpStatistics(&s3);
+	}
 	return 0;
 }
