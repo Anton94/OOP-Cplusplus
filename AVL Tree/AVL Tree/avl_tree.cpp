@@ -6,6 +6,7 @@
 #include <map>
 #include <sstream>
 #include <iomanip>
+#include <algorithm> 
 
 using namespace std;
 
@@ -212,6 +213,20 @@ int main()
 	print("\n\nPreliminary result: %d points from this homework\n", max(result, 0));
 	print("For the user: %s with moodle name: %s and fn: %s\n\n", getName().c_str(), getMoodleName().c_str(), getFacultyNumber().c_str());
 
-	
+	//AVLTree<int> tree;
+
+	//for (int i = 0; i < 100000; ++i)
+	//{
+	//	tree.insertNode(rand());
+	//}
+	//
+	////tree.printInOrder();
+
+	//std::cout << "Find nodes 78, 80 : " << tree.findNode(78) << ", " << tree.findNode(80) <<  std::endl;
+	//tree.deleteNode(80);
+	//tree.deleteNode(78);
+
+	////tree.printInOrder();
+	//std::cout << "Check for the values : " << tree.checkBST() << std::endl;
 	return 0;
 }
