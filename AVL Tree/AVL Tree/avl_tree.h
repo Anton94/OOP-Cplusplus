@@ -117,7 +117,7 @@ void AVLTree<T>::insertNode(Node<T> *& root, T value)
 	{
 		createNodeAndItsData(root, NULL, value);
 	}
-	else if (value < root->value)
+	else if (value <= root->value)
 	{
 		if (!root->leftChild) // if the element has to go to left root as a leaf
 		{
@@ -179,7 +179,6 @@ void AVLTree<T>::recheckToTheRoot(Node<T> *& root)
 	//	grandParent->parent->rightChild;	
 
 	Node<T> *& grandParent = (!grP->parent ? this->root : (grP->parent->leftChild == grP ? grP->parent->leftChild : grP->parent->rightChild));
-
 
 	// If the heights are fucked up.
 	if (std::abs(getHeightOfSubtree(grandParent->leftChild) - getHeightOfSubtree(grandParent->rightChild)) > 1)
@@ -257,6 +256,7 @@ void AVLTree<T>::rotationRight(Node<T> *& root)
 
 	root->rightChild = n;
 
+	// Heights. Maybe the left child height has no need to be recalc...
 	fixHeightsOfNode(root->leftChild);
 	fixHeightsOfNode(root->rightChild);
 	fixHeightsOfNode(root);
@@ -285,6 +285,7 @@ void AVLTree<T>::rotationLeft(Node<T> *& root)
 
 	root->leftChild = n;
 
+	// Heights. Maybe the right child height has no need to be recalc...
 	fixHeightsOfNode(root->leftChild);
 	fixHeightsOfNode(root->rightChild);
 	fixHeightsOfNode(root);
@@ -359,10 +360,12 @@ void AVLTree<T>::deleteNode(T value)
 	}
 	else if (!pNode->leftChild) // If it has no left subtree
 	{
+		pNode->rightChild->parent = pNode->parent; // Sets the new parent of the right child
 		pNode = pNode->rightChild;
 	}
 	else if (!pNode->rightChild) // If it has no right subtree
 	{
+		pNode->leftChild->parent = pNode->parent; // Sets the new parent of the left child
 		pNode = pNode->leftChild;
 	}
 	else
@@ -412,7 +415,6 @@ void AVLTree<T>::freeNode(Node<T> * root)
 
 	delete root;
 }
-
 
 /// Prints the tree 'in order'.
 
