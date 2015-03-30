@@ -133,7 +133,7 @@ private:
 	*/
 	Node* merge(Node* root1, Node* root2)
 	{
-		// Iterators on the two heaps.
+		// 'Iterators' on the two heaps.
 		Node * r1 = root1;
 		Node * r2 = root2;
 
