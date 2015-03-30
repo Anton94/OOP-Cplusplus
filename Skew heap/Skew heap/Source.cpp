@@ -1,18 +1,18 @@
 #include <iostream>
+#include <crtdbg.h>
 #include "SkewHeap.h"
-
 
 int main()
 {
 	_CrtMemState s1, s2, s3;
 	_CrtMemCheckpoint(&s1);
 	{
-		
+		// Some tests....
 		SkewHeap<int> sh;
 
 		for (int i = 0; i < 8; ++i)
 		{
-		sh.add(i);
+			sh.add(i);
 		}
 
 		std::cout << "Sh 1 : " << std::endl;
@@ -41,7 +41,9 @@ int main()
 		sh.removeMin();
 		sh.printInOrder();
 		
-		/*SkewHeap<int> sk1;
+		/*
+		// Other test... 
+		SkewHeap<int> sk1;
 		sk1.add(1);
 		sk1.add(20);
 
@@ -102,7 +104,7 @@ int main()
 	}
 	else
 	{
-		std::cout << "Everything is OK!" << std::endl;
+		std::cout << "Everything with the memory is OK!" << std::endl;
 	}
 
 	return 0;

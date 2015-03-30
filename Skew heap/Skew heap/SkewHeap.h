@@ -2,7 +2,17 @@
 
 #include <iostream>
 #include <stdlib.h>
-#include <crtdbg.h>
+
+
+/*
+*	Name: Anton Vasilev Dudov
+*	FN: 71488
+*
+*	Github repository: https://github.com/Anton94/OOP-Cplusplus
+*
+*	AVL tree project: https://github.com/Anton94/OOP-Cplusplus/tree/master/Skew%20heap
+*/
+
 
 /*
 * Data type that represents a template of min-heap implementation of Skew heap data stucture.
@@ -41,13 +51,14 @@ public:
 		if (empty())
 			throw "Can`t get min element of empty tree!";
 
-		// Save the min node and min node value.
+		// Keep the min node and min node value.
 		T val = root->value;
 		Node * min = root;
 
 		// Merge the two childrens.
 		root = merge(root->left, root->right);
 
+		// Deletes the min node.
 		delete min;
 
 		return val;
@@ -72,11 +83,11 @@ public:
 	void merge(SkewHeap<T>& other)
 	{
 		this->root = merge(this->root, other.root);
-		other.root = NULL;
+		other.root = NULL; // Make @other skew heap empty one...
 	}
 
 	/*
-	* Prints the values in the nodes to the std::cout.
+	* Prints the values in the nodes to the std::cout and checks if the heap rule is valid.
 	*/
 	void printInOrder() const
 	{
@@ -99,7 +110,7 @@ private:
 
 		~Node()
 		{
-			// Implement me...
+			// Implement me... I don`t want...
 		}
 
 		T value; // data value
@@ -107,6 +118,11 @@ private:
 		Node* right; // right subtree
 	};
 
+	/*
+	* Pointer to the root for the current skew heap
+	*/
+	Node* root;
+private:
 	/*
 	* Method that merges two skew heap data structures pointed to their roots by @root1 and @root2
 	*
@@ -126,63 +142,44 @@ private:
 
 		while (r1 && r2)
 		{
-			r3->right = getMin(r1, r2);
-
+			r3->right = getMin(r1, r2); // r1 or r2 will be moved from the function.
 			r3 = r3->right;
 		}
 
 		if (r1)
 			r3->right = r1;
-		else if (r2)
+		else if (r2) // No need for check, but for now lets stay.
 			r3->right = r2;
 
-		// Now make the swapping, left and right child
+		// Now make the swapping, left and right child.
 		swapChildrens(resultTreeRoot);
 
 		return resultTreeRoot;
 	}
 
 	/*
-	* Goes through every right node to the end and after that swaps the childs (without the last node)
-	*/
-	void swapChildrens(Node * root)
-	{
-		if (!root)
-			return;
-		// Skip the last one.
-		if (!root->right)
-			return;
-
-		swapChildrens(root->right);
-		std::swap(root->left, root->right);
-	}
-
-	/*
-	* Returns the min root of the given two, moves the @r1 or @r2 to their right child...
+	* Method that merges two skew heap data structures pointed to their roots by @root1 and @root2
+	*
+	* @param root1: pointer to the root of the left subskew heap
+	* @param root2: pointer to the root of the right subskew heap
+	*
+	* @returns the min root of the given two, moves the @r1 or @r2 to their right child...
 	*/
 	Node * getMin(Node *& r1, Node*& r2)
 	{
-		if (!r1 && !r2)
+		if (!r1 && !r2) // Check if the two nodes are null, just in case...
 			return NULL;
 
 		Node * resultRoot = NULL;
 
-		if (!r1)
-		{
-			resultRoot = r2;
-			r2 = r2->right;
-		}
-		else if (!r2)
+		// Return @r1 if there is no @r2 OR (there is @r1 AND the value in @r1 is smaller thant the value in @r2).
+		if (!r2 || (r1 && r1->value <= r2->value))
 		{
 			resultRoot = r1;
 			r1 = r1->right;
 		}
-		else if (r1->value <= r2->value)
-		{
-			resultRoot = r1;
-			r1 = r1->right;
-		}
-		else
+		// In the other cases returns the @r2 , because there is no @r1 or the value in @r1 is bigger than the value in @r2.
+		else 
 		{
 			resultRoot = r2;
 			r2 = r2->right;
@@ -192,7 +189,28 @@ private:
 	}
 
 	/*
+	* Goes through every right node to the end and after that swaps the childs (without the last node)
+	*
+	* @param root: pointer to the of the subskew heap
+	*
+	*/
+	void swapChildrens(Node * root)
+	{
+		if (!root)
+			return;
+		// Skip the last one.
+		if (!root->right)
+			return;
+
+		swapChildrens(root->right); // go deaper and after that start swapping... reverse...
+		std::swap(root->left, root->right);
+	}
+
+	/*
 	* Prints the values and the childs in every node, in order.
+	*
+	* @param root: pointer to the root of the subskew heap
+	*
 	*/
 	void printInOrder(Node * root) const
 	{
@@ -211,6 +229,9 @@ private:
 
 	/*
 	* Deletes the nodes in the left and right child of the given one and after that deletes it.
+	*
+	* @param root: pointer to the root of the subskew heap
+	*
 	*/
 	void freeNode(Node * root)
 	{
@@ -225,6 +246,10 @@ private:
 
 	/*
 	* Checks if every node value is smaller than the values in it`s childs
+	*
+	* @param root1: pointer to the root of the subskew heap
+	*
+	* @returns true if the 'heap rule' is valid.
 	*/
 	bool checkBST(Node * root) const
 	{
@@ -236,10 +261,10 @@ private:
 
 		return checkBST(root->left) && checkBST(root->right);
 	}
-
 private:
 	/*
-	* Pointer to the root for the current skew heap
+	* "Ban" the copy constructor and operator= , in this homework we don`t need to implement them.
 	*/
-	Node* root;
+	SkewHeap(const SkewHeap<T>& other);
+	SkewHeap& operator=(const SkewHeap<T>& other);
 };
