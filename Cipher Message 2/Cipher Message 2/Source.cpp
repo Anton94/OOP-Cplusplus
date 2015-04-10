@@ -2,7 +2,10 @@
 #include <cstring>
 #include <vector>
 #include "HashMap.h"
+
 using namespace std;
+
+
 
 int n, k;
 char str[MAX];
@@ -30,8 +33,21 @@ int main(void) {
 		Hash hash;
 		for (int c = i; c < k; c++) {
 			hash.append(str[c]);
-			if (!hmap.contains(hash) || hmap.get(hash) == 0) {
+			/*if (!hmap.contains(hash) || hmap.get(hash) == 0) {
 				hmap.insert(hash, 1);
+				ans++;
+			}
+			else {
+				hmap.get(hash)++;
+			}*/
+
+			if(!hmap.contains(hash)) {
+				hmap.insert(hash, 1);
+				ans++;
+			}
+			else if (hmap.get(hash) == 0)
+			{
+				hmap.get(hash)++;
 				ans++;
 			}
 			else {
@@ -47,8 +63,13 @@ int main(void) {
 		for (int len = 1; len <= k; len++) {
 			hash.append(str[start - 1 + len - 1]);
 			hmap.get(hash)--;
+			/*if (hmap.get(hash) == 0)
+				ans--;*/
 			if (hmap.get(hash) == 0)
+			{
 				ans--;
+				hmap.remove(hash);
+			}
 		}
 
 		// Add all new substrings, ending in index start + k - 1
@@ -59,8 +80,21 @@ int main(void) {
 		// Starting with the string with length k ending in index start + k - 1, remove characters
 		// one by one
 		for (int i = start; i < start + k; i++) {
-			if (!hmap.contains(hash) || hmap.get(hash) == 0) {
+			/*if (!hmap.contains(hash) || hmap.get(hash) == 0) {
 				hmap.insert(hash, 1);
+				ans++;
+			}
+			else {
+				hmap.get(hash)++;
+			}*/
+			
+			if (!hmap.contains(hash)) {
+				hmap.insert(hash, 1);
+				ans++;
+			}
+			else if (hmap.get(hash) == 0)
+			{
+				hmap.get(hash)++;
 				ans++;
 			}
 			else {
@@ -70,6 +104,6 @@ int main(void) {
 		}
 		fprintf(out, " %d", ans);
 	}
-	fprintf(out, "\n");
+	//fprintf(out, "\n");
 	return 0;
 }

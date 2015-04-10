@@ -5,13 +5,13 @@
 using std::vector;
 using std::pair;
 
-const int MAX = 262144;
+const int MAX = 8017;
 
 const int BASE1 = 127;
 const int BASE2 = 131;
 const int BASE3 = 137;
 
-const int MOD1 = 4093;
+const int MOD1 = 199999;
 const int MOD2 = 7633579;
 const int MOD3 = 7299251;
 
@@ -52,6 +52,59 @@ public:
 	HashMap()
 	{
 		hashMap.resize(MOD1); // MOD1 because I will store the data by first hash code...
+	}
+
+
+	bool contains(const Hash& hash)
+	{
+		for (typename vector<pair<Hash, T>>::iterator it = hashMap[hash.h1].begin(); it != hashMap[hash.h1].end(); ++it)
+		{
+			if (hash == it->first)
+				return true;
+		}
+
+		/*for (int i = 0; i < hashMap[hash.h1].size(); ++i)
+		{
+		if (hash == hashMap[hash.h1][i].first)
+		return true;
+		}*/
+
+		return false;
+	}
+
+
+	T& get(const Hash& hash)
+	{
+		for (typename vector<pair<Hash, T>>::iterator it = hashMap[hash.h1].begin(); it != hashMap[hash.h1].end(); ++it)
+		{
+			if (hash == it->first)
+				return it->second;
+		}
+
+		/*for (int i = 0; i < hashMap[hash.h1].size(); ++i)
+		{
+		if (hash == hashMap[hash.h1][i].first)
+		return hashMap[hash.h1][i].second;
+		}
+		*/
+		throw "No element to get!";
+	}
+
+	void insert(const Hash& hash, const T& value)
+	{
+		hashMap[hash.h1].push_back(pair<Hash, T>(hash, value));
+	}
+
+	void remove(const Hash& hash)
+	{
+		for (typename vector<pair<Hash, T>>::iterator it = hashMap[hash.h1].begin(); it != hashMap[hash.h1].end(); ++it)
+		{
+			if (hash == it->first)
+			{
+				hashMap[hash.h1].erase(it);
+				return;
+			}
+		}
 	}
 private:
 
