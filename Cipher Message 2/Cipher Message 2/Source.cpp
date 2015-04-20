@@ -5,8 +5,6 @@
 
 using namespace std;
 
-
-
 int n, k;
 char str[MAX];
 
