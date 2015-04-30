@@ -13,6 +13,16 @@
 *
 * (optional): Make it also work for integers (int) as keys.
 * (optional): Make it also work for arbitrary objects as keys.
+*
+*
+*
+*   Github repository for the Chipher message 2 task: https://github.com/Anton94/OOP-Cplusplus/tree/master/Cipher%20Message%202
+*   Github repository for the HashMap homework:		  https://github.com/Anton94/OOP-Cplusplus/tree/master/HashMap
+*
+*
+*   The definition of the static variables for the Hash struct is in the Soruce.cpp file :(
+*
+*
 */
 
 #ifndef __HASHMAP_H__
@@ -49,10 +59,20 @@ struct Hash
 	int len;
 	int h1, h2, h3;
 
-	Hash() {
+	Hash() 
+	{
 		len = 0;
 		h1 = h2 = h3 = 1;
 	}
+
+	Hash(const string& str) 
+	{
+		len = 0;
+		h1 = h2 = h3 = 1;
+
+		stringHash(str);
+	}
+
 	bool operator == (const Hash& r) const
 	{
 		return len == r.len && h1 == r.h1 && h2 == r.h2 && h3 == r.h3;
@@ -62,7 +82,8 @@ struct Hash
 	{
 		int strSize = (int)str.size();
 
-		for (int i = 0; i < strSize; i++) {
+		for (int i = 0; i < strSize; i++) 
+		{
 			h1 = ((long long)h1 * BASE1 + str[i]) % MOD1;
 			h2 = ((long long)h2 * BASE2 + str[i]) % MOD2;
 			h3 = ((long long)h3 * BASE3 + str[i]) % MOD3;
@@ -80,7 +101,8 @@ public:
 	* number of buckets should be maintained at all times!
 	* Expected complexity: O(minBuckets)
 	*/
-	HashMap(int minBuckets = 1, int maxBuckets = 1000000000) {
+	HashMap(int minBuckets = 1, int maxBuckets = 1000000000) 
+	{
 		if (minBuckets < 1 || maxBuckets < minBuckets)
 			throw myEx;
 
@@ -98,7 +120,8 @@ public:
 	* Destroys all values in the HashMap and the HashMap itself.
 	* Expected complexity: O(N + B), where B is the number of buckets.
 	*/
-	~HashMap() {
+	~HashMap() 
+	{
 		delete hashMap;
 	}
 
@@ -188,8 +211,7 @@ public:
 	*/
 	bool contains(const std::string& key) const 
 	{
-		Hash hash;
-		hash.stringHash(key);
+		Hash hash(key);
 
 		int indexVectorSize = hash.h1 % capacityValue;
 
@@ -209,8 +231,7 @@ public:
 	*/
 	void insert(const std::string& key, const V& value) 
 	{
-		Hash hash;
-		hash.stringHash(key);
+		Hash hash(key);
 
 		int indexVectorSize = hash.h1 % capacityValue;
 
@@ -240,8 +261,7 @@ public:
 	*/
 	void erase(const std::string& key)
 	{
-		Hash hash;
-		hash.stringHash(key);
+		Hash hash(key);
 
 		int indexVectorSize = hash.h1 % capacityValue;
 
@@ -269,19 +289,18 @@ public:
 	* by assertion.
 	* Expected complexity: O(H + 1), where O(H) is needed to hash the key.
 	*/
-	V& get(const std::string& key) {
-
+	V& get(const std::string& key)
+	{
 		return getValueByString(key);
 	}
 
 	/**
 	* Same as get().
 	*/
-	V& operator[] (const std::string& key) {
-
+	V& operator[] (const std::string& key) 
+	{
 		return getValueByString(key);
 	}
-
 private:
 	/**
 	* Resize the hash map but don`t change the min and max buckets bounds.
@@ -323,10 +342,9 @@ private:
 	*/
 	V& getValueByString(const std::string& key)
 	{
-		Hash hash;
-		hash.stringHash(key);
+		Hash hash(key);
 
-		int indexVectorSize = hash.h1 % capacityValue;
+		int indexVectorSize = hash.h1 % capacityValue; // The bucket index.
 
 		for (int i = 0; i < (*hashMap)[indexVectorSize].size(); ++i)
 		{
@@ -344,16 +362,16 @@ private:
 	*/
 	void copyFrom(const HashMap<V>& other)
 	{
-		minBuckets = other->minBuckets;
-		maxBuckets = other->maxBuckets;
+		minBuckets = other.minBuckets;
+		maxBuckets = other.maxBuckets;
 		sizeValue = other.sizeValue;
 		capacityValue = other.capacityValue;
 
-		hashMap = new vector<vector<pair<string, V>>>(other.capacityValue);
+		hashMap = new vector<vector<pair<Hash, V>>>(other.capacityValue);
 
 		for (int i = 0; i < other.capacityValue; ++i)
 		{
-			(*hashMap)[i] = other.(*hashMap)[i]; // Copy the bucket vectors(I can copy the vector of vectors even, but..)
+			(*hashMap)[i] = (*other.hashMap)[i]; // Copy the bucket vectors(I can copy the vector of vectors even, but..)
 		}
 	}
 private:

@@ -132,7 +132,7 @@ void testAddingAfterClear(HashMap<int>& hmap, map<string, int>& tmap, int minCap
 	assert(hmap.capacity() <= min(max((hmap.size() + 1) * 4, minCap), maxCap));
 }
 
-void testChangingAValue(HashMap<int>& hmap, map<string, int>& tmap) {
+void testChangingAValue(HashMap<int> hmap, map<string, int>& tmap) {
 	fprintf(stderr, "In testChangingAValue()\n");
 
 	assert(hmap.size() == (int)tmap.size());
