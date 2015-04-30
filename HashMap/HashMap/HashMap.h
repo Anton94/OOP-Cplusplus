@@ -353,10 +353,7 @@ private:
 
 		for (int i = 0; i < other.capacityValue; ++i)
 		{
-			for (int j = 0; j < other.(*hashMap)[i].size(); ++j)
-			{
-				(*hashMap)[other.(*hashMap)[i][j].first.h1 % other.capacityValue].push(other.(*hashMap)[i][j]);
-			}
+			(*hashMap)[i] = other.(*hashMap)[i]; // Copy the bucket vectors(I can copy the vector of vectors even, but..)
 		}
 	}
 private:
