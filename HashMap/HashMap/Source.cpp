@@ -288,7 +288,23 @@ void simpleTest() {
 }
 
 int main(void) {
-	simpleTest();
+	_CrtMemState s1, s2, s3;
+	_CrtMemCheckpoint(&s1);
+	{
+		simpleTest();
+	}
+
+	_CrtMemCheckpoint(&s2);
+
+	if (_CrtMemDifference(&s3, &s1, &s2))
+	{
+		fprintf(stderr, "Memory leak detected!\n");
+		_CrtMemDumpStatistics(&s3);
+	}
+	else
+	{
+		fprintf(stderr, "Everything with the memory is OK!\n");
+	}
 
 	return 0;
 }

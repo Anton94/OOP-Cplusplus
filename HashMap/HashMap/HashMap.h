@@ -104,7 +104,7 @@ public:
 	HashMap(int minBuckets = 1, int maxBuckets = 1000000000) 
 	{
 		if (minBuckets < 1 || maxBuckets < minBuckets)
-			throw myEx;
+			throw myEx; // throw std::exeption("msg??");
 
 		this->minBuckets = minBuckets;
 		this->maxBuckets = maxBuckets;
@@ -354,7 +354,7 @@ private:
 			}
 		}
 
-		throw myEx;
+		throw myEx; // throw std::exeption("msg??");
 	}
 
 	/*
