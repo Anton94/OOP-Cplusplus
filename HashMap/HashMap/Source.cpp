@@ -1,3 +1,5 @@
+
+
 /**
 * Functionality tester for HashMap class.
 */
@@ -17,6 +19,15 @@ using namespace std;
 * implemented and includes some simple sanity check.
 */
 
+
+int Hash::BASE1 = 257;
+int Hash::BASE2 = 263;
+int Hash::BASE3 = 271;
+
+int Hash::MOD1 = 1000000007;
+int Hash::MOD2 = 1000000021;
+int Hash::MOD3 = 1000000181;
+
 string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "abcdefghijklmnopqrstuvwxyz"
 "0123456789"
@@ -30,15 +41,15 @@ string randomString() {
 	return str;
 }
 
-void testInitialCapacity(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) {
+void testInitialCapacity(HashMap<int>& hmap, map<string, int>& tmap, int minCap, int maxCap) {
 	fprintf(stderr, "In testInitialCapacity()\n");
 
 	assert(hmap.size() == 0);
 	assert(tmap.size() == 0u);
-	assert(hmap.capacity() <= max((hmap.size() + 1) * 4, minCapacity));
+	assert(hmap.capacity() <= min(max((hmap.size() + 1) * 4, minCap), maxCap));
 }
 
-void testInsert(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) {
+void testInsert(HashMap<int>& hmap, map<string, int>& tmap, int minCap, int maxCap) {
 	fprintf(stderr, "In testInsert()\n");
 
 	hmap.insert("espr1t", 42);
@@ -46,7 +57,7 @@ void testInsert(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) {
 
 	assert(hmap.size() == 1);
 	assert(tmap.size() == 1);
-	assert(hmap.capacity() <= max((hmap.size() + 1) * 4, minCapacity));
+	assert(hmap.capacity() <= min(max((hmap.size() + 1) * 4, minCap), maxCap));
 }
 
 void testContainsAndGet(HashMap<int>& hmap, map<string, int>& tmap) {
@@ -62,7 +73,7 @@ void testContainsAndGet(HashMap<int>& hmap, map<string, int>& tmap) {
 	assert(tmap.find("ThinkCreative") == tmap.end());
 }
 
-void testMoreOperations(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) {
+void testMoreOperations(HashMap<int>& hmap, map<string, int>& tmap, int minCap, int maxCap) {
 	fprintf(stderr, "In testMoreOperations()\n");
 
 	hmap.insert("exod40", 13);
@@ -80,10 +91,10 @@ void testMoreOperations(HashMap<int>& hmap, map<string, int>& tmap, int minCapac
 	assert(hmap["exod40"] == 13);
 	assert(hmap.get("exod40") == 13);
 
-	assert(hmap.capacity() <= max((hmap.size() + 1) * 4, minCapacity));
+	assert(hmap.capacity() <= min(max((hmap.size() + 1) * 4, minCap), maxCap));
 }
 
-void testClear(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) {
+void testClear(HashMap<int>& hmap, map<string, int>& tmap, int minCap, int maxCap) {
 	fprintf(stderr, "In testClear()\n");
 
 	hmap.clear();
@@ -91,13 +102,13 @@ void testClear(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) {
 	assert(hmap.size() == 0);
 	assert(tmap.size() == 0u);
 
-	assert(hmap.capacity() <= max((hmap.size() + 1) * 4, minCapacity));
-
 	assert(!hmap.contains("espr1t"));
 	assert(!hmap.contains("exod40"));
+
+	assert(hmap.capacity() <= min(max((hmap.size() + 1) * 4, minCap), maxCap));
 }
 
-void testAddingAfterClear(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) {
+void testAddingAfterClear(HashMap<int>& hmap, map<string, int>& tmap, int minCap, int maxCap) {
 	fprintf(stderr, "In testAddingAfterClear()\n");
 
 	vector < pair <string, int> > rating = {
@@ -118,7 +129,7 @@ void testAddingAfterClear(HashMap<int>& hmap, map<string, int>& tmap, int minCap
 		tmap[rating[i].first] = rating[i].second;
 	}
 
-	assert(hmap.capacity() <= max((hmap.size() + 1) * 4, minCapacity));
+	assert(hmap.capacity() <= min(max((hmap.size() + 1) * 4, minCap), maxCap));
 }
 
 void testChangingAValue(HashMap<int>& hmap, map<string, int>& tmap) {
@@ -146,7 +157,7 @@ void testErase(HashMap<int>& hmap, map<string, int>& tmap) {
 	assert(hmap.size() == 8);
 }
 
-void testOverwrite(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) {
+void testOverwrite(HashMap<int>& hmap, map<string, int>& tmap, int minCap, int maxCap) {
 	fprintf(stderr, "In testOverwrite()\n");
 
 	vector < pair <string, int> > rating = {
@@ -169,14 +180,14 @@ void testOverwrite(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) 
 	}
 
 	assert(hmap.size() == 10);
-	assert(hmap.capacity() <= max((hmap.size() + 1) * 4, minCapacity));
+	assert(hmap.capacity() <= min(max((hmap.size() + 1) * 4, minCap), maxCap));
 
 	hmap.insert("espr1t", 42);
 	tmap["espr1t"] = 42;
 	hmap.insert("exod40", 1337);
 	tmap["exod40"] = 1337;
 	assert(hmap.size() == 12);
-	assert(hmap.capacity() <= max((hmap.size() + 1) * 4, minCapacity));
+	assert(hmap.capacity() <= min(max((hmap.size() + 1) * 4, minCap), maxCap));
 }
 
 void testAccessingInvalidKey(HashMap<int>& hmap, map<string, int>& tmap) {
@@ -194,7 +205,7 @@ void testAccessingInvalidKey(HashMap<int>& hmap, map<string, int>& tmap) {
 	assert(errorThrown);
 }
 
-void testAutomaticResizing(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) {
+void testAutomaticResizing(HashMap<int>& hmap, map<string, int>& tmap, int minCap, int maxCap) {
 	fprintf(stderr, "In testAutomaticResizing()\n");
 
 	// Test automatic resizing
@@ -203,8 +214,8 @@ void testAutomaticResizing(HashMap<int>& hmap, map<string, int>& tmap, int minCa
 		int value = rand() % 1000000007;
 		hmap.insert(str, value);
 		tmap[str] = value;
-		assert(hmap.capacity() <= max((hmap.size() + 1) * 4, minCapacity));
 		assert(hmap.size() == (int)tmap.size());
+		assert(hmap.capacity() <= min(max((hmap.size() + 1) * 4, minCap), maxCap));
 	}
 
 	// Check maps consistency
@@ -217,39 +228,7 @@ void testAutomaticResizing(HashMap<int>& hmap, map<string, int>& tmap, int minCa
 	}
 }
 
-void testManualResizing(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) {
-	fprintf(stderr, "In testManualResizing()\n");
-
-	hmap.resize(hmap.capacity() * 5);
-	// Check rehashed values
-	for (map <string, int> ::iterator it = tmap.begin(); it != tmap.end(); it++) {
-		if (it->second != hmap[it->first])
-			fprintf(stderr, "  -- for string %s: %d vs %d\n",
-			it->first.c_str(), it->second, hmap[it->first]);
-		assert(it->second == hmap[it->first]);
-	}
-
-	minCapacity = hmap.capacity();
-	// Add some more values
-	for (int i = 0; i < 2000; i++) {
-		string str = randomString();
-		int value = rand() % 1000000007;
-		hmap.insert(str, value);
-		tmap[str] = value;
-		assert(hmap.capacity() <= max((hmap.size() + 1) * 4, minCapacity));
-	}
-
-	// Check maps consistency
-	assert(hmap.size() == (int)tmap.size());
-	for (map <string, int> ::iterator it = tmap.begin(); it != tmap.end(); it++) {
-		if (it->second != hmap[it->first])
-			fprintf(stderr, "  -- for string %s: %d vs %d\n",
-			it->first.c_str(), it->second, hmap[it->first]);
-		assert(it->second == hmap[it->first]);
-	}
-}
-
-void testMaintainingLoadFactor(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) {
+void testMaintainingLoadFactor(HashMap<int>& hmap, map<string, int>& tmap, int minCap, int maxCap) {
 	fprintf(stderr, "In testMaintainingLoadFactor()\n");
 
 	while (hmap.size() > 0) {
@@ -266,28 +245,28 @@ void testMaintainingLoadFactor(HashMap<int>& hmap, map<string, int>& tmap, int m
 			hmap.erase(it->first);
 			tmap.erase(it);
 		}
-		assert(hmap.capacity() <= max((hmap.size() + 1) * 4, minCapacity));
+		assert(hmap.capacity() <= min(max((hmap.size() + 1) * 4, minCap), maxCap));
 	}
 }
 
-void funcTest(HashMap<int>& hmap, map<string, int>& tmap, int minCapacity) {
-	fprintf(stderr, "Starting functional test with initial capacity %d.\n",
-		minCapacity);
+void funcTest(HashMap<int>& hmap, map<string, int>& tmap,
+	int minCapacity = 0, int maxCapacity = 1000000000) {
+	fprintf(stderr, "Starting functional test with capacity range [%d, %d].\n",
+		minCapacity, maxCapacity);
 
 	srand(42);
-	testInitialCapacity(hmap, tmap, minCapacity);
-	testInsert(hmap, tmap, minCapacity);
+	testInitialCapacity(hmap, tmap, minCapacity, maxCapacity);
+	testInsert(hmap, tmap, minCapacity, maxCapacity);
 	testContainsAndGet(hmap, tmap);
-	testMoreOperations(hmap, tmap, minCapacity);
-	testClear(hmap, tmap, minCapacity);
-	testAddingAfterClear(hmap, tmap, minCapacity);
+	testMoreOperations(hmap, tmap, minCapacity, maxCapacity);
+	testClear(hmap, tmap, minCapacity, maxCapacity);
+	testAddingAfterClear(hmap, tmap, minCapacity, maxCapacity);
 	testChangingAValue(hmap, tmap);
 	testErase(hmap, tmap);
-	testOverwrite(hmap, tmap, minCapacity);
+	testOverwrite(hmap, tmap, minCapacity, maxCapacity);
 	testAccessingInvalidKey(hmap, tmap);
-	testAutomaticResizing(hmap, tmap, minCapacity);
-	testMaintainingLoadFactor(hmap, tmap, minCapacity);
-	testManualResizing(hmap, tmap, minCapacity);
+	testAutomaticResizing(hmap, tmap, minCapacity, maxCapacity);
+	testMaintainingLoadFactor(hmap, tmap, minCapacity, maxCapacity);
 }
 
 
@@ -295,12 +274,17 @@ void simpleTest() {
 	// Default constructor
 	HashMap<int> hmap1;
 	map <string, int> tmap1;
-	funcTest(hmap1, tmap1, 0);
+	funcTest(hmap1, tmap1);
 
-	// Constructor with fixed number of buckets
+	// Constructor with fixed lower number of buckets
 	HashMap<int> hmap2(1337);
 	map <string, int> tmap2;
 	funcTest(hmap2, tmap2, 1337);
+
+	// Constructor with fixed lower and upper number of buckets
+	HashMap<int> hmap3(1337, 42000);
+	map <string, int> tmap3;
+	funcTest(hmap3, tmap3, 1337, 42000);
 }
 
 int main(void) {

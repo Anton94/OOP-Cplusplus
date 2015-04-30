@@ -4,7 +4,7 @@
 * It will be better to use some kind of log complexity data structure for the buckets, but for this homework the task is more for the hash map, not to implement log complexity data structure.
 *
 * HashMap implementation in C++
-* @author: 
+* @author:
 * @keywords: Data Structures, Map, Hashing
 * @modified: Anton Dudov #71488
 *
@@ -36,7 +36,42 @@ class myException : public std::exception
 } myEx; // Very basic exeption, just to pass some message
 
 
-template <typename V> 
+struct Hash
+{
+	static int BASE1;
+	static int BASE2;
+	static int BASE3;
+
+	static int MOD1;
+	static int MOD2;
+	static int MOD3;
+
+	int len;
+	int h1, h2, h3;
+
+	Hash() {
+		len = 0;
+		h1 = h2 = h3 = 1;
+	}
+	bool operator == (const Hash& r) const
+	{
+		return len == r.len && h1 == r.h1 && h2 == r.h2 && h3 == r.h3;
+	}
+
+	void stringHash(const string& str)
+	{
+		int strSize = (int)str.size();
+
+		for (int i = 0; i < strSize; i++) {
+			h1 = ((long long)h1 * BASE1 + str[i]) % MOD1;
+			h2 = ((long long)h2 * BASE2 + str[i]) % MOD2;
+			h3 = ((long long)h3 * BASE3 + str[i]) % MOD3;
+		}
+	}
+
+};
+
+template <typename V>
 class HashMap {
 public:
 	/**
@@ -51,8 +86,12 @@ public:
 
 		this->minBuckets = minBuckets;
 		this->maxBuckets = maxBuckets;
+
+		capacityValue = minBuckets;
+		sizeValue = 0;
 		
-		setDefaultValues();
+		// Make the hash table with capacity value empty buckets.
+		hashMap = new vector<vector<pair<Hash, V>>>(capacityValue);
 	}
 
 	/**
@@ -99,29 +138,32 @@ public:
 	* Re-hashes the current values if needed.
 	* Expected time complexity: O(N + numBuckets)
 	*/
-	void resize(int numBuckets) {
+	//void resize(int numBuckets) {
 
-		// Check fo valid value, if it`s less than 1, makes it 1...
-		if (numBuckets < 1)
-			numBuckets = 1;
+	//	// Check fo valid value, if it`s less than 1, makes it 1...
+	//	if (numBuckets < 1)
+	//		numBuckets = 1;
 
-		// Make the lower and upper bounds the given number of the size.
-		this->minBuckets = this->maxBuckets = numBuckets;
-	
-		reizeWithoutBounds(numBuckets);
-	}
+	//	// Make the lower and upper bounds the given number of the size.
+	//	this->minBuckets = this->maxBuckets = numBuckets;
+	//
+	//	reizeWithoutBounds(numBuckets);
+	//}
 
 	/**
 	* Removes all existing values from the HashMap and leaves it empty.
 	* Expected complexity: O(N + B)
 	*/
-	void clear() {
+	void clear()
+	{
+		// Make the size of the vectors 0, that way I will remove all stored keys.
+		// I can remove only the values for the keys, but I don`t know if that what the function had to make.
+		for (int i = 0; i < capacityValue; ++i)
+		{
+			(*hashMap)[i].resize(0);
+		}
 
-		// Deletes all buckets (vectors) and the vector for the current hash map.
-		delete hashMap;
-
-		// Set the default values, and the new hash map will have min buckets size (because the hashmap is empty now, we need to make some kind of valid load factor(min buckets)).
-		setDefaultValues();
+		sizeValue = 0;
 	}
 
 	/**
@@ -144,9 +186,20 @@ public:
 	* Checks if a value is already associated with a certain key.
 	* Expected complexity: O(H + 1), where O(H) is needed to hash the key.
 	*/
-	bool contains(const std::string& key) const {
+	bool contains(const std::string& key) const 
+	{
+		Hash hash;
+		hash.stringHash(key);
 
-		return find(stringHash(key), key);
+		int indexVectorSize = hash.h1 % capacityValue;
+
+		for (int i = 0; i < (*hashMap)[indexVectorSize].size(); ++i)
+		{
+			if ((*hashMap)[indexVectorSize][i].first == hash)
+				return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -154,26 +207,30 @@ public:
 	* another one, if the key is already present.
 	* Expected complexity: O(H + 1), where O(H) is needed to hash the key.
 	*/
-	void insert(const std::string& key, const V& value) {
+	void insert(const std::string& key, const V& value) 
+	{
+		Hash hash;
+		hash.stringHash(key);
 
-		int hashCode = stringHash(key);
+		int indexVectorSize = hash.h1 % capacityValue;
 
-		for (int i = 0; i < (*hashMap)[hashCode].size(); ++i)
+		for (int i = 0; i < (*hashMap)[indexVectorSize].size(); ++i)
 		{
-			if (!(*hashMap)[hashCode][i].first.compare(key))
+			if ((*hashMap)[indexVectorSize][i].first == hash)
 			{
-				(*hashMap)[hashCode][i].second = value;
+				(*hashMap)[indexVectorSize][i].second = value;
 				return;
 			}
 		}
 
 		++sizeValue;
 
-		(*hashMap)[hashCode].push_back(pair<string, V>(key, value));
+		(*hashMap)[indexVectorSize].push_back(pair<Hash, V>(hash, value));
 
-		if ((sizeValue + 1) > capacityValue )
+		// If the elements are more than 75% , makes the table 1.5 bigger and they will be 50% of the table.
+		if ((double)(sizeValue + 1) >= (0.75) * (double)capacityValue)
 		{
-			reizeWithoutBounds(capacityValue * 4);
+			reizeWithoutBounds((double)capacityValue * 1.5);
 		}
 	}
 
@@ -181,24 +238,27 @@ public:
 	* Removes a key and the associated with it value from the HashMap.
 	* Expected complexity: O(H + 1), where O(H) is needed to hash the key.
 	*/
-	void erase(const std::string& key) {
-
-	int hashCode = stringHash(key);
-
-	for (int i = 0; i < (*hashMap)[hashCode].size(); ++i)
+	void erase(const std::string& key)
 	{
-		if (!(*hashMap)[hashCode][i].first.compare(key))
+		Hash hash;
+		hash.stringHash(key);
+
+		int indexVectorSize = hash.h1 % capacityValue;
+
+		for (int i = 0; i < (*hashMap)[indexVectorSize].size(); ++i)
 		{
-			(*hashMap)[hashCode].erase((*hashMap)[hashCode].begin() + i);
-			--sizeValue;
-
-			// If the load factor is broken, make the the hash table smaller.
-			if ((sizeValue + 1) * 4 > capacityValue)
+			if ((*hashMap)[indexVectorSize][i].first == hash)
 			{
-				reizeWithoutBounds(capacityValue / 2);
-			}
+				(*hashMap)[indexVectorSize].erase((*hashMap)[indexVectorSize].begin() + i);
+				--sizeValue;
 
-			return;
+				// If the load factor is broken, make the the hash table smaller. (if the elements are below 25%, makes the table half and they will be ~50%)
+				if ((sizeValue + 1) * 4 < capacityValue)
+				{
+					reizeWithoutBounds(capacityValue / 2);
+				}
+
+				return;
 			}
 		}
 	}
@@ -238,17 +298,13 @@ private:
 		if (numBuckets == capacityValue)
 			return;
 
-		MOD = numBuckets;
-
-		vector<vector<pair<string, V>>> * temp = new vector<vector<pair<string, V>>>(numBuckets);
+		vector<vector<pair<Hash, V>>> * temp = new vector<vector<pair<Hash, V>>>(numBuckets);
 
 		for (int i = 0; i < capacityValue; ++i)
 		{
 			for (int j = 0; j < (*hashMap)[i].size(); ++j)
 			{
-				int hashCode = stringHash((*hashMap)[i][j].first);
-
-				(*temp)[hashCode].push_back(pair<string, V>((*hashMap)[i][j].first, (*hashMap)[i][j].second));
+				(*temp)[(*hashMap)[i][j].first.h1 % numBuckets].push_back((*hashMap)[i][j]);
 			}
 		}
 
@@ -267,49 +323,20 @@ private:
 	*/
 	V& getValueByString(const std::string& key)
 	{
-		int hashCode = stringHash(key);
+		Hash hash;
+		hash.stringHash(key);
 
-		for (int i = 0; i < (*hashMap)[hashCode].size(); ++i)
+		int indexVectorSize = hash.h1 % capacityValue;
+
+		for (int i = 0; i < (*hashMap)[indexVectorSize].size(); ++i)
 		{
-			if (!(*hashMap)[hashCode][i].first.compare(key))
+			if ((*hashMap)[indexVectorSize][i].first == hash)
 			{
-				return (*hashMap)[hashCode][i].second;
+				return (*hashMap)[indexVectorSize][i].second;
 			}
 		}
 
 		throw myEx;
-	}
-
-	/**
-	* Returns true if the given string is in the hash map.
-	*/
-	bool find(int hashCode, const string& str) const
-	{
-		if (hashCode < 0 || hashCode > capacityValue)
-			return false;
-
-		for (int i = 0; i < (*hashMap)[hashCode].size() ; ++i)
-		{
-			if (!(*hashMap)[hashCode][i].first.compare(str))
-				return true;
-		}
-
-		return false;
-	}
-
-	/**
-	* Makes hash code for the given string.
-	*/
-	int stringHash(const string& str) const
-	{
-		int ret = 1;
-		int strSize = (int)str.size();
-
-		for (int i = 0; i < strSize; i++) {
-			ret = ((long long)ret * BASE + str[i]) % MOD;
-		}
-
-		return ret;
 	}
 
 	/*
@@ -317,8 +344,6 @@ private:
 	*/
 	void copyFrom(const HashMap<V>& other)
 	{
-		BASE = other.BASE;
-		MOD = other.MODE;
 		minBuckets = other->minBuckets;
 		maxBuckets = other->maxBuckets;
 		sizeValue = other.sizeValue;
@@ -326,36 +351,20 @@ private:
 
 		hashMap = new vector<vector<pair<string, V>>>(other.capacityValue);
 
-		for (int i = 0; i < other.hashMap->size(); ++i)
+		for (int i = 0; i < other.capacityValue; ++i)
 		{
-			(*hashMap)[i] = other.(*hashMap)[i]; // Copies the whole vector of the bucket on i-th row. I can use and the copy constructor of the vector of the buckets but...
+			for (int j = 0; j < other.(*hashMap)[i].size(); ++j)
+			{
+				(*hashMap)[other.(*hashMap)[i][j].first.h1 % other.capacityValue].push(other.(*hashMap)[i][j]);
+			}
 		}
 	}
-
-	/**
-	* Sets the default values for the variables.
-	*/
-	void setDefaultValues()
-	{
-		BASE = 257;
-
-		capacityValue = MOD = minBuckets;
-		sizeValue = 0;
-
-		hashMap = new vector<vector<pair<string, V>>>(capacityValue);
-		// Make all vectors with capacity 0. Maybe by default they are, but in any case... (maybe not all compilators will be the same)
-		for (int i = 0; i < capacityValue; ++i)
-			(*hashMap)[i].resize(0);
-	}
 private:
-	int BASE;
-	int MOD;
 	int minBuckets;
 	int maxBuckets;
 	int sizeValue;
-	int capacityValue; // the capacity == MOD but for now let`s stay.
-
-	vector<vector<pair<string, V>>> * hashMap;
+	int capacityValue;
+	vector<vector<pair<Hash, V>>> * hashMap;
 };
 
 #endif // #ifndef __HASHMAP_H__
