@@ -39,31 +39,138 @@ public:
 	*/
 	IntervalTree(const vector<T>& values) 
 	{
-		infinity = std::numeric_limits<T>::min();
+		infinity = std::numeric_limits<T>::min(); // TO DO check if this is necessary.
 		size = nearestToThePowerOfTwo((int)values.size());
 		allocateTheMemoryForTheArrays(size);
 
 		generateTheArrays(values);
-		createQueryTree(1); // From the root
-
-		for (int i = 1; i < size * 2; ++i)
-		{
-			std::cout << queryTree[i] << " ";
-		}
-
-		std::cout << std::endl;
-
-		for (int i = 1; i < size * 2; ++i)
-		{
-			std::cout << updateTree[i] << " ";
-		}
-
-		std::cout << std::endl;
+		createQueryTree(1); // From the root.
 	}
 
 ///
 /// I will try to make the functions for interval query and update with lazy propagation, I saw some people do it and I will try to use it too...
 ///
+
+	///**
+	//* Adds the value add to each element in the interval [idx1, idx2].
+	//*/
+	//void update(int idx1, int idx2, T add) {
+	//	idx1 += this->size;
+	//	idx2 += this->size;
+
+
+	//	if (idx1 == idx2)
+	//	{
+	//		queryTree[idx1] += add;
+	//		return;
+	//	}
+
+	//	queryTree[idx1] += add;
+	//	queryTree[idx2] += add;
+	//	bool flag1 = !(idx1 & 1);
+	//	idx1 /= 2;
+	//	bool flag2 = (idx2 & 1);
+	//	idx2 /= 2;
+	//	int father = idx1 / 2;
+
+	//	queryTree[father] = max(queryTree[idx1], queryTree[idx2]);
+
+	//	while (idx1 != idx2)
+	//	{
+
+	//		if (updateTree[father] != 0) { // This node needs to be updated
+	//			queryTree[father] += updateTree[father]; // Update it
+
+	//			if (flag1 && flag2)
+	//			{
+	//				updateTree[idx1] += updateTree[father]; // Mark child as lazy
+	//				updateTree[idx2] += updateTree[father]; // Mark child as lazy
+	//			}
+
+	//			updateTree[father] = 0; // Reset it
+	//		}
+
+	//		/*if (flag1)
+	//			updateTree[(idx1 * 2) + 1] += add;
+	//		
+	//		if (flag2)
+	//			updateTree[(idx2 * 2)] += add;*/
+
+	//		if (flag1 && flag2)
+	//		{
+	//			queryTree[father] += add;
+
+	//			updateTree[idx1] += add;
+	//			updateTree[idx2] += add;
+
+	//			return;
+	//		}
+
+	//		
+
+	//		flag1 = !(idx1 & 1);
+	//		idx1 /= 2;
+	//		flag2 = (idx2 & 1);
+	//		idx2 /= 2;
+	//		father = idx1 / 2;
+
+	//		queryTree[father] = max(queryTree[idx1], queryTree[idx2]);
+	//	}
+	//}
+
+	///**
+	//* Returns the maximum value in the interval [idx1, idx2].
+	//*/
+	//T query(int idx1, int idx2)
+	//{
+	//	idx1 += this->size;
+	//	idx2 += this->size;
+
+	//	if (idx1 == idx2)
+	//		return queryTree[idx1];
+
+	//	T result = max(queryTree[idx1], queryTree[idx2]);
+	//	bool flag1 = !(idx1 & 1);
+	//	idx1 /= 2;
+	//	bool flag2 = (idx2 & 1);
+	//	idx2 /= 2;
+
+	//	while (idx1 != idx2)
+	//	{
+	//		if (updateTree[father] != 0) { // This node needs to be updated
+	//			queryTree[father] += updateTree[father]; // Update it
+
+	//			if (flag1 && flag2)
+	//			{
+	//				updateTree[idx1] += updateTree[father]; // Mark child as lazy
+	//				updateTree[idx2] += updateTree[father]; // Mark child as lazy
+	//			}
+
+	//			updateTree[father] = 0; // Reset it
+	//		}
+
+	//		/*if (flag1)
+	//			result = max(result, queryTree[(idx1 * 2) + 1]);
+	//		if (flag2)
+	//			result = max(result, queryTree[(idx2 * 2)]);*/
+
+	//		if (flag1 && flag2)
+	//		{
+	//			return queryTree[father];
+	//		}
+
+	//		flag1 = !(idx1 & 1);
+	//		idx1 /= 2;
+	//		flag2 = (idx2 & 1);
+	//		idx2 /= 2;
+	//	}
+
+	//	return result;
+	//}
+
+///
+/// The standard update on range and query on range, does not work bouth in the same time...
+/// 
 
 	/**
 	* Adds the value add to each element in the interval [idx1, idx2].
@@ -102,11 +209,11 @@ public:
 	/**
 	* Returns the maximum value in the interval [idx1, idx2].
 	*/
-	T query(int idx1, int idx2)
+	T query(int idx1, int idx2) 
 	{
 		idx1 += this->size;
 		idx2 += this->size;
-
+		
 		if (idx1 == idx2)
 			return queryTree[idx1];
 
@@ -132,77 +239,6 @@ public:
 		return result;
 	}
 
-///
-/// The standard update on range and query on range, does not work bouth in the same time...
-/// 
-
-	///**
-	//* Adds the value add to each element in the interval [idx1, idx2].
-	//*/
-	//void update(int idx1, int idx2, T add) {
-	//	idx1 += this->size;
-	//	idx2 += this->size;
-
-	//	if (idx1 == idx2)
-	//	{
-	//		updateTree[idx1] += add;
-	//		return;
-	//	}
-
-	//	updateTree[idx1] += add;
-	//	updateTree[idx2] += add;
-	//	bool flag1 = !(idx1 & 1);
-	//	idx1 /= 2;
-	//	bool flag2 = (idx2 & 1);
-	//	idx2 /= 2;
-
-	//	while (idx1 != idx2)
-	//	{
-	//		if (flag1)
-	//			updateTree[(idx1 * 2) + 1] += add;
-	//		if (flag2)
-	//			updateTree[(idx2 * 2)] += add;
-
-	//		flag1 = !(idx1 & 1);
-	//		idx1 /= 2;
-	//		flag2 = (idx2 & 1);
-	//		idx2 /= 2;
-	//	}
-	//}
-
-	///**
-	//* Returns the maximum value in the interval [idx1, idx2].
-	//*/
-	//T query(int idx1, int idx2) 
-	//{
-	//	idx1 += this->size;
-	//	idx2 += this->size;
-	//	
-	//	if (idx1 == idx2)
-	//		return queryTree[idx1];
-
-	//	T result = max(queryTree[idx1], queryTree[idx2]);
-	//	bool flag1 = !(idx1 & 1);
-	//	idx1 /= 2;
-	//	bool flag2 = (idx2 & 1);
-	//	idx2 /= 2;
-
-	//	while (idx1 != idx2)
-	//	{
-	//		if (flag1)
-	//			result = max(result, queryTree[(idx1 * 2) + 1]);
-	//		if (flag2)
-	//			result = max(result, queryTree[(idx2 * 2)]);
-
-	//		flag1 = !(idx1 & 1);
-	//		idx1 /= 2;
-	//		flag2 = (idx2 & 1);
-	//		idx2 /= 2;
-	//	}
-
-	//	return result;
-	//}
-
 	/**
 	* Deletes the allocated memory.
 	*/
@@ -227,7 +263,7 @@ private:
 		catch (std::bad_alloc& ba) // If the first allocation fails I will deletes it`s memory...
 		{
 			delete[] queryTree;
-			delete[] updateTree;
+			delete[] updateTree; // not realy necessary to delete the second array...
 		}
 	}
 
@@ -256,9 +292,7 @@ private:
 			updateTree[i] = 0;
 		}
 
-
-
-		// TO DO delete it, its to make the whole array empty...
+		// TO DO delete it, its to make the whole array empty (for the lazy propagation, no nqma da vidi bql den...)
 
 	/*	for (int i = 0; i < 2 * size; ++i)
 			updateTree[i] = 0;*/
