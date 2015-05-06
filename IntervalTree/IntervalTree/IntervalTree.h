@@ -11,10 +11,11 @@
 *
 *
 *
-*
+*			Github repository: https://github.com/Anton94/OOP-Cplusplus/tree/master/IntervalTree
 *
 *
 *           I use numeric_limits for the minimum value , I don`t know if thats a good practice...
+*			I can`t make it work with update and query on range bouth in the same time.
 */
 
 #ifndef __INTERVAL_TREE_H__
@@ -60,6 +61,10 @@ public:
 		std::cout << std::endl;
 	}
 
+///
+/// I will try to make the functions for interval query and update with lazy propagation, I saw some people do it and I will try to use it too...
+///
+
 	/**
 	* Adds the value add to each element in the interval [idx1, idx2].
 	*/
@@ -67,33 +72,6 @@ public:
 		idx1 += this->size;
 		idx2 += this->size;
 
-		/*if (idx1 == idx2)
-		{
-			updateTree[idx1] += add;
-			return;
-		}
-
-		updateTree[idx1] += add;
-		updateTree[idx2] += add;
-		bool flag1 = !(idx1 & 1);
-		idx1 /= 2;
-		bool flag2 = (idx2 & 1);
-		idx2 /= 2;
-
-		while (idx1 != idx2)
-		{
-			if (flag1)
-				updateTree[(idx1 * 2) + 1] += add;
-			if (flag2)
-				updateTree[(idx2 * 2)] += add;
-
-			flag1 = !(idx1 & 1);
-			idx1 /= 2;
-			flag2 = (idx2 & 1);
-			idx2 /= 2;
-		}*/
-
-
 		if (idx1 == idx2)
 		{
 			updateTree[idx1] += add;
@@ -119,29 +97,19 @@ public:
 			flag2 = (idx2 & 1);
 			idx2 /= 2;
 		}
-		
-
-		for (int i = 1; i < size * 2; ++i)
-		{
-			std::cout << queryTree[i] << " ";
-		}
-
-		std::cout << std::endl;
 	}
 
 	/**
 	* Returns the maximum value in the interval [idx1, idx2].
 	*/
-	T query(int idx1, int idx2) 
+	T query(int idx1, int idx2)
 	{
 		idx1 += this->size;
 		idx2 += this->size;
-		
+
 		if (idx1 == idx2)
-			//return queryTree[idx1] + updateTree[idx1];
 			return queryTree[idx1];
 
-		//T result = max(queryTree[idx1] + updateTree[idx1], queryTree[idx2] + updateTree[idx2]);
 		T result = max(queryTree[idx1], queryTree[idx2]);
 		bool flag1 = !(idx1 & 1);
 		idx1 /= 2;
@@ -155,11 +123,6 @@ public:
 			if (flag2)
 				result = max(result, queryTree[(idx2 * 2)]);
 
-		/*	if (flag1)
-				result = max(result, queryTree[(idx1 * 2) + 1] + updateTree[(idx1 * 2) + 1]);
-			if (flag2)
-				result = max(result, queryTree[(idx2 * 2)] + updateTree[(idx2 * 2)]);*/
-
 			flag1 = !(idx1 & 1);
 			idx1 /= 2;
 			flag2 = (idx2 & 1);
@@ -168,6 +131,77 @@ public:
 
 		return result;
 	}
+
+///
+/// The standard update on range and query on range, does not work bouth in the same time...
+/// 
+
+	///**
+	//* Adds the value add to each element in the interval [idx1, idx2].
+	//*/
+	//void update(int idx1, int idx2, T add) {
+	//	idx1 += this->size;
+	//	idx2 += this->size;
+
+	//	if (idx1 == idx2)
+	//	{
+	//		updateTree[idx1] += add;
+	//		return;
+	//	}
+
+	//	updateTree[idx1] += add;
+	//	updateTree[idx2] += add;
+	//	bool flag1 = !(idx1 & 1);
+	//	idx1 /= 2;
+	//	bool flag2 = (idx2 & 1);
+	//	idx2 /= 2;
+
+	//	while (idx1 != idx2)
+	//	{
+	//		if (flag1)
+	//			updateTree[(idx1 * 2) + 1] += add;
+	//		if (flag2)
+	//			updateTree[(idx2 * 2)] += add;
+
+	//		flag1 = !(idx1 & 1);
+	//		idx1 /= 2;
+	//		flag2 = (idx2 & 1);
+	//		idx2 /= 2;
+	//	}
+	//}
+
+	///**
+	//* Returns the maximum value in the interval [idx1, idx2].
+	//*/
+	//T query(int idx1, int idx2) 
+	//{
+	//	idx1 += this->size;
+	//	idx2 += this->size;
+	//	
+	//	if (idx1 == idx2)
+	//		return queryTree[idx1];
+
+	//	T result = max(queryTree[idx1], queryTree[idx2]);
+	//	bool flag1 = !(idx1 & 1);
+	//	idx1 /= 2;
+	//	bool flag2 = (idx2 & 1);
+	//	idx2 /= 2;
+
+	//	while (idx1 != idx2)
+	//	{
+	//		if (flag1)
+	//			result = max(result, queryTree[(idx1 * 2) + 1]);
+	//		if (flag2)
+	//			result = max(result, queryTree[(idx2 * 2)]);
+
+	//		flag1 = !(idx1 & 1);
+	//		idx1 /= 2;
+	//		flag2 = (idx2 & 1);
+	//		idx2 /= 2;
+	//	}
+
+	//	return result;
+	//}
 
 	/**
 	* Deletes the allocated memory.
@@ -224,10 +258,10 @@ private:
 
 
 
-		// TO DO check
+		// TO DO delete it, its to make the whole array empty...
 
-		for (int i = 0; i < 2 * size; ++i)
-			updateTree[i] = 0;
+	/*	for (int i = 0; i < 2 * size; ++i)
+			updateTree[i] = 0;*/
 	}
 
 	/**
