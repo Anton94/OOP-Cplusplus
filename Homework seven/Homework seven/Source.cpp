@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "Dictionary.h"
+#include "RadixTrie.h"
 
 
 
@@ -16,24 +16,15 @@ int main(int argc, char** argv)
 			if (argc < 3) // If more than 3 I don`t care..
 				return 1; // Not enough input data.
 
-			std::ifstream inDictionary(argv[1]);
-			if (!inDictionary)
+			RadixTrie rt;
+
+			if (!rt.deserializeDictionary(argv[1]))
+			{
+				std::cout << "Wrong input data for the dictionary!" << std::endl;
 				return 1;
-			std::ifstream inText(argv[2]);
-			if (!inText)
-				return 1;
+			}
 
-			std::cout << argv[1] << " " << argv[2] << std::endl;
-
-
-			Dictionary<int> d;
-			if (!d.deserialize(inDictionary))
-				std::cout << "Wrong input file!" << std::endl;
-
-			d.print();
-
-			inDictionary.close();
-			inText.close();
+			rt.printDictionaryToCout();
 		}
 		catch (const char* msg)
 		{

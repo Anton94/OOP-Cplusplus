@@ -29,7 +29,7 @@ public:
 		size_t n = getNumberOfWords(in);
 		dictionary.resize(n);
 
-		int i = 0;
+		size_t i = 0;
 
 		while (in && i < n)
 		{
@@ -47,12 +47,20 @@ public:
 		return true;
 	}
 
-	void print() const
+	void printToCout() const
 	{
-		for (int i = 0; i < dictionary.size(); ++i)
+		for (size_t i = 0; i < dictionary.size(); ++i)
 		{
-			std::cout << "[" << dictionary[i].first << "] " << dictionary[i].second << std::endl;
+			std::cout << "\"" << dictionary[i].first << "\" " << dictionary[i].second << std::endl;
 		}
+	}
+
+	/*
+		operator[] does not make check for valid indexes...
+	*/
+	pair<string, T>& operator[](int index)
+	{
+		return dictionary[index];
 	}
 private:
 	/*

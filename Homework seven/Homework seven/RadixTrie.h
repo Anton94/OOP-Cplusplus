@@ -14,7 +14,7 @@ class RadixTrie
 	struct Node
 	{
 		int val;
-		char * word;
+		const char * word;
 		int startBit, length;
 		Node * left, *right;
 		Node(char * w = NULL, int sb = 0, int len = 0, int v = -1, Node * l = NULL, Node* r = NULL) : word(w), startBit(sb), length(len), val(v), left(l), right(r) {}
@@ -27,7 +27,20 @@ public:
 	
 	bool deserializeDictionary(char * dictionaryFile)
 	{
+		ifstream inDictionary(dictionaryFile);
+		if (!inDictionary)
+			return false;
 
+		bool res = dictionary.deserialize(inDictionary);
+		
+		inDictionary.close();
+
+		return res;
+	}
+
+	void printDictionaryToCout() const
+	{
+		dictionary.printToCout();
 	}
 
 	~RadixTrie()
