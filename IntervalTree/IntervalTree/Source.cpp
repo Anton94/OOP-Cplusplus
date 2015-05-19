@@ -120,9 +120,9 @@ int main(void) {
 
 	IntervalTree<int> intTree(v);
 
-	std::cout << intTree.query(0, 6) << endl;
+	std::cout << intTree.query(0, 4) << endl;
 	intTree.update(0, 4, 5);
 
-	std::cout << intTree.query(0, 6) << endl;
+	std::cout << intTree.query(4, 6) << endl;
 	return 0;
 }
