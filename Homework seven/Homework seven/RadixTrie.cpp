@@ -60,29 +60,28 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 
 			return;
 		}
-		// If the bit is 0 and the rib bit is 1.
-		// Splits the rib and adds the current splited half to the right and the rest of the word on the left.
-		else if (bit < nodeBit)
+		
+		else if (bit != nodeBit)
 		{
 			Node * n = new Node(root->word, i - 1); // -1 because there is match till now. TO DO CHECK
 			root->length = root->length - i + 1;
-			// Add the new node of the rest of the word.
-			n->left = new Node(word, wordLength - curBit, data);
-			n->right = root;
 
-			root = n;
-
-			return;
-		}
-		// If the bit is 1 and the rib bit is 0.
-		// Splits the rib and adds the current splited half to the left and the rest of the word on the right.
-		else if (bit > nodeBit)
-		{
-			Node * n = new Node(root->word, i - 1);
-			root->length = root->length - i + 1;
-			// Add the new node of the rest of the word.
-			n->right = new Node(word, wordLength - curBit, data);
-			n->left = root;
+			// If the bit is 0 and the rib bit is 1.
+			// Splits the rib and adds the current splited half to the right and the rest of the word on the left.
+			if (bit < nodeBit)
+			{
+				// Add the new node of the rest of the word.
+				n->left = new Node(word, wordLength - curBit, data);
+				n->right = root;
+			}
+			// If the bit is 1 and the rib bit is 0.
+			// Splits the rib and adds the current splited half to the left and the rest of the word on the right.
+			else // bit > nodeBit
+			{
+				// Add the new node of the rest of the word.
+				n->right = new Node(word, wordLength - curBit, data);
+				n->left = root;
+			}
 
 			root = n;
 
