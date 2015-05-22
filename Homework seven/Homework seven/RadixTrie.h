@@ -1,8 +1,9 @@
 #pragma once
 
 #include <fstream>
-#include "Dictionary.h"
+#include <vector>
 
+using std::vector;
 using std::ifstream;
 
 /*
@@ -15,50 +16,34 @@ class RadixTrie
 	{
 		int val;
 		const char * word;
-		int startBit, length;
+		int length;
 		Node * left, *right;
-		Node(char * w = NULL, int sb = 0, int len = 0, int v = -1, Node * l = NULL, Node* r = NULL) : word(w), startBit(sb), length(len), val(v), left(l), right(r) {}
+		Node(const char * w = NULL, int len = 0, int v = -1, Node * l = NULL, Node* r = NULL) : word(w), length(len), val(v), left(l), right(r) {}
 	};
 public:
-	RadixTrie()
-	{
-		root = new Node(); // Default node...
-	}
+	RadixTrie();
+
+	// Deletes the trie and sets the default status.
+	void clear();
 	
-	bool deserializeDictionary(char * dictionaryFile)
-	{
-		ifstream inDictionary(dictionaryFile);
-		if (!inDictionary)
-			return false;
+	// Adds new word with value- @data.
+	void insert(const char* word, int data);
 
-		bool res = dictionary.deserialize(inDictionary);
-		
-		inDictionary.close();
-
-		return res;
-	}
-
-	void printDictionaryToCout() const
-	{
-		dictionary.printToCout();
-	}
-
-	~RadixTrie()
-	{
-		free(root);
-	}
+	// Deletes the trie.
+	~RadixTrie();
 private:
-	void free(Node * root)
-	{
-		if (!root)
-			return;
+	// Deletes the trie post-order.
+	void free(Node * root);
 
-		free(root->left);
-		free(root->right);
+	// Adds new word with value- @data.
+	void insert(Node *& root, const char* word, int data, size_t wordLength, size_t curLength);
 
-		delete root;
-	}
+	// Creates the default node for the root.
+	void setDefaultValues();
 private:
-	Dictionary<int> dictionary;
 	Node * root;
+private:
+	// For this homework I don`t need to copy radix tries.
+	RadixTrie(const RadixTrie& other);
+	RadixTrie& operator=(const RadixTrie& other);
 };

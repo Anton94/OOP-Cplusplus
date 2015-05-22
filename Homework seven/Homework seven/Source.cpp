@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "RadixTrie.h"
+#include "Calculator.h"
 
 
 
@@ -16,15 +16,16 @@ int main(int argc, char** argv)
 			if (argc < 3) // If more than 3 I don`t care..
 				return 1; // Not enough input data.
 
-			RadixTrie rt;
+			Calculator calculator;
 
-			if (!rt.deserializeDictionary(argv[1]))
+			if (!calculator.build(argv[1]))
 			{
 				std::cout << "Wrong input data for the dictionary!" << std::endl;
 				return 1;
 			}
 
-			rt.printDictionaryToCout();
+			calculator.printDictionaryToCout();
+
 		}
 		catch (const char* msg)
 		{
