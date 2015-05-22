@@ -26,6 +26,22 @@ int main(int argc, char** argv)
 
 			calculator.printDictionaryToCout();
 
+			/*std::cout << (((int)'a' & 1 << 0) != 0) << std::endl;
+			std::cout << (((int)'a' & 1 << 1) != 0) << std::endl;
+			std::cout << (((int)'a' & 1 << 2) != 0) << std::endl;
+			std::cout << (((int)'a' & 1 << 3) != 0) << std::endl;
+			std::cout << (((int)'a' & 1 << 4) != 0) << std::endl;
+			std::cout << (((int)'a' & 1 << 5) != 0) << std::endl;
+			std::cout << (((int)'a' & 1 << 6) != 0) << std::endl;
+			std::cout << (((int)'a' & 1 << 7) != 0) << std::endl;
+
+			for (int i = 0; i < 8; ++i)
+			{
+				std::cout << (((int)'a' & 1 << (7 - i)) != 0) << " ";
+			}
+
+			std::cout << std::endl;*/
+
 		}
 		catch (const char* msg)
 		{

@@ -15,10 +15,10 @@ class RadixTrie
 	struct Node
 	{
 		int val;
-		const char * word;
-		int length;
+		const unsigned char * word;
+		int length; // TO DO unsigned char 
 		Node * left, *right;
-		Node(const char * w = NULL, int len = 0, int v = -1, Node * l = NULL, Node* r = NULL) : word(w), length(len), val(v), left(l), right(r) {}
+		Node(const unsigned char * w = NULL, int len = 0, int v = -1, Node * l = NULL, Node* r = NULL) : word(w), length(len), val(v), left(l), right(r) {}
 	};
 public:
 	RadixTrie();
@@ -27,7 +27,7 @@ public:
 	void clear();
 	
 	// Adds new word with value- @data.
-	void insert(const char* word, int data);
+	void insert(const unsigned char* word, int data);
 
 	// Deletes the trie.
 	~RadixTrie();
@@ -36,7 +36,7 @@ private:
 	void free(Node * root);
 
 	// Adds new word with value- @data.
-	void insert(Node *& root, const char* word, int data, size_t wordLength, size_t curLength);
+	void insert(Node *& root, const unsigned char* word, int data, size_t wordLength, size_t curBit);
 
 	// Creates the default node for the root.
 	void setDefaultValues();

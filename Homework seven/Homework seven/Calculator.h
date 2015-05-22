@@ -27,7 +27,7 @@ public:
 	~Calculator();
 private:
 	RadixTrie radixTrie;
-	vector<char*> dictionary;
+	vector<unsigned char*> dictionary;
 private:
 	Calculator(const Calculator& other);
 	Calculator& operator=(const Calculator& other);

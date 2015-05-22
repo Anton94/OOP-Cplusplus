@@ -18,14 +18,14 @@ size_t getLengthOfTheWord(ifstream& in);
 /*
 	Extracts a word from the in, creates the array and puts the data in it.
 */
-bool getWord(ifstream& in, char *& word);
+bool getWord(ifstream& in, unsigned char *& word);
 
 /*
 	Gives the i-th bit of the given string (as char*).
 */
-int getIthBitOfString(const char* word, int bit);
+unsigned char getIthBitOfString(const unsigned char* word, int bit);
 
 /*
 Gives the i-th bit of the given char.
 */
-int getIthBitOfSymbol(char ch, int bit);
+unsigned char getIthBitOfSymbol(unsigned char ch, int bit);

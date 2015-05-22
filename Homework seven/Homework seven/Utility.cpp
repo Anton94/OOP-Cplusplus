@@ -71,14 +71,14 @@ size_t getLengthOfTheWord(ifstream& in)
 /*
 Extracts a word from the in, creates the array and puts the data in it.
 */
-bool getWord(ifstream& in, char *& word)
+bool getWord(ifstream& in, unsigned char *& word)
 {
 	// Get length of the word.
 	size_t len = getLengthOfTheWord(in);
 	if (!in)
 		return false;
 
-	word = new char[len + 1];
+	word = new unsigned char[len + 1];
 
 	// Read the word and save it in the dictionary.
 	for (int i = 0; i < len; ++i)
@@ -99,16 +99,16 @@ bool getWord(ifstream& in, char *& word)
 /*
 Gives the i-th bit of the given string (as char*).
 */
-int getIthBitOfString(const char* word, int bit)
+unsigned char getIthBitOfString(const unsigned char* word, int bit)
 {
-	return word[bit / 8] & (1 << (7 - bit % 8));
+	return (word[bit / 8] & 1 << (7 - (bit % 8))) != 0;
 }
 
 
 /*
 Gives the i-th bit of the given char.
 */
-int getIthBitOfSymbol(char ch, int bit)
+unsigned char getIthBitOfSymbol(unsigned char ch, int bit)
 {
-	return ch & (1 << 7 - bit);
+	return ch & 1 << (7 - bit) != 0;
 }
