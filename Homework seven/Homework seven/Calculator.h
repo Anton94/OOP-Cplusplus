@@ -25,6 +25,7 @@ public:
 	
 	// Some test to find word TO DO Delete it...
 	void testFind() const;
+	void testPrefix() const;
 
 	// Deletes the memory for the dictionary.
 	~Calculator();

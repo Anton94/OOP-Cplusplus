@@ -10,10 +10,14 @@ Calculator::Calculator()
 //Prints the words of the dictionary to the 'cout' stream.
 void Calculator::printDictionaryToCout() const
 {
+	std::cout << "Dictionary...\n";
+
 	for (size_t i = 0; i < dictionary.size(); ++i)
 	{
 		std::cout << "\"" << dictionary[i] << "\" " << std::endl;
 	}
+
+	std::cout << std::endl;
 }
 
 // Extracts the dictionary from the given file name and builds the radix trie. If there are some problems, returns false, otherwise returns true.
@@ -56,11 +60,29 @@ bool Calculator::build(char * dictionaryFile)
 // Some test to find word TO DO Delete it...
 void Calculator::testFind() const
 {
+	std::cout << "Test find...\n";
+
 	std::cout << "Find ab " << radixTrie.find("ab") << std::endl;
 	std::cout << "Find a " << radixTrie.find("a") << std::endl;
 	std::cout << "Find abb " << radixTrie.find("abb") << std::endl;
 	std::cout << "Find ac " << radixTrie.find("ac") << std::endl;
 	std::cout << "Find abbbb " << radixTrie.find("abbbb") << std::endl;
+	std::cout << "Find acqwdqd " << radixTrie.find("acqwdqd") << std::endl;
+	std::cout << "Find aaaaaaaaaaaaaaaaaaaaaaa " << radixTrie.find("aaaaaaaaaaaaaaaaaaaaaaa") << std::endl;
+
+	std::cout << std::endl;
+}
+
+// Some test to get the all words values by given prefix. TO DO Delete it...
+void Calculator::testPrefix() const
+{
+	std::cout << "Test prefix...\n";
+
+	std::cout << "Prefix a has value: " << sumOfVectorNumbers(radixTrie.getAllWithPrefix("a")) << std::endl;
+	std::cout << "Prefix ab has value: " << sumOfVectorNumbers(radixTrie.getAllWithPrefix("ab")) << std::endl;
+	std::cout << "Prefix aaaaaaaaaaaaaaaaaaaaaaa has value: " << sumOfVectorNumbers(radixTrie.getAllWithPrefix("aaaaaaaaaaaaaaaaaaaaaaa")) << std::endl;
+
+	std::cout << std::endl;
 }
 
 // Deletes the memory for the dictionary.

@@ -18,7 +18,7 @@ void RadixTrie::clear()
 void RadixTrie::insert(const char* word, int data)
 {
 	// I made it unsigned char so it can take values for 0-255 symbols.. I don`t know if it`s OK... TO DO -- ask
-	insert(root, (const unsigned char*)word, data, strlen((const char*)word) * 8, 0);
+	insert(root, (const unsigned char*)word, data, strlen(word) * 8, 0);
 }
 
 // Adds new word with value- @data.
@@ -61,7 +61,7 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 
 			return;
 		}		
-		else if (bit != nodeBit)
+		else if (bit != nodeBit) // Basically I can group this case with curBit >= wordLength, but...
 		{
 			Node * n = new Node(root->word, i - 1); // -1 because there is match till now. TO DO CHECK - if the first bit(i == 1) is different, I wont be here, it will be in other child.
 			root->length = root->length - i + 1;
@@ -115,12 +115,13 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 // Returns the value of the given word, if it`s not in the radix trie, returns negative number.
 int RadixTrie::find(const char* word) const
 {
-	return find(root, (const unsigned char*)word, strlen((const char*)word) * 8, 0);
+	return find(root, (const unsigned char*)word, strlen(word) * 8, 0);
 }
 
+// Returns the value of the given word, if it`s not in the radix trie, returns negative number.
 int RadixTrie::find(Node * root, const unsigned char* word, size_t wordLength, size_t curBit) const
 {
-	if (!root)
+	if (!root || curBit >= wordLength) // curBit >= wordLength if the searched word is empty("") or some weird shits...
 		return -1;
 
 	unsigned char bit, nodeBit;
@@ -132,7 +133,7 @@ int RadixTrie::find(Node * root, const unsigned char* word, size_t wordLength, s
 		bit = getIthBitOfString(word, curBit);
 		nodeBit = getIthBitOfString(root->word, curBit);
 
-		// If the rib has more symbols(0 or 1) than the word.
+		// If the rib has more values(0 or 1) than the word.
 		if (curBit >= wordLength)
 			return -1;
 
@@ -160,6 +161,77 @@ int RadixTrie::find(Node * root, const unsigned char* word, size_t wordLength, s
 	{
 		return find(root->right, word, wordLength, curBit);
 	}
+}
+
+// Returns the values of the words, whith the given @prefix
+vector<int> RadixTrie::getAllWithPrefix(const char* prefix) const
+{
+	vector<int> result;
+	getAllWithPrefix(root, (const unsigned char*)prefix, strlen(prefix) * 8, 0, result);
+	return result;
+}
+
+// Returns the values of the words, whith the given @prefix
+void RadixTrie::getAllWithPrefix(Node * root, const unsigned char* word, size_t wordLength, size_t curBit, vector<int> & result) const
+{
+	if (!root || curBit >= wordLength) // curBit >= wordLength if the searched word is empty("") or some weird shits...
+		return;
+
+	unsigned char bit, nodeBit;
+
+	// Go through the bits of the rib (@root node) and check for matches.
+	for (unsigned char i = 1; i <= root->length; ++i)
+	{
+		// Get the bits. (if the curBit is more than wordLength , no problem, it will take from the term null..)
+		bit = getIthBitOfString(word, curBit);
+		nodeBit = getIthBitOfString(root->word, curBit);
+
+		// If the rib has more values(0 or 1) than the word,
+		if (curBit >= wordLength)
+		{
+			DFS(root, result);
+			return;
+		}
+
+		if (bit != nodeBit)
+			return;
+
+		++curBit;
+	}
+
+	// If the word matchs exactly on this rib(@root node).
+	if (curBit >= wordLength)
+	{
+		DFS(root, result);
+		return;
+	}
+
+	// Get the next bit value.
+	bit = getIthBitOfString(word, curBit);
+
+	// If the current taken bit @bit is 0, goes to left child, otherwise (it`s 1) and goes to the right child.
+	if (bit == 0)
+	{
+		getAllWithPrefix(root->left, word, wordLength, curBit, result);
+	}
+	else
+	{
+		getAllWithPrefix(root->right, word, wordLength, curBit, result);
+	}
+}
+
+// Makes DFS on the subtree and adds to the given vector all values which are valid word(>=0). In-order.
+void RadixTrie::DFS(Node * root, vector<int>& result) const
+{
+	if (!root)
+		return;
+
+	DFS(root->left, result);
+
+	if (root->val >= 0)
+		result.push_back(root->val);
+
+	DFS(root->right, result);
 }
 
 // Deletes the trie.

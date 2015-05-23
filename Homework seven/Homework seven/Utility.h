@@ -1,7 +1,9 @@
 #pragma once
 
 #include <fstream>
+#include <vector>
 using std::ifstream;
+using std::vector;
 
 
 /*
@@ -29,3 +31,8 @@ unsigned char getIthBitOfString(const unsigned char* word, int bit);
 Gives the i-th bit of the given char.
 */
 unsigned char getIthBitOfSymbol(unsigned char ch, int bit);
+
+/*
+	Returns the sum of all numbers in the given vector.
+*/
+int sumOfVectorNumbers(const vector<int>& v);

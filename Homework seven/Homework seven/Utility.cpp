@@ -112,3 +112,18 @@ unsigned char getIthBitOfSymbol(unsigned char ch, int bit)
 {
 	return ch & 1 << (7 - bit) != 0;
 }
+
+/*
+Returns the sum of all numbers in the given vector.
+*/
+int sumOfVectorNumbers(const vector<int>& v)
+{
+	int res = 0;
+	
+	for (size_t i = 0; i < v.size(); ++i)
+	{
+		res += v[i];
+	}
+
+	return res;
+}

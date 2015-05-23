@@ -32,6 +32,9 @@ public:
 	// Returns the value of the given word, if it`s not in the radix trie, returns negative number.
 	int find(const char* word) const;
 
+	// Returns the values of the words, whith the given @prefix
+	vector<int> getAllWithPrefix(const char* prefix) const;
+
 	// Deletes the trie.
 	~RadixTrie();
 private:
@@ -43,6 +46,12 @@ private:
 	
 	// Returns the value of the given word, if it`s not in the radix trie, returns negative number.
 	int find(Node * root, const unsigned char* word, size_t wordLength, size_t curBit) const;
+
+	// Returns the values of the words, whith the given @prefix
+	void getAllWithPrefix(Node * root, const unsigned char* word, size_t wordLength, size_t curBit, vector<int> & result) const;
+
+	// DFS on the given node, writes the valid words(the value is >= 0) in the given vector.
+	void DFS(Node * root, vector<int>& result) const;
 
 	// Creates the default node for the root.
 	void setDefaultValues();
