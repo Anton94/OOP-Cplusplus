@@ -29,7 +29,7 @@ public:
 	// Prints the words of the dictionary to the 'cout' stream.
 	void printDictionaryToCout() const;
 	
-	// Some test to find word TO DO Delete it...
+	// Some tests TO DO Delete it...
 	void testFind() const;
 	void testPrefix() const;
 

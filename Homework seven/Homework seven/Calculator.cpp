@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 #include "Calculator.h"
 
 using std::string;
@@ -62,7 +63,7 @@ bool Calculator::build(char * dictionaryFile)
 
 // Get the text from the given file name and checks every word if it is a prefix of word/s in the dictionary and groups their values(if has some). Sorts the output and prints it to the given ostream.
 // I will use the push functionality of the vector in this method and I will use string object just because I don`t need to take care for the blank symbols.
-// I make a vector of char* and int - for the words and sum value of prefixed words. Other solution is to keep the position of the word in the file, and word length (and sum value),
+// I make a vector of char* and int - for the words and sum value of prefixed words. Other solution is to keep the position of the word in the file and word length (and sum value),
 // but for now it`s some kind of OK.
 void Calculator::calculate(char * textFile, ostream& out) const
 {
@@ -87,7 +88,7 @@ void Calculator::calculate(char * textFile, ostream& out) const
 
 		try
 		{
-			result[i].first = new char[word.length() + 1]; // TO DO catch the exeption
+			result[i].first = new char[word.length() + 1];
 		}
 		catch (std::bad_alloc& e)
 		{
@@ -99,7 +100,12 @@ void Calculator::calculate(char * textFile, ostream& out) const
 		result[i].second = sumOfVectorNumbers(radixTrie.getAllWithPrefix(result[i].first));
 	}
 
-	// TO DO sort...
+	// If there is no elements, quits...
+	if (n <= 0)
+		return;
+
+
+	qsort(&result[0], result.size(), sizeof(pair<char*, int>), compareTwoPairsBySecondValue);
 
 	for (size_t i = 0; i < n; ++i)
 	{
@@ -150,6 +156,6 @@ void Calculator::testPrefix() const
 // Deletes the memory for the dictionary.
 Calculator::~Calculator()
 {
-	for (int i = 0; i < dictionary.size(); ++i)
+	for (size_t i = 0; i < dictionary.size(); ++i)
 		delete[] dictionary[i];
 }

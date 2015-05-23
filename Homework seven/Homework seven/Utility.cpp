@@ -1,9 +1,12 @@
-#include "Utility.h"
 #include <string>
+#include <utility>
+#include "Utility.h"
+
+using std::pair;
 
 /*
-Returns the number of lines in the input stream.
-If the last row (or rows) is empty in the input file , it will count them, but it`s ok...
+	Returns the number of lines in the input stream.
+	If the last row (or rows) is empty in the input file , it will count them, but it`s ok...
 */
 size_t getNumberOfLines(ifstream& in)
 {
@@ -37,7 +40,7 @@ size_t getNumberOfLines(ifstream& in)
 }
 
 /*
-Returns the number of words in the input stream. I will use string object just because I don`t need to take care for the blank symbols.
+	Returns the number of words in the input stream. I will use string object just because I don`t need to take care for the blank symbols.
 */
 size_t getNumberOfWords(ifstream& in)
 {
@@ -98,7 +101,7 @@ size_t getLengthOfTheWord(ifstream& in)
 
 
 /*
-Extracts a word from the in, creates the array and puts the data in it.
+	Extracts a word from the in, creates the array and puts the data in it.
 */
 bool getWord(ifstream& in, unsigned char *& word)
 {
@@ -126,7 +129,7 @@ bool getWord(ifstream& in, unsigned char *& word)
 
 
 /*
-Gives the i-th bit of the given string (as char*).
+	Gives the i-th bit of the given string (as char*).
 */
 unsigned char getIthBitOfString(const unsigned char* word, int bit)
 {
@@ -135,7 +138,7 @@ unsigned char getIthBitOfString(const unsigned char* word, int bit)
 
 
 /*
-Gives the i-th bit of the given char.
+	Gives the i-th bit of the given char.
 */
 unsigned char getIthBitOfSymbol(unsigned char ch, int bit)
 {
@@ -143,7 +146,7 @@ unsigned char getIthBitOfSymbol(unsigned char ch, int bit)
 }
 
 /*
-Returns the sum of all numbers in the given vector.
+	Returns the sum of all numbers in the given vector.
 */
 int sumOfVectorNumbers(const vector<int>& v)
 {
@@ -155,4 +158,12 @@ int sumOfVectorNumbers(const vector<int>& v)
 	}
 
 	return res;
+}
+
+/*
+Compare function for the sort. Compares two values from the vector of pairs <char*,int>
+*/
+int compareTwoPairsBySecondValue(const void * a, const void * b)
+{
+	return ((*(pair<char*, int>*)b).second - (*(pair<char*, int>*)a).second);
 }

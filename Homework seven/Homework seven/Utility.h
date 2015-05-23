@@ -7,18 +7,18 @@ using std::vector;
 
 
 /*
-Returns the number of lines in the input stream.
-If the last row (or rows) is empty in the input file , it will count them, but it`s ok...
+	Returns the number of lines in the input stream.
+	If the last row (or rows) is empty in the input file , it will count them, but it`s ok...
 */
 size_t getNumberOfLines(ifstream& in);
 
 /*
-Returns the number of words in the input stream.
+	Returns the number of words in the input stream.
 */
 size_t getNumberOfWords(ifstream& in);
 
 /*
-Get the length of next word in the input stream given as argument @in.
+	Get the length of next word in the input stream given as argument @in.
 */
 size_t getLengthOfTheWord(ifstream& in);
 
@@ -33,7 +33,7 @@ bool getWord(ifstream& in, unsigned char *& word);
 unsigned char getIthBitOfString(const unsigned char* word, int bit);
 
 /*
-Gives the i-th bit of the given char.
+	Gives the i-th bit of the given char.
 */
 unsigned char getIthBitOfSymbol(unsigned char ch, int bit);
 
@@ -41,3 +41,8 @@ unsigned char getIthBitOfSymbol(unsigned char ch, int bit);
 	Returns the sum of all numbers in the given vector.
 */
 int sumOfVectorNumbers(const vector<int>& v);
+
+/*
+	Compare function for the sort. Compares two values from the vector of pairs <char*,int>
+*/
+int compareTwoPairsBySecondValue(const void * a, const void * b);
