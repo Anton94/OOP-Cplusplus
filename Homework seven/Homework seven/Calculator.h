@@ -23,6 +23,9 @@ public:
 	// Prints the words of the dictionary to the 'cout' stream.
 	void printDictionaryToCout() const;
 	
+	// Some test to find word TO DO Delete it...
+	void testFind() const;
+
 	// Deletes the memory for the dictionary.
 	~Calculator();
 private:

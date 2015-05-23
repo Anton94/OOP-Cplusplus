@@ -15,9 +15,10 @@ void RadixTrie::clear()
 }
 
 // Adds new word with value- @data.
-void RadixTrie::insert(const unsigned char* word, int data)
+void RadixTrie::insert(const char* word, int data)
 {
-	insert(root, word, data, strlen((const char*)word) * 8, 0);
+	// I made it unsigned char so it can take values for 0-255 symbols.. I don`t know if it`s OK... TO DO -- ask
+	insert(root, (const unsigned char*)word, data, strlen((const char*)word) * 8, 0);
 }
 
 // Adds new word with value- @data.
@@ -59,11 +60,10 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 			root = n;
 
 			return;
-		}
-		
+		}		
 		else if (bit != nodeBit)
 		{
-			Node * n = new Node(root->word, i - 1); // -1 because there is match till now. TO DO CHECK
+			Node * n = new Node(root->word, i - 1); // -1 because there is match till now. TO DO CHECK - if the first bit(i == 1) is different, I wont be here, it will be in other child.
 			root->length = root->length - i + 1;
 
 			// If the bit is 0 and the rib bit is 1.
@@ -91,7 +91,7 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 		++curBit;
 	}
 
-	// If the word matchs exactly on this rib(@root node), changes only the value of the rib.
+	// If the word matchs exactly on this rib(@root node), changes only the value of the rib. (Rewrites the existing word value, if there was valid value)
 	if (curBit >= wordLength)
 	{
 		root->val = data;
@@ -109,6 +109,56 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 	else
 	{
 		insert(root->right, word, data, wordLength, curBit);
+	}
+}
+
+// Returns the value of the given word, if it`s not in the radix trie, returns negative number.
+int RadixTrie::find(const char* word) const
+{
+	return find(root, (const unsigned char*)word, strlen((const char*)word) * 8, 0);
+}
+
+int RadixTrie::find(Node * root, const unsigned char* word, size_t wordLength, size_t curBit) const
+{
+	if (!root)
+		return -1;
+
+	unsigned char bit, nodeBit;
+
+	// Go through the bits of the rib (@root node) and check for matches.
+	for (unsigned char i = 1; i <= root->length; ++i)
+	{
+		// Get the bits. (if the curBit is more than wordLength , no problem, it will take from the term null..)
+		bit = getIthBitOfString(word, curBit);
+		nodeBit = getIthBitOfString(root->word, curBit);
+
+		// If the rib has more symbols(0 or 1) than the word.
+		if (curBit >= wordLength)
+			return -1;
+
+		if (bit != nodeBit)
+			return -1;
+
+		++curBit;
+	}
+
+	// If the word matchs exactly on this rib(@root node).
+	if (curBit >= wordLength)
+	{
+		return root->val; // If there is no word on that rib end, it will return -1.
+	}
+
+	// Get the next bit value.
+	bit = getIthBitOfString(word, curBit);
+
+	// If the current taken bit @bit is 0, goes to left child, otherwise (it`s 1) and goes to the right child.
+	if (bit == 0)
+	{
+		return find(root->left, word, wordLength, curBit);
+	}
+	else
+	{
+		return find(root->right, word, wordLength, curBit);
 	}
 }
 

@@ -41,7 +41,7 @@ bool Calculator::build(char * dictionaryFile)
 			return false;
 
 		// Insert the word in the radix trie.
-		radixTrie.insert(dictionary[i], value);
+		radixTrie.insert((char*)dictionary[i], value);
 
 		// Skip the new line.
 		inDictionary.get();
@@ -51,6 +51,16 @@ bool Calculator::build(char * dictionaryFile)
 	inDictionary.close();
 
 	return true;
+}
+
+// Some test to find word TO DO Delete it...
+void Calculator::testFind() const
+{
+	std::cout << "Find ab " << radixTrie.find("ab") << std::endl;
+	std::cout << "Find a " << radixTrie.find("a") << std::endl;
+	std::cout << "Find abb " << radixTrie.find("abb") << std::endl;
+	std::cout << "Find ac " << radixTrie.find("ac") << std::endl;
+	std::cout << "Find abbbb " << radixTrie.find("abbbb") << std::endl;
 }
 
 // Deletes the memory for the dictionary.

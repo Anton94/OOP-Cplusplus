@@ -27,7 +27,10 @@ public:
 	void clear();
 	
 	// Adds new word with value- @data.
-	void insert(const unsigned char* word, int data);
+	void insert(const char* word, int data);
+
+	// Returns the value of the given word, if it`s not in the radix trie, returns negative number.
+	int find(const char* word) const;
 
 	// Deletes the trie.
 	~RadixTrie();
@@ -37,6 +40,9 @@ private:
 
 	// Adds new word with value- @data.
 	void insert(Node *& root, const unsigned char* word, int data, size_t wordLength, size_t curBit);
+	
+	// Returns the value of the given word, if it`s not in the radix trie, returns negative number.
+	int find(Node * root, const unsigned char* word, size_t wordLength, size_t curBit) const;
 
 	// Creates the default node for the root.
 	void setDefaultValues();
