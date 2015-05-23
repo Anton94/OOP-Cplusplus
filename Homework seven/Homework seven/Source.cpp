@@ -29,6 +29,8 @@ int main(int argc, char** argv)
 			calculator.testFind();
 			calculator.testPrefix();
 
+			calculator.calculate(argv[2], std::cout);
+
 			/*std::cout << (((int)'a' & 1 << 0) != 0) << std::endl;
 			std::cout << (((int)'a' & 1 << 1) != 0) << std::endl;
 			std::cout << (((int)'a' & 1 << 2) != 0) << std::endl;

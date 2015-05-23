@@ -1,5 +1,8 @@
 #include <iostream>
+#include <string>
 #include "Calculator.h"
+
+using std::string;
 
 Calculator::Calculator()
 {
@@ -27,7 +30,7 @@ bool Calculator::build(char * dictionaryFile)
 	if (!inDictionary)
 		return false;
 
-	size_t n = getNumberOfWords(inDictionary);
+	size_t n = getNumberOfLines(inDictionary);
 	dictionary.resize(n, NULL);
 
 	size_t i = 0, len = 0;
@@ -36,7 +39,7 @@ bool Calculator::build(char * dictionaryFile)
 	while (inDictionary && i < n)
 	{
 		// Get the word.
-		if (!getWord(inDictionary, dictionary[i]) || !inDictionary)
+		if (!getWord(inDictionary, dictionary[i]) || !inDictionary) // If the allocation fails, the destructor will remove my memory.
 			return false;
 
 		// Get the value of thr word.
@@ -55,6 +58,65 @@ bool Calculator::build(char * dictionaryFile)
 	inDictionary.close();
 
 	return true;
+}
+
+// Get the text from the given file name and checks every word if it is a prefix of word/s in the dictionary and groups their values(if has some). Sorts the output and prints it to the given ostream.
+// I will use the push functionality of the vector in this method and I will use string object just because I don`t need to take care for the blank symbols.
+// I make a vector of char* and int - for the words and sum value of prefixed words. Other solution is to keep the position of the word in the file, and word length (and sum value),
+// but for now it`s some kind of OK.
+void Calculator::calculate(char * textFile, ostream& out) const
+{
+	ifstream inText(textFile);
+	if (!inText)
+		return;
+
+	size_t n = getNumberOfWords(inText);
+	vector<pair<char*, int>> result(n, pair<char*, int>(NULL, 0)); // resize the vector and makes the default values.
+
+	string word;
+
+	for (size_t i = 0; i < n; ++i) // I know how many words are in the file(@n).
+	{
+		inText >> word;
+		if (!inText)
+		{
+			break;
+			// The file brokes, but I will make the calculations for the getted part...
+			n = i; // this count of words are OK. (on i-th word brokes, so i - 1 words are OK, but i starts from zero)
+		}
+
+		try
+		{
+			result[i].first = new char[word.length() + 1]; // TO DO catch the exeption
+		}
+		catch (std::bad_alloc& e)
+		{
+			deleteMemoeryForTheTextWords(result);
+			return;
+		}
+		strcpy(result[i].first, word.c_str());
+
+		result[i].second = sumOfVectorNumbers(radixTrie.getAllWithPrefix(result[i].first));
+	}
+
+	// TO DO sort...
+
+	for (size_t i = 0; i < n; ++i)
+	{
+		std::cout << result[i].first << " " << result[i].second << std::endl;
+	}
+
+	// Remove the taken memory for the text words.
+	deleteMemoeryForTheTextWords(result);
+}
+
+// Deletes the allocated words in the temp vector of pairs <char*,int>.
+void Calculator::deleteMemoeryForTheTextWords(vector<pair<char*, int>> & v) const
+{
+	for (size_t i = 0; i < v.size(); ++i)
+	{
+		delete[] v[i].first;
+	}
 }
 
 // Some test to find word TO DO Delete it...

@@ -10,6 +10,11 @@ using std::vector;
 Returns the number of lines in the input stream.
 If the last row (or rows) is empty in the input file , it will count them, but it`s ok...
 */
+size_t getNumberOfLines(ifstream& in);
+
+/*
+Returns the number of words in the input stream.
+*/
 size_t getNumberOfWords(ifstream& in);
 
 /*

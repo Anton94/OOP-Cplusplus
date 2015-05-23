@@ -1,11 +1,11 @@
 #include "Utility.h"
-
+#include <string>
 
 /*
 Returns the number of lines in the input stream.
 If the last row (or rows) is empty in the input file , it will count them, but it`s ok...
 */
-size_t getNumberOfWords(ifstream& in)
+size_t getNumberOfLines(ifstream& in)
 {
 	if (!in)
 		return 0;
@@ -36,6 +36,35 @@ size_t getNumberOfWords(ifstream& in)
 	return n;
 }
 
+/*
+Returns the number of words in the input stream. I will use string object just because I don`t need to take care for the blank symbols.
+*/
+size_t getNumberOfWords(ifstream& in)
+{
+	if (!in)
+		return 0;
+
+	size_t n = 0;
+	int cur = in.tellg();
+
+	std::string word;
+
+	while (in)
+	{
+		in >> word;
+		if (!in)
+		{
+			break;
+		}
+
+		++n;
+	}
+
+	in.clear();
+	in.seekg(cur);
+
+	return n;
+}
 
 /*
 	Get the length of next word in the input stream given as argument @in. 
