@@ -2,7 +2,13 @@
 #include <fstream>
 #include "Calculator.h"
 
+/*
+Homework seven, SD 2
+Anton Dudov, #71488
 
+Github repository: https://github.com/Anton94/OOP-Cplusplus
+Github project: https://github.com/Anton94/OOP-Cplusplus/tree/master/Homework%20seven
+*/
 
 int main(int argc, char** argv)
 {
@@ -28,6 +34,8 @@ int main(int argc, char** argv)
 			
 			calculator.testFind();
 			calculator.testPrefix();
+			calculator.testRemove();
+			calculator.testFind();
 
 			calculator.calculate(argv[2], std::cout);
 
@@ -39,20 +47,26 @@ int main(int argc, char** argv)
 			std::cout << (((int)'a' & 1 << 5) != 0) << std::endl;
 			std::cout << (((int)'a' & 1 << 6) != 0) << std::endl;
 			std::cout << (((int)'a' & 1 << 7) != 0) << std::endl;
+			*/
+			/*for (int i = 0; i < 8; ++i)
+			{
+				std::cout << (int)getIthBitOfString((const unsigned char*)"a",i) << " ";
+			}
+
+			std::cout << std::endl;
+
 
 			for (int i = 0; i < 8; ++i)
 			{
-				std::cout << (((int)'a' & 1 << (7 - i)) != 0) << " ";
+				std::cout << (int)getIthBitOfSymbol('a', i) << " ";
 			}
 
 			std::cout << std::endl;*/
-
 		}
 		catch (const char* msg)
 		{
 			std::cerr << "What? " << msg << std::endl;
 		}
-
 	}
 
 	_CrtMemCheckpoint(&s2);

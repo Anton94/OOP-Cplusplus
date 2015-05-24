@@ -1,13 +1,2 @@
-a 1
-ab 2
-ac 4
-abdqsda 5
-absadqw 6
-acqwdqd 7
-tony. 8
-is 9
-the 10
-best 11
-ofnothingtodohere 12
-aaaaaaaaaaaaaaaaaaaaaaa 23
-. 101
+ab 1
+ac 2

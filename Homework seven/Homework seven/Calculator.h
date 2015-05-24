@@ -32,12 +32,13 @@ public:
 	// Some tests TO DO Delete it...
 	void testFind() const;
 	void testPrefix() const;
+	void testRemove();
 
 	// Deletes the memory for the dictionary.
 	~Calculator();
 private:
 	// Deletes the allocated words in the temp vector of pairs <char*,int>.
-	void deleteMemoeryForTheTextWords(vector<pair<char*, int>> & v) const;
+	void deleteMemoeryForTheTextWords(vector<pair<unsigned char*, int>> & v) const;
 private:
 	RadixTrie radixTrie;
 	vector<unsigned char*> dictionary;

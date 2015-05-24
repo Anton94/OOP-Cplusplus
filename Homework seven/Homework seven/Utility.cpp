@@ -142,7 +142,7 @@ unsigned char getIthBitOfString(const unsigned char* word, int bit)
 */
 unsigned char getIthBitOfSymbol(unsigned char ch, int bit)
 {
-	return ch & 1 << (7 - bit) != 0;
+	return (ch & 1 << (7 - bit)) != 0;
 }
 
 /*
@@ -165,5 +165,5 @@ Compare function for the sort. Compares two values from the vector of pairs <cha
 */
 int compareTwoPairsBySecondValue(const void * a, const void * b)
 {
-	return ((*(pair<char*, int>*)b).second - (*(pair<char*, int>*)a).second);
+	return (((pair<char*, int>*)b)->second - ((pair<char*, int>*)a)->second);
 }

@@ -72,7 +72,7 @@ void Calculator::calculate(char * textFile, ostream& out) const
 		return;
 
 	size_t n = getNumberOfWords(inText);
-	vector<pair<char*, int>> result(n, pair<char*, int>(NULL, 0)); // resize the vector and makes the default values.
+	vector<pair<unsigned char*, int>> result(n, pair<unsigned char*, int>(NULL, 0)); // resize the vector and makes the default values.
 
 	string word;
 
@@ -88,16 +88,16 @@ void Calculator::calculate(char * textFile, ostream& out) const
 
 		try
 		{
-			result[i].first = new char[word.length() + 1];
+			result[i].first = new unsigned char[word.length() + 1];
 		}
 		catch (std::bad_alloc& e)
 		{
 			deleteMemoeryForTheTextWords(result);
 			return;
 		}
-		strcpy(result[i].first, word.c_str());
+		strcpy((char*)result[i].first, word.c_str());
 
-		result[i].second = sumOfVectorNumbers(radixTrie.getAllWithPrefix(result[i].first));
+		result[i].second = sumOfVectorNumbers(radixTrie.getAllWithPrefix((const char*)result[i].first));
 	}
 
 	// If there is no elements, quits...
@@ -105,7 +105,7 @@ void Calculator::calculate(char * textFile, ostream& out) const
 		return;
 
 
-	qsort(&result[0], result.size(), sizeof(pair<char*, int>), compareTwoPairsBySecondValue);
+	qsort(&result[0], result.size(), sizeof(pair<unsigned char*, int>), compareTwoPairsBySecondValue);
 
 	for (size_t i = 0; i < n; ++i)
 	{
@@ -117,7 +117,7 @@ void Calculator::calculate(char * textFile, ostream& out) const
 }
 
 // Deletes the allocated words in the temp vector of pairs <char*,int>.
-void Calculator::deleteMemoeryForTheTextWords(vector<pair<char*, int>> & v) const
+void Calculator::deleteMemoeryForTheTextWords(vector<pair<unsigned char*, int>> & v) const
 {
 	for (size_t i = 0; i < v.size(); ++i)
 	{
@@ -132,6 +132,7 @@ void Calculator::testFind() const
 
 	std::cout << "Find ab " << radixTrie.find("ab") << std::endl;
 	std::cout << "Find a " << radixTrie.find("a") << std::endl;
+	std::cout << "Find c " << radixTrie.find("c") << std::endl;
 	std::cout << "Find abb " << radixTrie.find("abb") << std::endl;
 	std::cout << "Find ac " << radixTrie.find("ac") << std::endl;
 	std::cout << "Find abbbb " << radixTrie.find("abbbb") << std::endl;
@@ -149,6 +150,19 @@ void Calculator::testPrefix() const
 	std::cout << "Prefix a has value: " << sumOfVectorNumbers(radixTrie.getAllWithPrefix("a")) << std::endl;
 	std::cout << "Prefix ab has value: " << sumOfVectorNumbers(radixTrie.getAllWithPrefix("ab")) << std::endl;
 	std::cout << "Prefix aaaaaaaaaaaaaaaaaaaaaaa has value: " << sumOfVectorNumbers(radixTrie.getAllWithPrefix("aaaaaaaaaaaaaaaaaaaaaaa")) << std::endl;
+
+	std::cout << std::endl;
+}
+
+
+void Calculator::testRemove()
+{
+	std::cout << "Test remove...\n";
+
+	std::cout << "Remove a " << (int)radixTrie.remove("a") << std::endl;
+	std::cout << "Remove ac " << (int)radixTrie.remove("ac") << std::endl;
+	std::cout << "Remove ab " << (int)radixTrie.remove("ab") << std::endl;
+	std::cout << "Remove aaaaaaaaaaaaaaaaaaaaaaa " << (int)radixTrie.remove("aaaaaaaaaaaaaaaaaaaaaaa") << std::endl;
 
 	std::cout << std::endl;
 }

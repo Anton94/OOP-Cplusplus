@@ -234,6 +234,124 @@ void RadixTrie::DFS(Node * root, vector<int>& result) const
 	DFS(root->right, result);
 }
 
+// Removes a word from the radix trie. Returns true if the words was removed otherwise returns false.
+bool RadixTrie::remove(const char* word)
+{
+	// If the first bit is 0, goes to left child, otherwise goes to the right child
+	if (getIthBitOfSymbol(word[0], 0) == 0)
+		return remove(root->left, root, (const unsigned char*)word, strlen(word) * 8, 0);
+	else
+		return remove(root->right, root, (const unsigned char*)word, strlen(word) * 8, 0);
+}
+
+// Removes a word from the radix trie. Returns true if the words was removed otherwise returns false.
+bool RadixTrie::remove(Node *& root, Node *& father, const unsigned char* word, size_t wordLength, size_t curBit)
+{
+	if (!root || !father || curBit >= wordLength)
+		return false;
+
+	unsigned char bit, nodeBit;
+
+	// Go through the bits of the rib (@root node) and check for matches.
+	for (unsigned char i = 1; i <= root->length; ++i)
+	{
+		// Get the bits. (if the curBit is more than wordLength , no problem, it will take from the term null..)
+		bit = getIthBitOfString(word, curBit);
+		nodeBit = getIthBitOfString(root->word, curBit);
+
+		// If the rib has more values(0 or 1) than the word.
+		if (curBit >= wordLength)
+			return false;
+
+		if (bit != nodeBit)
+			return false;
+
+		++curBit;
+	}
+
+	// If the word matchs exactly on this rib(@root node).
+	if (curBit >= wordLength)
+	{
+		return remove(root, father);
+	}
+
+	// Get the next bit value.
+	bit = getIthBitOfString(word, curBit);
+
+	// If the current taken bit @bit is 0, goes to left child, otherwise (it`s 1) and goes to the right child.
+	if (bit == 0)
+	{
+		return remove(root->left, root, word, wordLength, curBit);
+	}
+	else
+	{
+		return remove(root->right, root, word, wordLength, curBit);
+	}
+}
+
+// By given nodes (child - @root and father @father) removes the child. Returns true if the words was removed otherwise returns false.
+/*
+	3 basic situations.
+
+		1) The @root is a leaf - deletes it
+			- if the father is a valid node (end of a word) - nothing
+			- if the father is not a valid node, diferent than real root(not end of a word(value = -1)) - merge the father with his other child(if has some, if the trie has good structure it will have).
+		2) The @root has left and right child - makes the value of the @root -1.
+		3) The @root has only left/right child - merge the father with other child of the @root.
+*/
+bool RadixTrie::remove(Node*& root, Node*& father)
+{
+	// In that case there is no word, so returns false.
+	if (!root || !father || root->val < 0)
+		return false;
+
+	// First case.
+	if (!root->left && !root->right)
+	{
+		delete root;
+		root = NULL;
+
+		if (father->val < 0 && father != this->root)
+			mergeNodeWithValidChild(father);
+	}
+	// Second case.
+	else if (root->left && root->right)
+	{
+		root->val = -1;
+	}
+
+	// Third case. The root node has only one child.
+	else
+	{
+		mergeNodeWithValidChild(root);
+	}
+
+	return true;
+}
+
+// Merges the given node with his valid child(the given node has only one child- left/right).
+void RadixTrie::mergeNodeWithValidChild(Node *& root)
+{
+	if (root->left || root->right)
+	{
+		Node * n;
+
+		if (root->left)
+		{
+			root->left->length += root->length;
+			n = root->left;
+		}
+		else
+		{
+			root->right->length += root->length;
+			n = root->right;
+		}
+
+		delete root;
+		root = n;
+	}	
+}
+
 // Deletes the trie.
 RadixTrie::~RadixTrie()
 {
