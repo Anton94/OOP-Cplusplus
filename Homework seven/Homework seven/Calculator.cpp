@@ -137,6 +137,7 @@ void Calculator::testFind() const
 	std::cout << "Find ac " << radixTrie.find("ac") << std::endl;
 	std::cout << "Find abbbb " << radixTrie.find("abbbb") << std::endl;
 	std::cout << "Find acqwdqd " << radixTrie.find("acqwdqd") << std::endl;
+	std::cout << "Find absadqw " << radixTrie.find("absadqw") << std::endl;
 	std::cout << "Find aaaaaaaaaaaaaaaaaaaaaaa " << radixTrie.find("aaaaaaaaaaaaaaaaaaaaaaa") << std::endl;
 
 	std::cout << std::endl;
@@ -160,8 +161,8 @@ void Calculator::testRemove()
 	std::cout << "Test remove...\n";
 
 	std::cout << "Remove a " << (int)radixTrie.remove("a") << std::endl;
-	std::cout << "Remove ac " << (int)radixTrie.remove("ac") << std::endl;
-	std::cout << "Remove ab " << (int)radixTrie.remove("ab") << std::endl;
+	/*std::cout << "Remove ac " << (int)radixTrie.remove("ac") << std::endl;
+	std::cout << "Remove ab " << (int)radixTrie.remove("ab") << std::endl;*/
 	std::cout << "Remove aaaaaaaaaaaaaaaaaaaaaaa " << (int)radixTrie.remove("aaaaaaaaaaaaaaaaaaaaaaa") << std::endl;
 
 	std::cout << std::endl;

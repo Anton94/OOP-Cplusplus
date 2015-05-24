@@ -46,42 +46,41 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 		bit = getIthBitOfString(word, curBit);
 		nodeBit = getIthBitOfString(root->word, curBit);
 
-		// If the word ends in some point of the rib(@root).
-		// Splits it where it ends and make new node with value - @data, makes the pointer to that new node , the real pointer @root (the father left/right child)
-		if (curBit >= wordLength)
-		{ 
-			Node * n = new Node(word, i - 1, data);
+		// If the word ends in the rib or the bits are different(rib and word bits).
+		if (curBit >= wordLength || bit != nodeBit)
+		{
+			Node * n = new Node(word, i - 1);
 			root->length = root->length - i + 1;
 			
-			if (nodeBit == 0)
-				n->left = root;
-			else
-				n->right = root;
-
-			root = n;
-
-			return;
-		}		
-		else if (bit != nodeBit) // Basically I can group this case with curBit >= wordLength, but...
-		{
-			Node * n = new Node(root->word, i - 1); // -1 because there is match till now. TO DO CHECK - if the first bit(i == 1) is different, I wont be here, it will be in other child.
-			root->length = root->length - i + 1;
-
-			// If the bit is 0 and the rib bit is 1.
-			// Splits the rib and adds the current splited half to the right and the rest of the word on the left.
-			if (bit < nodeBit)
+			// If the word ends in some point of the rib(@root).
+			// Splits it where it ends and make new node with value - @data, makes the pointer to that new node , the real pointer @root (the father left/right child)
+			if (curBit >= wordLength)
 			{
-				// Add the new node of the rest of the word.
-				n->left = new Node(word, wordLength - curBit, data);
-				n->right = root;
+				n->val = data;
+
+				if (nodeBit == 0)
+					n->left = root;
+				else
+					n->right = root;
 			}
-			// If the bit is 1 and the rib bit is 0.
-			// Splits the rib and adds the current splited half to the left and the rest of the word on the right.
-			else // bit > nodeBit
+			else // bit != nodeBit
 			{
-				// Add the new node of the rest of the word.
-				n->right = new Node(word, wordLength - curBit, data);
-				n->left = root;
+				// If the bit is 0 and the rib bit is 1.
+				// Splits the rib and adds the current splited half to the right and the rest of the word on the left.
+				if (bit < nodeBit)
+				{
+					// Add the new node of the rest of the word.
+					n->left = new Node(word, wordLength - curBit, data);
+					n->right = root;
+				}
+				// If the bit is 1 and the rib bit is 0.
+				// Splits the rib and adds the current splited half to the left and the rest of the word on the right.
+				else // bit > nodeBit
+				{
+					// Add the new node of the rest of the word.
+					n->right = new Node(word, wordLength - curBit, data);
+					n->left = root;
+				}
 			}
 
 			root = n;
