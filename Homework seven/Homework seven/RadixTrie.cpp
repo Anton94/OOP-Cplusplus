@@ -17,11 +17,20 @@ void RadixTrie::clear()
 // Adds new word with value- @data.
 void RadixTrie::insert(const char* word, int data)
 {
+	if (!word)
+		return;
 	// I made it unsigned char so it can take values for 0-255 symbols.. I don`t know if it`s OK... TO DO -- ask
 	insert(root, (const unsigned char*)word, data, strlen(word) * 8, 0);
 }
 
 // Adds new word with value- @data.
+/*
+	Basic situations:
+		1) If there is no more path for the word`s bit`s make a leaf.
+		2) The word ends in some rib - splits the rib. (Adds new node in the rib).
+		3) The bits in  the rib and the bits of the word are different. Splits the rib there and attaches the rest of the rib and the rest of the word as childrens.
+		4) Exacly matches on the rib and it`s the end of the word - set`s only the value.
+*/
 void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t wordLength, size_t curBit)
 {
 	// Some weird case, maybe not even possible, (empty word is one case... so possible...)
@@ -30,7 +39,7 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 		return; // Or throw some kind of exeption...
 	}
 
-	// If the given child is NULL, makes a new rib on it`s place with the rest of the word.
+	// If the given child is NULL, makes a new rib on it`s place with the rest of the word. Case 1)
 	if (!root)
 	{
 		root = new Node(word, wordLength - curBit, data);
@@ -52,7 +61,7 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 			Node * n = new Node(word, i - 1);
 			root->length = root->length - i + 1;
 			
-			// If the word ends in some point of the rib(@root).
+			// If the word ends in some point of the rib(@root). Case 2)
 			// Splits it where it ends and make new node with value - @data, makes the pointer to that new node , the real pointer @root (the father left/right child)
 			if (curBit >= wordLength)
 			{
@@ -63,7 +72,7 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 				else
 					n->right = root;
 			}
-			else // bit != nodeBit
+			else // bit != nodeBit. Case 3)
 			{
 				// If the bit is 0 and the rib bit is 1.
 				// Splits the rib and adds the current splited half to the right and the rest of the word on the left.
@@ -91,7 +100,7 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 		++curBit;
 	}
 
-	// If the word matchs exactly on this rib(@root node), changes only the value of the rib. (Rewrites the existing word value, if there was valid value)
+	// If the word matchs exactly on this rib(@root node), changes only the value of the rib. (Rewrites the existing word value, if there was valid value) Case 4)
 	if (curBit >= wordLength)
 	{
 		root->val = data;
@@ -115,6 +124,9 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 // Returns the value of the given word, if it`s not in the radix trie, returns negative number.
 int RadixTrie::find(const char* word) const
 {
+	if (!word)
+		return -1;
+
 	return find(root, (const unsigned char*)word, strlen(word) * 8, 0);
 }
 
@@ -166,6 +178,9 @@ int RadixTrie::find(Node * root, const unsigned char* word, size_t wordLength, s
 // Returns the values of the words, whith the given @prefix
 vector<int> RadixTrie::getAllWithPrefix(const char* prefix) const
 {
+	if (!prefix)
+		return vector<int>();
+
 	vector<int> result;
 	getAllWithPrefix(root, (const unsigned char*)prefix, strlen(prefix) * 8, 0, result);
 	return result;
@@ -237,6 +252,9 @@ void RadixTrie::DFS(Node * root, vector<int>& result) const
 // Removes a word from the radix trie. Returns true if the words was removed otherwise returns false.
 bool RadixTrie::remove(const char* word)
 {
+	if (!word)
+		return false;
+
 	// If the first bit is 0, goes to left child, otherwise goes to the right child
 	if (getIthBitOfSymbol(word[0], 0) == 0)
 		return remove(root->left, root, (const unsigned char*)word, strlen(word) * 8, 0);
