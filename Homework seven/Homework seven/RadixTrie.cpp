@@ -50,8 +50,9 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 		// Splits it where it ends and make new node with value - @data, makes the pointer to that new node , the real pointer @root (the father left/right child)
 		if (curBit >= wordLength)
 		{ 
-			Node * n = new Node(root->word, i, data);
-			root->length -= i;
+			Node * n = new Node(word, i - 1, data);
+			root->length = root->length - i + 1;
+			
 			if (nodeBit == 0)
 				n->left = root;
 			else
@@ -102,7 +103,7 @@ void RadixTrie::insert(Node *& root, const unsigned char* word, int data, size_t
 	bit = getIthBitOfString(word, curBit);
 
 	// If the current taken bit @bit is 0, goes to left child, otherwise (it`s 1) and goes to the right child.
-	if (bit == 0)
+	if (bit == (unsigned char)0)
 	{
 		insert(root->left, word, data, wordLength, curBit);
 	}
