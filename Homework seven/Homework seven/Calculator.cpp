@@ -131,9 +131,11 @@ void Calculator::testFind() const
 	std::cout << "Test find...\n";
 
 	std::cout << "Find ab " << radixTrie.find("ab") << std::endl;
+	std::cout << "Find abc " << radixTrie.find("abc") << std::endl;
+	std::cout << "Find abd " << radixTrie.find("abd") << std::endl;
 	std::cout << "Find a " << radixTrie.find("a") << std::endl;
 	std::cout << "Find c " << radixTrie.find("c") << std::endl;
-	std::cout << "Find abb " << radixTrie.find("abb") << std::endl;
+	std::cout << "Find abde " << radixTrie.find("abde") << std::endl;
 	std::cout << "Find ac " << radixTrie.find("ac") << std::endl;
 	std::cout << "Find abbbb " << radixTrie.find("abbbb") << std::endl;
 	std::cout << "Find acqwdqd " << radixTrie.find("acqwdqd") << std::endl;
@@ -160,10 +162,10 @@ void Calculator::testRemove()
 {
 	std::cout << "Test remove...\n";
 
-	std::cout << "Remove a " << (int)radixTrie.remove("a") << std::endl;
-	/*std::cout << "Remove ac " << (int)radixTrie.remove("ac") << std::endl;
-	std::cout << "Remove ab " << (int)radixTrie.remove("ab") << std::endl;*/
-	std::cout << "Remove aaaaaaaaaaaaaaaaaaaaaaa " << (int)radixTrie.remove("aaaaaaaaaaaaaaaaaaaaaaa") << std::endl;
+	//std::cout << "Remove a " << (int)radixTrie.remove("a") << std::endl;
+	//std::cout << "Remove ac " << (int)radixTrie.remove("ac") << std::endl;
+	std::cout << "Remove abd " << (int)radixTrie.remove("abd") << std::endl;
+	//std::cout << "Remove aaaaaaaaaaaaaaaaaaaaaaa " << (int)radixTrie.remove("aaaaaaaaaaaaaaaaaaaaaaa") << std::endl;
 
 	std::cout << std::endl;
 }

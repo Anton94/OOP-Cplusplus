@@ -165,7 +165,7 @@ int RadixTrie::find(Node * root, const unsigned char* word, size_t wordLength, s
 	bit = getIthBitOfString(word, curBit);
 
 	// If the current taken bit @bit is 0, goes to left child, otherwise (it`s 1) and goes to the right child.
-	if (bit == 0)
+	if (bit == (unsigned char) 0)
 	{
 		return find(root->left, word, wordLength, curBit);
 	}
@@ -225,7 +225,7 @@ void RadixTrie::getAllWithPrefix(Node * root, const unsigned char* word, size_t 
 	bit = getIthBitOfString(word, curBit);
 
 	// If the current taken bit @bit is 0, goes to left child, otherwise (it`s 1) and goes to the right child.
-	if (bit == 0)
+	if (bit == (unsigned char) 0)
 	{
 		getAllWithPrefix(root->left, word, wordLength, curBit, result);
 	}
@@ -297,7 +297,7 @@ bool RadixTrie::remove(Node *& root, Node *& father, const unsigned char* word, 
 	bit = getIthBitOfString(word, curBit);
 
 	// If the current taken bit @bit is 0, goes to left child, otherwise (it`s 1) and goes to the right child.
-	if (bit == 0)
+	if (bit == (unsigned char) 0)
 	{
 		return remove(root->left, root, word, wordLength, curBit);
 	}

@@ -30,12 +30,12 @@ int main(int argc, char** argv)
 				return 1;
 			}
 
-			calculator.printDictionaryToCout();
+			/*calculator.printDictionaryToCout();
 			
 			calculator.testFind();
 			calculator.testPrefix();
 			calculator.testRemove();
-			calculator.testFind();
+			calculator.testFind();*/
 
 			calculator.calculate(argv[2], std::cout);
 
