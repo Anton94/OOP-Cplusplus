@@ -4,46 +4,14 @@
 
 using std::string;
 
-int arr[12] = { 1, 2, 3, 4, 5, 5, 5, 6, 6, 7, 8, 9};
-
-// A Binary search algorithm for lower bound.
-int lowerBoundOfSuffixesWithPattern(int x)
+// Searches the pattern and print the suffixes, which has preffix the given pattern(if has some).
+void printInforForPattern(std::ostream& out, const SuffixArray& sa, const char* pattern)
 {
-	int low = 0;
-	int high = sizeof(arr)/sizeof(int) - 1;
-	int mid = 0;
-
-	while (low < high)
-	{
-		mid = (low + high) / 2;
-		if (x <= arr[mid]) // TO DO -> partial checking
-			high = mid;
-		else
-			low = mid + 1;
-	}
-
-	return low;
+	out << "Pattern: " << pattern << "\n";
+	out << "Suffix of: \n";
+	sa.printAllSuffixesWithStart(out, sa.search(pattern));
+	out << "\n";
 }
-
-// A binary search algorithm for upper bound.
-int upperBoundOfSuffixesWithPattern(int x)
-{
-	int low = 0;
-	int high = sizeof(arr) / sizeof(int) - 1;
-	int mid = 0;
-
-	while (low < high)
-	{
-		mid = (low + high + 1) / 2;
-		if (arr[mid] <= x) // TO DO -> partial checking
-			low = mid;
-		else
-			high = mid - 1;
-	}
-
-	return low;
-}
-
 
 int main()
 {
@@ -54,33 +22,22 @@ int main()
 		string text;
 		//std::cin >> text;
 
-		text = "abcabdescaab";
+		text = "abcabdescaabadcsasqsdqsaqqdas";
 
 		SuffixArray sa(text.c_str());
 
 		sa.print(std::cout);
 
-		sa.search("caa");
-
-		std::cout << "Lower bound of 5 -> " << lowerBoundOfSuffixesWithPattern(5) << std::endl;
-		std::cout << "Upper bound of 5 -> " << upperBoundOfSuffixesWithPattern(5) << std::endl;
-
-		std::cout << "Lower bound of 7 -> " << lowerBoundOfSuffixesWithPattern(7) << std::endl;
-		std::cout << "Upper bound of 7 -> " << upperBoundOfSuffixesWithPattern(7) << std::endl;
-
-		std::cout << "Lower bound of 8 -> " << lowerBoundOfSuffixesWithPattern(8) << std::endl;
-		std::cout << "Upper bound of 8 -> " << upperBoundOfSuffixesWithPattern(8) << std::endl;
-
-		std::cout << "Lower bound of 9 -> " << lowerBoundOfSuffixesWithPattern(9) << std::endl;
-		std::cout << "Upper bound of 9 -> " << upperBoundOfSuffixesWithPattern(9) << std::endl;
-
-		std::cout << "Lower bound of 165 -> " << lowerBoundOfSuffixesWithPattern(165) << std::endl;
-		std::cout << "Upper bound of 165 -> " << upperBoundOfSuffixesWithPattern(165) << std::endl;
-
-		std::cout << "Lower bound of -165 -> " << lowerBoundOfSuffixesWithPattern(-165) << std::endl;
-		std::cout << "Upper bound of -165 -> " << upperBoundOfSuffixesWithPattern(-165) << std::endl;
-
-		std::cout << "Compare aba and aba" << sa.compare("aba", "abac") << std::endl;
+		printInforForPattern(std::cout, sa, "a");
+		printInforForPattern(std::cout, sa, "ab");
+		printInforForPattern(std::cout, sa, "s");
+		printInforForPattern(std::cout, sa, "g");
+		printInforForPattern(std::cout, sa, "ca");
+		printInforForPattern(std::cout, sa, "caa");
+		printInforForPattern(std::cout, sa, "q");
+		printInforForPattern(std::cout, sa, "qs");
+		printInforForPattern(std::cout, sa, "aabadcsasqsdqsaqqdas");
+		printInforForPattern(std::cout, sa, "sqsdqsaqqdas");
 	}
 
 	_CrtMemCheckpoint(&s2);
