@@ -1,7 +1,9 @@
 ﻿#pragma once
 
 #include <vector>
+#include <ostream>
 #include <algorithm>
+#include "Utility.h"
 
 /* 
 	#	Anton Vasilev Dudov
@@ -30,186 +32,54 @@ using std::vector;
 
 class SuffixArray
 {
+	// Help structure for sort comparing...
 	struct SorterHelper
 	{
 		SuffixArray * owner;
 		SorterHelper(SuffixArray * o) : owner(o) {}
-		bool operator()(int a, int b)
+		bool operator()(size_t a, size_t b)
 		{
 			return strcmp(owner->text + a, owner->text + b) < 0;
 		}
 	};
 public:
-	SuffixArray(const char* text)
-	{
-		// Default values(in any case. the first memory allocation may fail)
-		setDefaultValues();
-
-		// Get the length of the text.
-		length = strlen(text);
-
-		// Make a copy of the given text and keep it as member variable(pointer).
-		this->text = new char[length + 1];
-		strcpy(this->text, text);
-
-		// Create the array with the start of every suffix (so from 0 to length-1)
-		suffixes = new unsigned[length];
-		for (unsigned i = 0; i < length; ++i)
-			suffixes[i] = i;
-
-		// Sort the suffixes- lexical.
-		sortSuffixes();
-	}
+	// Constructs the array from the given text and it`s now immutable.
+	SuffixArray(const char* text);
 
 	// Returns a vector of start positions of the suffixes, which has prefix the given pattern.  
 	// NOTE: Indexes start from 0 to length - 1!
-	vector<int> search(const char* pattern) const 
-	{
-		vector<int> res;
-
-		unsigned patternLength = strlen(pattern);
-		int lowerBound = lowerBoundOfSuffixesWithPattern(pattern),
-			   upperBound = upperBoundOfSuffixesWithPattern(pattern, patternLength);
-
-		// If the lower bound is valid one (the right one will be the lower or someone bigger...)
-		if (numOfMatchesChars(text + suffixes[lowerBound], pattern) >= patternLength)
-		{
-			res.resize(upperBound - lowerBound + 1); // example : [3,3] -> 1 element, [3,4] -> 2 elements...
-			for (unsigned i = lowerBound, counter = 0; i <= upperBound; ++i, ++counter)
-			{
-				res[counter] = i;
-			}
-		}
-
-		return res;
-	}
+	vector<int> search(const char* pattern) const;
 
 	// Prints all suffixes of the SuffixArray to the given ostream.
-	void print(std::ostream& out) const
-	{
-		out << "Suffixes: \n";
-		for (unsigned i = 0; i < length; ++i)
-		{
-			out << i << "\t" << (text + suffixes[i]) << "\n";
-		}
-		out << "\n";
-	}
+	void print(std::ostream& out) const;
 
 	// Prints all suffixes with start positions are in the given vector(the values in the vector, are the start positions of the suffixes) to the given ostream.
-	void printAllSuffixesWithStart(std::ostream& out, const vector<int>& v) const
-	{
-		size_t n = v.size();
-		if (n == 0)
-		{
-			out << "\tNo suffixes...\n";
-		}
-		else
-		{
-			for (size_t i = 0; i < n; ++i)
-			{
-				out << "\t" << (text + suffixes[v[i]]) << "\n";
-			}
-		}
-	}
+	void printAllSuffixesWithStart(std::ostream& out, const vector<int>& v) const;
 
-	~SuffixArray()
-	{
-		free();
-	}
+	// Destructor.
+	~SuffixArray();
 private:
 	// A Binary search algorithm for lower bound.
-	int lowerBoundOfSuffixesWithPattern(const char* pattern) const
-	{
-		int low = 0;
-		int high = length - 1;
-		int mid = 0;
-		unsigned matchCount = 0;
-		
-		while (low < high)
-		{
-			mid = (low + high) / 2;
-			if (strcmp(pattern + matchCount, text + suffixes[mid] + matchCount) <= 0)
-			{
-				matchCount += numOfMatchesChars(text + suffixes[mid] + matchCount, text + suffixes[low] + matchCount);
-				high = mid;
-			}
-			else
-			{
-				matchCount += numOfMatchesChars(text + suffixes[mid + 1] + matchCount, text + suffixes[high] + matchCount);
-				low = mid + 1;
-			}
-		}
-
-		return low;
-	}
+	int lowerBoundOfSuffixesWithPattern(const char* pattern) const;
 
 	// A binary search algorithm for upper bound. 
-	int upperBoundOfSuffixesWithPattern(const char* pattern, unsigned patternLength) const
-	{
-		int low = 0;
-		int high = length - 1;
-		int mid = 0;
-		unsigned matchCount = 0;
-
-		while (low < high)
-		{
-			mid = (low + high + 1) / 2;
-			// If the pattern is prefix of the  middle string OR...
-			if (numOfMatchesChars(text + suffixes[mid] + matchCount, pattern + matchCount) + matchCount >= patternLength || strcmp(text + suffixes[mid] + matchCount, pattern + matchCount) <= 0) // TO DO -> partial checking
-			{
-				matchCount += numOfMatchesChars(text + suffixes[mid] + matchCount, text + suffixes[high] + matchCount);
-				low = mid;
-			}
-			else
-			{
-				matchCount += numOfMatchesChars(text + suffixes[mid - 1] + matchCount, text + suffixes[low] + matchCount); // Mid - 1 == 0?  mid bigger than @low, maybe safe...
-				high = mid - 1;
-			}
-		}
-
-		return low;
-	}
-
-	// Counts the number of same characters from the start of the two strings(given start).
-	unsigned numOfMatchesChars(const char* s1, const char* s2) const
-	{
-		//unsigned count = 0;
-		const char * keepS1 = s1;
-		while (*s1 != '\0' && *s2 != '\0' && *s1 == *s2)
-		{
-			//++count;
-			++s1;
-			++s2;
-		}
-
-		return s1 - keepS1;
-	}
+	int upperBoundOfSuffixesWithPattern(const char* pattern, unsigned patternLength) const;
 
 	// Sets the default values for the object member datas.
-	void setDefaultValues()
-	{
-		suffixes = NULL;
-		text = NULL;
-		length = 0;
-	}
+	void setDefaultValues();
 	
 	// Creates an object of SorterHelpwe, which has overloaded operator() and a pointer to the owner(to the text) and makes the lexical sort.
 	// Sort them with O(N * N*logN) where N is @length
-	void sortSuffixes()
-	{
-		SorterHelper sh(this);
-
-		std::sort(suffixes, suffixes + length, sh);
-	}
+	void sortSuffixes();
 
 	// Deletes the allocated memory. NOTE: does not set the pointers to NULL...
-	void free()
-	{
-		delete[] suffixes;
-		delete[] text;
-	}
+	void free();
 private:
 	unsigned * suffixes;
 	char * text;
 	size_t length;
+private:
+	// This homework needs only construction and searching.
+	SuffixArray(const SuffixArray& other);
+	SuffixArray& operator=(const SuffixArray& other);
 };
