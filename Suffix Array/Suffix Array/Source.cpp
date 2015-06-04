@@ -22,7 +22,7 @@ int main()
 		string text;
 		//std::cin >> text;
 
-		text = "abcabdescaabadcsasqsdqsaqqdas";
+		text = "abcad";
 
 		SuffixArray sa(text.c_str());
 
@@ -36,8 +36,10 @@ int main()
 		printInforForPattern(std::cout, sa, "caa");
 		printInforForPattern(std::cout, sa, "q");
 		printInforForPattern(std::cout, sa, "qs");
-		printInforForPattern(std::cout, sa, "aabadcsasqsdqsaqqdas");
-		printInforForPattern(std::cout, sa, "sqsdqsaqqdas");
+		printInforForPattern(std::cout, sa, "ow");
+
+
+		std::cout << strcmp("ab", "aa") << std::endl;
 	}
 
 	_CrtMemCheckpoint(&s2);
