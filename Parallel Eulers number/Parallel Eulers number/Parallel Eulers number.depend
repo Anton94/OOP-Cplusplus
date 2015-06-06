@@ -1,6 +1,13 @@
 # depslib dependency file v1.0
-1433576569 source:c:\users\anton\documents\visual studio 2013\projects\oop cplusplus\parallel eulers number\parallel eulers number\main.cpp
+1433578984 source:c:\users\anton\documents\visual studio 2013\projects\oop cplusplus\parallel eulers number\parallel eulers number\main.cpp
 	<iostream>
+	"Factorials.h"
+
+1433582873 c:\users\anton\documents\visual studio 2013\projects\oop cplusplus\parallel eulers number\parallel eulers number\factorials.h
+	<iostream>
+	<thread>
+	<vector>
+	<algorithm>
 	<gmp.h>
 	<gmpxx.h>
 
