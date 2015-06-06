@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1433576569 source:c:\users\anton\documents\visual studio 2013\projects\oop cplusplus\parallel eulers number\parallel eulers number\main.cpp
+	<iostream>
+	<gmp.h>
+	<gmpxx.h>
+
