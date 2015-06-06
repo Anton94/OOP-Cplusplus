@@ -1,6 +1,5 @@
 #include <iostream>
-#include <gmp.h>
-#include <gmpxx.h>
+#include "Factorials.h"
 
 
 
