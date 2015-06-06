@@ -112,7 +112,7 @@ public:
 		}
 
 
-		++(newVector.count);
+		++newVector.count;
 
 		return newVector;
 	}
@@ -200,7 +200,7 @@ private:
 		// Goes to the rightmost path.
 		NodeInternal * temp = dynamic_cast<NodeInternal*>(root);
 
-		// I know that the rightmost leaf is full, so I create new one.
+		// I know that the rightmost leaf is full, so I create new one. I use this case because in the other one I cast the child nodes to NodeInternal and so on... I have checked and I know that there is space to add new leaf here.
 		if (level == 1)
 		{
 			for (int i = 1; i < B; ++i)

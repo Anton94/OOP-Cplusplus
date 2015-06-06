@@ -22,7 +22,7 @@ int main()
 		string text;
 		//std::cin >> text;
 
-		text = "abcad";
+		text = "abcadsgpspgpsdpgpsdpgpwepgpwegpwpegpewpgpwepgpwepgpwegppwpgpwegpwpegpwpegpwepgpwpgsdpqdasfsafaaasassaaassasasassaaaaasasasaaasfasfqbbbbasvbsafs";
 
 		SuffixArray sa(text.c_str());
 
@@ -30,6 +30,7 @@ int main()
 
 		printInforForPattern(std::cout, sa, "a");
 		printInforForPattern(std::cout, sa, "ab");
+		printInforForPattern(std::cout, sa, "weg");
 		printInforForPattern(std::cout, sa, "s");
 		printInforForPattern(std::cout, sa, "g");
 		printInforForPattern(std::cout, sa, "ca");
