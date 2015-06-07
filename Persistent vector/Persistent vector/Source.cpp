@@ -13,7 +13,7 @@ int main()
 	pv3.print(std::cout);
 	pv4.print(std::cout);*/
 
-	const int COUNT = 32*32*34 + 1 + 1; // from 0 to 35  (so + 1 element for 0, and +1 for empty vector).
+	const int COUNT = 32*33 + 1 + 1; // from 0 to 35  (so + 1 element for 0, and +1 for empty vector).
 
 	// NOTE the first vector is empty one. so valus from 0 to count - 2 (count - 1 but the first one is empty)
 	PersistentVector<int> arr[COUNT];
@@ -23,8 +23,9 @@ int main()
 		arr[i + 1] = arr[i].append(i);
 	}
 
-	//arr[COUNT - 1].print(std::cout);
+	arr[COUNT - 1].print(std::cout);
 	PersistentVector<int>  temp = arr[COUNT - 1];
 
 	return 0;
 }
+
