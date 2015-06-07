@@ -1,6 +1,10 @@
 #include <iostream>
 #include "PersistentVector.h"
 
+void testGetAt(int k, const PersistentVector<int>& v)
+{
+	std::cout << "temp.operator[" << k << "] = " << v[k] << std::endl;
+}
 
 int main()
 {
@@ -25,6 +29,14 @@ int main()
 
 	arr[COUNT - 1].print(std::cout);
 	PersistentVector<int>  temp = arr[COUNT - 1];
+
+	testGetAt(0, temp);
+	testGetAt(31, temp);
+	testGetAt(32, temp);
+	testGetAt(1024, temp);
+	testGetAt(1021, temp);
+	testGetAt(1048, temp);
+	testGetAt(1056, temp);
 
 	return 0;
 }

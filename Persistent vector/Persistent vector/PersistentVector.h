@@ -7,7 +7,6 @@
 * #71488
 * Github repository:
 *
-* The starting level of the vector tree is 6.
 * Optimization maybe I can keep the position of the rightmost taken node in child node vector.
 *
 *
@@ -18,6 +17,8 @@
 
 // 32 childs per node for the tree.
 #define B 32
+#define BITS 5
+#define MASK 31 
 
 using std::vector;
 
@@ -28,8 +29,7 @@ class PersistentVector {
 		"something more complicated.");
 private:
 	/*
-	Nodes.
-
+		Nodes.
 	*/
 
 	// Basic abstract class.
@@ -94,34 +94,53 @@ public:
 	// Returns a new vector that's the same as this one but without the last element.
 	PersistentVector pop() const;
 
+	// Returns the number of elements in the vector.
 	int size() const;
-
 
 	// Basic DFS prints only leaf values.
 	void print(std::ostream& out) const;
 private:
-	// Checks if the root node vector of childs/values are all taken.
-	bool checkIfRootNodeIsFull(Node * root) const;
+	// Goes down on the tree to the needed element.
+	T getAt(Node * root, int level, int index) const
+	{
+		if (level <= 0)
+		{
+			return ((NodeLeaf*)root)->values[index % B];
+		}
 
-	// Basic DFS prints only leaf values.
-	void print(int level, std::ostream& out, Node * root) const;
+		NodeInternal * temp = (NodeInternal*)root;
+		int i = 5 * level;
+		for (; i > 0; i -= 5)
+			temp = (NodeInternal*)temp->childs[(index >> i) & MASK];
 
-	// Adds only the value in the new vector. (there is space in the rightmost leaf node)
-	void appendRightmostPath(int level, Node *& root, const T& value) const;
+		return ((NodeLeaf*)temp)->values[index & MASK];
+	}
+
+	// Get the next index path of the index of the vector element.
+	int powerOf(int level) const;
 
 	// The rightmost leaf node is full, copies the path till it founds a full node (internal or leaf) and makes new path to the leaf level (from the level above the full node)
 	// and appends the value in the new leaf node.
 	void append(int level, Node *& root, const T& value) const;
 
-	//Till fisrt null ptr.
-	size_t getSizeOfNotNullPointers(const vector<Node*> & v) const;
+	// Adds only the value in the new vector. (there is space in the rightmost leaf node)
+	void appendRightmostPath(int level, Node *& root, const T& value) const;
 
 	// From the starting level @startLevel to the leaf level. Leaf level is 0.
 	// Returns the leaf node.
 	NodeLeaf* buildPathToTheLeaf(int level, Node *& root) const;
 
+	//Till fisrt null ptr.
+	size_t getSizeOfNotNullPointers(const vector<Node*> & v) const;
+
 	// Checks if there is room in the rightmost leaf node. If so returns true.
 	bool checkForRoomInRightmostLeafNode(int level, Node * root) const;
+
+	// Checks if the root node vector of childs/values are all taken.
+	bool checkIfRootNodeIsFull(Node * root) const;
+
+	// Basic DFS prints only leaf values.
+	void print(int level, std::ostream& out, Node * root) const;
 };
 
 
@@ -132,20 +151,34 @@ PersistentVector<T>::PersistentVector()
 	root = NULL;
 }
 
-// Returns a new vector with *value* appended at the end.
+
+// Returns the value of the element at position *index*. NODE: Make check for the index!
 /*
-Basicaly four cases: 1) There is no root.
-- I create a leaf node and make the root pointer to this new leaf node. Just push the value.
-2) There is no room in the rightmost leaf node AND there is NO room in the root node.
-- I resize the tree (upwards), make the old tree leftmost child of the new root and append the new value in new rightmost path
-3) There is no room in the rightmost leaf node AND there is room in the root node.
-- Append the new value in new rightmost path.
-4) There is room in the righmost leaf node.
-- Append the value in the rightmost leaf.
-
-
-(copy the nodes on the way down)
+	I divide the index by the number @B on power of the level, so I can go in the right child path. B must be power of 2, (32 in my case).
 */
+template<typename T>
+T PersistentVector<T>::operator[](int index) const
+{
+	if (index < 0 || index >= size())
+		throw "Index out of range";
+
+	getAt(root, level, index);
+}
+
+// Returns a new vector with *value* appended at the end.
+	/*
+		Basicaly four cases: 
+		1) There is no root.
+			- I create a leaf node and make the root pointer to this new leaf node. Just push the value.
+		2) There is no room in the rightmost leaf node AND there is NO room in the root node.
+			- I resize the tree (upwards), make the old tree leftmost child of the new root and append the new value in new rightmost path
+		3) There is no room in the rightmost leaf node AND there is room in the root node.
+			- Append the new value in new rightmost path.
+		4) There is room in the righmost leaf node.
+			- Append the value in the rightmost leaf.
+
+		(copy the nodes on the way down)
+	*/
 template<typename T>
 PersistentVector<T> PersistentVector<T>::append(T value) const
 {
@@ -193,12 +226,12 @@ PersistentVector<T> PersistentVector<T>::append(T value) const
 //template<typename T>
 //PersistentVector pop() const;
 
+// Returns the number of elements in the vector.
 template<typename T>
 int PersistentVector<T>::size() const
 {
 	return count;
 }
-
 
 // Basic DFS prints only leaf values.
 template<typename T>
@@ -207,102 +240,6 @@ void PersistentVector<T>::print(std::ostream& out) const
 	print(level, out, root);
 	out << "\n";
 }
-
-// Checks if the root node vector of childs/values are all taken.
-template<typename T>
-bool PersistentVector<T>::checkIfRootNodeIsFull(Node * root) const
-{
-	if (!root)
-		return true;
-
-	// Check if the root is actualy internal node. If so, the last value must be diferent than NULL.
-	NodeInternal * rInternal = dynamic_cast<NodeInternal*>(root);
-	if (rInternal != NULL)
-	{
-		return rInternal->childs[B - 1] != NULL;
-	}
-
-	// The root node is leaf, so the size of the vector must be equal (or bigger) than B.
-	NodeLeaf * rLeaf = dynamic_cast<NodeLeaf*>(root);
-	if (rLeaf != NULL)
-	{
-		return rLeaf->values.size() >= B;
-	}
-
-	return false;
-}
-
-// Basic DFS prints only leaf values.
-template<typename T>
-void PersistentVector<T>::print(int level, std::ostream& out, Node * root) const
-{
-	if (!root)
-		return;
-	if (level > 0)
-	{
-		NodeInternal * temp = dynamic_cast<NodeInternal*>(root);
-		for (int i = 0; i < B; ++i)
-		{
-			print(level - 1, out, temp->childs[i]);
-		}
-	}
-	else
-	{
-		NodeLeaf * temp = dynamic_cast<NodeLeaf*>(root);
-		if (!temp)
-			return;
-
-		for (int i = 0; i < temp->values.size(); ++i)
-		{
-			out << temp->values[i] << " ";
-		}
-	}
-}
-
-// Adds only the value in the new vector. (there is space in the rightmost leaf node)
-template<typename T>
-void PersistentVector<T>::appendRightmostPath(int level, Node *& root, const T& value) const
-{
-	// Not a leaf node.
-	if (level > 0)
-	{
-		// Copies the internal node.
-		NodeInternal * temp = dynamic_cast<NodeInternal*>(root);
-		NodeInternal * newNodeInternal;
-
-		// If the pointer is null...(from before resizing of the tree.
-		if (!temp)
-			newNodeInternal = new NodeInternal();
-		else
-			newNodeInternal = new NodeInternal(temp->childs);
-
-		// Goes to the rightmost path.
-		int i = 1;
-		for (; i < B; ++i)
-		{
-			if (newNodeInternal->childs[i] == NULL)
-			{
-				break;
-			}
-		}
-
-		appendRightmostPath(level - 1, newNodeInternal->childs[i - 1], value);
-		root = newNodeInternal;
-	}
-	else
-	{
-		NodeLeaf * newLeafNode = dynamic_cast<NodeLeaf*>(root);
-		if (!newLeafNode) // maybe the root is NULL.
-			newLeafNode = new NodeLeaf();
-		else
-			newLeafNode = new NodeLeaf(newLeafNode->values);
-
-		newLeafNode->values.push_back(value);
-
-		root = newLeafNode;
-	}
-}
-
 
 // The rightmost leaf node is full, copies the path till it founds a full node (internal or leaf) and makes new path to the leaf level (from the level above the full node)
 // and appends the value in the new leaf node.
@@ -355,20 +292,49 @@ void PersistentVector<T>::append(int level, Node *& root, const T& value) const
 	}
 }
 
-//Till fisrt null ptr.
+// Adds only the value in the new vector. (there is space in the rightmost leaf node)
 template<typename T>
-size_t PersistentVector<T>::getSizeOfNotNullPointers(const vector<Node*> & v) const
+void PersistentVector<T>::appendRightmostPath(int level, Node *& root, const T& value) const
 {
-	for (size_t i = 0; i < v.size(); ++i)
+	// Not a leaf node.
+	if (level > 0)
 	{
-		if (v[i] == NULL)
-			return i;
+		// Copies the internal node.
+		NodeInternal * temp = dynamic_cast<NodeInternal*>(root);
+		NodeInternal * newNodeInternal;
+
+		// If the pointer is null...(from before resizing of the tree.
+		if (!temp)
+			newNodeInternal = new NodeInternal();
+		else
+			newNodeInternal = new NodeInternal(temp->childs);
+
+		// Goes to the rightmost path.
+		int i = 1;
+		for (; i < B; ++i)
+		{
+			if (newNodeInternal->childs[i] == NULL)
+			{
+				break;
+			}
+		}
+
+		appendRightmostPath(level - 1, newNodeInternal->childs[i - 1], value);
+		root = newNodeInternal;
 	}
+	else
+	{
+		NodeLeaf * newLeafNode = dynamic_cast<NodeLeaf*>(root);
+		if (!newLeafNode) // maybe the root is NULL.
+			newLeafNode = new NodeLeaf();
+		else
+			newLeafNode = new NodeLeaf(newLeafNode->values);
 
-	return v.size();
+		newLeafNode->values.push_back(value);
+
+		root = newLeafNode;
+	}
 }
-
-
 
 // From the starting level @startLevel to the leaf level. Leaf level is 0.
 // Returns the leaf node.
@@ -387,6 +353,19 @@ typename PersistentVector<T>::NodeLeaf* PersistentVector<T>::buildPathToTheLeaf(
 		root = newNode;
 		return newNode;
 	}
+}
+
+//Till fisrt null ptr.
+template<typename T>
+size_t PersistentVector<T>::getSizeOfNotNullPointers(const vector<Node*> & v) const
+{
+	for (size_t i = 0; i < v.size(); ++i)
+	{
+		if (v[i] == NULL)
+			return i;
+	}
+
+	return v.size();
 }
 
 // Checks if there is room in the rightmost leaf node. If so returns true.
@@ -419,7 +398,56 @@ bool PersistentVector<T>::checkForRoomInRightmostLeafNode(int level, Node * root
 	}
 }
 
+// Checks if the root node vector of childs/values are all taken.
+template<typename T>
+bool PersistentVector<T>::checkIfRootNodeIsFull(Node * root) const
+{
+	if (!root)
+		return true;
 
+	// Check if the root is actualy internal node. If so, the last value must be diferent than NULL.
+	NodeInternal * rInternal = dynamic_cast<NodeInternal*>(root);
+	if (rInternal != NULL)
+	{
+		return rInternal->childs[B - 1] != NULL;
+	}
+
+	// The root node is leaf, so the size of the vector must be equal (or bigger) than B.
+	NodeLeaf * rLeaf = dynamic_cast<NodeLeaf*>(root);
+	if (rLeaf != NULL)
+	{
+		return rLeaf->values.size() >= B;
+	}
+
+	return false;
+}
+
+// Basic DFS prints only leaf values.
+template<typename T>
+void PersistentVector<T>::print(int level, std::ostream& out, Node * root) const
+{
+	if (!root)
+		return;
+	if (level > 0)
+	{
+		NodeInternal * temp = dynamic_cast<NodeInternal*>(root);
+		for (int i = 0; i < B; ++i)
+		{
+			print(level - 1, out, temp->childs[i]);
+		}
+	}
+	else
+	{
+		NodeLeaf * temp = dynamic_cast<NodeLeaf*>(root);
+		if (!temp)
+			return;
+
+		for (int i = 0; i < temp->values.size(); ++i)
+		{
+			out << temp->values[i] << " ";
+		}
+	}
+}
 
 
 
