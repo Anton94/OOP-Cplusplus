@@ -101,23 +101,10 @@ public:
 	void print(std::ostream& out) const;
 private:
 	// Goes down on the tree to the needed element.
-	T getAt(Node * root, int level, int index) const
-	{
-		if (level <= 0)
-		{
-			return ((NodeLeaf*)root)->values[index % B];
-		}
+	T getAt(Node * root, int level, int index) const;
 
-		NodeInternal * temp = (NodeInternal*)root;
-		int i = 5 * level;
-		for (; i > 0; i -= 5)
-			temp = (NodeInternal*)temp->childs[(index >> i) & MASK];
-
-		return ((NodeLeaf*)temp)->values[index & MASK];
-	}
-
-	// Get the next index path of the index of the vector element.
-	int powerOf(int level) const;
+	// Goes down to the leaf level to get the right element and copy the path to that element.
+	void fixLinkesForUpdate(Node *& root, int level, int index, T value) const;
 
 	// The rightmost leaf node is full, copies the path till it founds a full node (internal or leaf) and makes new path to the leaf level (from the level above the full node)
 	// and appends the value in the new leaf node.
@@ -163,6 +150,17 @@ T PersistentVector<T>::operator[](int index) const
 		throw "Index out of range";
 
 	getAt(root, level, index);
+}
+
+// Returns a new vector with the element at position *index* replaced by *value*. DOES NOT MAKE CHECK FOR THE INDEXES
+template<typename T>
+PersistentVector<T> PersistentVector<T>::update(int index, T value) const
+{
+	PersistentVector<T> newVector(*this);
+
+	fixLinkesForUpdate(newVector.root, newVector.level * 5, index, value);
+
+	return newVector;
 }
 
 // Returns a new vector with *value* appended at the end.
@@ -239,6 +237,34 @@ void PersistentVector<T>::print(std::ostream& out) const
 {
 	print(level, out, root);
 	out << "\n";
+}
+
+// Goes down on the tree to the needed element.
+template<typename T>
+T PersistentVector<T>::getAt(Node * root, int level, int index) const
+{
+	NodeInternal * temp = (NodeInternal*)root;
+	
+	for (int i = 5 * level; i > 0; i -= 5)
+		temp = (NodeInternal*)temp->childs[(index >> i) & MASK];
+
+	return ((NodeLeaf*)temp)->values[index & MASK];
+}
+
+// Goes down to the leaf level to get the right element and copy the path to that element.
+template<typename T>
+void PersistentVector<T>::fixLinkesForUpdate(Node *& root, int level, int index, T value) const
+{
+	if (level > 0)
+	{
+		root = new NodeInternal(((NodeInternal*)root)->childs);
+		fixLinkesForUpdate(((NodeInternal*)root)->childs[(index >> level) & MASK], level - 5, index, value);
+	}
+	else
+	{
+		root = new NodeLeaf(((NodeLeaf*)root)->values);
+		((NodeLeaf*)root)->values[index & MASK] = value;
+	}
 }
 
 // The rightmost leaf node is full, copies the path till it founds a full node (internal or leaf) and makes new path to the leaf level (from the level above the full node)
