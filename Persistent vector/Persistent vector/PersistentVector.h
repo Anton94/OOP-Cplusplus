@@ -229,12 +229,6 @@ PersistentVector<T> PersistentVector<T>::append(T value) const
 }
 
 // Returns a new vector that's the same as this one but without the last element.
-//template<typename T>
-//PersistentVector pop() const;
-
-
-
-// Returns a new vector that's the same as this one but without the last element.
 template<typename T>
 PersistentVector<T> PersistentVector<T>::pop() const
 {
@@ -249,13 +243,14 @@ PersistentVector<T> PersistentVector<T>::pop() const
 		popRightmostPath(newVector.level, newVector.root);
 
 	}
-	// If I need to make the make the tree smaller.
+
 	if (level > 0)
 	{
 		NodeInternal * temp = dynamic_cast<NodeInternal*>(newVector.root); // 100% it will not be NULL
 		if (!temp)
 			throw "Contact administrator.";
 
+		// If the root node has only one child-> make the root node this child node and decrement the level.
 		if (temp->childs[1] == NULL)
 		{
 			newVector.root = temp->childs[0];
@@ -568,8 +563,3 @@ void PersistentVector<T>::print(int level, std::ostream& out, Node * root) const
 		}
 	}
 }
-
-
-
-
-

@@ -4,7 +4,8 @@
 
 void testGetAt(int k, const PersistentVector<int>& v)
 {
-	std::cout << "vector.operator[" << k << "] = " << v[k] << std::endl;
+	if (k < v.size())
+		std::cout << "vector.operator[" << k << "] = " << v[k] << std::endl;
 }
 
 void multipleTestsForGetAt(const PersistentVector<int>& v)
