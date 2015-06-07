@@ -68,12 +68,11 @@ public:
 
         // Calculate the block size. Number of elements / number of threads but the result must be even.
         size_t blockSize = (capacity / numberOfThreads);
-        if ((blocksSize & 1) != 0) // If it`s not even.
-            --blocksSize; // TO DO checking...
+        if ((blockSize & 1) != 0) // If it`s not even.
+            --blockSize; // TO DO checking...
 
         // Launching the threads with a loop.
         size_t i = 0;
-        size_t lastBlockUpperBound = number
 
         for(size_t j = 0 ; i < numberOfThreadsLessOne; ++j)
         {

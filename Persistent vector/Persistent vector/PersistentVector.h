@@ -16,7 +16,6 @@
 
 // 32 childs per node for the tree.
 #define B 32
-#define MAX_LEVEL 5
 
 using std::vector;
 
@@ -26,7 +25,6 @@ class PersistentVector {
 		"PersistentVector can only be used with primitive types. Instantiate with a pointer type for"
 		"something more complicated.");
 private:
-
 	/*
 		Nodes.
 		
@@ -80,11 +78,12 @@ private:
 private:
 	Node * root;
 	int count;
+	int level;
 public:
 	PersistentVector()
 	{
-		buildPathToTheLeaf(MAX_LEVEL, root); // From level 5(real root) to level 0(the leaf level).
-		count = 0;
+		level = count = 0;
+		root = NULL;
 	}
 
 	// Returns the value of the element at position *index*.
@@ -99,18 +98,38 @@ public:
 		// Creates exact copy of the vector.
 		PersistentVector<T> newVector(*this);
 
-
-		// If onle need to append the value in the vector of valus in the leaf node.
-		if (checkForRoomInRightmostLeafNode(MAX_LEVEL, root))
+		// If there is no elements in the tree.
+		if (!newVector.root)
 		{
-			appendRightmostPath(MAX_LEVEL, newVector.root, value);
+			vector<T> v;
+			v.push_back(value);
+			newVector.root = new NodeLeaf(v);
+		}
+		// If there is no room in the rightmost leaf.
+		else if (!checkForRoomInRightmostLeafNode(newVector.level, newVector.root))
+		{
+			// If the whole tree is full. Make new layer and append the old one
+			if (checkIfRootNodeIsFull(newVector.root))
+			{
+				NodeInternal * newInternalNode = new NodeInternal();
+				newInternalNode->childs[0] = newVector.root;
+				//buildPathToTheLeaf(newVector.level, newInternalNode->childs[1]); // Generate the new rightmost path.
+				appendRightmostPath(newVector.level, newInternalNode->childs[1], value);
+
+				newVector.root = newInternalNode;
+				++newVector.level;
+			}
+			// Only the leaf is full.
+			else
+			{
+				append(newVector.level, newVector.root, value);
+			}
 		}
 		else
-		// If needed creates new internal nodes and adds the value.
+		// There is room in the leaf.
 		{
-			append(MAX_LEVEL, newVector.root, value);
+			appendRightmostPath(newVector.level, newVector.root, value);
 		}
-
 
 		++newVector.count;
 
@@ -129,11 +148,32 @@ public:
 	// Basic DFS prints only leaf values.
 	void print(std::ostream& out) const
 	{
-		print(MAX_LEVEL, out, root);
+		print(level, out, root);
 		out << "\n";
 	}
 private:
-	// Basic DFS prints only leaf values.
+	// Checks if the root node vector of childs/values are all taken.
+	bool checkIfRootNodeIsFull(Node * root) const
+	{
+		if (!root)
+			return true;
+
+		// Check if the root is actualy internal node.
+		NodeInternal * rInternal = dynamic_cast<NodeInternal*>(root);
+		if (rInternal != NULL)
+		{
+			return rInternal->childs[B - 1] != NULL;
+		}
+
+		NodeLeaf * rLeaf = dynamic_cast<NodeLeaf*>(root);
+		if (rLeaf != NULL)
+		{
+			return rLeaf->values.size() >= B;
+		}
+
+		return false;
+	}
+	// Basic DFS prints only laaf values.
 	void print(int level, std::ostream& out, Node * root) const
 	{
 		if (!root)
@@ -165,24 +205,42 @@ private:
 		if (level > 0)
 		{
 			// Copies the internal node.
-			root = new NodeInternal(dynamic_cast<NodeInternal*>(root)->childs);
+			NodeInternal * temp = dynamic_cast<NodeInternal*>(root);
+			NodeInternal * newNodeInternal;
+
+			// If the pointer is null...(from before resizing of the tree.
+			if (!temp)
+			{
+				newNodeInternal = new NodeInternal();
+			}
+			else
+			{
+				newNodeInternal = new NodeInternal(temp->childs);
+			}
 
 			// Goes to the rightmost path.
-			NodeInternal * temp = dynamic_cast<NodeInternal*>(root);
-
-			for (int i = 1; i < B; ++i)
+			int i = 1;
+			for (; i < B; ++i)
 			{
-				if (temp->childs[i] == NULL)
+				if (newNodeInternal->childs[i] == NULL)
 				{
-					appendRightmostPath(level - 1, temp->childs[i - 1], value);
-					return;
+					break;
 				}
 			}
+			appendRightmostPath(level - 1, newNodeInternal->childs[i - 1], value);
+			root = newNodeInternal;
 		}
 		else
 		{
-			root = new NodeLeaf(dynamic_cast<NodeLeaf*>(root)->values);
-			dynamic_cast<NodeLeaf*>(root)->values.push_back(value);
+			NodeLeaf * newLeafNode = dynamic_cast<NodeLeaf*>(root);
+			if (!newLeafNode) // the root is NULL.
+				newLeafNode = new NodeLeaf();
+			else
+				newLeafNode = new NodeLeaf(newLeafNode->values);
+
+			newLeafNode->values.push_back(value);
+
+			root = newLeafNode;
 		}
 	}
 
@@ -234,8 +292,6 @@ private:
 				return;
 			}
 		}
-
-
 	}
 
 	//Till fisrt null ptr.
@@ -246,6 +302,8 @@ private:
 			if (v[i] == NULL)
 				return i;
 		}
+
+		return v.size();
 	}
 
 	// From the starting level @startLevel to the leaf level. Leaf level is 0.
@@ -278,15 +336,17 @@ private:
 		else
 		{
 			NodeInternal * temp = dynamic_cast<NodeInternal*>(root);
-			for (int i = 1; i < B; ++i)
+			int i = 1;
+			for (; i < B; ++i)
 			{
 				if (temp->childs[i] == NULL)
 				{
-					return checkForRoomInRightmostLeafNode(level - 1, temp->childs[i - 1]);
+					break;
 				}
 			}
 
-			return false;
+			// If all pointers are set, goes down to the leaf with the rightes one.
+			return checkForRoomInRightmostLeafNode(level - 1, temp->childs[i - 1]);
 		}
 	}
 };
