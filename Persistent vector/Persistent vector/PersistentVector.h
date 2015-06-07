@@ -5,11 +5,16 @@
 /*
 * Anton Vasilev Dudov
 * #71488
-* Github repository:
+* Github repository: https://github.com/Anton94/OOP-Cplusplus/tree/master/Persistent%20vector
 *
 * Optimization maybe I can keep the position of the rightmost taken node in child node vector.
 *
+* NOTE : The stl vector maybe will not make the size of the vector on the power of 2, so for some compilators or so.... (the leafs may be bigger than 32 elements)
+* I can use my vector from the github repository, but I will leave it with the stl one for now.
 *
+*
+*
+* I can make some of the functions more compact, but this thing is a little complicate for me, so I do it like that, to see better what is going on.
 */
 
 #include <type_traits>
@@ -18,7 +23,7 @@
 // 32 childs per node for the tree.
 #define B 32
 #define BITS 5
-#define MASK 31 
+#define MASK (B - 1) 
 
 using std::vector;
 
@@ -126,6 +131,9 @@ private:
 	// Checks if the root node vector of childs/values are all taken.
 	bool checkIfRootNodeIsFull(Node * root) const;
 
+	// Removes the last value in the new vector.
+	void popRightmostPath(int level, Node *& root) const;
+
 	// Basic DFS prints only leaf values.
 	void print(int level, std::ostream& out, Node * root) const;
 };
@@ -139,10 +147,7 @@ PersistentVector<T>::PersistentVector()
 }
 
 
-// Returns the value of the element at position *index*. NODE: Make check for the index!
-/*
-	I divide the index by the number @B on power of the level, so I can go in the right child path. B must be power of 2, (32 in my case).
-*/
+// Returns the value of the element at position *index*. NOTE: Make check for the index!
 template<typename T>
 T PersistentVector<T>::operator[](int index) const
 {
@@ -152,10 +157,13 @@ T PersistentVector<T>::operator[](int index) const
 	getAt(root, level, index);
 }
 
-// Returns a new vector with the element at position *index* replaced by *value*. DOES NOT MAKE CHECK FOR THE INDEXES
+// Returns a new vector with the element at position *index* replaced by *value*. MAKE CHECK FOR THE INDEXES
 template<typename T>
 PersistentVector<T> PersistentVector<T>::update(int index, T value) const
 {
+	if (index < 0 || index >= size())
+		throw "Index out of range";
+
 	PersistentVector<T> newVector(*this);
 
 	fixLinkesForUpdate(newVector.root, newVector.level * 5, index, value);
@@ -223,6 +231,42 @@ PersistentVector<T> PersistentVector<T>::append(T value) const
 // Returns a new vector that's the same as this one but without the last element.
 //template<typename T>
 //PersistentVector pop() const;
+
+
+
+// Returns a new vector that's the same as this one but without the last element.
+template<typename T>
+PersistentVector<T> PersistentVector<T>::pop() const
+{
+	if (count <= 0)
+		throw "Can`t pop on empty vector!";
+
+	PersistentVector newVector(*this);
+
+	// If there is more than one element in the rightmost leaf node only copy the path and remove the element from the vector.
+	//if (moreThanOneElementInRightmostLeafNode(newVector.root))
+	{
+		popRightmostPath(newVector.level, newVector.root);
+
+	}
+	// If I need to make the make the tree smaller.
+	if (level > 0)
+	{
+		NodeInternal * temp = dynamic_cast<NodeInternal*>(newVector.root); // 100% it will not be NULL
+		if (!temp)
+			throw "Contact administrator.";
+
+		if (temp->childs[1] == NULL)
+		{
+			newVector.root = temp->childs[0];
+			--newVector.level;
+		}
+	}
+
+	--newVector.count;
+
+	return newVector;
+}
 
 // Returns the number of elements in the vector.
 template<typename T>
@@ -446,6 +490,56 @@ bool PersistentVector<T>::checkIfRootNodeIsFull(Node * root) const
 	}
 
 	return false;
+}
+
+// Removes the last value in the new vector. 
+template<typename T>
+void PersistentVector<T>::popRightmostPath(int level, Node *& root) const
+{
+	// Not a leaf node.
+	if (level > 0)
+	{
+		// Copies the internal node.
+		NodeInternal * temp = dynamic_cast<NodeInternal*>(root);
+		NodeInternal * newNodeInternal;
+
+		// If the pointer is null...(from before resizing of the tree.
+		if (!temp)
+			newNodeInternal = new NodeInternal();
+		else
+			newNodeInternal = new NodeInternal(temp->childs);
+
+		// Goes to the rightmost path.
+		int i = 1;
+		for (; i < B; ++i)
+		{
+			if (newNodeInternal->childs[i] == NULL)
+			{
+				break;
+			}
+		}
+
+		popRightmostPath(level - 1, newNodeInternal->childs[i - 1]);
+		if (newNodeInternal->childs[0] == NULL) //if there was only 1 element in the child node and we pop it.
+			root = NULL;
+		else
+			root = newNodeInternal;
+	}
+	else
+	{
+		NodeLeaf * newLeafNode = dynamic_cast<NodeLeaf*>(root);
+		if (!newLeafNode) // maybe the root is NULL.
+			newLeafNode = new NodeLeaf();
+		else
+			newLeafNode = new NodeLeaf(newLeafNode->values);
+
+		newLeafNode->values.pop_back();
+
+		if (newLeafNode->values.size() <= 0)
+			newLeafNode = NULL;
+
+		root = newLeafNode;
+	}
 }
 
 // Basic DFS prints only leaf values.
