@@ -86,7 +86,8 @@ int main()
 
 	pv4 = pv4.pop();
 	pv4 = pv4.pop();
-
+	pv4 = pv4.append(35);
+	pv4.print(std::cout);
 	/*testGetAt(0, pv2);
 	pv2 = pv2.update(0, 101);
 	testGetAt(0, pv2);*/
