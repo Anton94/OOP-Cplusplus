@@ -9,3 +9,15 @@ http://career.fmi.uni-sofia.bg/
 http://192.168.0.100/something
 ftp://blog.example.com/2015/very_important_stuff/example.com
 ftp://blog.example.org/2015/very_important_stuff/example.com
+ftp://blog.example.org/2015/very_important_stuff/example.com
+ftp://blog.example.org/2015/very_important_stuff/example.com
+ftp://blog.w.example.org/2015/very_important_stuff/example.com
+ftp://w.example.com/2015/very_important_stu
+ftp://blog.w.example.com/2015/very_important_stu
+http://192.168.0.100/something
+ftps://w.example.com
+ftps://fmi.uni-sofia.bg
+ftp://www.fmi.uni-sofia.bg
+ftp://career.fmi.uni-sofia.bg/
+ftp://career.fmi.uni-sofia.com/
+ftp://192.168.0.100/something
