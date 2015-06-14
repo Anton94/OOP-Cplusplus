@@ -58,9 +58,11 @@ bool KnuthMorrisPratt::searchInUrl(const char* url, size_t urlLength)
 		j++;
 		if (i >= domainLength)
 		{
-			// check if the right side is the end of URL or it`s the end of the domain part. AND the left part is beginning of domain (and not just part)
-	//		std::cout << url[j] << " " << url[j - domainLength - 1] << "\n";
-			if ((url[j] == '\0' || url[j] == '/') && (url[j - domainLength - 1] == '.' || url[j - domainLength - 1] == '/')) // && the start of the compared domain - 1(prev symbol).
+			// check if the right side is the end of URL or it`s the end of the domain part. AND the left part is beginning of domain (and not just part) 
+			// This is our schema: <scheme>://<host>:<port>/<url-path>
+			// Thr right symbols of the domain are: ':' , '\' or end of the URL('\0')
+			// The left symbols are '/' , '.' and @ (after username maybe, it`s in the example)
+			if ((url[j] == '\0' || url[j] == '/' || url[j] == ':') && (url[j - domainLength - 1] == '.' || url[j - domainLength - 1] == '/' || url[j - domainLength - 1] == '@')) // && the start of the compared domain - 1(prev symbol).
 				return true;
 		}
 	}

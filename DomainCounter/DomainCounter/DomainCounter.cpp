@@ -99,11 +99,13 @@ void DomainCounter::printUrls(ostream& out) const
 		out << urls[i] << "\n";
 }
 
-
 // Compares the given string(char*) if it starts with the proper protocol. CHANGES THE POSITION OF THE GIVEN URL, if it has compared the protocol, it will start the compare of the domain.
-// If there is no protocol seted, it will start from the beginning but it`s ok.
+// If there is no protocol seted, it will start from the beginning but it`s ok.(A little tiny optimization to move the next 3 symbols "://", but for now Its OK)
 bool DomainCounter::checkForProtocol(const char*& url) const
 {
+	if (protocol.length() <= 0)
+		return true;
+
 	const char * protocol = this->protocol.c_str();
 
 	while (*protocol != '\0' && *url != '\0')
