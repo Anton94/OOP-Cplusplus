@@ -24,8 +24,12 @@ int main(int argc, char ** argv)
 	BasicArgumentParser::parseTheInputArguments(argc, argv, domainCounter);
 
 	domainCounter.ectractTheURLs();
+	domainCounter.printDomains(cout);
+	domainCounter.printProtocol(cout);
 	domainCounter.printUrls(cout);
+	cout << "\n\n";
 
+	domainCounter.execute(cout);
 	return 0;
 }
 

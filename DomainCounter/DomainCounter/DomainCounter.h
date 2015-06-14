@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Utility.h"
+#include "KnuthMorrisPratt.h"
 
 using std::ifstream;
 using std::ostream;
@@ -31,8 +32,17 @@ public:
 	// Prints to the given ostream the results (number of matches for each given domain) in seperate lines. Pattern: "<domain_name> - <count>"
 	void execute(ostream& out) const;
 
+	// Prints the domains to the given ostream.
+	void printDomains(ostream& out) const;
+
+	// Prints the protocol to the given ostream.
+	void printProtocol(ostream& out) const;
+
 	// Prints the urls to the given ostream.
 	void printUrls(ostream& out) const;
+private:
+	// Compares the given string(char*) if it starts with the proper protocol.
+	bool checkForProtocol(const char*& url) const;
 private:
 	string inputFileName;
 	vector<string> domains;
