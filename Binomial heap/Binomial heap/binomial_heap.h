@@ -137,6 +137,20 @@ BinomialHeap<T>::BinomialHeap()
 	size = 0;
 }
 
+/**
+* Construct heap with the given elements.
+* Expected runneing time O(elementsSize)
+* @param elements - array containing the elements
+* @param elementsSize - the number of elements in the array
+*/
+template<class T>
+BinomialHeap<T>::BinomialHeap(T elements[], int elementsSize)
+{
+	for (size_t i = 0; i < elementsSize; ++i)
+	{
+		push(elements[i]);
+	}
+}
 
 ///
 /// MERGE FUNCTIONS...
