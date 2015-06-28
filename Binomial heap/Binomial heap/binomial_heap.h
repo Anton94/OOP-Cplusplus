@@ -456,7 +456,21 @@ void unite(BinomialHeap<T>& otherHeap)
 template <class T>
 void BinomialHeap<T>::decreaseKey(Node<T>* ptr, const T& newKey)
 {
+	if (!ptr || ptr->key < newKey)
+		return;
 
+	ptr->key = newKey;
+
+	Node<T> * parent = ptr->parent;
+	while (parent && ptr->key < parent->key) 
+	{
+		T temp = ptr->key;
+		ptr->key = parent->key;
+		parent->key = temp;
+
+		ptr = parent;
+		parent = parent->parent;
+	}
 }
 
 

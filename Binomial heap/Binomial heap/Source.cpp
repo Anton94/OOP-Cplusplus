@@ -9,12 +9,21 @@ int main()
 
 	BinomialHeap<int> bh;
 
-	for (size_t i = 0; i < 127; ++i)
-		bh.push(i);
+	Node<int> * ptr = NULL;
 
-	bh.push(-20);
+	for (size_t i = 20; i < 147; ++i)
+	{
+		if (i == 123)
+			ptr = bh.push(i);
+		else
+			bh.push(i);
+		
+	}
+
 
 	std::cout << "Get min = " << bh.getMin() << std::endl;
-
+	std::cout << "ptr->key = " << ptr->key << std::endl;
+	bh.decreaseKey(ptr, 10);
+	std::cout << "After decreasing Get min = " << bh.getMin() << std::endl;
 	return 0;
 }
