@@ -11,9 +11,13 @@ int main()
 
 	Node<int> * ptr = NULL;
 
-	for (size_t i = 20; i < 147; ++i)
+	const size_t NUMBER_OF_ELEMENTS = 65;
+	const size_t OFFSET = 0;
+	const size_t WHICH_ELEMENT_TO_KEEP = 0 + OFFSET;
+
+	for (size_t i = OFFSET; i < NUMBER_OF_ELEMENTS + OFFSET; ++i)
 	{
-		if (i == 123)
+		if (i == WHICH_ELEMENT_TO_KEEP)
 			ptr = bh.push(i);
 		else
 			bh.push(i);
@@ -21,9 +25,18 @@ int main()
 	}
 
 
-	std::cout << "Get min = " << bh.getMin() << std::endl;
-	std::cout << "ptr->key = " << ptr->key << std::endl;
-	bh.decreaseKey(ptr, 10);
-	std::cout << "After decreasing Get min = " << bh.getMin() << std::endl;
+	//std::cout << "Get min = " << bh.getMin() << std::endl;
+	//std::cout << "ptr->key = " << ptr->key << std::endl;
+	//bh.decreaseKey(ptr, 5);
+	//std::cout << "After decreasing Get min = " << bh.getMin() << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	
+	for (size_t i = 0; i < NUMBER_OF_ELEMENTS - 1; ++i)
+	{
+		std::cout << "Extracting the min element... " << bh.extractMin() << std::endl;
+		std::cout << "The new min is: " << bh.getMin() << std::endl;
+	}
+
 	return 0;
 }

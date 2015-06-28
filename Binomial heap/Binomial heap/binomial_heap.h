@@ -303,16 +303,18 @@ void uniteTwoOfSameDegree(Node<T>* y, Node<T>* z)
 template <class T>
 Node<T> * merge(Node<T>* leftRoot, int leftSize, Node<T>* rightRoot, int rightSize, int *& mergedDegreeArray) // I assume that the sizes are correct...
 {
+	int * leftDegrees = allocateDegreeArray(leftSize);
+	int leftDegreesCounter = 0;
+	int * rightDegrees = allocateDegreeArray(rightSize);
+	int rightDegreesCounter = 0;
+	mergedDegreeArray = mergeTwoDegreesArray(leftDegrees, rightDegrees, sizeof(leftSize) * 8); // all of the sizes must be one type...
+
 	if (leftRoot == NULL)
 		return rightRoot;
 	if (rightRoot == NULL)
 		return leftRoot;
 
 	Node<T> * newRoot;
-	int * leftDegrees = allocateDegreeArray(leftSize);
-	int leftDegreesCounter = 0;
-	int * rightDegrees = allocateDegreeArray(rightSize);
-	int rightDegreesCounter = 0;
 
 	if (leftDegrees[0] <= rightDegrees[0])
 	{
@@ -352,7 +354,6 @@ Node<T> * merge(Node<T>* leftRoot, int leftSize, Node<T>* rightRoot, int rightSi
 	else
 		temp->right = rightRoot;
 
-	mergedDegreeArray = mergeTwoDegreesArray(leftDegrees, rightDegrees, sizeof(leftSize) * 8); // all of the sizes must be one type...
 
 	delete[] leftDegrees;
 	delete[] rightDegrees;
@@ -372,7 +373,7 @@ template <class T>
 T BinomialHeap<T>::getMin() const
 {
 	if (!root) 
-		throw "No elements in the binomial heap and called getMin!";
+		throw "No elements in the binomial heap and called getMin()!";
 
 	Node<T>* min = root;
 	Node<T>* next = root->right;
@@ -388,6 +389,81 @@ T BinomialHeap<T>::getMin() const
 	}
 
 	return min->key;
+}
+
+/**
+* Extracts (removes) the element with minimal key from the heap
+* @return - the key of the minimal element currently stored in the heap
+*/
+template <class T>
+T BinomialHeap<T>::extractMin()
+{
+	if (!root)
+		throw "No elements in the binomial heap and called extractMin()!";
+	
+	// Keep the degrees of the root binomial trees so I can get the number of nodes in the min root binomial tree.
+	int * rootDegrees = allocateDegreeArray(size);
+	size_t rootDegreesCounter = 0;
+	size_t minRootDegreeIndex = 0;
+
+	/*
+		First step: get the min node and it`s prev node.
+	*/
+	Node<T>* min = root;
+	Node<T>* minPrev = NULL;
+	Node<T>* next = root->right;
+	Node<T>* nextPrev = root;
+
+	while (next) 
+	{
+		if (min->key > next->key) 
+		{
+			min = next;
+			minPrev = nextPrev;
+			minRootDegreeIndex = rootDegreesCounter;
+		}
+
+		nextPrev = next;
+		next = next->right;
+		++rootDegreesCounter;
+	}
+
+	/*
+		Second step: remove the node from the root list and keep it`s childs.
+	*/
+	T value = min->key;
+	Node<T> * childs = min->leftmostChild;
+
+	if (root == min) // then minPrev is NULL
+		root = min->right;
+	else
+		minPrev->right = min->right;
+
+	delete min;
+
+	/*
+		Third step: reverse the order of childs.
+	*/
+	Node<T> * reversedRoot = NULL;
+
+	while (childs) 
+	{
+		Node<T> * temp = childs->right;
+		childs->right = reversedRoot;
+		childs->parent = NULL;
+		reversedRoot = childs;
+		childs = temp;
+	}
+
+	/*
+		Fourth step: union the old root list with the reversed child list.
+	*/
+	size_t numberOfNodesInTheChilds = std::pow(2, rootDegrees[minRootDegreeIndex]); // Number of the nodes in the binomial tree, which root is the minimal element.
+	root = consolidate(root, size - numberOfNodesInTheChilds, reversedRoot, numberOfNodesInTheChilds);
+
+	--size;
+
+	return value;
 }
 
 /**
