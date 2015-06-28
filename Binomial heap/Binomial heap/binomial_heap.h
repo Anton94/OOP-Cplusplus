@@ -2,7 +2,22 @@
 #define BINOMIAL_HEAP_HPP
 
 #include <iostream>
-#include <algorithm>    // merge
+#include <algorithm> // std::merge
+
+/*
+	************************************************************************************************************************************************************************************************************************************************************
+	*
+	*	Name: Anton Vasilev Dudov
+	*	FN:	  71488
+	*
+	*	Github project: https://github.com/Anton94/OOP-Cplusplus/tree/master/Binomial%20heap
+	*
+	*	I put all (code) in the header file, because it`s a template, but I haven`t touched the interface, all of the code is below the declarations (and the #include for the merge).
+	*
+	*	Source: The book "Introduction to algorithms second edition".
+	*
+	************************************************************************************************************************************************************************************************************************************************************
+*/
 
 template<class T>
 struct Node
@@ -42,8 +57,7 @@ protected:
 	* @return the first node of the root list of the binomial heap result of
 	*		the merging of the two given heaps
 	*/
-	virtual Node<T>* consolidate(Node<T>* leftRoot, int leftSize,
-		Node<T>* rightRoot, int rightSize);
+	virtual Node<T>* consolidate(Node<T>* leftRoot, int leftSize, Node<T>* rightRoot, int rightSize);
 public:
 	/**
 	* Construct empty binomial heap
@@ -114,7 +128,7 @@ public:
 ///
 
 /**
-* Sets the default pointer values
+* Sets the default pointer values.
 * @param node - the node, which pointers will be NULL.
 */
 
@@ -133,6 +147,7 @@ void setNodeDefaults(Node<T> * node)
 template<class T>
 BinomialHeap<T>::BinomialHeap()
 {
+	// Set default values...
 	root = NULL;
 	size = 0;
 }
@@ -146,6 +161,10 @@ BinomialHeap<T>::BinomialHeap()
 template<class T>
 BinomialHeap<T>::BinomialHeap(T elements[], int elementsSize)
 {
+	// Set default values...
+	root = NULL;
+	size = 0;
+
 	for (size_t i = 0; i < elementsSize; ++i)
 	{
 		push(elements[i]);
@@ -188,8 +207,11 @@ Node<T>* BinomialHeap<T>::consolidate(Node<T>* leftRoot, int leftSize, Node<T>* 
 	rightRoot = NULL;
 
 	// If the lists of roots are empty..
-	if (!newRoot) 
+	if (!newRoot)
+	{
+		delete[] mergedDegrees; // copy of code, but no time... for now...
 		return NULL;
+	}
 
 	Node<T> * prev = NULL;
 	Node<T> * current = newRoot;
@@ -323,56 +345,61 @@ Node<T> * merge(Node<T>* leftRoot, int leftSize, Node<T>* rightRoot, int rightSi
 	int rightDegreesCounter = 0;
 	mergedDegreeArray = mergeTwoDegreesArray(leftDegrees, rightDegrees, sizeof(leftSize) * 8); // all of the sizes must be one type...
 
+	Node<T>* toReturn = NULL;
+
 	if (leftRoot == NULL)
-		return rightRoot;
-	if (rightRoot == NULL)
-		return leftRoot;
-
-	Node<T> * newRoot;
-
-	if (leftDegrees[0] <= rightDegrees[0])
-	{
-		newRoot = leftRoot;
-		leftRoot = leftRoot->right;
-		++leftDegreesCounter;
-	}
+		toReturn = rightRoot;
+	else if (rightRoot == NULL)
+		toReturn = leftRoot;
 	else
 	{
-		newRoot = rightRoot;
-		rightRoot = rightRoot->right;
-		++rightDegreesCounter;
-	}
+		Node<T> * newRoot;
 
-	Node<T> * temp = newRoot;
-
-	while (leftRoot && rightRoot)
-	{
-		if (leftDegrees[leftDegreesCounter] <= rightDegrees[rightDegreesCounter])
+		if (leftDegrees[0] <= rightDegrees[0])
 		{
-			temp->right = leftRoot;
+			newRoot = leftRoot;
 			leftRoot = leftRoot->right;
 			++leftDegreesCounter;
 		}
 		else
 		{
-			temp->right = rightRoot;
+			newRoot = rightRoot;
 			rightRoot = rightRoot->right;
 			++rightDegreesCounter;
 		}
 
-		temp = temp->right;
+		Node<T> * temp = newRoot;
+
+		while (leftRoot && rightRoot)
+		{
+			if (leftDegrees[leftDegreesCounter] <= rightDegrees[rightDegreesCounter])
+			{
+				temp->right = leftRoot;
+				leftRoot = leftRoot->right;
+				++leftDegreesCounter;
+			}
+			else
+			{
+				temp->right = rightRoot;
+				rightRoot = rightRoot->right;
+				++rightDegreesCounter;
+			}
+
+			temp = temp->right;
+		}
+
+		if (leftRoot)
+			temp->right = leftRoot;
+		else
+			temp->right = rightRoot;
+
+		toReturn = newRoot; // I can use toReturn...
 	}
-
-	if (leftRoot)
-		temp->right = leftRoot;
-	else
-		temp->right = rightRoot;
-
 
 	delete[] leftDegrees;
 	delete[] rightDegrees;
-
-	return newRoot;
+	
+	return toReturn;
 }
 
 ///
@@ -523,7 +550,7 @@ Node<T>* BinomialHeap<T>::push(const T& newKey)
 * @param otherHeap - the heap with which we will unite. It will be destroyed in this method
 */
 template <class T>
-void unite(BinomialHeap<T>& otherHeap)
+void BinomialHeap<T>::unite(BinomialHeap<T>& otherHeap)
 {
 	root = consolidate(root, size, otherHeap.root, otherHeap.size);
 	size += otherHeap.size;
