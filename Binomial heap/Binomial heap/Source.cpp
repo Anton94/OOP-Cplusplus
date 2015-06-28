@@ -9,8 +9,12 @@ int main()
 
 	BinomialHeap<int> bh;
 
-	for (size_t i = 0; i < 130; ++i)
+	for (size_t i = 0; i < 127; ++i)
 		bh.push(i);
+
+	bh.push(-20);
+
+	std::cout << "Get min = " << bh.getMin() << std::endl;
 
 	return 0;
 }
