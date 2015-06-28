@@ -237,7 +237,7 @@ Node<T> * merge(Node<T>* leftRoot, int leftSize, Node<T>* rightRoot, int rightSi
 		++rightDegreesCounter;
 	}
 
-	Node<T> temp = newRoot;
+	Node<T> * temp = newRoot;
 
 	while (leftRoot && rightRoot) 
 	{
@@ -292,7 +292,55 @@ Node<T> * merge(Node<T>* leftRoot, int leftSize, Node<T>* rightRoot, int rightSi
 template<class T>
 Node<T>* BinomialHeap<T>::consolidate(Node<T>* leftRoot, int leftSize, Node<T>* rightRoot, int rightSize)
 {
+	int * mergedDegrees = NULL;
+	Node<T> * newRoot = merge(leftRoot, leftSize, rightRoot, rightSize, mergedDegrees);
+	size_t mergedDegreesCounter = 0;
 
+	leftRoot = NULL;
+	rightRoot = NULL;
+
+	// If the lists of roots are empty..
+	if (!newRoot) 
+		return NULL;
+
+	Node<T> * prev = NULL;
+	Node<T> * current = newRoot;
+	Node<T> * next = newRoot->right;
+
+	while (next) 
+	{
+		if (mergedDegrees[mergedDegreesCounter] != mergedDegrees[mergedDegreesCounter + 1] || 
+			(next->right != NULL && mergedDegrees[mergedDegreesCounter + 2] == mergedDegrees[mergedDegreesCounter]))
+		{
+			prev = current;
+			current = next;
+		}
+		else 
+		{
+			if (current->key <= next->key) 
+			{
+				current->right = next->right;
+				uniteTwoOfSameDegree(next, current);
+			}
+			else 
+			{
+				if (prev == NULL) 
+					newRoot = next;
+				else 
+					prev->next = next;
+
+				uniteTwoOfSameDegree(current, next);
+				current = next;
+			}
+		}
+
+		next = next->right;
+		++mergedDegreesCounter;
+	}
+
+	delete[] mergedDegrees;
+
+	return newRoot;
 }
 
 
@@ -306,9 +354,6 @@ BinomialHeap<T>::BinomialHeap()
 	root = NULL;
 	size = 0;
 }
-
-
-
 
 /**
 * @return - the root of the heap. Will be used for testing purposes.
