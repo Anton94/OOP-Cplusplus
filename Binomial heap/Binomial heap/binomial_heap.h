@@ -157,10 +157,10 @@ int * allocateDegreeArray(int size)
 		size = size >> 1;
 	}
 
-	/*std::cout << "Array values: " << std::endl;
+	std::cout << "Array values: " << std::endl;
 	for (size_t i = 0; i < degreeArrayCounter; ++i)
 		std::cout << degreeArray[i];
-	std::cout << std::endl;*/
+	std::cout << std::endl;
 
 	return degreeArray;
 }
@@ -178,10 +178,12 @@ int * mergeTwoDegreesArray(int * left, int * right, size_t numberOfBits)
 
 	std::merge(left, left + numberOfBits, right, right + numberOfBits, degreeArray);
 
-	/*std::cout << "Merged values: " << std::endl;
+	std::cout << "Merged values: " << std::endl;
 	for (size_t i = 0; i < numberOfBits * 2; ++i)
-		std::cout << degreeArray[i];
-	std::cout << std::endl;*/
+		if (degreeArray[i] < numberOfBits)
+			std::cout << degreeArray[i];
+
+	std::cout << std::endl;
 
 	return degreeArray;
 }
@@ -219,7 +221,7 @@ Node<T> * merge(Node<T>* leftRoot, int leftSize, Node<T>* rightRoot, int rightSi
 	if (rightRoot == NULL)
 		return leftRoot;
 
-	Node<T> newRoot;
+	Node<T> * newRoot;
 	int * leftDegrees = allocateDegreeArray(leftSize);
 	int leftDegreesCounter = 0;
 	int * rightDegrees = allocateDegreeArray(rightSize);
@@ -229,9 +231,10 @@ Node<T> * merge(Node<T>* leftRoot, int leftSize, Node<T>* rightRoot, int rightSi
 	{
 		newRoot = leftRoot;
 		leftRoot = leftRoot->right;
-		++leftDegressCount;
+		++leftDegreesCounter;
 	}
-	else {
+	else 
+	{
 		newRoot = rightRoot;
 		rightRoot = rightRoot->right;
 		++rightDegreesCounter;
@@ -245,7 +248,7 @@ Node<T> * merge(Node<T>* leftRoot, int leftSize, Node<T>* rightRoot, int rightSi
 		{
 			temp->right = leftRoot;
 			leftRoot = leftRoot->right;
-			++leftDegressCount;
+			++leftDegreesCounter;
 		}
 		else 
 		{
@@ -262,7 +265,7 @@ Node<T> * merge(Node<T>* leftRoot, int leftSize, Node<T>* rightRoot, int rightSi
 	else
 		temp->right = rightRoot;
 
-	mergedDegreeArray = mergeTwoDegreesArray(leftDegrees, rightDegrees);
+	mergedDegreeArray = mergeTwoDegreesArray(leftDegrees, rightDegrees, sizeof(leftSize) * 8); // all of the sizes must be one type...
 
 	delete[] leftDegrees;
 	delete[] rightDegrees;
@@ -295,6 +298,7 @@ Node<T>* BinomialHeap<T>::consolidate(Node<T>* leftRoot, int leftSize, Node<T>* 
 	int * mergedDegrees = NULL;
 	Node<T> * newRoot = merge(leftRoot, leftSize, rightRoot, rightSize, mergedDegrees);
 	size_t mergedDegreesCounter = 0;
+	size_t mergedDegreesNextCounter = 1;
 
 	leftRoot = NULL;
 	rightRoot = NULL;
@@ -309,11 +313,13 @@ Node<T>* BinomialHeap<T>::consolidate(Node<T>* leftRoot, int leftSize, Node<T>* 
 
 	while (next) 
 	{
-		if (mergedDegrees[mergedDegreesCounter] != mergedDegrees[mergedDegreesCounter + 1] || 
-			(next->right != NULL && mergedDegrees[mergedDegreesCounter + 2] == mergedDegrees[mergedDegreesCounter]))
+		if (mergedDegrees[mergedDegreesCounter] != mergedDegrees[mergedDegreesNextCounter] ||
+			(next->right != NULL && mergedDegrees[mergedDegreesNextCounter + 1] == mergedDegrees[mergedDegreesCounter]))
 		{
 			prev = current;
 			current = next;
+			++mergedDegreesCounter;
+			++mergedDegreesNextCounter;
 		}
 		else 
 		{
@@ -321,21 +327,27 @@ Node<T>* BinomialHeap<T>::consolidate(Node<T>* leftRoot, int leftSize, Node<T>* 
 			{
 				current->right = next->right;
 				uniteTwoOfSameDegree(next, current);
+				mergedDegrees[mergedDegreesCounter]++;
+
+				++mergedDegreesNextCounter;
 			}
 			else 
 			{
 				if (prev == NULL) 
 					newRoot = next;
 				else 
-					prev->next = next;
+					prev->right = next;
 
 				uniteTwoOfSameDegree(current, next);
+				mergedDegrees[mergedDegreesNextCounter]++;
 				current = next;
+
+				mergedDegreesCounter = mergedDegreesNextCounter;
+				++mergedDegreesNextCounter;
 			}
 		}
 
-		next = next->right;
-		++mergedDegreesCounter;
+		next = current->right;
 	}
 
 	delete[] mergedDegrees;
@@ -343,6 +355,24 @@ Node<T>* BinomialHeap<T>::consolidate(Node<T>* leftRoot, int leftSize, Node<T>* 
 	return newRoot;
 }
 
+
+/**
+* Inserts element with the new given key in the heap.
+* @param newKey - the key of the element to be inserted
+* @return a pointer to the newly created element in the heap
+*/
+template<class T>
+Node<T>* BinomialHeap<T>::push(const T& newKey)
+{
+	Node<T> * n = new Node<T>();
+	setNodeDefaults(n);
+	n->key = newKey;
+
+	root = consolidate(root, size, n, 1);
+	++size;
+
+	return n;
+}
 
 
 /**
