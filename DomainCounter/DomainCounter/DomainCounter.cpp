@@ -19,7 +19,7 @@ void DomainCounter::setProtocol(const string& p)
 
 // Writes the urls from the file to the vector of strings.
 // Returns false if the file is broken, or so.
-bool DomainCounter::ectractTheURLs()
+bool DomainCounter::extractTheURLs()
 {
 	// Resize the vector with needed lines.
 	size_t urlsSize = getNumberOfLinesFromFile(inputFileName);

@@ -27,7 +27,7 @@ public:
 
 	// Writes the urls from the file to the vector of strings.
 	// Returns false if the file is broken, or so.
-	bool ectractTheURLs();
+	bool extractTheURLs();
 
 	// Prints to the given ostream the results (number of matches for each given domain) in seperate lines. Pattern: "<domain_name> - <count>"
 	void execute(ostream& out) const;

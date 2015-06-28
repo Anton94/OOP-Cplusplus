@@ -27,7 +27,7 @@ int main(int argc, char ** argv)
 		DomainCounter domainCounter;
 		BasicArgumentParser::parseTheInputArguments(argc, argv, domainCounter);
 
-		if (!domainCounter.ectractTheURLs())
+		if (!domainCounter.extractTheURLs())
 			cout << "Something is wrong with input file :( \n";
 
 		//domainCounter.printDomains(cout);
