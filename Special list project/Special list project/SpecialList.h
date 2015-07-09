@@ -1,11 +1,19 @@
+/*
+*********************************************************************************************************************************************************************
+*
+*	Name: Anton Vasilev Dudov
+*	FN:   71488
+*
+*
+*	Github repository: https://github.com/Anton94/OOP-Cplusplus/tree/master/Special%20list%20project
+*
+*	Source for the 2-3 tree structure: http://pages.cs.wisc.edu/~vernon/cs367/notes/10.23TREE.html
+*
+*********************************************************************************************************************************************************************
+*/
+
 #pragma once
 
-/*
- *	
- *
- *
- *	I can store the information in other nodes as leafe node. For now I store it as a pointer to the object in every node. More memory(null pointers in non-leaf nodes), but for now it is not a problem.
-*/
 
 #include <vector>
 
@@ -18,7 +26,24 @@ private:
 	// Basic abstract class.
 	struct Node
 	{
+		virtual const T& getMin() = 0;
+		virtual const T& getMax() = 0;
 		virtual ~Node() = 0 {}; // No need for destructor for now.
+	};
+
+
+	// Leaf node.
+	struct LeafNode : public Node
+	{
+		T data;
+
+		LeafNode(const T& d) : data(d) {}
+
+		// The min and max values are the only value in this leaf.
+		virtual const T& getMin(){ return data; }
+		virtual const T& getMax(){ return data; }
+
+		virtual ~LeafNode() {}; // for now not needed.
 	};
 
 	// Internal node.
@@ -27,8 +52,8 @@ private:
 		char height;
 		int size;
 		bool reversed;
-		Node* min;
-		Node* max;
+		LeafNode* min;
+		LeafNode* max;
 		vector<int> keys;
 		vector<Node*> childs;
 
@@ -37,17 +62,29 @@ private:
 			childs.resize(3, NULL); // Make 3 childs, NULL ptr.
 		}
 
+		// Returns the min value in this subtree. Throws exeption if something is wrog.
+		virtual const T& getMin()
+		{
+			return getDataFromLeafNode(min);
+		}
+
+		// Returns the min value in this subtree. Throws exeption if something is wrog.
+		virtual const T& getMax()
+		{
+			return getDataFromLeafNode(max);
+		}
+
 		virtual ~InternalNode() {}; // for now not needed.
-	};
 
-	// Leaf node.
-	struct LeafNode : public Node
-	{
-		T data;
+	private:
+		// Returns the min value in this subtree. Throws exeption if something is wrog.
+		const T& getDataFromLeafNode(LeafNode * n)
+		{
+			if (!n)
+				throw "Sorry, something went wrong with the list :(";
 
-		LeafNode(const T& d) : data(d) {}
-		
-		virtual ~LeafNode() {}; // for now not needed.
+			return n->data;
+		}
 	};
 
 	Node * root;
@@ -75,16 +112,7 @@ public:
 		if (isEmpty())
 			throw "Empty list, can`t get min value!";
 
-		InternalNode * internalNode;
-		LeafNode * leafNode;
-
-		if (internalNode = isInternalNode(root))
-			if (leafNode = isLeafNode(internalNode->min))
-				return leafNode->data;
-		else if (leafNode = isLeafNode(root)) // not realy need for check, but in any case if there is other types of nodes..(I still have to make a dynamic cast)
-			return leafNode->data;
-
-		throw "Sorry, something went wrong with the list."; // If the min node pointer is NULL, or it`s not pointing to leaf node
+		return root->getMin();
 	}
 
 	// Returns the max value of the list, if the list is empty, throws exeption(or there is something wrong with the list).
@@ -93,16 +121,7 @@ public:
 		if (isEmpty())
 			throw "Empty list, can`t get max value!";
 
-		InternalNode * internalNode;
-		LeafNode * leafNode;
-
-		if (internalNode = isInternalNode(root))
-			if (leafNode = isLeafNode(internalNode->max))
-				return leafNode->data;
-		else if (leafNode = isLeafNode(root)) // not realy need for check, but in any case if there is other types of nodes..(I still have to make a dynamic cast)
-			return leafNode->data;
-
-		throw "Sorry, something went wrong with the list while trying to get the max value."; // If the min node pointer is NULL, or it`s not pointing to leaf node
+		return root->getMax();
 	}
 
 	// Reverse the order of the elements in the list.
