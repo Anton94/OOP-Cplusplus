@@ -36,6 +36,7 @@ string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 string randomString() {
 	string str;
 	int len = 3 + rand() % 8;
+
 	for (int c = 0; c < len; c++)
 		str += alphabet[rand() % alphabet.size()];
 	return str;
@@ -132,7 +133,7 @@ void testAddingAfterClear(HashMap<int>& hmap, map<string, int>& tmap, int minCap
 	assert(hmap.capacity() <= min(max((hmap.size() + 1) * 4, minCap), maxCap));
 }
 
-void testChangingAValue(HashMap<int> hmap, map<string, int>& tmap) {
+void testChangingAValue(HashMap<int>& hmap, map<string, int>& tmap) {
 	fprintf(stderr, "In testChangingAValue()\n");
 
 	assert(hmap.size() == (int)tmap.size());
@@ -209,8 +210,9 @@ void testAutomaticResizing(HashMap<int>& hmap, map<string, int>& tmap, int minCa
 	fprintf(stderr, "In testAutomaticResizing()\n");
 
 	// Test automatic resizing
+	string str,str2;
 	for (int i = 0; i < 10000; i++) {
-		string str = randomString();
+		str2 = randomString();
 		int value = rand() % 1000000007;
 		hmap.insert(str, value);
 		tmap[str] = value;
