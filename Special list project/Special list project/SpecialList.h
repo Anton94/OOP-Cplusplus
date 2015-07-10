@@ -33,7 +33,7 @@ private:
 		virtual const T& getMin() const = 0;
 		virtual const T& getMax() const = 0;
 		virtual int getSize() const = 0;
-		virtual ~Node() = 0 {}; // No need for destructor for now.
+		virtual ~Node() = 0 {};
 		char height; // to avoid checing for leaf node at some places. more memory, TO DO check it if`s better...
 	};
 
@@ -49,7 +49,7 @@ private:
 		virtual const T& getMax() const { return data; }
 		virtual int getSize() const { return 1; }
 
-		virtual ~LeafNode() {}; // for now not needed.
+		virtual ~LeafNode() {}; 
 	};
 
 	// Internal node.
@@ -84,8 +84,7 @@ private:
 			return size;
 		}
 
-		virtual ~InternalNode() {}; // for now not needed.
-
+		virtual ~InternalNode() {};
 	private:
 		// Returns the value in this subtree. Throws exeption if something is wrong.
 		const T& getDataFromLeafNode(LeafNode * n) const
@@ -178,6 +177,7 @@ private:
 			root = otherRoot;
 		}
 
+		// Fixing the root node if it has more than 3 child nodes.
 		InternalNode * internalNodeRoot = isInternalNode(root);
 		if (internalNodeRoot)
 		{
@@ -225,7 +225,6 @@ private:
 		otherRoot = NULL; // Make other tree empty.
 	}
 public:
-
 	// Splits the @this list to two halfs, first one the elements to pos, and second one (in @other) the elements from pos to the end.
 	// Just find the needed leaf element and start join all child nodes <= the needed one, and seperate for the @other all child nodes > needed one. Like in the picture.
 	void split(int pos, SpecialList& other)
@@ -242,78 +241,6 @@ public:
 		other.root = mergeStackWithNodes(right);
 	}
 
-	// Returns a merged tree by the given stack with nodes.
-	Node * mergeStackWithNodes(stack<Node*>& stack)
-	{
-		while (!stack.empty())
-		{
-			Node * l = stack.top();
-			stack.pop();
-			if (stack.empty())
-				return l;
-			
-			Node * r = stack.top();
-			stack.pop();
-
-			merge(l, r);
-			stack.push(l);
-		}
-	}
-
-	void split(Node * root, int pos, stack<Node*>& left, stack<Node*>& right)
-	{
-		LeafNode * leaf = isLeafNode(root);
-		if (leaf)
-			return;
-
-		stack<Node*> * l = &left, *r = &right;
-
-		// It has to be internal node.
-		InternalNode * internalNode = isInternalNode(root);
-		if (internalNode->reversed)
-		{
-			// get the needed position if the node is reversed.
-			pos = internalNode->size - pos + 1;
-			l = &right;
-			r = &left;
-		}
-
-		size_t i = 0;
-		bool goneToChild = false;
-		for (; i < internalNode->keys.size(); ++i)
-		{
-			if (!goneToChild && pos <= internalNode->keys[i])
-			{
-				goneToChild = true;
-				// Decrease the position with the key value (on the left). (because the left subtree(s) has the elements from 0 to key value with index i - 1)
-				if (i > 0)
-					pos -= internalNode->keys[i - 1];
-
-				getAt(internalNode->childs[i], pos);
-				left.push(internalNode->childs[i]);
-			}
-			else if (!goneToChild)
-			{
-				l->push(internalNode->childs[i]);
-			}
-			else
-			{
-				r->push(internalNode->childs[i]);
-			}
-		}
-
-		// If the needed childs is last one(last valid one!).
-		if (!goneToChild)
-		{
-			getAt(internalNode->childs[i], pos - internalNode->keys[i - 1]);
-			left.push(internalNode->childs[i]);
-		}
-		// Else push rightmost child to the right list stack.
-		else
-		{
-			right.push(internalNode->childs[i]);
-		}
-	}
 	// Returns the min value of the list, if the list is empty, throws exeption(or there is something wrong with the list). TO DO make it for min & max one function...
 	T getMin() const
 	{
@@ -587,7 +514,7 @@ private:
 
 		n->childs[0] = newChild;// Fix the keys.
 
-		n->keys.push_back(-1); // unvalid value...
+		n->keys.push_back(-1); // not valid value...
 		fixKeyValuesOfInternalNode(n);
 	}
 
@@ -614,6 +541,80 @@ private:
 		}
 
 		return i;
+	}
+
+	// Returns a merged tree by the given stack with nodes.
+	Node * mergeStackWithNodes(stack<Node*>& stack)
+	{
+		while (!stack.empty())
+		{
+			Node * l = stack.top();
+			stack.pop();
+			if (stack.empty())
+				return l;
+
+			Node * r = stack.top();
+			stack.pop();
+
+			merge(l, r);
+			stack.push(l);
+		}
+	}
+
+	// Splits the node and adds the root of subtrees in the stacks, which will be merged after that.
+	void split(Node * root, int pos, stack<Node*>& left, stack<Node*>& right)
+	{
+		LeafNode * leaf = isLeafNode(root);
+		if (leaf)
+			return;
+
+		stack<Node*> * l = &left, *r = &right;
+
+		// It has to be internal node.
+		InternalNode * internalNode = isInternalNode(root);
+		if (internalNode->reversed)
+		{
+			// get the needed position if the node is reversed.
+			pos = internalNode->size - pos + 1;
+			l = &right;
+			r = &left;
+		}
+
+		size_t i = 0;
+		bool goneToChild = false;
+		for (; i < internalNode->keys.size(); ++i)
+		{
+			if (!goneToChild && pos <= internalNode->keys[i])
+			{
+				goneToChild = true;
+				// Decrease the position with the key value (on the left). (because the left subtree(s) has the elements from 0 to key value with index i - 1)
+				if (i > 0)
+					pos -= internalNode->keys[i - 1];
+
+				getAt(internalNode->childs[i], pos);
+				left.push(internalNode->childs[i]);
+			}
+			else if (!goneToChild)
+			{
+				l->push(internalNode->childs[i]);
+			}
+			else
+			{
+				r->push(internalNode->childs[i]);
+			}
+		}
+
+		// If the needed childs is last one(last valid one!).
+		if (!goneToChild)
+		{
+			getAt(internalNode->childs[i], pos - internalNode->keys[i - 1]);
+			left.push(internalNode->childs[i]);
+		}
+		// Else push rightmost child to the right list stack.
+		else
+		{
+			right.push(internalNode->childs[i]);
+		}
 	}
 
 	// Returns the element on the given position.

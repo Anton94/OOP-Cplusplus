@@ -30,7 +30,7 @@ int main()
 	_CrtMemState s1, s2, s3;
 	_CrtMemCheckpoint(&s1);
 	{
-		//try
+		try
 		{
 
 			SpecialList<int> list;
@@ -119,12 +119,13 @@ int main()
 			printListValues(list3, std::cout);
 			printListMinMaxValues(list3, std::cout);
 
-			for (int i = -5; i < 5; ++i)
+			for (int i = -15; i < 15; ++i)
 			{
 				list2.create(i);
 				list3.merge(list2);
 			}
-
+			list2.create(-1000);
+			list3.merge(list2);
 
 			printListValues(list3, std::cout);
 			printListMinMaxValues(list3, std::cout);
@@ -138,11 +139,10 @@ int main()
 			printListValues(list, std::cout);
 			printListMinMaxValues(list, std::cout);
 
-
 		}
-		//catch (const char* msg)
+		catch (const char* msg)
 		{
-		//	std::cerr << "Error: " << msg << "\n";
+			std::cerr << "Error: " << msg << "\n";
 		}
 	}
 
