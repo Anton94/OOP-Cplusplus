@@ -171,6 +171,48 @@ public:
 			root = other.root;
 		}
 
+		InternalNode * internalNodeRoot = isInternalNode(root);	
+		if (internalNodeRoot)
+		{
+			int indexOfNewRightMostChild = getIndexOfRightMostChild(internalNodeRoot);
+			// If the root node has 4 childs.
+			if (indexOfNewRightMostChild > 3)
+			{
+				InternalNode * n = new InternalNode(internalNodeRoot->height);
+				InternalNode * newRoot = new InternalNode(internalNodeRoot->height + 1, internalNodeRoot->getSize());
+				newRoot->min = internalNodeRoot->min;
+				newRoot->max = internalNodeRoot->max;
+				newRoot->reversed = internalNodeRoot->reversed;
+
+				// Take last two childs and make them in the new node.
+				n->childs[0] = internalNodeRoot->childs[2];
+				n->childs[1] = internalNodeRoot->childs[3];
+				internalNodeRoot->childs[2] = internalNodeRoot->childs[3] = NULL;
+
+				internalNodeRoot->childs.resize(3); //Cut the last child..
+				// Fix the sizes.
+				n->size = n->childs[0]->getSize() + n->childs[1]->getSize();
+				internalNodeRoot->size = internalNodeRoot->childs[0]->getSize() + internalNodeRoot->childs[1]->getSize();
+
+				// Fix the keys.
+				n->keys.push_back(n->childs[0]->getSize());
+				internalNodeRoot->keys.resize(0);
+				internalNodeRoot->keys.push_back(internalNodeRoot->childs[0]->getSize());
+
+				// Fix min/max values.
+				n->min = getBetterLeafNode(n->childs[0], n->childs[1], smaller);
+				n->max = getBetterLeafNode(n->childs[0], n->childs[1], bigger);
+				internalNodeRoot->min = getBetterLeafNode(internalNodeRoot->childs[0], internalNodeRoot->childs[1], smaller);
+				internalNodeRoot->max = getBetterLeafNode(internalNodeRoot->childs[0], internalNodeRoot->childs[1], bigger);
+
+				newRoot->keys.push_back(internalNodeRoot->getSize());
+				newRoot->childs[0] = internalNodeRoot;
+				newRoot->childs[1] = n;
+
+				root = newRoot;
+			}
+		}
+
 		other.root = NULL; // Make other tree empty.
 	}
 
@@ -263,7 +305,7 @@ public:
 
 				// Fix the keys.
 				n->keys.push_back(n->childs[0]->getSize()); 
-				neededToSplitChild->keys.clear();
+				neededToSplitChild->keys.resize(0);
 				neededToSplitChild->keys.push_back(neededToSplitChild->childs[0]->getSize());
 
 				// Fix min/max values.
@@ -272,7 +314,7 @@ public:
 				neededToSplitChild->min = getBetterLeafNode(neededToSplitChild->childs[0], neededToSplitChild->childs[1], smaller);
 				neededToSplitChild->max = getBetterLeafNode(neededToSplitChild->childs[0], neededToSplitChild->childs[1], bigger);
 
-				if (insertAtTheEnd)
+				if (i != 0) // inserted child is not at the beginning
 				{
 					internalNodeRoot->childs.push_back(n);
 
