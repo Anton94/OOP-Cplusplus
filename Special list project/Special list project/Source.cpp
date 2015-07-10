@@ -6,7 +6,11 @@ template<class T>
 void printListValues(const SpecialList<T>& list, std::ostream& out)
 {
 	out << "List values: ";
-	list.printValues(std::cout);
+
+	int size = list.getSize();
+	for (int i = 1; i <= size; ++i)
+		out << list.getAt(i) << " ";
+	out << "\n";
 }
 
 // Prints the min and max values of the given list.
@@ -35,6 +39,60 @@ int main()
 		printListMinMaxValues(list, std::cout);
 
 		std::cout << "List is empty ? " << list.isEmpty() << std::endl;
+
+
+		SpecialList<int> list2;
+		list2.create(250);
+
+		list.merge(list2);
+		printListValues(list, std::cout);
+		printListMinMaxValues(list, std::cout);
+		list.reverse();
+		printListValues(list, std::cout);
+		printListMinMaxValues(list, std::cout);
+
+		std::cout << "checking the merging with same height\n";
+
+		SpecialList<int> list3, list4;
+		list3.create(50);
+		list4.create(-50);
+		list3.merge(list4);
+		//list3.reverse();
+		printListValues(list3, std::cout);
+		printListMinMaxValues(list3, std::cout);
+
+		list.merge(list3);
+		printListValues(list, std::cout);
+		printListMinMaxValues(list, std::cout);
+
+		list.reverse();
+		printListValues(list, std::cout);
+		printListMinMaxValues(list, std::cout);
+
+		SpecialList<int> list5, list6;
+		list5.create(100);
+		list6.create(200);
+		list5.merge(list6);
+		SpecialList<int> list7, list8;
+		list7.create(300);
+		list8.create(400);
+		list7.merge(list8);
+
+		list5.reverse();
+		list5.merge(list7);
+		
+
+		list.merge(list5);
+		printListValues(list, std::cout);
+		printListMinMaxValues(list, std::cout);
+		list.reverse();
+		printListValues(list, std::cout);
+		printListMinMaxValues(list, std::cout);
+
+		vector<int> v;
+		v.resize(3, 0);
+		v.push_back(100);
+		v.pop_back();
 	}
 
 	_CrtMemCheckpoint(&s2);
