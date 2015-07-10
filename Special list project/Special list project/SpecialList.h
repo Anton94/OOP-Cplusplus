@@ -160,7 +160,7 @@ public:
 			root = n;
 		}
 		// Case 3.
-		else if (root->height >= other.root->height)
+		else if (root->height > other.root->height)
 		{
 			merge(root, other.root, true); // Attach @other tree to the end of @this tree.
 		}
@@ -176,7 +176,7 @@ public:
 		{
 			int indexOfNewRightMostChild = getIndexOfRightMostChild(internalNodeRoot);
 			// If the root node has 4 childs.
-			if (indexOfNewRightMostChild > 3)
+			if (indexOfNewRightMostChild >= 3)
 			{
 				InternalNode * n = new InternalNode(internalNodeRoot->height);
 				InternalNode * newRoot = new InternalNode(internalNodeRoot->height + 1, internalNodeRoot->getSize());
@@ -198,12 +198,12 @@ public:
 				n->keys.push_back(n->childs[0]->getSize());
 				internalNodeRoot->keys.resize(0);
 				internalNodeRoot->keys.push_back(internalNodeRoot->childs[0]->getSize());
-
+				
 				// Fix min/max values.
-				n->min = getBetterLeafNode(n->childs[0], n->childs[1], smaller);
-				n->max = getBetterLeafNode(n->childs[0], n->childs[1], bigger);
-				internalNodeRoot->min = getBetterLeafNode(internalNodeRoot->childs[0], internalNodeRoot->childs[1], smaller);
-				internalNodeRoot->max = getBetterLeafNode(internalNodeRoot->childs[0], internalNodeRoot->childs[1], bigger);
+				n->min = getMinByGivenTwoNodes(n->childs[0], n->childs[1]);
+				n->max = getMaxByGivenTwoNodes(n->childs[0], n->childs[1]);
+				internalNodeRoot->min = getMinByGivenTwoNodes(internalNodeRoot->childs[0], internalNodeRoot->childs[1]);
+				internalNodeRoot->max = getMaxByGivenTwoNodes(internalNodeRoot->childs[0], internalNodeRoot->childs[1]);
 
 				newRoot->keys.push_back(internalNodeRoot->getSize());
 				newRoot->childs[0] = internalNodeRoot;
@@ -271,12 +271,12 @@ public:
 			}
 				
 			// Check if the child, where the subtree is inserted has more than 3 childs, if so, split it and attach the new child to the childs of this one (@internalNodeRoot).
-			int indexOfNewRightMostChild = getIndexOfRightMostChild(internalNodeRoot);
+			
+			InternalNode * neededToSplitChild = isInternalNode(internalNodeRoot->childs[i]);
+
+			int indexOfNewRightMostChild = getIndexOfRightMostChild(neededToSplitChild);
 			if (indexOfNewRightMostChild >= 3) // If the righ-most child index is 3, that means that the childs are four
-			{
-				// Split the childs.
-				InternalNode * neededToSplitChild = isInternalNode(internalNodeRoot->childs[i]); // Its internal for sure.
-				
+			{				
 				InternalNode * n = new InternalNode(neededToSplitChild->height);
 				
 				// Combine two childs and put them in new internal node, which will take place after this node(at the end of chlids of @internalNodeRoot)
@@ -309,21 +309,27 @@ public:
 				neededToSplitChild->keys.push_back(neededToSplitChild->childs[0]->getSize());
 
 				// Fix min/max values.
-				n->min = getBetterLeafNode(n->childs[0], n->childs[1], smaller);
-				n->max = getBetterLeafNode(n->childs[0], n->childs[1], bigger);
-				neededToSplitChild->min = getBetterLeafNode(neededToSplitChild->childs[0], neededToSplitChild->childs[1], smaller);
-				neededToSplitChild->max = getBetterLeafNode(neededToSplitChild->childs[0], neededToSplitChild->childs[1], bigger);
+				n->min = getMinByGivenTwoNodes(n->childs[0], n->childs[1]);
+				n->max = getMaxByGivenTwoNodes(n->childs[0], n->childs[1]);
+				neededToSplitChild->min = getMinByGivenTwoNodes(neededToSplitChild->childs[0], neededToSplitChild->childs[1]);
+				neededToSplitChild->max = getMaxByGivenTwoNodes(neededToSplitChild->childs[0], neededToSplitChild->childs[1]);
 
 				if (i != 0) // inserted child is not at the beginning
 				{
-					internalNodeRoot->childs.push_back(n);
+					int rightMostChild = getIndexOfRightMostChild(internalNodeRoot);
+					++rightMostChild;
+
+					if (rightMostChild < internalNodeRoot->childs.size())
+						internalNodeRoot->childs[rightMostChild] = n;
+					else
+						internalNodeRoot->childs.push_back(n);
 
 					// Fix internal node keys. add last key = last - 1 key + splited child size
 					internalNodeRoot->keys.push_back(internalNodeRoot->keys[internalNodeRoot->keys.size() - 1] + neededToSplitChild->getSize());
 				}
-				else // insert the splited child to be second...
+				else // insert @n node to be second because it contains the second 'half' elements.
 				{
-					InternalNode * firstChild = isInternalNode(internalNodeRoot->childs[0]);
+					Node * firstChild = internalNodeRoot->childs[0];
 					internalNodeRoot->childs[0] = n;
 					pushFrontOnChildVector(internalNodeRoot, firstChild); // It fixes the key values.
 				}
@@ -346,6 +352,46 @@ public:
 		// Fix the size.
 		internalNodeRoot->size += other->getSize();
 
+	}
+
+	LeafNode* getMinByGivenTwoNodes(Node * left, Node * right) const
+	{
+		LeafNode * l = getMinNodeByGivenNode(left), *r = getMinNodeByGivenNode(right);
+		if (!l || !r)
+			throw "Something went wrong...";
+
+		if (smaller(l->data, r->data))
+			return l;
+		else
+			return r;
+	}
+	
+	LeafNode* getMaxByGivenTwoNodes(Node * left, Node * right) const
+	{
+		LeafNode * l = getMaxNodeByGivenNode(left), *r = getMaxNodeByGivenNode(right);
+		if (!l || !r)
+			throw "Something went wrong...";
+
+		if (bigger(l->data, r->data))
+			return l;
+		else
+			return r;
+	}
+
+	LeafNode * getMinNodeByGivenNode(Node * n) const
+	{
+		if (n->height == 1)
+			return isLeafNode(n);
+		else
+			return isLeafNode(isInternalNode(n)->min);
+	}
+
+	LeafNode * getMaxNodeByGivenNode(Node * n) const
+	{
+		if (n->height == 1)
+			return isLeafNode(n);
+		else
+			return isLeafNode(isInternalNode(n)->max);
 	}
 
 	// Inserts a child at the beginning of the vector

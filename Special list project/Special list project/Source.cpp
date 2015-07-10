@@ -30,97 +30,104 @@ int main()
 	_CrtMemState s1, s2, s3;
 	_CrtMemCheckpoint(&s1);
 	{
-		SpecialList<int> list;
-
-		std::cout << "List is empty ? " << list.isEmpty() << std::endl;
-		list.create(150);
-
-		printListValues(list, std::cout);
-		printListMinMaxValues(list, std::cout);
-
-		std::cout << "List is empty ? " << list.isEmpty() << std::endl;
-
-
-		SpecialList<int> list2;
-		list2.create(250);
-
-		list.merge(list2);
-		printListValues(list, std::cout);
-		printListMinMaxValues(list, std::cout);
-		list.reverse();
-		printListValues(list, std::cout);
-		printListMinMaxValues(list, std::cout);
-
-		std::cout << "checking the merging with same height\n";
-
-		SpecialList<int> list3, list4;
-		list3.create(50);
-		list4.create(-50);
-		list3.merge(list4);
-		//list3.reverse();
-		printListValues(list3, std::cout);
-		printListMinMaxValues(list3, std::cout);
-
-		list.merge(list3);
-		printListValues(list, std::cout);
-		printListMinMaxValues(list, std::cout);
-
-		list.reverse();
-		printListValues(list, std::cout);
-		printListMinMaxValues(list, std::cout);
-
-		SpecialList<int> list5, list6;
-		list5.create(100);
-		list6.create(200);
-		list5.merge(list6);
-		SpecialList<int> list7, list8;
-		list7.create(300);
-		list8.create(400);
-		list7.merge(list8);
-
-		list5.reverse();
-		list5.merge(list7);
-
-
-		list.merge(list5);
-		printListValues(list, std::cout);
-		printListMinMaxValues(list, std::cout);
-		//list.reverse();
-		printListValues(list, std::cout);
-		printListMinMaxValues(list, std::cout);
-
-		SpecialList<int> list9;
-		list9.create(-144);
-		list.reverse();
-		list.merge(list9);
-		printListValues(list, std::cout);
-		printListMinMaxValues(list, std::cout);
-
-		SpecialList<int> list10;
-		list10.create(450);
-
-		list.merge(list10);
-		printListValues(list, std::cout);
-		printListMinMaxValues(list, std::cout);
-
-		for (int i = - 500; i < 500; ++i)
+		//try
 		{
-			list2.create(i);
-			list3.merge(list2);
-		}
 
+			SpecialList<int> list;
 
-		printListValues(list3, std::cout);
-		printListMinMaxValues(list3, std::cout);
+			std::cout << "List is empty ? " << list.isEmpty() << std::endl;
+			list.create(150);
 
-		list.merge(list3);
-
-		printListValues(list, std::cout);
-		printListMinMaxValues(list, std::cout);
-		/*	list.reverse();
 			printListValues(list, std::cout);
-			printListMinMaxValues(list, std::cout);*/
+			printListMinMaxValues(list, std::cout);
 
+			std::cout << "List is empty ? " << list.isEmpty() << std::endl;
+
+
+			SpecialList<int> list2;
+			list2.create(250);
+
+			list.merge(list2);
+			printListValues(list, std::cout);
+			printListMinMaxValues(list, std::cout);
+			list.reverse();
+			printListValues(list, std::cout);
+			printListMinMaxValues(list, std::cout);
+
+			std::cout << "checking the merging with same height\n";
+
+			SpecialList<int> list3, list4;
+			list3.create(50);
+			list4.create(-50);
+			list3.merge(list4);
+			//list3.reverse();
+			printListValues(list3, std::cout);
+			printListMinMaxValues(list3, std::cout);
+
+			list.merge(list3);
+			printListValues(list, std::cout);
+			printListMinMaxValues(list, std::cout);
+
+			list.reverse();
+			printListValues(list, std::cout);
+			printListMinMaxValues(list, std::cout);
+
+			SpecialList<int> list5, list6;
+			list5.create(100);
+			list6.create(200);
+			list5.merge(list6);
+			SpecialList<int> list7, list8;
+			list7.create(300);
+			list8.create(400);
+			list7.merge(list8);
+
+			list5.reverse();
+			list5.merge(list7);
+
+
+			list.merge(list5);
+			printListValues(list, std::cout);
+			printListMinMaxValues(list, std::cout);
+			//list.reverse();
+			printListValues(list, std::cout);
+			printListMinMaxValues(list, std::cout);
+
+			SpecialList<int> list9;
+			list9.create(-144);
+			list.reverse();
+			list.merge(list9);
+			printListValues(list, std::cout);
+			printListMinMaxValues(list, std::cout);
+
+			SpecialList<int> list10;
+			list10.create(450);
+
+			list.merge(list10);
+			printListValues(list, std::cout);
+			printListMinMaxValues(list, std::cout);
+
+			for (int i = -500; i < 500; ++i)
+			{
+				list2.create(i);
+				list3.merge(list2);
+			}
+
+
+			printListValues(list3, std::cout);
+			printListMinMaxValues(list3, std::cout);
+
+			list.merge(list3);
+
+			printListValues(list, std::cout);
+			printListMinMaxValues(list, std::cout);
+			/*	list.reverse();
+				printListValues(list, std::cout);
+				printListMinMaxValues(list, std::cout);*/
+		}
+		//catch (const char* msg)
+		{
+		//	std::cerr << "Error: " << msg << "\n";
+		}
 	}
 
 	_CrtMemCheckpoint(&s2);
