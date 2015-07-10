@@ -47,9 +47,11 @@ int main()
 			SpecialList<int> list2;
 			list2.create(250);
 
+			std::cout << "Add 250" << "\n";
 			list.merge(list2);
 			printListValues(list, std::cout);
 			printListMinMaxValues(list, std::cout);
+			std::cout << "Reverse" << "\n";
 			list.reverse();
 			printListValues(list, std::cout);
 			printListMinMaxValues(list, std::cout);
@@ -60,14 +62,14 @@ int main()
 			list3.create(50);
 			list4.create(-50);
 			list3.merge(list4);
-			//list3.reverse();
-			printListValues(list3, std::cout);
-			printListMinMaxValues(list3, std::cout);
+			list3.reverse();
 
+			std::cout << "Add -50 50" << "\n";
 			list.merge(list3);
 			printListValues(list, std::cout);
 			printListMinMaxValues(list, std::cout);
 
+			std::cout << "Reverse" << "\n";
 			list.reverse();
 			printListValues(list, std::cout);
 			printListMinMaxValues(list, std::cout);
@@ -84,17 +86,21 @@ int main()
 			list5.reverse();
 			list5.merge(list7);
 
+			std::cout << "Add 200 100 300 400" << "\n";
 
 			list.merge(list5);
 			printListValues(list, std::cout);
 			printListMinMaxValues(list, std::cout);
-			//list.reverse();
+			std::cout << "Reverse" << "\n";
+			list.reverse();
 			printListValues(list, std::cout);
 			printListMinMaxValues(list, std::cout);
 
 			SpecialList<int> list9;
 			list9.create(-144);
+			std::cout << "Reverse" << "\n";
 			list.reverse();
+			std::cout << "Add -144" << "\n";
 			list.merge(list9);
 			printListValues(list, std::cout);
 			printListMinMaxValues(list, std::cout);
@@ -102,11 +108,18 @@ int main()
 			SpecialList<int> list10;
 			list10.create(450);
 
+			std::cout << "Add 450" << "\n";
 			list.merge(list10);
 			printListValues(list, std::cout);
 			printListMinMaxValues(list, std::cout);
 
-			for (int i = -500; i < 500; ++i)
+
+			printListValues(list, std::cout);
+			printListMinMaxValues(list, std::cout);
+			printListValues(list3, std::cout);
+			printListMinMaxValues(list3, std::cout);
+
+			for (int i = -5; i < 5; ++i)
 			{
 				list2.create(i);
 				list3.merge(list2);
@@ -120,9 +133,12 @@ int main()
 
 			printListValues(list, std::cout);
 			printListMinMaxValues(list, std::cout);
-			/*	list.reverse();
-				printListValues(list, std::cout);
-				printListMinMaxValues(list, std::cout);*/
+			std::cout << "Reverse" << "\n";
+			list.reverse();
+			printListValues(list, std::cout);
+			printListMinMaxValues(list, std::cout);
+
+
 		}
 		//catch (const char* msg)
 		{

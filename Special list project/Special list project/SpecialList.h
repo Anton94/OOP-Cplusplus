@@ -16,9 +16,11 @@
 #pragma once
 
 #include <vector>
+#include <stack>
 #include "Utility.h"
 
 using std::vector;
+using std::stack;
 
 template <class T>
 class SpecialList
@@ -124,54 +126,59 @@ public:
 	*/
 	void merge(SpecialList& other)
 	{
-		if (!other.root)
+		merge(root, other.root);
+	}
+private:
+	void merge(Node *& root, Node*& otherRoot)
+	{
+		if (!otherRoot)
 			return;
 
 		// Case 1.
 		if (!root)
 		{
-			root = other.root;
+			root = otherRoot;
 		}
 		// Case 2.
-		else if (root->height == other.root->height) // their height is bigger than 1(the case where it is 1, is in the other method).
+		else if (root->height == otherRoot->height) // their height is bigger than 1(the case where it is 1, is in the other method).
 		{
 			InternalNode * n = new InternalNode(root->height + 1);
 
 			n->childs[0] = root;
-			n->childs[1] = other.root;
+			n->childs[1] = otherRoot;
 
 			if (root->height == 1)
 			{
 				n->size = 2;
 				n->keys.push_back(1);
-				n->min = getBetterLeafNode(root, other.root, smaller);
-				n->max = getBetterLeafNode(root, other.root, bigger);
+				n->min = getBetterLeafNode(root, otherRoot, smaller);
+				n->max = getBetterLeafNode(root, otherRoot, bigger);
 			}
 			else
 			{
-				InternalNode * internalNodeRoot  = isInternalNode(root);
-				InternalNode * internalNodeOther = isInternalNode(other.root);
+				InternalNode * internalNodeRoot = isInternalNode(root);
+				InternalNode * internalNodeOther = isInternalNode(otherRoot);
 				n->size = internalNodeRoot->size + internalNodeOther->size;
 				n->keys.push_back(internalNodeRoot->size);
 				n->min = getBetterLeafNode(internalNodeRoot->min, internalNodeOther->min, smaller);
 				n->max = getBetterLeafNode(internalNodeRoot->max, internalNodeOther->max, bigger);
 			}
-			
+
 			root = n;
 		}
 		// Case 3.
-		else if (root->height > other.root->height)
+		else if (root->height > otherRoot->height)
 		{
-			merge(root, other.root, true); // Attach @other tree to the end of @this tree.
+			merge(root, otherRoot, true); // Attach @other tree to the end of @this tree.
 		}
 		// Case 4.
 		else
 		{
-			merge(other.root, root, false); // Attach @this tree to the beginning of @other tree.
-			root = other.root;
+			merge(otherRoot, root, false); // Attach @this tree to the beginning of @other tree.
+			root = otherRoot;
 		}
 
-		InternalNode * internalNodeRoot = isInternalNode(root);	
+		InternalNode * internalNodeRoot = isInternalNode(root);
 		if (internalNodeRoot)
 		{
 			int indexOfNewRightMostChild = getIndexOfRightMostChild(internalNodeRoot);
@@ -189,6 +196,8 @@ public:
 				n->childs[1] = internalNodeRoot->childs[3];
 				internalNodeRoot->childs[2] = internalNodeRoot->childs[3] = NULL;
 
+				// TO DO : make one function with other code...
+
 				internalNodeRoot->childs.resize(3); //Cut the last child..
 				// Fix the sizes.
 				n->size = n->childs[0]->getSize() + n->childs[1]->getSize();
@@ -198,7 +207,7 @@ public:
 				n->keys.push_back(n->childs[0]->getSize());
 				internalNodeRoot->keys.resize(0);
 				internalNodeRoot->keys.push_back(internalNodeRoot->childs[0]->getSize());
-				
+
 				// Fix min/max values.
 				n->min = getMinByGivenTwoNodes(n->childs[0], n->childs[1]);
 				n->max = getMaxByGivenTwoNodes(n->childs[0], n->childs[1]);
@@ -213,7 +222,175 @@ public:
 			}
 		}
 
-		other.root = NULL; // Make other tree empty.
+		otherRoot = NULL; // Make other tree empty.
+	}
+public:
+
+	// Splits the @this list to two halfs, first one the elements to pos, and second one (in @other) the elements from pos to the end.
+	// Just find the needed leaf element and start join all child nodes <= the needed one, and seperate for the @other all child nodes > needed one. Like in the picture.
+	void split(int pos, SpecialList& other)
+	{
+		if (pos < 1 || pos > getSize()) // Pos in interval [1,size]
+			throw "Invalid position for split!";
+		stack<Node*> left;
+		stack<Node*> right;
+
+		split(root, pos, left, right);
+
+		// Now to merge them.
+		root = mergeStackWithNodes(left);
+		other.root = mergeStackWithNodes(right);
+	}
+
+	// Returns a merged tree by the given stack with nodes.
+	Node * mergeStackWithNodes(stack<Node*>& stack)
+	{
+		while (!stack.empty())
+		{
+			Node * l = stack.top();
+			stack.pop();
+			if (stack.empty())
+				return l;
+			
+			Node * r = stack.top();
+			stack.pop();
+
+			merge(l, r);
+			stack.push(l);
+		}
+	}
+
+	void split(Node * root, int pos, stack<Node*>& left, stack<Node*>& right)
+	{
+		LeafNode * leaf = isLeafNode(root);
+		if (leaf)
+			return;
+
+		stack<Node*> * l = &left, *r = &right;
+
+		// It has to be internal node.
+		InternalNode * internalNode = isInternalNode(root);
+		if (internalNode->reversed)
+		{
+			// get the needed position if the node is reversed.
+			pos = internalNode->size - pos + 1;
+			l = &right;
+			r = &left;
+		}
+
+		size_t i = 0;
+		bool goneToChild = false;
+		for (; i < internalNode->keys.size(); ++i)
+		{
+			if (!goneToChild && pos <= internalNode->keys[i])
+			{
+				goneToChild = true;
+				// Decrease the position with the key value (on the left). (because the left subtree(s) has the elements from 0 to key value with index i - 1)
+				if (i > 0)
+					pos -= internalNode->keys[i - 1];
+
+				getAt(internalNode->childs[i], pos);
+				left.push(internalNode->childs[i]);
+			}
+			else if (!goneToChild)
+			{
+				l->push(internalNode->childs[i]);
+			}
+			else
+			{
+				r->push(internalNode->childs[i]);
+			}
+		}
+
+		// If the needed childs is last one(last valid one!).
+		if (!goneToChild)
+		{
+			getAt(internalNode->childs[i], pos - internalNode->keys[i - 1]);
+			left.push(internalNode->childs[i]);
+		}
+		// Else push rightmost child to the right list stack.
+		else
+		{
+			right.push(internalNode->childs[i]);
+		}
+	}
+	// Returns the min value of the list, if the list is empty, throws exeption(or there is something wrong with the list). TO DO make it for min & max one function...
+	T getMin() const
+	{
+		if (isEmpty())
+			throw "Empty list, can`t get min value!";
+
+		return root->getMin();
+	}
+
+	// Returns the max value of the list, if the list is empty, throws exeption(or there is something wrong with the list).
+	T getMax() const
+	{
+		if (isEmpty())
+			throw "Empty list, can`t get max value!";
+
+		return root->getMax();
+	}
+
+	// Reverse the order of the elements in the list.
+	void reverse()
+	{
+		if (!root)
+			return;
+
+		InternalNode * internalNode = isInternalNode(root);
+		if (!internalNode)
+			return; // the root node is leaf or so..
+
+		internalNode->reversed = !internalNode->reversed;
+	}
+
+	// Returns the element on the given position.
+	T getAt(int pos) const
+	{
+		if (pos < 1 || pos > getSize()) // Pos in interval [1,size]
+			throw "Invalid position for getAt!";
+
+		 return getAt(root, pos);
+	}
+
+	// Get size of the list.
+	size_t getSize() const
+	{
+		if (isEmpty())
+			return 0;
+		
+		InternalNode * internalNode = isInternalNode(root);
+		if (!internalNode)
+			return 1;
+
+		return internalNode->size;
+	}
+
+	// Checks if the list is empty.
+	bool isEmpty() const
+	{
+		return !root;
+	}
+
+	// Destructor. Deletes the memory for the nodes.
+	~SpecialList()
+	{
+		free(root);
+	}
+private:
+	// Helper function for min/max element: returns the min/max (compare function result) leaf node.
+	LeafNode * getBetterLeafNode(Node * left, Node * right, bool(*compare)(const T& l, const T& r))
+	{
+		LeafNode * leafRoot = isLeafNode(left);
+		LeafNode * leafOther = isLeafNode(right);
+		if (!leafRoot || !leafOther)
+			throw "Something went wrong :(";
+
+		if (compare(leafRoot->data, leafOther->data))
+			return leafRoot;
+		else
+			return leafOther;
 	}
 
 	// Merge the @root subtree with the @other subtree, where the height of the @root IS BIGGER than the height of the @other subtree.
@@ -226,7 +403,7 @@ public:
 			throw "Sorry, something went wrong :(";
 
 		// If the root node is reversed, than change the oriantation.
-		bool insertAtTheEnd = internalNodeRoot->reversed ? !atTheEnd : atTheEnd; 
+		bool insertAtTheEnd = internalNodeRoot->reversed ? !atTheEnd : atTheEnd;
 
 		// The parent is root.
 		if (root->height == other->height + 1)
@@ -236,25 +413,25 @@ public:
 			{
 				int i = getIndexOfRightMostChild(internalNodeRoot);
 				++i; // go to the next child (NULL)
-				
+
 				if (i >= internalNodeRoot->childs.size())
 					internalNodeRoot->childs.push_back(other);
 				else
 					internalNodeRoot->childs[i] = other;
-				
+
 				internalNodeRoot->keys.push_back(internalNodeRoot->keys.size() + internalNodeRoot->childs[i - 1]->getSize()); // The next key value must be the previous one + the size of previous last child
 			}
 			// Insert it in the front
 			else
 			{
 				// Insert the child at the beginnig. (it fixes the keys too).
-				pushFrontOnChildVector(internalNodeRoot, other);				
+				pushFrontOnChildVector(internalNodeRoot, other);
 			}
 		}
 		else
 		{
 			int i = 0; // index (in which child will be inserted the subtree). By default it`s in leftmost child
-			
+
 			if (insertAtTheEnd) // If I had to insert it at the end, go to the right-most child.
 			{
 				// Find the right-most valid child.
@@ -269,18 +446,18 @@ public:
 
 				fixKeyValuesOfInternalNode(internalNodeRoot);
 			}
-				
+
 			// Check if the child, where the subtree is inserted has more than 3 childs, if so, split it and attach the new child to the childs of this one (@internalNodeRoot).
-			
+
 			InternalNode * neededToSplitChild = isInternalNode(internalNodeRoot->childs[i]);
 
 			int indexOfNewRightMostChild = getIndexOfRightMostChild(neededToSplitChild);
 			if (indexOfNewRightMostChild >= 3) // If the righ-most child index is 3, that means that the childs are four
-			{				
+			{
 				InternalNode * n = new InternalNode(neededToSplitChild->height);
-				
+
 				// Combine two childs and put them in new internal node, which will take place after this node(at the end of chlids of @internalNodeRoot)
-				
+
 				if (neededToSplitChild->reversed) // If the child node is reversed, than take first 2 
 				{
 					n->childs[0] = neededToSplitChild->childs[0];
@@ -288,7 +465,7 @@ public:
 
 					neededToSplitChild->childs[0] = neededToSplitChild->childs[2];
 					neededToSplitChild->childs[1] = neededToSplitChild->childs[3];
-					neededToSplitChild->childs[2] =	neededToSplitChild->childs[3] = NULL;
+					neededToSplitChild->childs[2] = neededToSplitChild->childs[3] = NULL;
 				}
 				else // Last two 
 				{
@@ -296,7 +473,7 @@ public:
 					n->childs[1] = neededToSplitChild->childs[3];
 					neededToSplitChild->childs[2] = neededToSplitChild->childs[3] = NULL;
 				}
-				
+
 				neededToSplitChild->childs.resize(3); //Cut the last child..
 				// TO DO: make a function... if this shit works some day...
 				// Fix the sizes.
@@ -304,7 +481,7 @@ public:
 				neededToSplitChild->size = neededToSplitChild->childs[0]->getSize() + neededToSplitChild->childs[1]->getSize();
 
 				// Fix the keys.
-				n->keys.push_back(n->childs[0]->getSize()); 
+				n->keys.push_back(n->childs[0]->getSize());
 				neededToSplitChild->keys.resize(0);
 				neededToSplitChild->keys.push_back(neededToSplitChild->childs[0]->getSize());
 
@@ -351,9 +528,9 @@ public:
 
 		// Fix the size.
 		internalNodeRoot->size += other->getSize();
-
 	}
 
+	// Returns the minimum leaf node by the given two nodes. (If internal node, take @min.)
 	LeafNode* getMinByGivenTwoNodes(Node * left, Node * right) const
 	{
 		LeafNode * l = getMinNodeByGivenNode(left), *r = getMinNodeByGivenNode(right);
@@ -365,7 +542,8 @@ public:
 		else
 			return r;
 	}
-	
+
+	// Returns the maximum leaf node by the given two nodes. (If internal node, take @max.)
 	LeafNode* getMaxByGivenTwoNodes(Node * left, Node * right) const
 	{
 		LeafNode * l = getMaxNodeByGivenNode(left), *r = getMaxNodeByGivenNode(right);
@@ -378,6 +556,7 @@ public:
 			return r;
 	}
 
+	// Checks if the node is leaf or internal (leaf == 1) and returns the @min variable if it`s internal.
 	LeafNode * getMinNodeByGivenNode(Node * n) const
 	{
 		if (n->height == 1)
@@ -386,6 +565,7 @@ public:
 			return isLeafNode(isInternalNode(n)->min);
 	}
 
+	// Checks if the node is leaf or internal (leaf == 1) and returns the @max variable if it`s internal.
 	LeafNode * getMaxNodeByGivenNode(Node * n) const
 	{
 		if (n->height == 1)
@@ -404,9 +584,9 @@ public:
 		{
 			n->childs[i] = n->childs[i - 1];
 		}
-		
+
 		n->childs[0] = newChild;// Fix the keys.
-		
+
 		n->keys.push_back(-1); // unvalid value...
 		fixKeyValuesOfInternalNode(n);
 	}
@@ -434,85 +614,6 @@ public:
 		}
 
 		return i;
-	}
-
-	// Returns the min value of the list, if the list is empty, throws exeption(or there is something wrong with the list). TO DO make it for min & max one function...
-	T getMin() const
-	{
-		if (isEmpty())
-			throw "Empty list, can`t get min value!";
-
-		return root->getMin();
-	}
-
-	// Returns the max value of the list, if the list is empty, throws exeption(or there is something wrong with the list).
-	T getMax() const
-	{
-		if (isEmpty())
-			throw "Empty list, can`t get max value!";
-
-		return root->getMax();
-	}
-
-	// Reverse the order of the elements in the list.
-	void reverse()
-	{
-		if (!root)
-			return;
-
-		InternalNode * internalNode = isInternalNode(root);
-		if (!internalNode)
-			return; // the root node is leaf or so..
-
-		internalNode->reversed = !internalNode->reversed;
-	}
-
-	// Returns the element on the given position.
-	T getAt(int pos) const
-	{
-		if (pos < 1 || pos > getSize()) // Pos in interval [1,size]
-			throw "Invalid position!";
-
-		 return getAt(root, pos);
-	}
-
-	// Get size of the list.
-	size_t getSize() const
-	{
-		if (isEmpty())
-			return 0;
-		
-		InternalNode * internalNode = isInternalNode(root);
-		if (!internalNode)
-			return 1;
-
-		return internalNode->size;
-	}
-
-	// Checks if the list is empty.
-	bool isEmpty() const
-	{
-		return !root;
-	}
-
-	// Destructor. Deletes the memory for the nodes.
-	~SpecialList()
-	{
-		free(root);
-	}
-private:
-	// Helper function for min/max element: returns the min/max (compare function result) leaf node.
-	LeafNode * getBetterLeafNode(Node * left, Node * right, bool(*compare)(const T& l, const T& r))
-	{
-		LeafNode * leafRoot = isLeafNode(left);
-		LeafNode * leafOther = isLeafNode(right);
-		if (!leafRoot || !leafOther)
-			throw "Something went wrong :(";
-
-		if (compare(leafRoot->data, leafOther->data))
-			return leafRoot;
-		else
-			return leafOther;
 	}
 
 	// Returns the element on the given position.
