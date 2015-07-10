@@ -85,14 +85,58 @@ int main()
 		list.merge(list5);
 		printListValues(list, std::cout);
 		printListMinMaxValues(list, std::cout);
+		//list.reverse();
+		printListValues(list, std::cout);
+		printListMinMaxValues(list, std::cout);
+		
+		SpecialList<int> list9;
+		list9.create(-144);
 		list.reverse();
+		list.merge(list9);
+		printListValues(list, std::cout);
+		printListMinMaxValues(list, std::cout);
+		
+		SpecialList<int> list10;
+		list10.create(450);
+
+		list.merge(list10);
 		printListValues(list, std::cout);
 		printListMinMaxValues(list, std::cout);
 
-		vector<int> v;
-		v.resize(3, 0);
+		for (size_t i = 0; i < 2; ++i)
+		{
+			list2.create(rand() % 1000 - 500);
+			list3.merge(list2);
+		}
+
+
+		printListValues(list3, std::cout);
+		printListMinMaxValues(list3, std::cout);
+
+		list.merge(list3);
+
+		printListValues(list, std::cout);
+		printListMinMaxValues(list, std::cout);
+	/*	list.reverse();
+		printListValues(list, std::cout);
+		printListMinMaxValues(list, std::cout);*/
+
+		/*vector<int> v;
+		v.resize(2, 0);
 		v.push_back(100);
 		v.pop_back();
+		v.push_back(100);
+		v.push_back(200);
+		v.pop_back();*/
+
+		vector<int*> v;
+		int a = 10;
+		v.resize(3, NULL);
+
+		v[1] = v[0] = v[2] = &a;
+		v.push_back(&a);
+		v[3] = v[2] = NULL;
+		v.resize(3);
 	}
 
 	_CrtMemCheckpoint(&s2);

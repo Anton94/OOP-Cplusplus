@@ -15,22 +15,8 @@
 
 #pragma once
 
-
-
-// Returns true if @l value is bigger than @r.
-template<class T>
-bool bigger(const T& l, const T& r)
-{
-	return l > r;
-}
-// Returns true if @l value is smaller than @r.
-template<class T>
-bool smaller(const T& l, const T& r)
-{
-	return l < r;
-}
-
 #include <vector>
+#include "Utility.h"
 
 using std::vector;
 
@@ -44,6 +30,7 @@ private:
 		Node(char h = 1) : height(h) {}
 		virtual const T& getMin() const = 0;
 		virtual const T& getMax() const = 0;
+		virtual int getSize() const = 0;
 		virtual ~Node() = 0 {}; // No need for destructor for now.
 		char height; // to avoid checing for leaf node at some places. more memory, TO DO check it if`s better...
 	};
@@ -58,6 +45,7 @@ private:
 		// The min and max values are the only value in this leaf.
 		virtual const T& getMin() const { return data; }
 		virtual const T& getMax() const { return data; }
+		virtual int getSize() const { return 1; }
 
 		virtual ~LeafNode() {}; // for now not needed.
 	};
@@ -87,6 +75,11 @@ private:
 		virtual const T& getMax() const
 		{
 			return getDataFromLeafNode(max);
+		}
+
+		virtual int getSize() const 
+		{
+			return size;
 		}
 
 		virtual ~InternalNode() {}; // for now not needed.
@@ -125,8 +118,8 @@ public:
 	// Adds the elements of the @other list at the end of @this one.
 	/*
 		Case 1: If the tree is empty.
-		Case 2: The @this and the @other are with the same hight.
-		Case 3: h1 >= h2(height of the @this tree is bigger than (equal to) the height of @other tree). Attach the @other to the end of @this.
+		Case 2: The @this and the @other are with the same height.
+		Case 3: h1 > h2(height of the @this tree is bigger than the height of @other tree). Attach the @other to the end of @this.
 		Case 4: h1 < h2 Attach the @this to the end of @other and make @root to point other.root.
 	*/
 	void merge(SpecialList& other)
@@ -140,7 +133,7 @@ public:
 			root = other.root;
 		}
 		// Case 2.
-		if (root->height == other.root->height) // their height is bigger than 1(the case where it is 1, is in the other method).
+		else if (root->height == other.root->height) // their height is bigger than 1(the case where it is 1, is in the other method).
 		{
 			InternalNode * n = new InternalNode(root->height + 1);
 
@@ -181,23 +174,178 @@ public:
 		other.root = NULL; // Make other tree empty.
 	}
 
-	// Merge the @root subtree with the @other subtree, where the height of the @root is bigger(or equal) to the height of the @other subtree.
+	// Merge the @root subtree with the @other subtree, where the height of the @root IS BIGGER than the height of the @other subtree.
 	// @atTheEnd is to indicate where to put the subtree, at the beginning of the list(@atTheEnd = false) or at the end of the list (@atTheEnd = true).
 	void merge(Node *& root, Node * other, bool atTheEnd)
 	{
 		InternalNode * internalNodeRoot = isInternalNode(root);
-		InternalNode * internalNodeOther = isInternalNode(other);
-		if (!internalNodeRoot || !internalNodeOther)
+		//InternalNode * internalNodeOther = isInternalNode(other);
+		if (!internalNodeRoot)
 			throw "Sorry, something went wrong :(";
 
 		// If the root node is reversed, than change the oriantation.
 		bool insertAtTheEnd = internalNodeRoot->reversed ? !atTheEnd : atTheEnd; 
 
-		
+		// The parent is root.
+		if (root->height == other->height + 1)
+		{
 			// attach and goes back to recheck parents...
+			if (insertAtTheEnd)
+			{
+				int i = getIndexOfRightMostChild(internalNodeRoot);
+				++i; // go to the next child (NULL)
+				
+				if (i >= internalNodeRoot->childs.size())
+					internalNodeRoot->childs.push_back(other);
+				else
+					internalNodeRoot->childs[i] = other;
+				
+				internalNodeRoot->keys.push_back(internalNodeRoot->keys.size() + internalNodeRoot->childs[i - 1]->getSize()); // The next key value must be the previous one + the size of previous last child
+			}
+			// Insert it in the front
+			else
+			{
+				// Insert the child at the beginnig. (it fixes the keys too).
+				pushFrontOnChildVector(internalNodeRoot, other);				
+			}
+		}
+		else
+		{
+			int i = 0; // index (in which child will be inserted the subtree). By default it`s in leftmost child
+			
+			if (insertAtTheEnd) // If I had to insert it at the end, go to the right-most child.
+			{
+				// Find the right-most valid child.
+				i = getIndexOfRightMostChild(internalNodeRoot);
 
+				merge(internalNodeRoot->childs[i], other, insertAtTheEnd);
+				// No need to fix the key value, because it`s last one.
+			}
+			else
+			{
+				merge(internalNodeRoot->childs[0], other, insertAtTheEnd);
 
-		// Find the parent.
+				fixKeyValuesOfInternalNode(internalNodeRoot);
+			}
+				
+			// Check if the child, where the subtree is inserted has more than 3 childs, if so, split it and attach the new child to the childs of this one (@internalNodeRoot).
+			int indexOfNewRightMostChild = getIndexOfRightMostChild(internalNodeRoot);
+			if (indexOfNewRightMostChild >= 3) // If the righ-most child index is 3, that means that the childs are four
+			{
+				// Split the childs.
+				InternalNode * neededToSplitChild = isInternalNode(internalNodeRoot->childs[i]); // Its internal for sure.
+				
+				InternalNode * n = new InternalNode(neededToSplitChild->height);
+				
+				// Combine two childs and put them in new internal node, which will take place after this node(at the end of chlids of @internalNodeRoot)
+				
+				if (neededToSplitChild->reversed) // If the child node is reversed, than take first 2 
+				{
+					n->childs[0] = neededToSplitChild->childs[0];
+					n->childs[1] = neededToSplitChild->childs[1];
+
+					neededToSplitChild->childs[0] = neededToSplitChild->childs[2];
+					neededToSplitChild->childs[1] = neededToSplitChild->childs[3];
+					neededToSplitChild->childs[2] =	neededToSplitChild->childs[3] = NULL;
+				}
+				else // Last two 
+				{
+					n->childs[0] = neededToSplitChild->childs[2];
+					n->childs[1] = neededToSplitChild->childs[3];
+					neededToSplitChild->childs[2] = neededToSplitChild->childs[3] = NULL;
+				}
+				
+				neededToSplitChild->childs.resize(3); //Cut the last child..
+				// TO DO: make a function... if this shit works some day...
+				// Fix the sizes.
+				n->size = n->childs[0]->getSize() + n->childs[1]->getSize();
+				neededToSplitChild->size = neededToSplitChild->childs[0]->getSize() + neededToSplitChild->childs[1]->getSize();
+
+				// Fix the keys.
+				n->keys.push_back(n->childs[0]->getSize()); 
+				neededToSplitChild->keys.clear();
+				neededToSplitChild->keys.push_back(neededToSplitChild->childs[0]->getSize());
+
+				// Fix min/max values.
+				n->min = getBetterLeafNode(n->childs[0], n->childs[1], smaller);
+				n->max = getBetterLeafNode(n->childs[0], n->childs[1], bigger);
+				neededToSplitChild->min = getBetterLeafNode(neededToSplitChild->childs[0], neededToSplitChild->childs[1], smaller);
+				neededToSplitChild->max = getBetterLeafNode(neededToSplitChild->childs[0], neededToSplitChild->childs[1], bigger);
+
+				if (insertAtTheEnd)
+				{
+					internalNodeRoot->childs.push_back(n);
+
+					// Fix internal node keys. add last key = last - 1 key + splited child size
+					internalNodeRoot->keys.push_back(internalNodeRoot->keys[internalNodeRoot->keys.size() - 1] + neededToSplitChild->getSize());
+				}
+				else // insert the splited child to be second...
+				{
+					InternalNode * firstChild = isInternalNode(internalNodeRoot->childs[0]);
+					internalNodeRoot->childs[0] = n;
+					pushFrontOnChildVector(internalNodeRoot, firstChild); // It fixes the key values.
+				}
+			}
+		}
+
+		// Fix min/max values.
+		if (other->height == 1)
+		{
+			internalNodeRoot->min = getBetterLeafNode(internalNodeRoot->min, other, smaller);
+			internalNodeRoot->max = getBetterLeafNode(internalNodeRoot->max, other, bigger);
+		}
+		else
+		{
+			InternalNode * internalNodeOther = isInternalNode(other);
+			internalNodeRoot->min = getBetterLeafNode(internalNodeRoot->min, internalNodeOther->min, smaller);
+			internalNodeRoot->max = getBetterLeafNode(internalNodeRoot->max, internalNodeOther->max, bigger);
+		}
+
+		// Fix the size.
+		internalNodeRoot->size += other->getSize();
+
+	}
+
+	// Inserts a child at the beginning of the vector
+	void pushFrontOnChildVector(InternalNode * n, Node * newChild)
+	{
+		if (n->childs[n->childs.size() - 1] != NULL)
+			n->childs.push_back(NULL);
+
+		for (size_t i = getIndexOfRightMostChild(n) + 1; i >= 1; --i)
+		{
+			n->childs[i] = n->childs[i - 1];
+		}
+		
+		n->childs[0] = newChild;// Fix the keys.
+		
+		n->keys.push_back(-1); // unvalid value...
+		fixKeyValuesOfInternalNode(n);
+	}
+
+	// Fix the key values in internal node by it`s childs.
+	void fixKeyValuesOfInternalNode(InternalNode * n)
+	{
+		// Fix the key values.
+		size_t size = n->keys.size();
+		n->keys[0] = n->childs[0]->getSize();
+		for (size_t i = 1; i < size && n->childs[i] != NULL; ++i)
+		{
+			n->keys[i] = n->childs[i]->getSize() + n->keys[i - 1];
+		}
+	}
+
+	// Returns the index of the valid right-most child. (-1 if no-valid once)
+	int getIndexOfRightMostChild(InternalNode * n) const
+	{
+		int i = n->childs.size() - 1;
+		for (; i >= 0; --i)
+		{
+			if (n->childs[i] != NULL)
+				return i;
+		}
+
+		return i;
 	}
 
 	// Returns the min value of the list, if the list is empty, throws exeption(or there is something wrong with the list). TO DO make it for min & max one function...
