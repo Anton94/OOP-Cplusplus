@@ -1,0 +1,12 @@
+abc 2
+abd 3
+abde 3
+a 12
+aaa 13
+bcd 23
+z 23
+fer 34
+bed 22
+lock 30
+tony 24
+! 34
