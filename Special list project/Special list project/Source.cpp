@@ -119,7 +119,7 @@ int main()
 			printListValues(list3, std::cout);
 			printListMinMaxValues(list3, std::cout);
 
-			for (int i = -15; i < 15; ++i)
+			for (int i = -500; i < 500; ++i)
 			{
 				list2.create(i);
 				list3.merge(list2);

@@ -34,7 +34,7 @@ private:
 		virtual const T& getMax() const = 0;
 		virtual int getSize() const = 0;
 		virtual ~Node() = 0 {};
-		char height; // to avoid checing for leaf node at some places. more memory, TO DO check it if`s better...
+		char height; // to avoid checking for leaf node at some places. more memory, TO DO check it if`s better...
 	};
 
 	// Leaf node.
@@ -346,7 +346,7 @@ private:
 				else
 					internalNodeRoot->childs[i] = other;
 
-				internalNodeRoot->keys.push_back(internalNodeRoot->keys.size() + internalNodeRoot->childs[i - 1]->getSize()); // The next key value must be the previous one + the size of previous last child
+				internalNodeRoot->keys.push_back(internalNodeRoot->keys[internalNodeRoot->keys.size() - 1] + internalNodeRoot->childs[i - 1]->getSize()); // The next key value must be the previous one + the size of previous last child
 			}
 			// Insert it in the front
 			else
