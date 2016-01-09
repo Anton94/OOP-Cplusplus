@@ -1,5 +1,6 @@
 
-#include <iostream> // ostream
+#include <iostream>		// ostream
+#include <algorithm>	// sort
 #include "Tree.h"
 
 
@@ -33,6 +34,84 @@ Tree::~Tree()
 void Tree::setDefaultValues()
 {
 	root = NULL;
+}
+
+
+/*
+*	Checks if the tree is isomorph with the other given tree @other.
+*/
+
+bool Tree::SortCompare::operator()(Tree::Node * left, Tree::Node * right) const
+{
+	return left->totalNodes > right->totalNodes;
+}
+
+bool Tree::isIsomorphWithOtherTree(const Tree& other) const
+{
+	if (!root && !other.root)
+		return true; // Empty trees.
+	if (!root || !other.root)
+		return false; // One of the two trees is empty.
+
+	queue<Tree::Node*> left; // queue for the left tree(@*this)
+	left.push(root);
+	left.push(NULL); // Delimiter of the levels
+	queue<Tree::Node*> right; // queue for the given one(@other)
+	right.push(other.root);
+	right.push(NULL); // Delimiter of the levels
+
+	while (!left.empty() && !right.empty()) // I will iterate the BFS level-by-level
+	{
+		vector<Tree::Node*> nodesLeft;  // The nodes on each level in the left tree (@*this)
+		vector<Tree::Node*> nodesRight; // The nodes on each level in the right tree (@other)
+
+		// Take the childs on the current level of left tree (in @nodesLeft vector) and right tree (in @nodesRight vector)
+		iterateTreeLevel(left, nodesLeft);
+		iterateTreeLevel(right, nodesRight);
+
+		if (nodesLeft.size() != nodesRight.size())
+			return false; // The number of childs on the current level is different.
+
+		// Sort the childs so I can easy check if they match.
+		std::sort(nodesLeft.begin(), nodesLeft.begin() + nodesLeft.size(), compare);
+		std::sort(nodesRight.begin(), nodesRight.begin() + nodesRight.size(), compare);
+
+		// Compare the values
+		size_t size = nodesLeft.size();
+		for (size_t i = 0; i < size; ++i)
+			if (nodesLeft[i]->totalNodes != nodesRight[i]->totalNodes)
+				return false;
+	}
+
+	if (!left.empty() || !right.empty()) // if there is some left element
+		return false;
+
+	return true;
+}
+
+// BFS and writes the children in the given vector on the current level(delim NULL ptr)
+void Tree::iterateTreeLevel(queue<Tree::Node*> & q, vector<Tree::Node*> & v) const
+{
+	while (!q.empty())
+	{
+		Tree::Node* temp = q.front();
+		q.pop();
+
+		if (!temp)
+		{
+			if (q.empty())
+				return;
+
+			q.push(NULL);
+			return;
+		}
+
+		size_t size = temp->children.size();
+		for (size_t i = 0; i < size; ++i)
+			q.push(temp->children[i]);
+
+		v.push_back(temp);
+	}
 }
 
 /*

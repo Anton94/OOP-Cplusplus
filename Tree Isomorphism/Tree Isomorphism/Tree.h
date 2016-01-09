@@ -29,21 +29,27 @@ class Tree
 		~Node();
 	};
 
+	struct SortCompare {
+		bool operator() (Tree::Node * left, Tree::Node * right) const;
+	} compare;
+
+
 	Node * root;
 public:
 	Tree();
 	Tree::Tree(const char * data);
 	~Tree();
 
+	bool isIsomorphWithOtherTree(const Tree& other) const;
+
 	void printDFS(std::ostream& out) const;
 	void printDFS(std::ostream& out, Node * n) const;
-
 	void printBFS(std::ostream& out) const;
-
 private:
 	void setDefaultValues();
 	void generateTreeByString(const char*& data, Tree::Node *& n);
 	void updateTotalChildren(Node * n);
+	void iterateTreeLevel(queue<Tree::Node*> & q, vector<Tree::Node*> & v) const;
 	int getIntFromString(const char*& data) const;
 
 private:
